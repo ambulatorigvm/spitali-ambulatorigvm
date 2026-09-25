@@ -1,55 +1,74 @@
+```html
 <!DOCTYPE html>
 <html lang="sq">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AMBULATORI GVM</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
+*{
+    box-sizing:border-box;
+}
 
 body{
+    margin:0;
     font-family:Arial,sans-serif;
     background:#eef3f8;
-    margin:0;
+    color:#1f2937;
 }
 
 .container{
     max-width:900px;
-    margin:auto;
+    margin:0 auto;
     padding:20px;
 }
 
 h1{
     text-align:center;
     color:#155e75;
+    margin-bottom:25px;
 }
 
 .card{
     background:white;
     padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 10px rgba(0,0,0,.1);
+    border-radius:14px;
+    box-shadow:0 2px 12px rgba(0,0,0,.08);
     margin-bottom:20px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:6px;
 }
 
 input,
 select{
     width:100%;
     height:45px;
-    margin-bottom:10px;
+    border:1px solid #cbd5e1;
+    border-radius:7px;
     padding:10px;
-    box-sizing:border-box;
+    font-size:16px;
+    margin-bottom:14px;
+    background:white;
 }
 
 button{
     width:100%;
     height:45px;
-    border:none;
+    border:0;
+    border-radius:7px;
     background:#0891b2;
     color:white;
-    border-radius:6px;
-    cursor:pointer;
+    font-size:16px;
     font-weight:bold;
+    cursor:pointer;
 }
 
 button:hover{
@@ -58,23 +77,130 @@ button:hover{
 
 #paymentBox{
     display:none;
-    margin-bottom:10px;
-    padding:10px;
     background:#f8fafc;
-    border:1px solid #ddd;
+    border:1px solid #e2e8f0;
     border-radius:8px;
+    padding:12px;
+    margin-bottom:14px;
+}
+
+.payment-option{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:8px 0;
+    font-weight:normal;
+}
+
+.payment-option input{
+    width:auto;
+    height:auto;
+    margin:0;
+}
+
+#message{
+    display:none;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.success{
+    display:block !important;
+    background:#dcfce7;
+    color:#166534;
+}
+
+.error{
+    display:block !important;
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.day-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.day-title h2{
+    margin:0;
+}
+
+#currentDate{
+    color:#64748b;
+    font-size:14px;
 }
 
 .visit-item{
     background:white;
-    padding:15px;
     border-radius:10px;
+    padding:15px;
     margin-bottom:10px;
-    border-left:5px solid #2196f3;
+    border-left:5px solid #0891b2;
+    box-shadow:0 1px 6px rgba(0,0,0,.06);
 }
 
+.visit-time{
+    font-size:20px;
+    font-weight:bold;
+    color:#155e75;
+    margin-bottom:6px;
+}
+
+.visit-name{
+    font-size:17px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.visit-info{
+    color:#475569;
+    line-height:1.6;
+}
+
+.payment-paid{
+    color:#b45309;
+    font-weight:bold;
+}
+
+.payment-free{
+    color:#15803d;
+    font-weight:bold;
+}
+
+.delete-button{
+    margin-top:10px;
+    background:#dc2626;
+    height:38px;
+    font-size:14px;
+}
+
+.delete-button:hover{
+    background:#b91c1c;
+}
+
+.empty{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    background:white;
+    border-radius:10px;
+}
+
+.refresh-button{
+    width:auto;
+    padding:0 18px;
+    height:38px;
+    font-size:14px;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -83,153 +209,660 @@ button:hover{
 
 <div class="card">
 
-<input
-type="text"
-id="patientName"
-placeholder="Emër Mbiemër">
+    <div id="message"></div>
 
-<input
-type="text"
-id="cardNumber"
-placeholder="Nr. Kartelës">
+    <label for="patientName">
+        Emër Mbiemër
+    </label>
 
-<select id="visitType">
-<option value="Vizitë">Vizitë</option>
-<option value="Rikontroll">Rikontroll</option>
-</select>
+    <input
+        type="text"
+        id="patientName"
+        placeholder="Shkruaj emrin dhe mbiemrin"
+        autocomplete="off"
+    >
 
-<div id="paymentBox">
+    <label for="cardNumber">
+        Nr. Kartelës
+    </label>
 
-<label>
-<input type="radio" name="payment" value="Me pagesë">
-Me pagesë
-</label>
+    <input
+        type="text"
+        id="cardNumber"
+        placeholder="Shkruaj nr. e kartelës"
+        autocomplete="off"
+    >
 
-<br><br>
+    <label for="visitType">
+        Lloji i vizitës
+    </label>
 
-<label>
-<input type="radio" name="payment" value="Pa pagesë">
-Pa pagesë
-</label>
+    <select id="visitType">
+        <option value="Vizitë">Vizitë</option>
+        <option value="Rikontroll">Rikontroll</option>
+    </select>
+
+    <div id="paymentBox">
+
+        <label>Pagesa</label>
+
+        <label class="payment-option">
+            <input
+                type="radio"
+                name="payment"
+                value="Me pagesë"
+            >
+            <span>Me pagesë</span>
+        </label>
+
+        <label class="payment-option">
+            <input
+                type="radio"
+                name="payment"
+                value="Pa pagesë"
+            >
+            <span>Pa pagesë</span>
+        </label>
+
+    </div>
+
+    <label for="appointmentTime">
+        Zgjidh orën
+    </label>
+
+    <select id="appointmentTime">
+        <option value="">Zgjidh orën</option>
+    </select>
+
+    <button onclick="saveVisit()">
+        Ruaj Vizitën
+    </button>
 
 </div>
 
-<select id="appointmentTime">
-<option value="">Zgjidh orën</option>
-</select>
 
-<button onclick="saveVisit()">
-Ruaj Vizitën
-</button>
+<div class="card">
+
+    <div class="day-title">
+
+        <div>
+            <h2>Vizitat e ditës</h2>
+            <div id="currentDate"></div>
+        </div>
+
+        <button
+            class="refresh-button"
+            onclick="loadVisits()"
+        >
+            Rifresko
+        </button>
+
+    </div>
+
+    <div id="visits">
+        <div class="empty">
+            Po ngarkohen vizitat...
+        </div>
+    </div>
 
 </div>
 
-<h2>Vizitat e ditës</h2>
-
-<div id="visits"></div>
-
 </div>
+
 
 <script>
 
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+    "https://ubpteaqdkxcriqyaxrux.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_dirq3uo9Qy1ez37JkEnciA_sSmYleDZ";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================================
+   ELEMENTET
+========================================= */
+
 const visitType =
-document.getElementById("visitType");
+    document.getElementById("visitType");
 
 const paymentBox =
-document.getElementById("paymentBox");
+    document.getElementById("paymentBox");
 
-visitType.addEventListener("change",()=>{
+const appointmentTime =
+    document.getElementById("appointmentTime");
 
-    if(visitType.value==="Rikontroll"){
-        paymentBox.style.display="block";
-    }else{
-        paymentBox.style.display="none";
-    }
+const visitsContainer =
+    document.getElementById("visits");
 
-});
+const message =
+    document.getElementById("message");
 
-const timeSelect =
-document.getElementById("appointmentTime");
 
-for(let h=12;h<=17;h++){
+/* =========================================
+   DATA E SOTME
+========================================= */
 
-    for(let m=0;m<60;m+=15){
+function getToday(){
 
-        if(h===17 && m>0){
-            continue;
+    const now = new Date();
+
+    const year =
+        now.getFullYear();
+
+    const month =
+        String(now.getMonth() + 1)
+        .padStart(2,"0");
+
+    const day =
+        String(now.getDate())
+        .padStart(2,"0");
+
+    return `${year}-${month}-${day}`;
+}
+
+
+function displayToday(){
+
+    const now = new Date();
+
+    const day =
+        String(now.getDate())
+        .padStart(2,"0");
+
+    const month =
+        String(now.getMonth() + 1)
+        .padStart(2,"0");
+
+    const year =
+        now.getFullYear();
+
+    document.getElementById("currentDate").textContent =
+        `${day}/${month}/${year}`;
+}
+
+
+/* =========================================
+   ORARET
+========================================= */
+
+function createTimeOptions(){
+
+    appointmentTime.innerHTML =
+        '<option value="">Zgjidh orën</option>';
+
+    for(let hour = 12; hour <= 17; hour++){
+
+        for(let minute = 0; minute < 60; minute += 15){
+
+            if(hour === 17 && minute > 0){
+                continue;
+            }
+
+            const time =
+                String(hour).padStart(2,"0")
+                + ":"
+                +
+                String(minute).padStart(2,"0");
+
+            const option =
+                document.createElement("option");
+
+            option.value = time;
+            option.textContent = time;
+
+            appointmentTime.appendChild(option);
         }
-
-        const time =
-        String(h).padStart(2,"0")
-        + ":"
-        +
-        String(m).padStart(2,"0");
-
-        const option =
-        document.createElement("option");
-
-        option.value=time;
-        option.textContent=time;
-
-        timeSelect.appendChild(option);
     }
 }
 
-function saveVisit(){
+
+/* =========================================
+   RIKONTROLLI
+========================================= */
+
+visitType.addEventListener(
+    "change",
+    function(){
+
+        if(this.value === "Rikontroll"){
+
+            paymentBox.style.display =
+                "block";
+
+        }else{
+
+            paymentBox.style.display =
+                "none";
+
+            document
+                .querySelectorAll(
+                    'input[name="payment"]'
+                )
+                .forEach(
+                    radio => radio.checked = false
+                );
+        }
+    }
+);
+
+
+/* =========================================
+   MESAZHET
+========================================= */
+
+function showMessage(text,type){
+
+    message.textContent = text;
+
+    message.className = "";
+
+    message.classList.add(type);
+
+    setTimeout(
+        function(){
+            message.className = "";
+            message.textContent = "";
+        },
+        4000
+    );
+}
+
+
+/* =========================================
+   RUAJ VIZITEN
+========================================= */
+
+async function saveVisit(){
 
     const patientName =
-    document.getElementById("patientName").value;
+        document
+            .getElementById("patientName")
+            .value
+            .trim();
 
     const cardNumber =
-    document.getElementById("cardNumber").value;
+        document
+            .getElementById("cardNumber")
+            .value
+            .trim();
 
     const visitTypeValue =
-    document.getElementById("visitType").value;
+        visitType.value;
 
-    const appointmentTime =
-    document.getElementById("appointmentTime").value;
+    const appointmentTimeValue =
+        appointmentTime.value;
+
+    let paymentStatus = null;
+
 
     if(!patientName){
-        alert("Vendos emrin");
+
+        showMessage(
+            "Vendos emrin e pacientit.",
+            "error"
+        );
+
         return;
     }
 
-    if(!appointmentTime){
-        alert("Zgjidh orën");
+
+    if(!appointmentTimeValue){
+
+        showMessage(
+            "Zgjidh orën.",
+            "error"
+        );
+
         return;
     }
 
-    const visit =
-    document.createElement("div");
 
-    visit.className =
-    "visit-item";
+    if(visitTypeValue === "Rikontroll"){
 
-    visit.innerHTML = `
-        <strong>${appointmentTime}</strong><br>
-        ${patientName}<br>
-        Kartela: ${cardNumber}<br>
-        ${visitTypeValue}
-    `;
+        const selectedPayment =
+            document.querySelector(
+                'input[name="payment"]:checked'
+            );
+
+        if(!selectedPayment){
+
+            showMessage(
+                "Zgjidh Me pagesë ose Pa pagesë.",
+                "error"
+            );
+
+            return;
+        }
+
+        paymentStatus =
+            selectedPayment.value;
+    }
+
+
+    /* Kontrollojmë nëse ora është zënë */
+
+    const today =
+        getToday();
+
+
+    const { data: existingVisit, error: checkError } =
+        await supabaseClient
+            .from("appointments")
+            .select("id")
+            .eq("appointment_date", today)
+            .eq("appointment_time", appointmentTimeValue)
+            .limit(1);
+
+
+    if(checkError){
+
+        console.error(checkError);
+
+        showMessage(
+            "Gabim gjatë kontrollit të orarit.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if(existingVisit && existingVisit.length > 0){
+
+        showMessage(
+            "Kjo orë është tashmë e zënë.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* Ruajmë në Supabase */
+
+    const { error } =
+        await supabaseClient
+            .from("appointments")
+            .insert([
+                {
+                    appointment_date: today,
+                    appointment_time:
+                        appointmentTimeValue,
+                    patient_name:
+                        patientName,
+                    card_number:
+                        cardNumber || null,
+                    visit_type:
+                        visitTypeValue,
+                    payment_status:
+                        paymentStatus
+                }
+            ]);
+
+
+    if(error){
+
+        console.error(error);
+
+        showMessage(
+            "Vizita nuk u ruajt. Kontrollo Supabase.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    showMessage(
+        "Vizita u ruajt me sukses.",
+        "success"
+    );
+
+
+    /* Pastrojmë formularin */
 
     document
-    .getElementById("visits")
-    .appendChild(visit);
+        .getElementById("patientName")
+        .value = "";
 
     document
-    .getElementById("patientName")
-    .value="";
+        .getElementById("cardNumber")
+        .value = "";
+
+    appointmentTime.value = "";
+
+    visitType.value = "Vizitë";
+
+    paymentBox.style.display =
+        "none";
 
     document
-    .getElementById("cardNumber")
-    .value="";
+        .querySelectorAll(
+            'input[name="payment"]'
+        )
+        .forEach(
+            radio => radio.checked = false
+        );
 
-    document
-    .getElementById("appointmentTime")
-    .value="";
+
+    await loadVisits();
 }
+
+
+/* =========================================
+   NGARKO VIZITAT
+========================================= */
+
+async function loadVisits(){
+
+    visitsContainer.innerHTML =
+        '<div class="empty">Po ngarkohen vizitat...</div>';
+
+
+    const today =
+        getToday();
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("appointments")
+            .select("*")
+            .eq("appointment_date", today)
+            .order("appointment_time", {
+                ascending:true
+            });
+
+
+    if(error){
+
+        console.error(error);
+
+        visitsContainer.innerHTML =
+            '<div class="empty">Nuk u ngarkuan vizitat.</div>';
+
+        return;
+    }
+
+
+    if(!data || data.length === 0){
+
+        visitsContainer.innerHTML =
+            '<div class="empty">Nuk ka vizita të regjistruara për sot.</div>';
+
+        return;
+    }
+
+
+    visitsContainer.innerHTML = "";
+
+
+    data.forEach(
+        function(visit){
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "visit-item";
+
+
+            let paymentHTML = "";
+
+
+            if(visit.visit_type === "Rikontroll"){
+
+                if(visit.payment_status === "Me pagesë"){
+
+                    paymentHTML =
+                        '<span class="payment-paid">Me pagesë</span>';
+
+                }else if(
+                    visit.payment_status === "Pa pagesë"
+                ){
+
+                    paymentHTML =
+                        '<span class="payment-free">Pa pagesë</span>';
+                }
+            }
+
+
+            const time =
+                String(visit.appointment_time)
+                    .substring(0,5);
+
+
+            item.innerHTML = `
+
+                <div class="visit-time">
+                    ${escapeHTML(time)}
+                </div>
+
+                <div class="visit-name">
+                    ${escapeHTML(visit.patient_name)}
+                </div>
+
+                <div class="visit-info">
+
+                    Kartela:
+                    ${escapeHTML(
+                        visit.card_number || "-"
+                    )}
+
+                    <br>
+
+                    ${escapeHTML(
+                        visit.visit_type
+                    )}
+
+                    ${
+                        paymentHTML
+                        ? " — " + paymentHTML
+                        : ""
+                    }
+
+                </div>
+
+                <button
+                    class="delete-button"
+                    onclick="deleteVisit(${visit.id})"
+                >
+                    Fshi vizitën
+                </button>
+
+            `;
+
+
+            visitsContainer.appendChild(item);
+        }
+    );
+}
+
+
+/* =========================================
+   FSHi VIZITËN
+========================================= */
+
+async function deleteVisit(id){
+
+    const confirmed =
+        confirm(
+            "Je i sigurt që dëshiron ta fshish këtë vizitë?"
+        );
+
+
+    if(!confirmed){
+        return;
+    }
+
+
+    const { error } =
+        await supabaseClient
+            .from("appointments")
+            .delete()
+            .eq("id", id);
+
+
+    if(error){
+
+        console.error(error);
+
+        showMessage(
+            "Vizita nuk u fshi.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    showMessage(
+        "Vizita u fshi.",
+        "success"
+    );
+
+
+    await loadVisits();
+}
+
+
+/* =========================================
+   SIGURIA E TEKSTIT
+========================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================
+   NISJA
+========================================= */
+
+displayToday();
+
+createTimeOptions();
+
+loadVisits();
 
 </script>
 
 </body>
 </html>
+```
