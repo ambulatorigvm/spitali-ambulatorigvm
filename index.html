@@ -1,13 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="sq">
 <head>
-    <title>GVM TEST</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMBULATORI GVM</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#eef3f8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    width:350px;
+    box-shadow:0 0 20px rgba(0,0,0,.1);
+}
+
+h1{
+    text-align:center;
+    color:#155e75;
+}
+
+input{
+    width:100%;
+    height:45px;
+    margin-bottom:10px;
+    padding:10px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    height:45px;
+    border:none;
+    background:#0891b2;
+    color:white;
+    cursor:pointer;
+    border-radius:6px;
+}
+
+#msg{
+    margin-top:10px;
+    color:red;
+    text-align:center;
+}
+</style>
 </head>
 <body>
 
+<div class="box">
+
 <h1>AMBULATORI GVM</h1>
 
-<p>Faqja po funksionon.</p>
+<input
+type="text"
+id="username"
+placeholder="Përdoruesi">
+
+<input
+type="password"
+id="password"
+placeholder="Fjalëkalimi">
+
+<button onclick="login()">
+Hyr
+</button>
+
+<div id="msg"></div>
+
+</div>
+
+<script>
+
+function login(){
+
+    const user =
+        document.getElementById("username").value;
+
+    const pass =
+        document.getElementById("password").value;
+
+    if(
+        user === "admin" &&
+        pass === "12345"
+    ){
+        alert("Hyrja u krye me sukses");
+    }
+    else{
+        document.getElementById("msg").textContent =
+        "Përdorues ose fjalëkalim i gabuar";
+    }
+}
+
+</script>
 
 </body>
 </html>
