@@ -23,22 +23,21 @@ body{
 
 .container{
     max-width:900px;
-    margin:0 auto;
+    margin:auto;
     padding:20px;
 }
 
 h1{
     text-align:center;
     color:#155e75;
-    margin-bottom:25px;
 }
 
 .card{
-    background:white;
+    background:#fff;
     padding:20px;
     border-radius:14px;
-    box-shadow:0 2px 12px rgba(0,0,0,.08);
     margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
 
 label{
@@ -51,12 +50,11 @@ input,
 select{
     width:100%;
     height:45px;
+    padding:10px;
+    margin-bottom:14px;
     border:1px solid #cbd5e1;
     border-radius:7px;
-    padding:10px;
     font-size:16px;
-    margin-bottom:14px;
-    background:white;
 }
 
 button{
@@ -77,19 +75,19 @@ button:hover{
 
 #paymentBox{
     display:none;
+    padding:12px;
+    margin-bottom:14px;
     background:#f8fafc;
     border:1px solid #e2e8f0;
     border-radius:8px;
-    padding:12px;
-    margin-bottom:14px;
 }
 
 .payment-option{
     display:flex;
     align-items:center;
     gap:8px;
-    margin:8px 0;
     font-weight:normal;
+    margin:8px 0;
 }
 
 .payment-option input{
@@ -101,8 +99,8 @@ button:hover{
 #message{
     display:none;
     padding:12px;
-    border-radius:8px;
     margin-bottom:15px;
+    border-radius:8px;
     text-align:center;
     font-weight:bold;
 }
@@ -119,29 +117,34 @@ button:hover{
     color:#991b1b;
 }
 
-.day-title{
+.day-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:10px;
     margin-bottom:15px;
 }
 
-.day-title h2{
+.day-header h2{
     margin:0;
 }
 
 #currentDate{
     color:#64748b;
-    font-size:14px;
+    margin-top:4px;
+}
+
+.refresh{
+    width:auto;
+    padding:0 18px;
+    height:40px;
 }
 
 .visit-item{
-    background:white;
+    background:#fff;
+    border-left:5px solid #0891b2;
     border-radius:10px;
     padding:15px;
     margin-bottom:10px;
-    border-left:5px solid #0891b2;
     box-shadow:0 1px 6px rgba(0,0,0,.06);
 }
 
@@ -149,54 +152,36 @@ button:hover{
     font-size:20px;
     font-weight:bold;
     color:#155e75;
-    margin-bottom:6px;
 }
 
 .visit-name{
     font-size:17px;
     font-weight:bold;
-    margin-bottom:5px;
+    margin-top:5px;
 }
 
 .visit-info{
-    color:#475569;
+    margin-top:5px;
     line-height:1.6;
+    color:#475569;
 }
 
-.payment-paid{
-    color:#b45309;
-    font-weight:bold;
-}
-
-.payment-free{
-    color:#15803d;
-    font-weight:bold;
-}
-
-.delete-button{
-    margin-top:10px;
+.delete{
     background:#dc2626;
+    margin-top:10px;
     height:38px;
-    font-size:14px;
 }
 
-.delete-button:hover{
+.delete:hover{
     background:#b91c1c;
 }
 
 .empty{
+    padding:25px;
     text-align:center;
-    padding:30px;
     color:#64748b;
-    background:white;
+    background:#f8fafc;
     border-radius:10px;
-}
-
-.refresh-button{
-    width:auto;
-    padding:0 18px;
-    height:38px;
-    font-size:14px;
 }
 </style>
 </head>
@@ -209,101 +194,120 @@ button:hover{
 
 <div class="card">
 
-    <div id="message"></div>
+<div id="message"></div>
 
-    <label for="patientName">
-        Emër Mbiemër
+<label>Emër Mbiemër</label>
+
+<input
+    id="patientName"
+    type="text"
+    placeholder="Emër Mbiemër"
+>
+
+
+<label>Nr. Kartelës</label>
+
+<input
+    id="cardNumber"
+    type="text"
+    placeholder="Nr. Kartelës"
+>
+
+
+<label>Lloji i vizitës</label>
+
+<select id="visitType">
+
+    <option value="Vizitë">
+        Vizitë
+    </option>
+
+    <option value="Rikontroll">
+        Rikontroll
+    </option>
+
+</select>
+
+
+<div id="paymentBox">
+
+    <label>Pagesa</label>
+
+    <label class="payment-option">
+
+        <input
+            type="radio"
+            name="payment"
+            value="Me pagesë"
+        >
+
+        Me pagesë
+
     </label>
 
-    <input
-        type="text"
-        id="patientName"
-        placeholder="Shkruaj emrin dhe mbiemrin"
-        autocomplete="off"
-    >
 
-    <label for="cardNumber">
-        Nr. Kartelës
+    <label class="payment-option">
+
+        <input
+            type="radio"
+            name="payment"
+            value="Pa pagesë"
+        >
+
+        Pa pagesë
+
     </label>
 
-    <input
-        type="text"
-        id="cardNumber"
-        placeholder="Shkruaj nr. e kartelës"
-        autocomplete="off"
-    >
+</div>
 
-    <label for="visitType">
-        Lloji i vizitës
-    </label>
 
-    <select id="visitType">
-        <option value="Vizitë">Vizitë</option>
-        <option value="Rikontroll">Rikontroll</option>
-    </select>
+<label>Ora</label>
 
-    <div id="paymentBox">
+<select id="appointmentTime">
 
-        <label>Pagesa</label>
-
-        <label class="payment-option">
-            <input
-                type="radio"
-                name="payment"
-                value="Me pagesë"
-            >
-            <span>Me pagesë</span>
-        </label>
-
-        <label class="payment-option">
-            <input
-                type="radio"
-                name="payment"
-                value="Pa pagesë"
-            >
-            <span>Pa pagesë</span>
-        </label>
-
-    </div>
-
-    <label for="appointmentTime">
+    <option value="">
         Zgjidh orën
-    </label>
+    </option>
 
-    <select id="appointmentTime">
-        <option value="">Zgjidh orën</option>
-    </select>
+</select>
 
-    <button onclick="saveVisit()">
-        Ruaj Vizitën
-    </button>
+
+<button onclick="saveVisit()">
+    Ruaj Vizitën
+</button>
 
 </div>
 
 
 <div class="card">
 
-    <div class="day-title">
+<div class="day-header">
 
-        <div>
-            <h2>Vizitat e ditës</h2>
-            <div id="currentDate"></div>
-        </div>
+<div>
 
-        <button
-            class="refresh-button"
-            onclick="loadVisits()"
-        >
-            Rifresko
-        </button>
+<h2>Vizitat e ditës</h2>
 
+<div id="currentDate"></div>
+
+</div>
+
+<button
+    class="refresh"
+    onclick="loadVisits()"
+>
+    Rifresko
+</button>
+
+</div>
+
+
+<div id="visits">
+
+    <div class="empty">
+        Po ngarkohet...
     </div>
 
-    <div id="visits">
-        <div class="empty">
-            Po ngarkohen vizitat...
-        </div>
-    </div>
+</div>
 
 </div>
 
@@ -312,130 +316,128 @@ button:hover{
 
 <script>
 
-/* =========================================
+/* =========================
    SUPABASE
-========================================= */
+========================= */
 
 const SUPABASE_URL =
-    "https://ubpteaqdkxcriqyaxrux.supabase.co";
+"https://ubpteaqdkxcriqyaxrux.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_dirq3uo9Qy1ez37JkEnciA_sSmYleDZ";
+"sb_publishable_dirq3uo9Qy1ez37JkEnciA_sSmYleDZ";
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+const db =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
-/* =========================================
+/* =========================
    ELEMENTET
-========================================= */
+========================= */
 
 const visitType =
-    document.getElementById("visitType");
+document.getElementById("visitType");
 
 const paymentBox =
-    document.getElementById("paymentBox");
+document.getElementById("paymentBox");
 
 const appointmentTime =
-    document.getElementById("appointmentTime");
+document.getElementById("appointmentTime");
 
-const visitsContainer =
-    document.getElementById("visits");
+const visits =
+document.getElementById("visits");
 
 const message =
-    document.getElementById("message");
+document.getElementById("message");
 
 
-/* =========================================
-   DATA E SOTME
-========================================= */
+/* =========================
+   DATA
+========================= */
 
-function getToday(){
+function today(){
 
-    const now = new Date();
+    const d = new Date();
 
-    const year =
-        now.getFullYear();
-
-    const month =
-        String(now.getMonth() + 1)
-        .padStart(2,"0");
-
-    const day =
-        String(now.getDate())
-        .padStart(2,"0");
-
-    return `${year}-${month}-${day}`;
+    return d.getFullYear()
+        + "-"
+        + String(d.getMonth()+1).padStart(2,"0")
+        + "-"
+        + String(d.getDate()).padStart(2,"0");
 }
 
 
-function displayToday(){
+function showDate(){
 
-    const now = new Date();
+    const d = new Date();
 
-    const day =
-        String(now.getDate())
-        .padStart(2,"0");
-
-    const month =
-        String(now.getMonth() + 1)
-        .padStart(2,"0");
-
-    const year =
-        now.getFullYear();
-
-    document.getElementById("currentDate").textContent =
-        `${day}/${month}/${year}`;
+    document.getElementById(
+        "currentDate"
+    ).textContent =
+        String(d.getDate()).padStart(2,"0")
+        + "/"
+        + String(d.getMonth()+1).padStart(2,"0")
+        + "/"
+        + d.getFullYear();
 }
 
 
-/* =========================================
+/* =========================
    ORARET
-========================================= */
+========================= */
 
-function createTimeOptions(){
+for(
+    let h = 12;
+    h <= 17;
+    h++
+){
 
-    appointmentTime.innerHTML =
-        '<option value="">Zgjidh orën</option>';
+    for(
+        let m = 0;
+        m < 60;
+        m += 15
+    ){
 
-    for(let hour = 12; hour <= 17; hour++){
-
-        for(let minute = 0; minute < 60; minute += 15){
-
-            if(hour === 17 && minute > 0){
-                continue;
-            }
-
-            const time =
-                String(hour).padStart(2,"0")
-                + ":"
-                +
-                String(minute).padStart(2,"0");
-
-            const option =
-                document.createElement("option");
-
-            option.value = time;
-            option.textContent = time;
-
-            appointmentTime.appendChild(option);
+        if(
+            h === 17 &&
+            m > 0
+        ){
+            continue;
         }
+
+        const time =
+            String(h).padStart(2,"0")
+            + ":"
+            + String(m).padStart(2,"0");
+
+
+        const option =
+        document.createElement("option");
+
+        option.value = time;
+
+        option.textContent = time;
+
+        appointmentTime.appendChild(
+            option
+        );
     }
 }
 
 
-/* =========================================
-   RIKONTROLLI
-========================================= */
+/* =========================
+   RIKONTROLL
+========================= */
 
 visitType.addEventListener(
     "change",
     function(){
 
-        if(this.value === "Rikontroll"){
+        if(
+            this.value === "Rikontroll"
+        ){
 
             paymentBox.style.display =
                 "block";
@@ -446,64 +448,73 @@ visitType.addEventListener(
                 "none";
 
             document
-                .querySelectorAll(
-                    'input[name="payment"]'
-                )
-                .forEach(
-                    radio => radio.checked = false
-                );
+            .querySelectorAll(
+                'input[name="payment"]'
+            )
+            .forEach(
+                r => r.checked = false
+            );
         }
     }
 );
 
 
-/* =========================================
-   MESAZHET
-========================================= */
+/* =========================
+   MESAZH
+========================= */
 
-function showMessage(text,type){
+function showMessage(
+    text,
+    type
+){
 
-    message.textContent = text;
+    message.textContent =
+        text;
 
-    message.className = "";
+    message.className =
+        type;
 
-    message.classList.add(type);
+    message.style.display =
+        "block";
 
     setTimeout(
         function(){
-            message.className = "";
-            message.textContent = "";
+
+            message.style.display =
+                "none";
+
         },
-        4000
+        5000
     );
 }
 
 
-/* =========================================
-   RUAJ VIZITEN
-========================================= */
+/* =========================
+   RUAJ
+========================= */
 
 async function saveVisit(){
 
     const patientName =
         document
-            .getElementById("patientName")
-            .value
-            .trim();
+        .getElementById("patientName")
+        .value
+        .trim();
+
 
     const cardNumber =
         document
-            .getElementById("cardNumber")
-            .value
-            .trim();
+        .getElementById("cardNumber")
+        .value
+        .trim();
 
-    const visitTypeValue =
+
+    const type =
         visitType.value;
 
-    const appointmentTimeValue =
-        appointmentTime.value;
 
-    let paymentStatus = null;
+    const time =
+        appointmentTime.value;
 
 
     if(!patientName){
@@ -517,7 +528,7 @@ async function saveVisit(){
     }
 
 
-    if(!appointmentTimeValue){
+    if(!time){
 
         showMessage(
             "Zgjidh orën.",
@@ -528,14 +539,18 @@ async function saveVisit(){
     }
 
 
-    if(visitTypeValue === "Rikontroll"){
+    let payment = null;
 
-        const selectedPayment =
+
+    if(type === "Rikontroll"){
+
+        const selected =
             document.querySelector(
                 'input[name="payment"]:checked'
             );
 
-        if(!selectedPayment){
+
+        if(!selected){
 
             showMessage(
                 "Zgjidh Me pagesë ose Pa pagesë.",
@@ -545,32 +560,58 @@ async function saveVisit(){
             return;
         }
 
-        paymentStatus =
-            selectedPayment.value;
+
+        payment =
+            selected.value;
     }
 
 
-    /* Kontrollojmë nëse ora është zënë */
-
-    const today =
-        getToday();
+    const date =
+        today();
 
 
-    const { data: existingVisit, error: checkError } =
-        await supabaseClient
-            .from("appointments")
-            .select("id")
-            .eq("appointment_date", today)
-            .eq("appointment_time", appointmentTimeValue)
-            .limit(1);
+    /* Kontrollo orën */
+
+    const {
+        data: occupied,
+        error: checkError
+    } =
+    await db
+    .from("appointments")
+    .select("id")
+    .eq(
+        "appointment_date",
+        date
+    )
+    .eq(
+        "appointment_time",
+        time
+    );
 
 
     if(checkError){
 
-        console.error(checkError);
+        showMessage(
+            "Gabim: "
+            + checkError.message,
+            "error"
+        );
+
+        console.error(
+            checkError
+        );
+
+        return;
+    }
+
+
+    if(
+        occupied &&
+        occupied.length > 0
+    ){
 
         showMessage(
-            "Gabim gjatë kontrollit të orarit.",
+            "Kjo orë është e zënë.",
             "error"
         );
 
@@ -578,50 +619,58 @@ async function saveVisit(){
     }
 
 
-    if(existingVisit && existingVisit.length > 0){
+    /* INSERT */
 
-        showMessage(
-            "Kjo orë është tashmë e zënë.",
-            "error"
-        );
+    const {
+        data,
+        error
+    } =
+    await db
+    .from("appointments")
+    .insert({
 
-        return;
-    }
+        appointment_date:
+            date,
 
+        appointment_time:
+            time,
 
-    /* Ruajmë në Supabase */
+        patient_name:
+            patientName,
 
-    const { error } =
-        await supabaseClient
-            .from("appointments")
-            .insert([
-                {
-                    appointment_date: today,
-                    appointment_time:
-                        appointmentTimeValue,
-                    patient_name:
-                        patientName,
-                    card_number:
-                        cardNumber || null,
-                    visit_type:
-                        visitTypeValue,
-                    payment_status:
-                        paymentStatus
-                }
-            ]);
+        card_number:
+            cardNumber || null,
+
+        visit_type:
+            type,
+
+        payment_status:
+            payment
+
+    })
+    .select();
 
 
     if(error){
 
-        console.error(error);
-
         showMessage(
-            "Vizita nuk u ruajt. Kontrollo Supabase.",
+            "Gabim gjatë ruajtjes: "
+            + error.message,
             "error"
+        );
+
+        console.error(
+            error
         );
 
         return;
     }
+
+
+    console.log(
+        "Vizita u ruajt:",
+        data
+    );
 
 
     showMessage(
@@ -630,116 +679,136 @@ async function saveVisit(){
     );
 
 
-    /* Pastrojmë formularin */
+    /* Pastro */
 
     document
-        .getElementById("patientName")
-        .value = "";
+    .getElementById("patientName")
+    .value = "";
 
     document
-        .getElementById("cardNumber")
-        .value = "";
+    .getElementById("cardNumber")
+    .value = "";
 
     appointmentTime.value = "";
 
-    visitType.value = "Vizitë";
+    visitType.value =
+        "Vizitë";
 
     paymentBox.style.display =
         "none";
 
+
     document
-        .querySelectorAll(
-            'input[name="payment"]'
-        )
-        .forEach(
-            radio => radio.checked = false
-        );
+    .querySelectorAll(
+        'input[name="payment"]'
+    )
+    .forEach(
+        r => r.checked = false
+    );
 
 
-    await loadVisits();
+    loadVisits();
 }
 
 
-/* =========================================
-   NGARKO VIZITAT
-========================================= */
+/* =========================
+   NGARKO
+========================= */
 
 async function loadVisits(){
 
-    visitsContainer.innerHTML =
-        '<div class="empty">Po ngarkohen vizitat...</div>';
+    visits.innerHTML =
+        '<div class="empty">Po ngarkohet...</div>';
 
 
-    const today =
-        getToday();
+    const date =
+        today();
 
 
-    const { data, error } =
-        await supabaseClient
-            .from("appointments")
-            .select("*")
-            .eq("appointment_date", today)
-            .order("appointment_time", {
-                ascending:true
-            });
+    const {
+        data,
+        error
+    } =
+    await db
+    .from("appointments")
+    .select("*")
+    .eq(
+        "appointment_date",
+        date
+    )
+    .order(
+        "appointment_time",
+        {
+            ascending:true
+        }
+    );
 
 
     if(error){
 
-        console.error(error);
+        visits.innerHTML =
+            '<div class="empty">'
+            + "Gabim Supabase: "
+            + escapeHTML(
+                error.message
+            )
+            + "</div>";
 
-        visitsContainer.innerHTML =
-            '<div class="empty">Nuk u ngarkuan vizitat.</div>';
-
-        return;
-    }
-
-
-    if(!data || data.length === 0){
-
-        visitsContainer.innerHTML =
-            '<div class="empty">Nuk ka vizita të regjistruara për sot.</div>';
+        console.error(
+            error
+        );
 
         return;
     }
 
 
-    visitsContainer.innerHTML = "";
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        visits.innerHTML =
+            '<div class="empty">'
+            + "Nuk ka vizita për sot."
+            + "</div>";
+
+        return;
+    }
+
+
+    visits.innerHTML = "";
 
 
     data.forEach(
-        function(visit){
+        function(v){
 
             const item =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             item.className =
                 "visit-item";
 
 
-            let paymentHTML = "";
-
-
-            if(visit.visit_type === "Rikontroll"){
-
-                if(visit.payment_status === "Me pagesë"){
-
-                    paymentHTML =
-                        '<span class="payment-paid">Me pagesë</span>';
-
-                }else if(
-                    visit.payment_status === "Pa pagesë"
-                ){
-
-                    paymentHTML =
-                        '<span class="payment-free">Pa pagesë</span>';
-                }
-            }
-
-
             const time =
-                String(visit.appointment_time)
-                    .substring(0,5);
+                String(
+                    v.appointment_time
+                ).substring(0,5);
+
+
+            let payment = "";
+
+
+            if(
+                v.payment_status
+            ){
+
+                payment =
+                    " — "
+                    +
+                    v.payment_status;
+            }
 
 
             item.innerHTML = `
@@ -749,33 +818,33 @@ async function loadVisits(){
                 </div>
 
                 <div class="visit-name">
-                    ${escapeHTML(visit.patient_name)}
+                    ${escapeHTML(
+                        v.patient_name
+                    )}
                 </div>
 
                 <div class="visit-info">
 
                     Kartela:
                     ${escapeHTML(
-                        visit.card_number || "-"
+                        v.card_number || "-"
                     )}
 
                     <br>
 
                     ${escapeHTML(
-                        visit.visit_type
+                        v.visit_type
                     )}
 
-                    ${
-                        paymentHTML
-                        ? " — " + paymentHTML
-                        : ""
-                    }
+                    ${escapeHTML(
+                        payment
+                    )}
 
                 </div>
 
                 <button
-                    class="delete-button"
-                    onclick="deleteVisit(${visit.id})"
+                    class="delete"
+                    onclick="deleteVisit(${v.id})"
                 >
                     Fshi vizitën
                 </button>
@@ -783,42 +852,46 @@ async function loadVisits(){
             `;
 
 
-            visitsContainer.appendChild(item);
+            visits.appendChild(
+                item
+            );
         }
     );
 }
 
 
-/* =========================================
-   FSHi VIZITËN
-========================================= */
+/* =========================
+   FSHI
+========================= */
 
 async function deleteVisit(id){
 
-    const confirmed =
-        confirm(
-            "Je i sigurt që dëshiron ta fshish këtë vizitë?"
-        );
-
-
-    if(!confirmed){
+    if(
+        !confirm(
+            "Je i sigurt që dëshiron ta fshish?"
+        )
+    ){
         return;
     }
 
 
-    const { error } =
-        await supabaseClient
-            .from("appointments")
-            .delete()
-            .eq("id", id);
+    const {
+        error
+    } =
+    await db
+    .from("appointments")
+    .delete()
+    .eq(
+        "id",
+        id
+    );
 
 
     if(error){
 
-        console.error(error);
-
         showMessage(
-            "Vizita nuk u fshi.",
+            "Gabim gjatë fshirjes: "
+            + error.message,
             "error"
         );
 
@@ -826,38 +899,45 @@ async function deleteVisit(id){
     }
 
 
-    showMessage(
-        "Vizita u fshi.",
-        "success"
-    );
-
-
-    await loadVisits();
+    loadVisits();
 }
 
 
-/* =========================================
-   SIGURIA E TEKSTIT
-========================================= */
+/* =========================
+   ESCAPE
+========================= */
 
 function escapeHTML(value){
 
     return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 }
 
 
-/* =========================================
-   NISJA
-========================================= */
+/* =========================
+   START
+========================= */
 
-displayToday();
-
-createTimeOptions();
+showDate();
 
 loadVisits();
 
