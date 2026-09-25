@@ -570,55 +570,51 @@ async function saveVisit(){
         today();
 
 
-    /* Kontrollo orën */
+    /* INSERT DIREKT */
 
-    const {
-        data: occupied,
-        error: checkError
-    } =
-    await db
+const { error } = await db
     .from("appointments")
-    .select("id")
-    .eq(
-        "appointment_date",
-        date
-    )
-    .eq(
-        "appointment_time",
-        time
+    .insert({
+        appointment_date: date,
+        appointment_time: time,
+        patient_name: patientName,
+        card_number: cardNumber || null,
+        visit_type: type,
+        payment_status: payment
+    });
+
+if (error) {
+
+    console.error("SUPABASE INSERT ERROR:", error);
+
+    showMessage(
+        "Gabim gjatë ruajtjes: " + error.message,
+        "error"
     );
 
+    return;
+}
 
-    if(checkError){
+showMessage(
+    "Vizita u ruajt me sukses.",
+    "success"
+);
 
-        showMessage(
-            "Gabim: "
-            + checkError.message,
-            "error"
-        );
+/* Pastro formularin */
 
-        console.error(
-            checkError
-        );
+document.getElementById("patientName").value = "";
+document.getElementById("cardNumber").value = "";
 
-        return;
-    }
+appointmentTime.value = "";
+visitType.value = "Vizitë";
 
+paymentBox.style.display = "none";
 
-    if(
-        occupied &&
-        occupied.length > 0
-    ){
+document
+    .querySelectorAll('input[name="payment"]')
+    .forEach(r => r.checked = false);
 
-        showMessage(
-            "Kjo orë është e zënë.",
-            "error"
-        );
-
-        return;
-    }
-
-
+loadVisits();
     /* INSERT */
 
     const {
