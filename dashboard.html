@@ -641,6 +641,13 @@ input:focus,select:focus{
 .logout-nav .nav-icon{color:#ff9ca4 !important}
 .logout-nav:hover .nav-icon{color:#fff !important}
 </style>
+<style id="date-picker-style">
+.date-picker-wrap{display:flex;align-items:center;gap:7px}
+.date-picker-wrap label{color:#6d8794;font-size:11px;white-space:nowrap}
+.date-picker-wrap input{width:145px!important;height:40px!important;margin:0!important;padding:0 9px!important;border:1px solid #bcd1da!important;border-radius:8px!important;background:#fff!important;color:#123b52!important;box-shadow:none!important}
+@media(max-width:900px){.date-navigation{flex-wrap:wrap}.date-picker-wrap{order:5;width:100%;justify-content:center}}
+@media(max-width:620px){.date-picker-wrap input{width:135px!important}}
+</style>
 </head>
 <body>
 
@@ -682,6 +689,10 @@ input:focus,select:focus{
 <div class="date-navigation">
     <button type="button" id="prevDate">← Dita e mëparshme</button>
     <button type="button" class="today-button" id="todayButton">Sot</button>
+    <div class="date-picker-wrap">
+        <label for="datePicker">Zgjidh datën</label>
+        <input type="date" id="datePicker">
+    </div>
     <div class="selected-date">
         <span class="date-main" id="selectedDateLabel"></span>
         <span class="date-iso" id="selectedDateIso"></span>
@@ -1632,6 +1643,10 @@ function changeDate(days){
     next.setDate(next.getDate() + days);
     selectedDate = next;
 
+    if(datePicker){
+        datePicker.value = formatDateISO(selectedDate);
+    }
+
     showSelectedDate();
     loadVisits();
 }
@@ -1654,10 +1669,28 @@ document.getElementById("todayButton").addEventListener(
     "click",
     function(){
         selectedDate = new Date();
+        if(datePicker){
+            datePicker.value = formatDateISO(selectedDate);
+        }
         showSelectedDate();
         loadVisits();
     }
 );
+
+const datePicker = document.getElementById("datePicker");
+
+if(datePicker){
+    datePicker.value = formatDateISO(selectedDate);
+
+    datePicker.addEventListener("change", function(){
+        if(!datePicker.value) return;
+
+        const parts = datePicker.value.split("-").map(Number);
+        selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
+        showSelectedDate();
+        loadVisits();
+    });
+}
 
 
 /* =========================================================
