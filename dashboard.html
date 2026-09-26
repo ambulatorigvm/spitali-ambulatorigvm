@@ -643,7 +643,7 @@ input:focus,select:focus{
     grid-template-columns:1fr !important;
   }
 }
-
+</style>
 <style id="logout-style">
 .logout-nav{
   margin-top:10px !important;
@@ -1403,6 +1403,17 @@ body:before{display:none!important}
   }
 }
 </style>
+
+<style>
+.patient-search-wrap{position:relative;width:100%;}
+.patient-suggestions{display:none;position:absolute;z-index:9999;left:0;right:0;top:calc(100% + 5px);background:#102b3e;border:1px solid rgba(24,185,210,.35);border-radius:10px;box-shadow:0 14px 35px rgba(0,0,0,.35);max-height:260px;overflow-y:auto;}
+.patient-suggestion{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 13px;cursor:pointer;border-bottom:1px solid rgba(132,190,218,.10);color:#edf8ff;}
+.patient-suggestion:last-child{border-bottom:0;}
+.patient-suggestion:hover{background:#15394f;}
+.patient-suggestion-name{font-weight:700;}
+.patient-suggestion-card{font-size:12px;color:#18b9d2;white-space:nowrap;}
+.patient-suggestion-empty{padding:12px;color:#9bb5c5;font-size:13px;}
+</style>
 </head>
 <body>
 
@@ -1471,7 +1482,10 @@ body:before{display:none!important}
           <div class="card-title"><span class="title-icon">＋</span> Shto Vizitë të Re</div>
 
           <label for="patientName">Emër + Mbiemër *</label>
-          <input type="text" id="patientName" placeholder="Shkruani emrin dhe mbiemrin" autocomplete="off">
+          <div class="patient-search-wrap">
+            <input type="text" id="patientName" placeholder="Shkruani emrin dhe mbiemrin" autocomplete="off">
+            <div id="patientSuggestions" class="patient-suggestions"></div>
+          </div>
 
           <label for="visitType">Lloji i vizitës *</label>
           <select id="visitType">
@@ -1572,25 +1586,126 @@ const db =
 
 console.log("AMBULATORI GVM: Supabase client u inicializua");
 
+/* =========================================================
+   KERKIMI I PACIENTEVE TE REGJISTRUAR
+========================================================= */
+
+const patientName = document.getElementById("patientName");
+const cardNumber = document.getElementById("cardNumber");
+const visitType = document.getElementById("visitType");
+const paymentBox = document.getElementById("paymentBox");
+const appointmentTime = document.getElementById("appointmentTime");
+const patientSuggestions = document.getElementById("patientSuggestions");
+let patientSearchTimer = null;
+
+function hidePatientSuggestions(){
+    if(patientSuggestions){
+        patientSuggestions.style.display = "none";
+        patientSuggestions.innerHTML = "";
+    }
+}
+
+function showPatientSuggestions(items){
+    if(!patientSuggestions) return;
+    patientSuggestions.innerHTML = "";
+
+    if(!items || !items.length){
+        patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Nuk u gjet pacient me këtë emër.</div>';
+        patientSuggestions.style.display = "block";
+        return;
+    }
+
+    items.forEach(function(patient){
+        const row = document.createElement("div");
+        row.className = "patient-suggestion";
+        row.innerHTML = '<span class="patient-suggestion-name"></span><span class="patient-suggestion-card"></span>';
+        row.querySelector(".patient-suggestion-name").textContent = patient.full_name || "";
+        row.querySelector(".patient-suggestion-card").textContent = patient.card_number ? "Kartela: " + patient.card_number : "";
+        row.addEventListener("mousedown", function(event){
+            event.preventDefault();
+            patientName.value = patient.full_name || "";
+            cardNumber.value = patient.card_number || "";
+            hidePatientSuggestions();
+        });
+        patientSuggestions.appendChild(row);
+    });
+    patientSuggestions.style.display = "block";
+}
+
+async function searchRegisteredPatients(){
+    const query = patientName.value.trim();
+    if(query.length < 2){
+        hidePatientSuggestions();
+        return;
+    }
+
+    console.log("Kërko pacient:", query);
+
+    try{
+        const encoded = encodeURIComponent(query);
+        const url = SUPABASE_URL +
+            "/rest/v1/patients?select=id,full_name,card_number" +
+            "&or=(full_name.ilike.*" + encoded + "*,card_number.ilike.*" + encoded + "*)" +
+            "&order=full_name.asc&limit=10";
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": "Bearer " + SUPABASE_KEY
+            }
+        });
+
+        const data = await response.json();
+        if(!response.ok){
+            console.error("PATIENT SEARCH ERROR:", data);
+            showPatientSuggestions([]);
+            if(patientSuggestions){
+                patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Gabim gjatë kërkimit të pacientëve.</div>';
+                patientSuggestions.style.display = "block";
+            }
+            return;
+        }
+
+        showPatientSuggestions(Array.isArray(data) ? data : []);
+    }catch(error){
+        console.error("PATIENT SEARCH FETCH ERROR:", error);
+        if(patientSuggestions){
+            patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Gabim gjatë lidhjes me pacientët.</div>';
+            patientSuggestions.style.display = "block";
+        }
+    }
+}
+
+if(patientName){
+    patientName.addEventListener("input", function(){
+        clearTimeout(patientSearchTimer);
+        patientSearchTimer = setTimeout(searchRegisteredPatients, 300);
+    });
+
+    patientName.addEventListener("focus", function(){
+        if(patientName.value.trim().length >= 2) searchRegisteredPatients();
+    });
+
+    patientName.addEventListener("keydown", function(event){
+        if(event.key === "Escape"){
+            hidePatientSuggestions();
+        }
+    });
+
+    document.addEventListener("click", function(event){
+        if(!event.target.closest(".patient-search-wrap")){
+            hidePatientSuggestions();
+        }
+    });
+}
+
+
 
 /* =========================================================
    ELEMENTET
 ========================================================= */
 
-const patientName =
-    document.getElementById("patientName");
-
-const cardNumber =
-    document.getElementById("cardNumber");
-
-const visitType =
-    document.getElementById("visitType");
-
-const paymentBox =
-    document.getElementById("paymentBox");
-
-const appointmentTime =
-    document.getElementById("appointmentTime");
 
 const saveButton =
     document.getElementById("saveButton");
@@ -1604,6 +1719,10 @@ const message =
 const todayDate =
     document.getElementById("todayDate");
 
+
+/* =========================================================
+   KERKIMI I PACIENTEVE
+========================================================= */
 
 /* =========================================================
    DATA E SOTME
@@ -2046,6 +2165,8 @@ async function saveVisit(){
 
     cardNumber.value =
         "";
+
+    hidePatientSuggestions();
 
     appointmentTime.value =
         "";
