@@ -1336,6 +1336,34 @@ async function saveVisit(){
         formatDateISO(selectedDate);
 
 
+    /* KONTROLLI I ORARIT - MOS LEJO DY VIZITA NË TË NJËJTIN ORAR */
+
+    const conflictCheck = await db
+        .from("appointments")
+        .select("id")
+        .eq("appointment_date", date)
+        .eq("appointment_time", time)
+        .limit(1);
+
+    if(conflictCheck.error){
+        console.error("CONFLICT CHECK ERROR:", conflictCheck.error);
+        showMessage(
+            "Nuk mund të kontrollohet orari: " + conflictCheck.error.message,
+            "error"
+        );
+        return;
+    }
+
+    if(conflictCheck.data && conflictCheck.data.length > 0){
+        showMessage(
+            "Ky orar është tashmë i zënë. Zgjidh një orar tjetër.",
+            "error"
+        );
+        appointmentTime.focus();
+        return;
+    }
+
+
     /* DISABLE BUTTON */
 
     saveButton.disabled =
@@ -1916,6 +1944,27 @@ async function saveEditedVisit(){
     if(!time){showMessage("Zgjidh orën e vizitës.","error");return;}
     if(type === "Rikontroll" && !selected){showMessage("Zgjidh Me pagesë ose Pa pagesë.","error");return;}
     const payment=type === "Rikontroll" ? selected.value : null;
+
+    /* KONTROLLI I ORARIT GJATË NDRYSHIMIT */
+    const editDate = formatDateISO(selectedDate);
+    const conflictCheck = await db
+        .from("appointments")
+        .select("id")
+        .eq("appointment_date", editDate)
+        .eq("appointment_time", time)
+        .neq("id", editingVisitId)
+        .limit(1);
+
+    if(conflictCheck.error){
+        showMessage("Nuk mund të kontrollohet orari: " + conflictCheck.error.message,"error");
+        return;
+    }
+
+    if(conflictCheck.data && conflictCheck.data.length > 0){
+        showMessage("Ky orar është tashmë i zënë. Zgjidh një orar tjetër.","error");
+        return;
+    }
+
     const result=await db.from("appointments").update({patient_name:name,card_number:card||null,visit_type:type,appointment_time:time,payment_status:payment}).eq("id",editingVisitId);
     if(result.error){showMessage("Gabim gjatë ndryshimit: "+result.error.message,"error");return;}
     closeEditVisit();
