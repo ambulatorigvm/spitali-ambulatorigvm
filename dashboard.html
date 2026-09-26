@@ -1855,6 +1855,38 @@ function showMessage(
 
 
 /* =========================================================
+   TINGUJT E VIZITAVE
+========================================================= */
+let gvmAudioContext = null;
+function playVisitSound(type){
+    try{
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if(!AudioCtx) return;
+        if(!gvmAudioContext) gvmAudioContext = new AudioCtx();
+        if(gvmAudioContext.state === "suspended") gvmAudioContext.resume();
+        const patterns = {
+            arrived:[[660,0,.12],[880,.13,.16]],
+            finished:[[880,0,.12],[660,.13,.18]],
+            cancelled:[[440,0,.16],[330,.18,.20]],
+            saved:[[740,0,.10],[980,.11,.13]],
+            edited:[[620,0,.10],[760,.11,.13]]
+        };
+        const pattern = patterns[type] || patterns.saved;
+        const ctx=gvmAudioContext, now=ctx.currentTime;
+        pattern.forEach(function(note){
+            const osc=ctx.createOscillator(), gain=ctx.createGain();
+            osc.type="sine";
+            osc.frequency.setValueAtTime(note[0],now+note[1]);
+            gain.gain.setValueAtTime(.0001,now+note[1]);
+            gain.gain.exponentialRampToValueAtTime(.055,now+note[1]+.015);
+            gain.gain.exponentialRampToValueAtTime(.0001,now+note[1]+note[2]);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(now+note[1]); osc.stop(now+note[1]+note[2]+.02);
+        });
+    }catch(error){ console.warn("GVM audio nuk u luajt:",error); }
+}
+
+/* =========================================================
    RUAJ VIZITEN
 ========================================================= */
 
@@ -2044,6 +2076,8 @@ async function saveVisit(){
         "Vizita u ruajt me sukses.",
         "success"
     );
+
+    playVisitSound("saved");
 
 
     /* PASTRO FORMULAREN */
@@ -2566,6 +2600,7 @@ async function saveEditedVisit(){
     if(result.error){showMessage("Gabim gjatë ndryshimit: "+result.error.message,"error");return;}
     closeEditVisit();
     showMessage("Vizita u ndryshua me sukses.","success");
+    playVisitSound("edited");
     await loadVisits();
 }
 
@@ -2600,6 +2635,10 @@ async function updateVisitStatus(id, status){
 
         return;
     }
+
+    if(status === "arrived") playVisitSound("arrived");
+    else if(status === "finished") playVisitSound("finished");
+    else if(status === "cancelled") playVisitSound("cancelled");
 
     await loadVisits();
 }
