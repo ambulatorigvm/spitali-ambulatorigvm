@@ -178,6 +178,78 @@ button:hover{filter:brightness(.96)}
 }
 </style>
 
+
+<style id="step6-status">
+.visit-item{
+    position:relative;
+    transition:transform .15s ease, box-shadow .15s ease;
+    border:1px solid #d8e4e9 !important;
+}
+.visit-item.status-arrived{
+    background:#c9f2d2 !important;
+    border-color:#72c982 !important;
+}
+.visit-item.status-finished{
+    background:#fff0a8 !important;
+    border-color:#e1c34d !important;
+}
+.visit-item.status-cancelled{
+    background:#d9dee1 !important;
+    border-color:#aab3b8 !important;
+    opacity:.9;
+}
+.visit-status-controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:10px;
+}
+.visit-status-button,.visit-delete-button{
+    border:1px solid #ccd9df;
+    background:rgba(255,255,255,.9);
+    color:#244554;
+    border-radius:7px;
+    padding:7px 10px;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+}
+.visit-status-button.active{
+    box-shadow:0 0 0 2px rgba(22,106,139,.12);
+}
+.visit-status-button.arrived.active{
+    border-color:#28a745;
+    background:#eaf8ed;
+    color:#18752f;
+}
+.visit-status-button.finished.active{
+    border-color:#e2b400;
+    background:#fff6d8;
+    color:#806500;
+}
+.visit-status-button.cancelled.active{
+    border-color:#8a959d;
+    background:#e9edef;
+    color:#4f5b62;
+}
+.visit-delete-button{
+    margin-left:auto;
+    border-color:#e2b8b8;
+    color:#a53a3a;
+}
+.status-badge{
+    display:inline-block;
+    margin-left:7px;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:800;
+}
+.status-badge.arrived{background:#b2e8bd;color:#146b2b}
+.status-badge.finished{background:#ffe27a;color:#735d00}
+.status-badge.cancelled{background:#c3cbd0;color:#465158}
+</style>
+
 </head>
 <body>
 
@@ -634,7 +706,8 @@ async function saveVisit(){
                 patient_name: name,
                 card_number: card || null,
                 visit_type: type,
-                payment_status: payment
+                payment_status: payment,
+                status: "scheduled"
             });
     } catch (err) {
         console.error("SUPABASE INSERT EXCEPTION:", err);
@@ -735,167 +808,299 @@ async function saveVisit(){
 
 async function loadVisits(){
 
-    visits.innerHTML = '<div class="loading">Po ngarkohen agjenda...</div>';
+    visits.innerHTML =
+        '<div class="loading">Po ngarkohen vizitat...</div>';
 
-    const date = getToday();
+    const date =
+        formatDateISO(selectedDate);
 
-    const result = await db
-        .from("appointments")
-        .select("id, appointment_date, appointment_time, patient_name, card_number, visit_type, payment_status")
-        .eq("appointment_date", date)
-        .order("appointment_time", { ascending:true });
-
-    console.log("LOAD VISITS:", result);
+    const result =
+        await db
+            .from("appointments")
+            .select(
+                "id, appointment_date, appointment_time, patient_name, card_number, visit_type, payment_status, status"
+            )
+            .eq(
+                "appointment_date",
+                date
+            )
+            .order(
+                "appointment_time",
+                {
+                    ascending:true
+                }
+            );
 
     if(result.error){
-        console.error("SUPABASE SELECT ERROR:", result.error);
-        visits.innerHTML = "";
-        const errorBox = document.createElement("div");
-        errorBox.className = "empty";
-        errorBox.innerHTML = "<strong>Gabim gjatë ngarkimit</strong><br><br>" + result.error.message;
-        visits.appendChild(errorBox);
+
+        console.error(
+            "SUPABASE SELECT ERROR:",
+            result.error
+        );
+
+        visits.innerHTML =
+            "<div class=\"empty\"><strong>Gabim gjatë ngarkimit</strong><br><br>" +
+            result.error.message +
+            "</div>";
+
         return;
     }
 
-    const data = result.data || [];
+    const data =
+        result.data || [];
 
-    const statTotal = document.getElementById("statTotal");
-    const statVisits = document.getElementById("statVisits");
-    const statControls = document.getElementById("statControls");
-    const statPaid = document.getElementById("statPaid");
+    if(data.length === 0){
 
-    if(statTotal) statTotal.textContent = data.length;
-    if(statVisits) statVisits.textContent = data.filter(v => v.visit_type === "Vizitë").length;
-    if(statControls) statControls.textContent = data.filter(v => v.visit_type === "Rikontroll").length;
-    if(statPaid) statPaid.textContent = data.filter(v => v.payment_status === "Me pagesë").length;
+        visits.innerHTML =
+            '<div class="empty">Nuk ka vizita të regjistruara për këtë datë.</div>';
 
-    const byTime = {};
-    data.forEach(v => {
-        const key = v.appointment_time ? String(v.appointment_time).substring(0,5) : "";
-        if(!byTime[key]) byTime[key] = [];
-        byTime[key].push(v);
-    });
+        return;
+    }
 
     visits.innerHTML = "";
 
-    for(let hour = 12; hour <= 17; hour++){
-        for(let minute = 0; minute < 60; minute += 15){
-            if(hour === 17 && minute > 0) continue;
+    data.forEach(function(visit){
 
-            const timeValue = String(hour).padStart(2,"0") + ":" + String(minute).padStart(2,"0");
-            const slot = document.createElement("div");
-            slot.className = "agenda-slot";
+        const item =
+            document.createElement("div");
 
-            const time = document.createElement("div");
-            time.className = "slot-time";
-            time.textContent = timeValue;
+        item.className =
+            "visit-item";
 
-            const body = document.createElement("div");
-            body.className = "slot-body";
+        const currentStatus =
+            visit.status || "scheduled";
 
-            const appointments = byTime[timeValue] || [];
+        let statusLabel = "Në pritje";
+        let statusClass = "";
 
-            if(appointments.length === 0){
-                const empty = document.createElement("div");
-                empty.className = "slot-empty";
-                empty.textContent = "Orar i lirë";
-                body.appendChild(empty);
-            } else {
-                appointments.forEach(visit => {
-                    const row = document.createElement("div");
-                    row.className = "slot-visit" + (visit.visit_type === "Rikontroll" ? " control" : "");
+        if(currentStatus === "arrived"){
+            statusLabel = "Ka ardhur";
+            statusClass = "arrived";
+        }
+        else if(currentStatus === "finished"){
+            statusLabel = "Ka mbaruar";
+            statusClass = "finished";
+        }
+        else if(currentStatus === "cancelled"){
+            statusLabel = "Anulluar";
+            statusClass = "cancelled";
+        }
 
-                    const person = document.createElement("div");
-                    person.innerHTML =
-                        '<div class="visit-name"></div>' +
-                        '<div class="visit-line"><strong>Nr. Kartelës:</strong> <span class="card-value"></span></div>';
-                    person.querySelector(".visit-name").textContent = visit.patient_name || "";
-                    person.querySelector(".card-value").textContent = visit.card_number || "—";
+        if(statusClass){
+            item.classList.add(
+                "status-" + statusClass
+            );
+        }
 
-                    const statusLine = document.createElement("div");
-                    statusLine.className = "statusLine";
+        const time =
+            document.createElement("div");
 
-                    const type = document.createElement("span");
-                    type.className = "visit-type";
-                    type.textContent = visit.visit_type || "Vizitë";
-                    statusLine.appendChild(type);
+        time.className =
+            "visit-time";
 
-                    if(visit.visit_type === "Rikontroll"){
-                        const payment = document.createElement("span");
-                        payment.className = visit.payment_status === "Pa pagesë" ? "payment-free" : "payment-paid";
-                        payment.textContent = visit.payment_status || "Pa pagesë";
-                        statusLine.appendChild(payment);
-                    }
+        time.textContent =
+            visit.appointment_time
+                ? String(visit.appointment_time).substring(0,5)
+                : "--:--";
 
-                    const details = document.createElement("div");
-                    details.className = "visit-line";
-                    details.textContent = visit.visit_type === "Rikontroll" ? "Kontroll pas vizitës" : "Vizitë ambulatore";
+        const name =
+            document.createElement("div");
 
-                    const actions = document.createElement("div");
-                    const deleteButton = document.createElement("button");
-                    deleteButton.className = "delete-button";
-                    deleteButton.type = "button";
-                    deleteButton.textContent = "Fshi";
-                    deleteButton.addEventListener("click", function(){ deleteVisit(visit.id); });
-                    actions.appendChild(deleteButton);
+        name.className =
+            "visit-name";
 
-                    row.appendChild(person);
-                    row.appendChild(statusLine);
-                    row.appendChild(details);
-                    row.appendChild(actions);
-                    body.appendChild(row);
-                });
+        name.textContent =
+            visit.patient_name || "";
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "visit-line";
+
+        card.innerHTML =
+            "<strong>Nr. Kartelës:</strong> " +
+            (visit.card_number || "—");
+
+        const statusLine =
+            document.createElement("div");
+
+        const type =
+            document.createElement("span");
+
+        type.className =
+            "visit-type";
+
+        type.textContent =
+            visit.visit_type || "Vizitë";
+
+        statusLine.appendChild(type);
+
+        if(visit.visit_type === "Rikontroll"){
+
+            const payment =
+                document.createElement("span");
+
+            if(visit.payment_status === "Me pagesë"){
+                payment.className = "payment-paid";
+                payment.textContent = "Me pagesë";
+            }
+            else if(visit.payment_status === "Pa pagesë"){
+                payment.className = "payment-free";
+                payment.textContent = "Pa pagesë";
+            }
+            else{
+                payment.className = "payment-paid";
+                payment.textContent = "Pagesa nuk është zgjedhur";
             }
 
-            slot.appendChild(time);
-            slot.appendChild(body);
-            visits.appendChild(slot);
+            statusLine.appendChild(payment);
         }
-    }
+
+        const badge =
+            document.createElement("span");
+
+        badge.className =
+            "status-badge " + statusClass;
+
+        badge.textContent =
+            statusLabel;
+
+        statusLine.appendChild(badge);
+
+        const controls =
+            document.createElement("div");
+
+        controls.className =
+            "visit-status-controls";
+
+        const arrived =
+            document.createElement("button");
+
+        arrived.type = "button";
+        arrived.className =
+            "visit-status-button arrived" +
+            (currentStatus === "arrived" ? " active" : "");
+        arrived.textContent =
+            "✓ Ka ardhur";
+
+        arrived.addEventListener("click", function(){
+            updateVisitStatus(
+                visit.id,
+                "arrived"
+            );
+        });
+
+        const finished =
+            document.createElement("button");
+
+        finished.type = "button";
+        finished.className =
+            "visit-status-button finished" +
+            (currentStatus === "finished" ? " active" : "");
+        finished.textContent =
+            "✓ Ka mbaruar";
+
+        finished.addEventListener("click", function(){
+            updateVisitStatus(
+                visit.id,
+                "finished"
+            );
+        });
+
+        const cancelled =
+            document.createElement("button");
+
+        cancelled.type = "button";
+        cancelled.className =
+            "visit-status-button cancelled" +
+            (currentStatus === "cancelled" ? " active" : "");
+        cancelled.textContent =
+            "Anullo";
+
+        cancelled.addEventListener("click", function(){
+            updateVisitStatus(
+                visit.id,
+                "cancelled"
+            );
+        });
+
+        const deleteButton =
+            document.createElement("button");
+
+        deleteButton.type = "button";
+        deleteButton.className =
+            "visit-delete-button";
+        deleteButton.textContent =
+            "Fshi vizitën";
+
+        deleteButton.addEventListener("click", function(){
+            deleteVisit(visit.id);
+        });
+
+        controls.appendChild(arrived);
+        controls.appendChild(finished);
+        controls.appendChild(cancelled);
+        controls.appendChild(deleteButton);
+
+        item.appendChild(time);
+        item.appendChild(name);
+        item.appendChild(card);
+        item.appendChild(statusLine);
+        item.appendChild(controls);
+
+        visits.appendChild(item);
+    });
 }
 
 
 /* =========================================================
-   FSHI VIZITEN
+   STATUSI DHE FSHIRJA
 ========================================================= */
 
-async function deleteVisit(
-    id
-){
+async function updateVisitStatus(id, status){
+
+    const result =
+        await db
+            .from("appointments")
+            .update({
+                status: status
+            })
+            .eq("id", id);
+
+    if(result.error){
+
+        showMessage(
+            "Gabim gjatë ndryshimit të statusit: " +
+            result.error.message,
+            "error"
+        );
+
+        return;
+    }
+
+    await loadVisits();
+}
+
+
+async function deleteVisit(id){
 
     const confirmed =
         confirm(
-            "A dëshiron ta fshish këtë vizitë?"
+            "A dëshiron ta fshish këtë vizitë? Ky veprim nuk mund të zhbëhet."
         );
-
 
     if(!confirmed){
         return;
     }
 
-
     const result =
         await db
             .from("appointments")
             .delete()
-            .eq(
-                "id",
-                id
-            );
-
-
-    console.log(
-        "DELETE RESULT:",
-        result
-    );
-
+            .eq("id", id);
 
     if(result.error){
-
-        console.error(
-            "SUPABASE DELETE ERROR:",
-            result.error
-        );
 
         showMessage(
             "Gabim gjatë fshirjes: " +
@@ -906,21 +1111,13 @@ async function deleteVisit(
         return;
     }
 
-
     showMessage(
         "Vizita u fshi.",
         "success"
     );
 
-
     await loadVisits();
-
 }
-
-
-/* LIDH BUTONIN ME RUAJTJEN */
-saveButton.addEventListener("click", saveVisit);
-
 
 
 /* =========================================================
