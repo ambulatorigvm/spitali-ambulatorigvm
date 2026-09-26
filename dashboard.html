@@ -873,6 +873,103 @@ html, body{
 }
 </style>
 
+
+<style id="modern-date-navigation">
+.date-navigation-modern{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:14px!important;
+  padding:15px 16px!important;
+  margin:0 0 18px!important;
+  background:linear-gradient(145deg,rgba(8,29,45,.96),rgba(10,38,57,.92))!important;
+  border:1px solid rgba(116,190,216,.20)!important;
+  border-radius:16px!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.18)!important;
+}
+.date-top-row{
+  display:grid;
+  grid-template-columns:44px 1fr 44px;
+  align-items:center;
+  gap:10px;
+}
+.date-arrow{
+  width:44px!important;height:44px!important;min-width:44px!important;
+  padding:0!important;margin:0!important;border-radius:12px!important;
+  background:rgba(255,255,255,.055)!important;
+  border:1px solid rgba(125,194,216,.20)!important;
+  color:#d9f5fc!important;font-size:30px!important;font-weight:400!important;
+  line-height:1!important;box-shadow:none!important;
+}
+.date-arrow:hover{background:rgba(24,185,210,.16)!important;border-color:rgba(75,210,229,.40)!important}
+.date-navigation-modern .selected-date{
+  flex:none!important;text-align:center!important;min-width:0;
+}
+.date-navigation-modern .selected-date .date-main{
+  color:#f2fbff!important;font-size:21px!important;font-weight:850!important;
+  text-transform:capitalize;line-height:1.2;
+}
+.date-navigation-modern .selected-date .date-iso{
+  color:#7faabd!important;font-size:11px!important;margin-top:4px!important;
+  letter-spacing:.4px;
+}
+.week-strip{
+  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;
+}
+.week-day{
+  border:1px solid rgba(119,187,210,.14);
+  background:rgba(255,255,255,.035);border-radius:11px;
+  min-height:61px;padding:7px 4px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;color:#91afbd;box-shadow:none!important;
+}
+.week-day:hover{background:rgba(24,185,210,.10);color:#eafaff}
+.week-day .wd-name{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.week-day .wd-number{font-size:18px;font-weight:850;color:#d8edf4}
+.week-day.is-today .wd-number{color:#52d4e5}
+.week-day.is-selected{
+  background:linear-gradient(145deg,#1388b4,#0d628f);
+  border-color:rgba(93,220,236,.55);
+  box-shadow:0 7px 18px rgba(0,112,158,.24)!important;
+  color:#fff;
+}
+.week-day.is-selected .wd-number,.week-day.is-selected .wd-name{color:#fff}
+.week-day.is-today.is-selected:after{
+  content:"SOT";font-size:8px;font-weight:900;letter-spacing:.6px;color:#bff7ff;
+}
+.date-bottom-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.date-navigation-modern .today-button{
+  width:auto!important;min-width:86px!important;height:38px!important;
+  margin:0!important;padding:0 16px!important;border-radius:9px!important;
+  background:rgba(24,185,210,.10)!important;color:#8de6f2!important;
+  border:1px solid rgba(67,204,224,.24)!important;box-shadow:none!important;
+}
+.date-navigation-modern .today-button:hover{background:rgba(24,185,210,.18)!important;color:#fff!important}
+.date-navigation-modern .date-picker-wrap{display:flex;align-items:center;gap:7px}
+.date-navigation-modern .date-picker-wrap label{color:#7899a8!important;font-size:10px!important;margin:0!important}
+.date-navigation-modern .date-picker-wrap input{
+  width:132px!important;height:36px!important;margin:0!important;padding:0 8px!important;
+  border:1px solid rgba(119,187,210,.20)!important;border-radius:8px!important;
+  background:#081c2b!important;color:#dff6fc!important;box-shadow:none!important;
+}
+@media(max-width:700px){
+  .week-strip{gap:4px}
+  .week-day{min-height:56px;padding:6px 2px}
+  .week-day .wd-name{font-size:9px}
+  .week-day .wd-number{font-size:16px}
+  .date-navigation-modern .selected-date .date-main{font-size:18px!important}
+}
+@media(max-width:520px){
+  .date-navigation-modern{padding:12px!important;gap:10px!important}
+  .date-top-row{grid-template-columns:38px 1fr 38px;gap:7px}
+  .date-arrow{width:38px!important;min-width:38px!important;height:38px!important;font-size:27px!important}
+  .week-day{min-height:52px}
+  .week-day .wd-name{font-size:8px;letter-spacing:.2px}
+  .week-day .wd-number{font-size:15px}
+  .date-bottom-row{flex-direction:column;align-items:stretch}
+  .date-navigation-modern .today-button{width:100%!important}
+  .date-navigation-modern .date-picker-wrap{justify-content:center}
+}
+</style>
 </head>
 <body>
 
@@ -911,18 +1008,23 @@ html, body{
       <div class="page-heading">
         <h1>Paneli i Ambulatorit</h1>
         
-<div class="date-navigation">
-    <button type="button" id="prevDate">← Dita e mëparshme</button>
-    <button type="button" class="today-button" id="todayButton">Sot</button>
-    <div class="date-picker-wrap">
-        <label for="datePicker">Zgjidh datën</label>
-        <input type="date" id="datePicker">
+<div class="date-navigation date-navigation-modern">
+    <div class="date-top-row">
+        <button type="button" class="date-arrow" id="prevDate" aria-label="Dita e mëparshme">‹</button>
+        <div class="selected-date">
+            <span class="date-main" id="selectedDateLabel"></span>
+            <span class="date-iso" id="selectedDateIso"></span>
+        </div>
+        <button type="button" class="date-arrow" id="nextDate" aria-label="Dita tjetër">›</button>
     </div>
-    <div class="selected-date">
-        <span class="date-main" id="selectedDateLabel"></span>
-        <span class="date-iso" id="selectedDateIso"></span>
+    <div class="week-strip" id="weekStrip"></div>
+    <div class="date-bottom-row">
+        <button type="button" class="today-button" id="todayButton">Sot</button>
+        <div class="date-picker-wrap">
+            <label for="datePicker">Zgjidh datën</label>
+            <input type="date" id="datePicker">
+        </div>
     </div>
-    <button type="button" id="nextDate">Dita tjetër →</button>
 </div>
 
     <div id="todayDate" class="date-title"></div>
@@ -1116,6 +1218,60 @@ function showSelectedDate(){
 
     if(iso){
         iso.textContent = formatDateISO(selectedDate);
+    }
+
+    renderWeekStrip();
+}
+
+function renderWeekStrip(){
+    const strip = document.getElementById("weekStrip");
+    if(!strip) return;
+
+    const base = new Date(selectedDate);
+    base.setHours(0,0,0,0);
+    const day = base.getDay();
+    const mondayOffset = day === 0 ? -6 : 1 - day;
+    const monday = new Date(base);
+    monday.setDate(base.getDate() + mondayOffset);
+
+    strip.innerHTML = "";
+
+    for(let i = 0; i < 7; i++){
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "week-day";
+
+        if(formatDateISO(d) === formatDateISO(new Date())){
+            button.classList.add("is-today");
+        }
+        if(formatDateISO(d) === formatDateISO(selectedDate)){
+            button.classList.add("is-selected");
+        }
+
+        const name = document.createElement("span");
+        name.className = "wd-name";
+        name.textContent = d.toLocaleDateString("sq-AL", {weekday:"short"}).replace(".","");
+
+        const number = document.createElement("span");
+        number.className = "wd-number";
+        number.textContent = d.getDate();
+
+        button.appendChild(name);
+        button.appendChild(number);
+
+        button.addEventListener("click", function(){
+            selectedDate = new Date(d);
+            if(datePicker){
+                datePicker.value = formatDateISO(selectedDate);
+            }
+            showSelectedDate();
+            loadVisits();
+        });
+
+        strip.appendChild(button);
     }
 }
 
