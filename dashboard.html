@@ -761,8 +761,7 @@ async function saveVisit(){
                 card_number: card || null,
                 visit_type: type,
                 payment_status: payment
-            })
-            .select();
+            });
 
 
     console.log(
