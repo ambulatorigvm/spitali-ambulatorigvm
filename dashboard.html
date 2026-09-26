@@ -970,6 +970,72 @@ html, body{
   .date-navigation-modern .date-picker-wrap{justify-content:center}
 }
 </style>
+
+<style id="form-clean-premium">
+/* Formulari i vizitës - pamje më e pastër */
+.workspace > .card:not(.agenda-card){
+  padding:24px!important;
+  border:1px solid rgba(121,190,214,.22)!important;
+  background:linear-gradient(145deg,rgba(10,34,50,.97),rgba(7,26,40,.97))!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.18)!important;
+}
+.workspace > .card:not(.agenda-card) .card-title{
+  margin-bottom:22px!important;
+  padding-bottom:14px!important;
+  border-bottom:1px solid rgba(130,190,210,.14)!important;
+  color:#eefaff!important;
+  font-size:19px!important;
+}
+.workspace > .card:not(.agenda-card) .card-title .title-icon{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  width:34px!important;height:34px!important;border-radius:10px!important;
+  background:rgba(19,166,199,.14)!important;color:#62d7ed!important;
+}
+.workspace > .card:not(.agenda-card) label{
+  color:#a9c6d2!important;font-size:12px!important;font-weight:800!important;
+  letter-spacing:.2px!important;margin:12px 0 6px!important;
+}
+.workspace > .card:not(.agenda-card) input,
+.workspace > .card:not(.agenda-card) select{
+  height:46px!important;margin-bottom:10px!important;
+  background:rgba(4,19,29,.78)!important;color:#edfaff!important;
+  border:1px solid rgba(127,185,204,.20)!important;border-radius:10px!important;
+}
+.workspace > .card:not(.agenda-card) input::placeholder{color:#678796!important}
+.workspace > .card:not(.agenda-card) input:focus,
+.workspace > .card:not(.agenda-card) select:focus{
+  border-color:rgba(44,196,226,.70)!important;
+  box-shadow:0 0 0 3px rgba(19,166,199,.10)!important;
+}
+.workspace > .card:not(.agenda-card) #paymentBox{
+  margin:2px 0 10px!important;padding:13px 14px!important;
+  background:rgba(19,166,199,.055)!important;
+  border:1px solid rgba(74,192,216,.18)!important;border-radius:11px!important;
+}
+.workspace > .card:not(.agenda-card) #paymentBox > label:first-child{
+  margin:0 0 8px!important;color:#8fc8d7!important;font-size:11px!important;
+  text-transform:uppercase!important;letter-spacing:.6px!important;
+}
+.workspace > .card:not(.agenda-card) .payment-option{
+  display:flex!important;align-items:center!important;gap:9px!important;
+  margin:6px 0!important;padding:8px 10px!important;border-radius:8px!important;
+  background:rgba(255,255,255,.025)!important;color:#d9edf3!important;
+  font-size:13px!important;font-weight:700!important;
+}
+.workspace > .card:not(.agenda-card) .payment-option input{
+  width:17px!important;height:17px!important;margin:0!important;
+  accent-color:#25b8d8!important;
+}
+.workspace > .card:not(.agenda-card) #saveButton{
+  margin-top:10px!important;height:48px!important;border-radius:11px!important;
+  font-size:14px!important;letter-spacing:.1px!important;
+}
+.workspace > .card:not(.agenda-card) #saveButton:disabled{opacity:.65!important;cursor:wait!important}
+@media(max-width:1050px){
+  .workspace > .card:not(.agenda-card){max-width:none!important}
+}
+</style>
+
 </head>
 <body>
 
