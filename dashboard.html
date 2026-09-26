@@ -250,6 +250,254 @@ button:hover{filter:brightness(.96)}
 .status-badge.cancelled{background:#c3cbd0;color:#465158}
 </style>
 
+
+<style id="gvm-dark-premium">
+:root{
+  --dp-bg:#071522;
+  --dp-panel:#0d2131;
+  --dp-panel2:#102b3e;
+  --dp-line:rgba(132,190,218,.18);
+  --dp-text:#edf8ff;
+  --dp-muted:#9bb5c5;
+  --dp-blue:#168bd1;
+  --dp-cyan:#18b9d2;
+}
+html,body{min-height:100%}
+body{
+  color:var(--dp-text)!important;
+  background:#06121d url("hospital-bg.png") center top/cover fixed no-repeat!important;
+}
+body:before{
+  background:
+    linear-gradient(90deg,rgba(4,15,26,.94) 0%,rgba(5,22,36,.90) 42%,rgba(6,24,38,.72) 100%)!important;
+}
+.app-shell{min-height:100vh}
+.sidebar{
+  width:225px;flex-basis:225px;
+  background:linear-gradient(180deg,rgba(4,20,34,.97),rgba(5,28,45,.94))!important;
+  border-right:1px solid rgba(88,170,205,.18)!important;
+  box-shadow:8px 0 30px rgba(0,0,0,.24)!important;
+  padding:20px 13px!important;
+}
+.brand-mini{
+  border-bottom:1px solid var(--dp-line)!important;
+  padding:5px 13px 22px!important;
+}
+.brand-mini strong{color:#fff!important;font-size:19px!important;letter-spacing:1px}
+.brand-mini span{color:#79cce3!important}
+.nav-item{
+  color:#b9d2df!important;
+  border-radius:10px!important;
+  margin:4px 0!important;
+}
+.nav-item:hover{background:rgba(24,139,209,.12)!important}
+.nav-item.active{
+  color:#fff!important;
+  background:linear-gradient(90deg,#0878bb,#12669a)!important;
+  border-left:3px solid #29c4df!important;
+  box-shadow:0 7px 18px rgba(0,0,0,.18)
+}
+.nav-icon{color:#8bd9eb}
+.sidebar-footer{color:#6e93a7!important}
+
+.main{padding:18px 24px 40px!important}
+.topbar{
+  max-width:1220px!important;
+  min-height:112px;
+  margin:0 auto 18px!important;
+  padding:18px 24px!important;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(6,27,43,.96) 0%,rgba(7,32,49,.80) 48%,rgba(7,32,49,.38) 100%),
+    url("hospital-bg.png") center 42%/cover no-repeat!important;
+  border:1px solid rgba(139,205,229,.20)!important;
+  border-radius:16px!important;
+  box-shadow:0 14px 36px rgba(0,0,0,.25)!important;
+}
+.topbar:after{
+  content:"";
+  position:absolute;right:-80px;top:-120px;width:360px;height:360px;
+  border-radius:50%;border:1px solid rgba(68,205,229,.18);
+  box-shadow:0 0 0 40px rgba(68,205,229,.025),0 0 0 80px rgba(68,205,229,.02);
+}
+.hospital-logo{position:relative;z-index:1}
+.logo-mark{
+  background:linear-gradient(135deg,#13a6c7,#1677bd)!important;
+  border:1px solid rgba(255,255,255,.20);
+  box-shadow:0 8px 22px rgba(13,143,174,.30)
+}
+.hospital-name,.ambulatory-name{color:#fff!important}
+.logo-divider{background:rgba(190,225,237,.35)!important}
+.top-date{color:#b6d0de!important;position:relative;z-index:1}
+
+.content{max-width:1220px!important}
+.page-heading{margin:10px 2px 15px!important}
+.page-heading h1{color:#fff!important;font-size:26px!important}
+.page-heading .date-title{color:#a9cad9!important}
+
+.date-navigation{
+  background:rgba(9,30,46,.82)!important;
+  border:1px solid var(--dp-line)!important;
+  border-radius:12px!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+}
+.date-navigation button{
+  background:linear-gradient(135deg,#117bbd,#0b5e91)!important;
+  color:#fff!important;
+  border:1px solid rgba(126,210,232,.20)!important;
+}
+.date-navigation .today-button{
+  background:rgba(255,255,255,.06)!important;
+  color:#bdeaf5!important;
+  border:1px solid rgba(126,210,232,.22)!important;
+}
+.selected-date .date-main{color:#eaf8ff!important}
+.selected-date .date-iso{color:#86a7b8!important}
+
+.stats{gap:12px!important}
+.stat{
+  background:linear-gradient(145deg,rgba(15,42,61,.97),rgba(9,29,44,.97))!important;
+  border:1px solid var(--dp-line)!important;
+  box-shadow:0 9px 24px rgba(0,0,0,.18)!important;
+}
+.stat-icon{
+  background:rgba(24,185,210,.12)!important;
+  color:#62d8e8!important;
+  border:1px solid rgba(24,185,210,.18)
+}
+.stat-label{color:#8eacbc!important}
+.stat-value{color:#f2fbff!important}
+
+.workspace{
+  grid-template-columns:minmax(0,1fr) minmax(320px,365px)!important;
+  gap:15px!important;
+}
+.workspace .agenda-card{order:1}
+.workspace>.card:not(.agenda-card){order:2}
+
+.card{
+  background:linear-gradient(145deg,rgba(13,34,50,.97),rgba(8,26,40,.97))!important;
+  border:1px solid var(--dp-line)!important;
+  border-radius:15px!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.22)!important;
+  color:var(--dp-text)!important;
+}
+.card-title,.agenda-head h2{color:#eefaff!important}
+.card-title .title-icon{color:#49cce0!important}
+label{color:#b7d0dd!important}
+input,select{
+  background:#071b2a!important;
+  color:#edf8ff!important;
+  border:1px solid rgba(122,184,211,.25)!important;
+}
+input::placeholder{color:#66899b!important}
+input:focus,select:focus{
+  border-color:#22b9d4!important;
+  box-shadow:0 0 0 3px rgba(34,185,212,.10)!important
+}
+#paymentBox{
+  background:rgba(24,185,210,.06)!important;
+  border:1px solid rgba(24,185,210,.18)!important;
+}
+.payment-option{color:#c5dbe5!important}
+#message.message-success{background:rgba(45,181,111,.13)!important;color:#80e2ad!important;border-color:rgba(90,218,145,.28)!important}
+#message.message-error{background:rgba(225,70,83,.13)!important;color:#ff9ca4!important;border-color:rgba(225,70,83,.28)!important}
+
+.agenda-card{min-height:520px}
+.agenda-date{color:#82a8b9!important}
+#visits{gap:8px!important}
+.agenda-slot{grid-template-columns:72px minmax(0,1fr)!important;gap:10px!important}
+.slot-time{
+  color:#b9d4df!important;
+  background:#0a2233!important;
+  border:1px solid rgba(116,183,209,.18)!important;
+}
+.slot-body{
+  background:rgba(7,24,37,.76)!important;
+  border:1px solid rgba(116,183,209,.16)!important;
+  border-radius:9px!important;
+  padding:9px 11px!important;
+}
+.slot-empty{color:#67899a!important}
+
+.visit-item{
+  display:grid!important;
+  grid-template-columns:72px minmax(150px,1.15fr) minmax(105px,.8fr) minmax(170px,1.1fr) minmax(240px,auto)!important;
+  align-items:center!important;
+  gap:10px!important;
+  width:100%!important;
+  min-height:62px!important;
+  padding:9px 11px!important;
+  border:1px solid rgba(137,194,216,.16)!important;
+  border-radius:10px!important;
+  background:linear-gradient(145deg,#0d293d,#0b2234)!important;
+  box-shadow:0 5px 15px rgba(0,0,0,.14)!important;
+}
+.visit-item:hover{transform:translateY(-1px);box-shadow:0 9px 20px rgba(0,0,0,.20)!important}
+.visit-item.status-arrived{background:linear-gradient(90deg,rgba(30,125,82,.75),rgba(17,65,58,.90))!important;border-color:rgba(83,220,154,.40)!important}
+.visit-item.status-finished{background:linear-gradient(90deg,rgba(160,121,25,.72),rgba(66,54,25,.90))!important;border-color:rgba(238,206,84,.40)!important}
+.visit-item.status-cancelled{background:linear-gradient(90deg,rgba(75,86,94,.86),rgba(37,48,57,.94))!important;border-color:rgba(174,190,200,.28)!important;opacity:.88}
+
+.visit-time{font-size:14px!important;font-weight:900!important;color:#eaf8ff!important;text-align:center!important}
+.visit-name{color:#eefaff!important;font-size:14px!important}
+.visit-line{color:#88a9b9!important}
+.visit-line strong{color:#a9c5d2}
+.statusLine{gap:5px!important}
+.visit-type,.payment-paid,.payment-free,.status-badge{border:1px solid rgba(255,255,255,.12)!important}
+.visit-type{background:rgba(33,165,210,.15)!important;color:#83def1!important}
+.payment-paid{background:rgba(221,164,44,.17)!important;color:#ffd878!important}
+.payment-free{background:rgba(47,190,125,.15)!important;color:#83e5b5!important}
+.status-badge.arrived{background:rgba(75,218,148,.20)!important;color:#8af0ba!important}
+.status-badge.finished{background:rgba(244,210,74,.18)!important;color:#ffe685!important}
+.status-badge.cancelled{background:rgba(184,198,207,.14)!important;color:#c9d4da!important}
+.status-badge{color:#a9c2cf}
+
+.visit-status-controls{justify-content:flex-end!important;margin-top:0!important}
+.visit-status-button,.visit-delete-button{
+  background:rgba(4,17,28,.42)!important;
+  color:#c7dce5!important;
+  border:1px solid rgba(137,194,216,.20)!important;
+}
+.visit-status-button.arrived.active{background:rgba(45,190,120,.20)!important;color:#8af0ba!important;border-color:rgba(83,220,154,.38)!important}
+.visit-status-button.finished.active{background:rgba(230,193,49,.18)!important;color:#ffe685!important;border-color:rgba(238,206,84,.38)!important}
+.visit-status-button.cancelled.active{background:rgba(180,193,201,.16)!important;color:#d0d9de!important;border-color:rgba(174,190,200,.28)!important}
+.visit-delete-button{color:#ff9ca4!important;border-color:rgba(225,95,105,.25)!important}
+
+.empty,.loading{
+  background:rgba(6,22,34,.72)!important;
+  border:1px dashed rgba(125,180,201,.22)!important;
+  color:#7698a9!important;
+}
+
+#saveButton{
+  background:linear-gradient(135deg,#1599cf,#0b6faf)!important;
+  border:1px solid rgba(120,220,240,.20)!important;
+  box-shadow:0 8px 20px rgba(7,111,175,.22)!important;
+}
+#saveButton:hover{filter:brightness(1.08)}
+
+@media(max-width:1050px){
+  .workspace{grid-template-columns:1fr!important}
+  .workspace .agenda-card{order:1}
+  .workspace>.card:not(.agenda-card){order:2}
+  .visit-item{grid-template-columns:60px 1fr 1fr!important}
+  .visit-status-controls{grid-column:1/-1;justify-content:flex-start!important}
+}
+@media(max-width:760px){
+  .sidebar{background:rgba(4,20,34,.98)!important}
+  .main{padding:10px 12px 30px!important}
+  .topbar{min-height:92px!important;padding:14px!important}
+  .visit-item{grid-template-columns:58px 1fr 1fr!important}
+  .visit-status-controls{grid-column:1/-1}
+}
+@media(max-width:480px){
+  .visit-item{grid-template-columns:55px 1fr!important}
+  .visit-time{grid-row:1/2}
+  .visit-status-controls{grid-column:1/-1}
+}
+</style>
+
 </head>
 <body>
 
