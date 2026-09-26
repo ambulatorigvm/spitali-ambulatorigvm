@@ -581,6 +581,52 @@ input:focus,select:focus{
 .edit-modal{position:fixed;inset:0;background:rgba(2,12,20,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
 .edit-modal.show{display:flex}.edit-box{width:min(480px,100%);background:#10232d;border:1px solid rgba(120,190,210,.22);border-radius:18px;box-shadow:0 25px 70px rgba(0,0,0,.5);padding:24px;color:#eef8fb}.edit-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.edit-head h3{margin:0;font-size:20px}.edit-close{border:0;background:rgba(255,255,255,.08);color:#d9edf2;width:34px;height:34px;border-radius:9px;font-size:20px;cursor:pointer}.edit-box label{display:block;margin:11px 0 6px;color:#a9c3cc;font-size:12px;font-weight:700}.edit-box input,.edit-box select{width:100%;box-sizing:border-box;background:#0b1a22;color:#eef8fb;border:1px solid rgba(140,190,205,.2);border-radius:9px;padding:11px 12px;outline:none}.edit-payment{display:none;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:9px;margin-top:8px}.edit-payment label{display:flex;gap:8px;align-items:center;margin:7px 0;color:#dcecf0;font-weight:600}.edit-actions{display:flex;gap:10px;margin-top:20px}.edit-actions button{flex:1;border-radius:9px;padding:11px;border:1px solid rgba(130,180,195,.2);font-weight:800;cursor:pointer}.edit-save{background:#3bbd8a;color:#062017}.edit-cancel{background:rgba(255,255,255,.06);color:#dcecf0}
 </style>
+
+<style id="final-button-overlap-fix">
+/* Rregullim përfundimtar: butonat e veprimeve zënë një rresht të plotë */
+.visit-item > .visit-status-controls{
+  grid-column:1 / -1 !important;
+  width:100% !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:8px !important;
+  margin-top:6px !important;
+  min-width:0 !important;
+}
+.visit-item > .visit-status-controls > button{
+  position:static !important;
+  display:inline-flex !important;
+  flex:0 0 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:36px !important;
+  padding:0 13px !important;
+  margin:0 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  overflow:visible !important;
+}
+.visit-item > .visit-status-controls > .visit-delete-button{
+  margin-left:0 !important;
+}
+@media(max-width:700px){
+  .visit-item > .visit-status-controls{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:8px !important;
+  }
+  .visit-item > .visit-status-controls > button{
+    width:100% !important;
+  }
+}
+@media(max-width:430px){
+  .visit-item > .visit-status-controls{
+    grid-template-columns:1fr !important;
+  }
+}
+</style>
 </head>
 <body>
 
