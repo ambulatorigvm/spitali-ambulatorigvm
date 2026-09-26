@@ -1743,6 +1743,22 @@ async function loadVisits(){
 
     const slots = {};
 
+    // Në ditën e sotme, fshehim oraret që kanë kaluar dhe janë bosh.
+    // Nëse një orar i kaluar ka vizitë, ai mbetet i dukshëm.
+    const now = new Date();
+    const todayISO =
+        now.getFullYear() + "-" +
+        String(now.getMonth() + 1).padStart(2,"0") + "-" +
+        String(now.getDate()).padStart(2,"0");
+    const isToday = date === todayISO;
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const occupiedTimes = new Set(
+        data.map(function(visit){
+            return String(visit.appointment_time || "").slice(0,5);
+        })
+    );
+
     for(let hour = 8; hour <= 17; hour++){
         for(let minute = 0; minute < 60; minute += 15){
             if(hour === 17 && minute > 0) continue;
@@ -1750,6 +1766,13 @@ async function loadVisits(){
             const slotTime =
                 String(hour).padStart(2,"0") + ":" +
                 String(minute).padStart(2,"0");
+
+            const slotMinutes = hour * 60 + minute;
+
+            // Për sot: oraret e kaluara hiqen vetëm kur nuk kanë vizitë.
+            if(isToday && slotMinutes < currentMinutes && !occupiedTimes.has(slotTime)){
+                continue;
+            }
 
             const slot = document.createElement("div");
             slot.className = "agenda-slot";
@@ -2368,6 +2391,16 @@ async function checkAuth(){
 ========================================================= */
 
 checkAuth();
+
+// Përditëso agjendën periodikisht që oraret bosh të kaluara të zhduken vetë.
+setInterval(function(){
+    const currentDateISO = formatDateISO(selectedDate);
+    const now = new Date();
+    const todayISO = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2,"0") + "-" + String(now.getDate()).padStart(2,"0");
+    if(currentDateISO === todayISO){
+        loadVisits();
+    }
+}, 60000);
 
 /* =========================================================
    LOGOUT
