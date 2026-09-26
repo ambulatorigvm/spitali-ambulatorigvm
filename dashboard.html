@@ -10,10 +10,6 @@
 
 <style>
 
-/* =========================================================
-   RESET
-========================================================= */
-
 *{
     box-sizing:border-box;
 }
@@ -31,11 +27,6 @@ body{
     background:#071923;
     color:#eaf4f8;
 }
-
-
-/* =========================================================
-   APP
-========================================================= */
 
 .app{
     min-height:100vh;
@@ -134,7 +125,7 @@ body{
 
 
 /* =========================================================
-   DATE NAVIGATION
+   DATE
 ========================================================= */
 
 .date-navigation{
@@ -250,13 +241,10 @@ body{
 
 .workspace{
     display:grid;
-
     grid-template-columns:
         minmax(0,1fr)
         minmax(320px,365px);
-
     gap:15px;
-
     align-items:start;
 }
 
@@ -433,11 +421,6 @@ select:focus{
     width:100%;
 }
 
-
-/* =========================================================
-   SLOT
-========================================================= */
-
 .slot{
     width:100%;
     border:1px solid #183b47;
@@ -445,11 +428,6 @@ select:focus{
     overflow:hidden;
     background:#091d26;
 }
-
-
-/* =========================================================
-   EMPTY SLOT
-========================================================= */
 
 .slot-empty{
     min-height:52px;
@@ -464,16 +442,6 @@ select:focus{
 /* =========================================================
    VISIT ITEM
 ========================================================= */
-
-/*
-   STRUKTURA:
-
-   Rreshti 1:
-   KOHA | PACIENTI | LLOJI / PAGESA
-
-   Rreshti 2:
-   5 BUTONAT
-*/
 
 .visit-item{
 
@@ -493,7 +461,6 @@ select:focus{
 
     width:100% !important;
     min-width:0 !important;
-
     min-height:0 !important;
 
     padding:11px 12px 9px !important;
@@ -505,6 +472,35 @@ select:focus{
     position:relative;
 
     overflow:hidden;
+
+    transition:
+        background .2s ease,
+        border-left-color .2s ease;
+}
+
+
+/* =========================================================
+   NGJYROSJA SIPAS STATUSIT
+========================================================= */
+
+.visit-item.status-scheduled{
+    background:#0b222d !important;
+    border-left:4px solid #2995b5 !important;
+}
+
+.visit-item.status-arrived{
+    background:#0d3025 !important;
+    border-left:4px solid #28a66b !important;
+}
+
+.visit-item.status-finished{
+    background:#102b46 !important;
+    border-left:4px solid #3e7ac8 !important;
+}
+
+.visit-item.status-cancelled{
+    background:#35191d !important;
+    border-left:4px solid #c23a3a !important;
 }
 
 
@@ -531,7 +527,6 @@ select:focus{
     font-size:13px;
     font-weight:800;
     color:#eaf7fa;
-
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -545,15 +540,11 @@ select:focus{
 
 .visit-type{
     min-width:0;
-
     align-self:start;
-
     padding-top:3px;
-
     font-size:11px;
     font-weight:700;
     color:#91b0bb;
-
     overflow:hidden;
 }
 
@@ -568,7 +559,7 @@ select:focus{
 
 
 /* =========================================================
-   STATUS CONTROLS
+   BUTTONS
 ========================================================= */
 
 .visit-status-controls{
@@ -601,11 +592,6 @@ select:focus{
 
     overflow:visible !important;
 }
-
-
-/* =========================================================
-   ALL BUTTONS
-========================================================= */
 
 .visit-status-controls button{
 
@@ -657,7 +643,7 @@ select:focus{
 
 
 /* =========================================================
-   BUTTON 1 - KA ARDHUR
+   BUTTON 1
 ========================================================= */
 
 .visit-status-controls .arrived{
@@ -673,7 +659,7 @@ select:focus{
 
 
 /* =========================================================
-   BUTTON 2 - KA MBARUAR
+   BUTTON 2
 ========================================================= */
 
 .visit-status-controls .finished{
@@ -689,7 +675,7 @@ select:focus{
 
 
 /* =========================================================
-   BUTTON 3 - ANULLO
+   BUTTON 3
 ========================================================= */
 
 .visit-status-controls .cancelled{
@@ -705,7 +691,7 @@ select:focus{
 
 
 /* =========================================================
-   BUTTON 4 - NDRYSHO
+   BUTTON 4
 ========================================================= */
 
 .visit-status-controls button:not(
@@ -729,7 +715,7 @@ select:focus{
 
 
 /* =========================================================
-   BUTTON 5 - FSHI
+   BUTTON 5
 ========================================================= */
 
 .visit-status-controls .visit-delete-button{
@@ -745,7 +731,7 @@ select:focus{
 
 
 /* =========================================================
-   EDIT MODAL
+   MODAL
 ========================================================= */
 
 .modal-overlay{
@@ -827,23 +813,17 @@ select:focus{
 }
 
 .btn-secondary{
-
     background:#17343f;
-
     color:#bad0d7;
 }
 
 .btn-primary{
-
     background:#0b7897;
-
     color:white;
 }
 
 .btn-danger{
-
     background:#a52f36;
-
     color:white;
 }
 
@@ -855,144 +835,94 @@ select:focus{
 @media(max-width:1100px){
 
     .workspace{
-
         grid-template-columns:
             minmax(0,1fr)
             minmax(300px,330px);
-
     }
 
     .visit-item{
-
         grid-template-columns:
             60px
             minmax(0,1fr)
             minmax(115px,155px) !important;
-
     }
-
 }
 
-
-/* =========================================================
-   TABLET
-========================================================= */
 
 @media(max-width:950px){
 
     .sidebar{
-
         width:200px;
         min-width:200px;
-
     }
 
     .workspace{
-
         grid-template-columns:1fr;
-
     }
 
     .stats{
-
         grid-template-columns:
             repeat(2,1fr);
-
     }
 
     .visit-item{
-
         grid-template-columns:
             60px
             minmax(0,1fr)
             minmax(120px,160px) !important;
-
     }
-
 }
 
-
-/* =========================================================
-   SMALLER TABLET
-========================================================= */
 
 @media(max-width:820px){
 
     .visit-status-controls{
-
         flex-wrap:wrap !important;
-
     }
-
 }
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media(max-width:700px){
 
     .app{
-
         display:block;
-
     }
 
     .sidebar{
-
         width:100%;
         min-width:0;
-
         padding:14px;
-
     }
 
     .nav{
-
         display:none;
-
     }
 
     .main{
-
         padding:12px;
-
     }
 
     .topbar{
-
         display:block;
-
     }
 
     .user-box{
-
         margin-top:10px;
-
         display:inline-block;
-
     }
 
     .stats{
-
         grid-template-columns:
             1fr 1fr;
-
     }
 
     .agenda-header{
-
         display:block;
-
     }
 
     .search-box{
-
         width:100%;
-
         margin-top:10px;
-
     }
 
     .visit-item{
@@ -1005,7 +935,6 @@ select:focus{
             auto
             auto
             auto !important;
-
     }
 
     .visit-type{
@@ -1014,7 +943,6 @@ select:focus{
         grid-row:2 !important;
 
         padding-top:7px;
-
     }
 
     .visit-status-controls{
@@ -1025,22 +953,14 @@ select:focus{
         flex-wrap:wrap !important;
 
         gap:5px !important;
-
     }
-
 }
 
-
-/* =========================================================
-   VERY SMALL SCREEN
-========================================================= */
 
 @media(max-width:430px){
 
     .visit-status-controls{
-
         gap:5px !important;
-
     }
 
     .visit-status-controls button{
@@ -1051,7 +971,6 @@ select:focus{
         font-size:9px !important;
 
         padding:0 7px !important;
-
     }
 
     .visit-status-controls .arrived{
@@ -1081,18 +1000,12 @@ select:focus{
     .visit-status-controls .visit-delete-button{
         width:76px !important;
     }
-
 }
 
 
 /* =========================================================
    EXTRA PROTECTION
 ========================================================= */
-
-/*
-   Asnjë element i agjendës nuk mund të dalë
-   sipër formularit.
-*/
 
 .agenda-card{
     min-width:0 !important;
@@ -1127,13 +1040,7 @@ select:focus{
 
 <body>
 
-
 <div class="app">
-
-
-<!-- =====================================================
-     SIDEBAR
-====================================================== -->
 
 <aside class="sidebar">
 
@@ -1149,7 +1056,6 @@ select:focus{
 
     </div>
 
-
     <div class="nav">
 
         <div class="nav-item active">
@@ -1161,13 +1067,7 @@ select:focus{
 </aside>
 
 
-
-<!-- =====================================================
-     MAIN
-====================================================== -->
-
 <main class="main">
-
 
 <div class="topbar">
 
@@ -1183,7 +1083,6 @@ select:focus{
 
     </div>
 
-
     <div class="user-box">
         AMBULATORI GVM
     </div>
@@ -1191,53 +1090,32 @@ select:focus{
 </div>
 
 
-
-<!-- =====================================================
-     DATE NAVIGATION
-====================================================== -->
-
 <div class="date-navigation">
 
-    <button
-        id="prevDate"
-        type="button">
+    <button id="prevDate" type="button">
         ‹
     </button>
 
-
     <div class="date-center">
 
-        <div
-            id="selectedDateLabel"
-            class="date-main">
+        <div id="selectedDateLabel" class="date-main">
             -
         </div>
 
-        <div
-            id="selectedDateSmall"
-            class="date-small">
+        <div id="selectedDateSmall" class="date-small">
             -
         </div>
 
     </div>
 
-
-    <button
-        id="nextDate"
-        type="button">
+    <button id="nextDate" type="button">
         ›
     </button>
 
 </div>
 
 
-
-<!-- =====================================================
-     STATS
-====================================================== -->
-
 <div class="stats">
-
 
 <div class="stat-card">
 
@@ -1245,9 +1123,7 @@ select:focus{
         Gjithsej
     </div>
 
-    <div
-        class="stat-value"
-        id="statTotal">
+    <div class="stat-value" id="statTotal">
         0
     </div>
 
@@ -1260,9 +1136,7 @@ select:focus{
         Vizita
     </div>
 
-    <div
-        class="stat-value"
-        id="statVisits">
+    <div class="stat-value" id="statVisits">
         0
     </div>
 
@@ -1275,9 +1149,7 @@ select:focus{
         Rikontrolle
     </div>
 
-    <div
-        class="stat-value"
-        id="statRechecks">
+    <div class="stat-value" id="statRechecks">
         0
     </div>
 
@@ -1290,50 +1162,28 @@ select:focus{
         Të anulluara
     </div>
 
-    <div
-        class="stat-value"
-        id="statCancelled">
+    <div class="stat-value" id="statCancelled">
         0
     </div>
 
 </div>
 
-
 </div>
 
 
+<div id="message" class="message"></div>
 
-<!-- =====================================================
-     MESSAGE
-====================================================== -->
-
-<div
-    id="message"
-    class="message">
-</div>
-
-
-
-<!-- =====================================================
-     WORKSPACE
-====================================================== -->
 
 <div class="workspace">
 
 
-<!-- =====================================================
-     AGENDA
-====================================================== -->
-
 <section class="card agenda-card">
-
 
 <div class="agenda-header">
 
     <div class="agenda-title">
         Agjenda e ditës
     </div>
-
 
     <div class="search-box">
 
@@ -1348,22 +1198,12 @@ select:focus{
 </div>
 
 
-<div
-    id="agendaList"
-    class="agenda-list">
-</div>
-
+<div id="agendaList" class="agenda-list"></div>
 
 </section>
 
 
-
-<!-- =====================================================
-     FORM
-====================================================== -->
-
 <section class="card">
-
 
 <div class="card-title">
 
@@ -1376,7 +1216,6 @@ select:focus{
 </div>
 
 
-
 <label for="patientName">
     Emër + Mbiemër *
 </label>
@@ -1386,7 +1225,6 @@ select:focus{
     id="patientName"
     placeholder="Shkruani emrin dhe mbiemrin"
     autocomplete="off">
-
 
 
 <label for="visitType">
@@ -1406,17 +1244,11 @@ select:focus{
 </select>
 
 
-
-<!-- =====================================================
-     PAYMENT
-====================================================== -->
-
 <div id="paymentBox">
 
     <label>
         Pagesa (vetëm për Rikontroll)
     </label>
-
 
     <label class="payment-option">
 
@@ -1430,7 +1262,6 @@ select:focus{
         </span>
 
     </label>
-
 
     <label class="payment-option">
 
@@ -1448,7 +1279,6 @@ select:focus{
 </div>
 
 
-
 <label for="cardNumber">
 
     Nr. kartelës
@@ -1462,7 +1292,6 @@ select:focus{
 
 </label>
 
-
 <input
     type="text"
     id="cardNumber"
@@ -1470,11 +1299,9 @@ select:focus{
     autocomplete="off">
 
 
-
 <label for="appointmentTime">
     Orari *
 </label>
-
 
 <select id="appointmentTime">
 
@@ -1485,7 +1312,6 @@ select:focus{
 </select>
 
 
-
 <button
     id="saveButton"
     type="button">
@@ -1494,35 +1320,26 @@ select:focus{
 
 </button>
 
-
 </section>
 
-
 </div>
-
 
 </main>
 
 </div>
 
 
-
 <!-- =====================================================
      EDIT MODAL
 ====================================================== -->
 
-<div
-    id="editModal"
-    class="modal-overlay">
-
+<div id="editModal" class="modal-overlay">
 
 <div class="modal">
-
 
 <div class="modal-title">
     Ndrysho Vizitën
 </div>
-
 
 <label for="editPatientName">
     Emër + Mbiemër
@@ -1532,7 +1349,6 @@ select:focus{
     type="text"
     id="editPatientName"
     autocomplete="off">
-
 
 
 <label for="editVisitType">
@@ -1552,13 +1368,11 @@ select:focus{
 </select>
 
 
-
 <div id="editPaymentBox">
 
     <label>
         Pagesa
     </label>
-
 
     <label class="payment-option">
 
@@ -1573,12 +1387,11 @@ select:focus{
 
     </label>
 
-
     <label class="payment-option">
 
         <input
             type="radio"
-        name="editPayment"
+            name="editPayment"
             value="Pa pagesë">
 
         <span>
@@ -1588,7 +1401,6 @@ select:focus{
     </label>
 
 </div>
-
 
 
 <label for="editCardNumber">
@@ -1601,14 +1413,12 @@ select:focus{
     autocomplete="off">
 
 
-
 <label for="editAppointmentTime">
     Orari
 </label>
 
 <select id="editAppointmentTime">
 </select>
-
 
 
 <div class="modal-actions">
@@ -1622,7 +1432,6 @@ select:focus{
 
     </button>
 
-
     <button
         type="button"
         class="btn-primary"
@@ -1634,29 +1443,22 @@ select:focus{
 
 </div>
 
-
 </div>
 
 </div>
-
 
 
 <!-- =====================================================
      DELETE MODAL
 ====================================================== -->
 
-<div
-    id="deleteConfirmModal"
-    class="modal-overlay">
-
+<div id="deleteConfirmModal" class="modal-overlay">
 
 <div class="modal">
-
 
 <div class="modal-title">
     Fshi vizitën
 </div>
-
 
 <div
     style="
@@ -1668,9 +1470,7 @@ select:focus{
 
 </div>
 
-
 <div class="modal-actions">
-
 
 <button
     type="button"
@@ -1681,7 +1481,6 @@ select:focus{
 
 </button>
 
-
 <button
     type="button"
     class="btn-danger"
@@ -1691,14 +1490,11 @@ select:focus{
 
 </button>
 
-
-</div>
-
-
 </div>
 
 </div>
 
+</div>
 
 
 <script>
@@ -1865,7 +1661,6 @@ function createTimeOptions(){
     appointmentTime.innerHTML =
         '<option value="">Zgjidh orën</option>';
 
-
     for(
         let minutes = 12 * 60;
         minutes <= 17 * 60;
@@ -1882,19 +1677,16 @@ function createTimeOptions(){
                 minutes % 60
             ).padStart(2,"0");
 
-
         const value =
             hour +
             ":" +
             minute +
             ":00";
 
-
         const option =
             document.createElement(
                 "option"
             );
-
 
         option.value =
             value;
@@ -1903,7 +1695,6 @@ function createTimeOptions(){
             hour +
             ":" +
             minute;
-
 
         appointmentTime.appendChild(
             option
@@ -1932,7 +1723,6 @@ visitType.addEventListener(
 
             paymentBox.style.display =
                 "none";
-
 
             document
                 .querySelectorAll(
@@ -1968,7 +1758,6 @@ function showMessage(
         "message show " +
         type;
 
-
     setTimeout(
         function(){
 
@@ -1999,8 +1788,8 @@ async function saveVisit(){
     const time =
         appointmentTime.value;
 
-
-    let payment = null;
+    let payment =
+        null;
 
 
     if(!name){
@@ -2302,6 +2091,7 @@ async function loadVisits(){
                 "div"
             );
 
+
         slot.className =
             "slot";
 
@@ -2316,6 +2106,7 @@ async function loadVisits(){
                 document.createElement(
                     "div"
                 );
+
 
             empty.className =
                 "slot-empty";
@@ -2338,36 +2129,18 @@ async function loadVisits(){
                     "div"
                 );
 
+
+            /* =================================================
+               KJO ESHTË PJESA E NGJYROSJES
+            ================================================= */
+
+            const status =
+                visit.status ||
+                "scheduled";
+
             item.className =
-                "visit-item";
-
-
-            /* STATUS BORDER */
-
-            if(
-                visit.status ===
-                "arrived"
-            ){
-
-                item.style.borderLeftColor =
-                    "#28a66b";
-
-            }else if(
-                visit.status ===
-                "finished"
-            ){
-
-                item.style.borderLeftColor =
-                    "#3e7ac8";
-
-            }else if(
-                visit.status ===
-                "cancelled"
-            ){
-
-                item.style.borderLeftColor =
-                    "#c23a3a";
-            }
+                "visit-item status-" +
+                status;
 
 
             /* TIME */
@@ -2465,16 +2238,13 @@ async function loadVisits(){
                 paymentEl.textContent =
                     visit.payment_status;
 
-
                 typeEl.appendChild(
                     paymentEl
                 );
             }
 
 
-            /* =================================================
-               BUTTONS
-            ================================================= */
+            /* BUTTONS */
 
             const controls =
                 document.createElement(
@@ -2484,8 +2254,6 @@ async function loadVisits(){
             controls.className =
                 "visit-status-controls";
 
-
-            /* KA ARDHUR */
 
             const arrived =
                 document.createElement(
@@ -2502,8 +2270,6 @@ async function loadVisits(){
                 "✓ Ka ardhur";
 
 
-            /* KA MBARUAR */
-
             const finished =
                 document.createElement(
                     "button"
@@ -2518,8 +2284,6 @@ async function loadVisits(){
             finished.textContent =
                 "✓ Ka mbaruar";
 
-
-            /* ANULLO */
 
             const cancelled =
                 document.createElement(
@@ -2536,8 +2300,6 @@ async function loadVisits(){
                 "Anullo";
 
 
-            /* NDRYSHO */
-
             const editButton =
                 document.createElement(
                     "button"
@@ -2553,8 +2315,6 @@ async function loadVisits(){
                 "✎ Ndrysho";
 
 
-            /* FSHI */
-
             const deleteButton =
                 document.createElement(
                     "button"
@@ -2569,8 +2329,6 @@ async function loadVisits(){
             deleteButton.textContent =
                 "Fshi vizitën";
 
-
-            /* EVENTS */
 
             arrived.addEventListener(
                 "click",
@@ -2635,8 +2393,6 @@ async function loadVisits(){
             );
 
 
-            /* APPEND BUTTONS */
-
             controls.appendChild(
                 arrived
             );
@@ -2657,8 +2413,6 @@ async function loadVisits(){
                 deleteButton
             );
 
-
-            /* APPEND VISIT */
 
             item.appendChild(
                 timeEl
@@ -2892,30 +2646,25 @@ const editModal =
         "editModal"
     );
 
-
 const editPatientName =
     document.getElementById(
         "editPatientName"
     );
-
 
 const editVisitType =
     document.getElementById(
         "editVisitType"
     );
 
-
 const editPaymentBox =
     document.getElementById(
         "editPaymentBox"
     );
 
-
 const editCardNumber =
     document.getElementById(
         "editCardNumber"
     );
-
 
 const editAppointmentTime =
     document.getElementById(
@@ -2928,7 +2677,6 @@ function createEditTimeOptions(){
     editAppointmentTime.innerHTML =
         "";
 
-
     for(
         let minutes = 12 * 60;
         minutes <= 17 * 60;
@@ -2940,12 +2688,10 @@ function createEditTimeOptions(){
                 Math.floor(minutes / 60)
             ).padStart(2,"0");
 
-
         const minute =
             String(
                 minutes % 60
             ).padStart(2,"0");
-
 
         const value =
             hour +
@@ -2953,12 +2699,10 @@ function createEditTimeOptions(){
             minute +
             ":00";
 
-
         const option =
             document.createElement(
                 "option"
             );
-
 
         option.value =
             value;
@@ -2967,7 +2711,6 @@ function createEditTimeOptions(){
             hour +
             ":" +
             minute;
-
 
         editAppointmentTime.appendChild(
             option
@@ -2990,7 +2733,6 @@ function updateEditPaymentBox(){
 
         editPaymentBox.style.display =
             "none";
-
 
         document
             .querySelectorAll(
@@ -3019,25 +2761,33 @@ function openEditModal(visit){
     editingVisitId =
         visit.id;
 
-
     editPatientName.value =
         visit.patient_name ||
         "";
-
 
     editVisitType.value =
         visit.visit_type ||
         "Vizitë";
 
-
     editCardNumber.value =
         visit.card_number ||
         "";
 
-
     editAppointmentTime.value =
         visit.appointment_time;
 
+    document
+        .querySelectorAll(
+            'input[name="editPayment"]'
+        )
+        .forEach(
+            function(radio){
+
+                radio.checked =
+                    false;
+
+            }
+        );
 
     updateEditPaymentBox();
 
@@ -3053,12 +2803,10 @@ function openEditModal(visit){
                 '"]'
             );
 
-
         if(radio){
 
             radio.checked =
                 true;
-
         }
     }
 
@@ -3114,7 +2862,6 @@ document
 
             const time =
                 editAppointmentTime.value;
-
 
             let payment =
                 null;
@@ -3230,7 +2977,6 @@ document
                 selectedDate.getDate() - 1
             );
 
-
             updateDateDisplay();
 
             await loadVisits();
@@ -3250,7 +2996,6 @@ document
             selectedDate.setDate(
                 selectedDate.getDate() + 1
             );
-
 
             updateDateDisplay();
 
