@@ -577,6 +577,23 @@ input:focus,select:focus{
 </style>
 
 
+<style id="professional-agenda-style">
+/* Agjenda me orare fikse 08:00-17:00 */
+#visits{display:flex!important;flex-direction:column!important;gap:7px!important}
+.agenda-slot{display:grid!important;grid-template-columns:72px minmax(0,1fr)!important;gap:10px!important;align-items:stretch!important;min-height:64px!important}
+.slot-time{display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;background:rgba(10,35,52,.92)!important;border:1px solid rgba(118,185,209,.18)!important;color:#a9d1df!important;font-size:13px!important;font-weight:900!important}
+.slot-body{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important;gap:7px!important;min-width:0!important;padding:6px!important;border-radius:10px!important;background:rgba(6,24,37,.58)!important;border:1px solid rgba(118,185,209,.13)!important}
+.slot-empty{display:flex!important;align-items:center!important;min-height:48px!important;padding:0 12px!important;color:#587787!important;font-size:12px!important;font-weight:600!important}
+.slot-body .visit-item{margin:0!important;width:100%!important;box-sizing:border-box!important}
+@media(max-width:760px){
+  .agenda-slot{grid-template-columns:58px minmax(0,1fr)!important;gap:7px!important}
+  .slot-time{font-size:12px!important}
+  .slot-body{padding:5px!important}
+}
+@media(max-width:430px){
+  .agenda-slot{grid-template-columns:54px minmax(0,1fr)!important}
+}
+</style>
 <style id="edit-visit-style">
 .edit-modal{position:fixed;inset:0;background:rgba(2,12,20,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
 .edit-modal.show{display:flex}.edit-box{width:min(480px,100%);background:#10232d;border:1px solid rgba(120,190,210,.22);border-radius:18px;box-shadow:0 25px 70px rgba(0,0,0,.5);padding:24px;color:#eef8fb}.edit-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.edit-head h3{margin:0;font-size:20px}.edit-close{border:0;background:rgba(255,255,255,.08);color:#d9edf2;width:34px;height:34px;border-radius:9px;font-size:20px;cursor:pointer}.edit-box label{display:block;margin:11px 0 6px;color:#a9c3cc;font-size:12px;font-weight:700}.edit-box input,.edit-box select{width:100%;box-sizing:border-box;background:#0b1a22;color:#eef8fb;border:1px solid rgba(140,190,205,.2);border-radius:9px;padding:11px 12px;outline:none}.edit-payment{display:none;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:9px;margin-top:8px}.edit-payment label{display:flex;gap:8px;align-items:center;margin:7px 0;color:#dcecf0;font-weight:600}.edit-actions{display:flex;gap:10px;margin-top:20px}.edit-actions button{flex:1;border-radius:9px;padding:11px;border:1px solid rgba(130,180,195,.2);font-weight:800;cursor:pointer}.edit-save{background:#3bbd8a;color:#062017}.edit-cancel{background:rgba(255,255,255,.06);color:#dcecf0}
@@ -1560,15 +1577,41 @@ async function loadVisits(){
 
     updateStats(data);
 
-    if(data.length === 0){
-
-        visits.innerHTML =
-            '<div class="empty">Nuk ka vizita të regjistruara për këtë datë.</div>';
-
-        return;
-    }
-
     visits.innerHTML = "";
+
+    const slots = {};
+
+    for(let hour = 8; hour <= 17; hour++){
+        for(let minute = 0; minute < 60; minute += 15){
+            if(hour === 17 && minute > 0) continue;
+
+            const slotTime =
+                String(hour).padStart(2,"0") + ":" +
+                String(minute).padStart(2,"0");
+
+            const slot = document.createElement("div");
+            slot.className = "agenda-slot";
+            slot.dataset.time = slotTime;
+
+            const timeCell = document.createElement("div");
+            timeCell.className = "slot-time";
+            timeCell.textContent = slotTime;
+
+            const body = document.createElement("div");
+            body.className = "slot-body";
+            body.dataset.slotBody = slotTime;
+
+            const empty = document.createElement("div");
+            empty.className = "slot-empty";
+            empty.textContent = "Orar i lirë";
+            body.appendChild(empty);
+
+            slot.appendChild(timeCell);
+            slot.appendChild(body);
+            visits.appendChild(slot);
+            slots[slotTime] = { slot, body, empty };
+        }
+    }
 
     data.forEach(function(visit){
 
@@ -1777,7 +1820,21 @@ async function loadVisits(){
         item.appendChild(statusLine);
         item.appendChild(controls);
 
-        visits.appendChild(item);
+        const slotTime = visit.appointment_time
+            ? String(visit.appointment_time).substring(0,5)
+            : "";
+
+        const target = slots[slotTime];
+
+        if(target){
+            if(target.empty && target.empty.parentNode){
+                target.empty.remove();
+            }
+            target.body.appendChild(item);
+        }
+        else{
+            visits.appendChild(item);
+        }
     });
 
     applyAgendaSearch();
