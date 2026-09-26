@@ -1088,6 +1088,228 @@ html, body{
 }
 </style>
 
+
+<style id="gvm-new-look">
+/* =========================================================
+   GVM — LOOK I RI
+   Vetëm pamja; funksionet ekzistuese nuk ndryshohen.
+========================================================= */
+:root{
+  --gvm-bg:#f4f7f9;
+  --gvm-panel:#ffffff;
+  --gvm-navy:#102a43;
+  --gvm-blue:#176b87;
+  --gvm-cyan:#20a7b8;
+  --gvm-text:#19324a;
+  --gvm-muted:#718497;
+  --gvm-line:#e4ebf0;
+  --gvm-soft:#eef7f8;
+  --gvm-shadow:0 14px 40px rgba(24,55,76,.08);
+}
+
+html,body{background:var(--gvm-bg)!important;color:var(--gvm-text)!important}
+body{font-family:Inter,Segoe UI,Arial,sans-serif!important;background-image:none!important}
+body:before{display:none!important}
+
+.app-shell{min-height:100vh;background:#f4f7f9!important}
+
+/* SIDEBAR */
+.sidebar{
+  width:248px!important;flex-basis:248px!important;
+  background:#102a43!important;
+  border:0!important;
+  padding:26px 16px!important;
+  box-shadow:8px 0 30px rgba(16,42,67,.10)!important;
+}
+.brand-mini{
+  padding:5px 14px 26px!important;
+  margin-bottom:20px!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+}
+.brand-mini strong{color:#fff!important;font-size:20px!important;letter-spacing:.8px!important}
+.brand-mini span{color:#8fb5c5!important;font-size:11px!important;letter-spacing:1.5px!important;text-transform:uppercase}
+.nav-item{
+  color:#b8cfda!important;border-radius:12px!important;margin:4px 0!important;
+  padding:12px 13px!important;font-size:13px!important;font-weight:700!important;
+  transition:.18s ease!important;
+}
+.nav-item:hover{background:rgba(255,255,255,.07)!important;color:#fff!important}
+.nav-item.active{
+  background:linear-gradient(90deg,rgba(32,167,184,.24),rgba(32,167,184,.08))!important;
+  color:#fff!important;border-left:0!important;
+  box-shadow:inset 3px 0 0 #20a7b8!important;
+}
+.nav-icon{color:#82cbd4!important}
+.nav-item.disabled{color:#708b99!important}
+.logout-nav{margin-top:10px!important;border-top:1px solid rgba(255,255,255,.08)!important;border-radius:0!important;padding-top:18px!important}
+.sidebar-footer{color:#6f91a1!important}
+
+/* MAIN */
+.main{padding:24px 30px 50px!important;background:#f4f7f9!important}
+.content{max-width:1320px!important}
+.topbar{
+  max-width:1320px!important;margin:0 auto 20px!important;
+  min-height:78px!important;padding:15px 20px!important;
+  background:#fff!important;border:1px solid #e4ebf0!important;
+  border-radius:18px!important;box-shadow:0 8px 28px rgba(25,55,75,.06)!important;
+}
+.logo-mark{
+  width:48px!important;height:48px!important;border-radius:14px!important;
+  background:linear-gradient(135deg,#1c829b,#20a7b8)!important;
+  box-shadow:0 8px 18px rgba(32,167,184,.20)!important;
+}
+.hospital-name,.ambulatory-name{color:#102a43!important}
+.top-date{color:#718497!important}
+.page-heading{margin:0 0 18px!important;display:block!important}
+.page-heading h1{color:#102a43!important;text-shadow:none!important;font-size:28px!important;letter-spacing:-.5px}
+.date-title{color:#718497!important;text-shadow:none!important}
+
+/* DATE CARD */
+.date-navigation-modern{
+  margin-top:15px!important;
+  background:#fff!important;
+  border:1px solid #e4ebf0!important;
+  border-radius:18px!important;
+  box-shadow:var(--gvm-shadow)!important;
+  padding:14px!important;
+}
+.date-top-row{min-height:54px!important}
+.date-arrow{
+  width:42px!important;height:42px!important;border-radius:12px!important;
+  background:#f0f6f8!important;color:#176b87!important;box-shadow:none!important;
+  font-size:28px!important;
+}
+.date-arrow:hover{background:#e2f3f5!important;filter:none!important}
+.selected-date{text-align:center!important}
+.date-main{color:#102a43!important;font-size:17px!important;font-weight:850!important}
+.date-iso{color:#8a9aa7!important}
+.week-strip{gap:8px!important;margin-top:12px!important}
+.week-day{
+  border:1px solid #e4ebf0!important;background:#f8fafb!important;
+  border-radius:12px!important;min-height:54px!important;
+}
+.week-day:hover{border-color:#b9dfe5!important;background:#f1fafb!important}
+.week-day.active,.week-day.selected{background:#176b87!important;border-color:#176b87!important;color:#fff!important}
+.date-bottom-row{margin-top:12px!important}
+.today-button{
+  width:auto!important;min-width:86px!important;background:#102a43!important;
+  border-radius:10px!important;box-shadow:none!important;
+}
+.date-picker-wrap{background:#f7fafb!important;border:1px solid #e4ebf0!important;border-radius:10px!important}
+
+/* TWO MAIN CARDS */
+.workspace{grid-template-columns:340px minmax(0,1fr)!important;gap:20px!important;align-items:start!important}
+.card{
+  background:#fff!important;border:1px solid #e4ebf0!important;
+  border-radius:18px!important;box-shadow:var(--gvm-shadow)!important;
+  padding:22px!important;
+}
+.workspace>.card:first-child{position:sticky;top:20px}
+.card-title{font-size:17px!important;color:#102a43!important;margin-bottom:20px!important}
+.card-title .title-icon{width:32px;height:32px;border-radius:10px;background:#e7f6f7;display:flex;align-items:center;justify-content:center;color:#176b87!important}
+label{color:#486276!important;font-size:12px!important;letter-spacing:.1px}
+input,select{
+  height:46px!important;border:1px solid #dce6eb!important;
+  background:#fbfcfd!important;border-radius:11px!important;color:#19324a!important;
+  box-shadow:none!important;
+}
+input:hover,select:hover{border-color:#bcd5dd!important}
+input:focus,select:focus{border-color:#20a7b8!important;box-shadow:0 0 0 4px rgba(32,167,184,.10)!important}
+#paymentBox{background:#f3fafb!important;border:1px solid #d9ecef!important;border-radius:12px!important}
+.payment-option{color:#36576b!important}
+#saveButton{
+  height:48px!important;margin-top:5px!important;border-radius:12px!important;
+  background:linear-gradient(135deg,#176b87,#20a7b8)!important;
+  box-shadow:0 8px 18px rgba(23,107,135,.18)!important;
+  font-size:14px!important;
+}
+#saveButton:hover{transform:translateY(-1px);filter:none!important}
+
+/* AGENDA */
+.agenda-card{min-height:0!important}
+.agenda-head{padding-bottom:14px!important;border-bottom:1px solid #edf1f4!important}
+.agenda-head h2{font-size:19px!important;color:#102a43!important}
+.agenda-date{background:#eef7f8!important;color:#176b87!important;padding:7px 10px!important;border-radius:999px!important}
+.agenda-search{margin-top:14px!important;background:#f7fafb!important;border:1px solid #e3ebef!important;border-radius:12px!important}
+.agenda-search input{background:transparent!important;border:0!important;margin:0!important;box-shadow:none!important}
+.status-filters{padding:5px!important;background:#f3f6f8!important;border-radius:12px!important;margin:10px 0 14px!important;gap:4px!important}
+.status-filter-btn{height:34px!important;background:transparent!important;color:#667c8b!important;box-shadow:none!important;border-radius:9px!important;font-size:11px!important}
+.status-filter-btn.active{background:#fff!important;color:#176b87!important;box-shadow:0 2px 8px rgba(25,55,75,.08)!important}
+
+/* APPOINTMENT ROWS */
+#visits{gap:9px!important}
+.agenda-slot{
+  grid-template-columns:76px minmax(0,1fr)!important;
+  gap:10px!important;min-height:66px!important;
+}
+.slot-time{
+  background:#f2f7f8!important;border:0!important;border-radius:12px!important;
+  color:#486276!important;font-size:13px!important;
+}
+.slot-body{
+  background:#fff!important;border:1px solid #e5edf1!important;border-radius:12px!important;
+  box-shadow:0 3px 12px rgba(25,55,75,.035)!important;
+}
+.slot-empty{color:#a3b2bb!important}
+.slot-visit{
+  border-left:4px solid #20a7b8!important;
+  background:#fbfdfe!important;border-radius:10px!important;
+}
+.slot-visit.control{border-left-color:#7c72d8!important}
+.visit-name{color:#19324a!important;font-size:14px!important}
+.visit-line{color:#8497a3!important}
+.visit-type{background:#e8f6f7!important;color:#176b87!important}
+.payment-paid{background:#fff4df!important;color:#a26a05!important}
+.payment-free{background:#e4f7ed!important;color:#18704b!important}
+.status-badge{border-radius:999px!important;font-size:10px!important;padding:5px 8px!important}
+.visit-status-controls{gap:5px!important}
+.visit-status-button,.visit-delete-button,.delete-button{
+  border-radius:9px!important;box-shadow:none!important;height:32px!important;
+  font-size:10px!important;padding:0 9px!important;
+}
+
+/* MESAZH / EMPTY */
+#message{border-radius:12px!important}
+.empty,.loading{background:#f8fafb!important;border:1px dashed #d5e2e8!important;border-radius:12px!important}
+
+/* MODAL */
+.edit-modal{background:rgba(9,25,38,.62)!important;backdrop-filter:blur(8px)!important}
+.edit-box{
+  background:#fff!important;color:#19324a!important;border:1px solid #e4ebf0!important;
+  border-radius:20px!important;box-shadow:0 30px 80px rgba(10,30,45,.25)!important;
+}
+.edit-head h3{color:#102a43!important}
+.edit-close{background:#f1f5f7!important;color:#5e7482!important;box-shadow:none!important}
+.edit-cancel{background:#eef2f4!important;color:#526a79!important;box-shadow:none!important}
+.edit-save{background:linear-gradient(135deg,#176b87,#20a7b8)!important}
+
+/* MOBILE */
+@media(max-width:1050px){
+  .sidebar{width:210px!important;flex-basis:210px!important}
+  .workspace{grid-template-columns:1fr!important}
+  .workspace>.card:first-child{position:static}
+}
+@media(max-width:760px){
+  .main{padding:12px 12px 32px!important}
+  .topbar{border-radius:14px!important;padding:12px!important}
+  .sidebar{width:100%!important;display:block!important;padding:10px!important}
+  .brand-mini{display:none!important}
+  .nav-item{display:inline-flex!important;width:auto!important;margin:2px!important;padding:9px 10px!important}
+  .logout-nav{border-top:0!important;padding-top:9px!important}
+  .page-heading h1{font-size:23px!important}
+  .workspace{gap:12px!important}
+  .card{padding:16px!important;border-radius:15px!important}
+  .date-navigation-modern{border-radius:15px!important}
+  .week-strip{overflow-x:auto!important}
+  .week-day{min-width:58px!important}
+}
+@media(max-width:480px){
+  .logo-names{display:block!important}
+  .hospital-name,.ambulatory-name{font-size:16px!important}
+  .top-date{font-size:12px!important}
+  .agenda-slot{grid-template-columns:58px minmax(0,1fr)!important}
+}
+</style>
 </head>
 <body>
 
