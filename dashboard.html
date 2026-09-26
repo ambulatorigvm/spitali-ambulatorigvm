@@ -1414,6 +1414,32 @@ body:before{display:none!important}
 .patient-suggestion-card{font-size:12px;color:#18b9d2;white-space:nowrap;}
 .patient-suggestion-empty{padding:12px;color:#9bb5c5;font-size:13px;}
 </style>
+
+<style id="final-dark-visit-fix">
+/* Vizitat duhet te lexohen qarte ne temen e erret */
+.visit-item{
+  background:linear-gradient(145deg,#10283a,#0b1d2c)!important;
+  border:1px solid #274758!important;
+  color:#f3f9fc!important;
+  box-shadow:0 7px 22px rgba(0,0,0,.22)!important;
+}
+.visit-item:hover{
+  background:linear-gradient(145deg,#143247,#0d2233)!important;
+}
+.visit-item .visit-name{color:#f2f9fc!important;font-weight:850!important;}
+.visit-item .visit-line{color:#9eb6c2!important;}
+.visit-item .visit-line strong{color:#c5dbe4!important;}
+.visit-item .visit-time{color:#6ee7f5!important;}
+.visit-item .visit-status-controls button{
+  background:#10283a!important;
+  color:#d7e8ef!important;
+  border:1px solid #315364!important;
+}
+.visit-item .visit-status-controls button:hover{background:#16384c!important;}
+.visit-item.status-arrived{background:linear-gradient(90deg,rgba(30,125,82,.75),rgba(17,65,58,.95))!important;}
+.visit-item.status-finished{background:linear-gradient(90deg,rgba(160,121,25,.72),rgba(66,54,25,.95))!important;}
+.visit-item.status-cancelled{background:linear-gradient(90deg,rgba(75,86,94,.86),rgba(37,48,57,.95))!important;}
+</style>
 </head>
 <body>
 
