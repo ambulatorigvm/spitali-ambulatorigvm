@@ -1,3 +1,56 @@
+Shumë mirë! ✅
+
+Faza 1 u mbyll me sukses. Tani kemi:
+
+📅 Zgjedhje të datës
+◀️ Dita para
+▶️ Dita pas
+🟢 Butoni Sot
+⏰ Orari 08:00–17:00 / çdo 15 minuta
+🔐 Login / Logout
+➕ Shtim vizite
+✏️ Editim
+🗑️ Fshirje
+🔄 Ndryshim statusi
+💾 Ruajtje në Supabase
+Tani kalojmë te Faza 2: 🔎 Kërkimi
+
+Do të shtojmë një kuti kërkimi ku mund të shkruash emrin, mbiemrin ose nr. e kartelës dhe agjenda do të filtrohet menjëherë.
+
+Edhe këtu do të ndryshojmë vetëm pjesën e kërkimit, pa prekur funksionet e tjera.
+
+ok
+
+Po. 😊 E kontrollova versionin aktual dhe Faza 2 është tashmë e implementuar në këtë version: kërkimi me emër dhe nr. kartelës, butoni × për pastrim dhe numërimi i rezultateve.
+
+Pra nuk do të ndryshojmë asgjë, sepse do të ishte ndryshim i panevojshëm dhe rrezikonte versionin që sapo konfirmove se funksionon.
+
+Tani mund të kalojmë direkt te Faza 3: filtrat sipas statusit.
+
+po kalojme
+
+U krye Faza 3 – Filtrat sipas statusit. ✅
+
+Tani në agjendë ke:
+
+Të gjitha
+Në pritje
+Ka ardhur
+Ka mbaruar
+Anulluar
+
+Filtri punon bashkë me kërkimin. Pra mund të zgjedhësh p.sh. “Ka ardhur” dhe pastaj të kërkosh një pacient.
+
+E kontrollova edhe JavaScript-in dhe nuk ka gabim sintakse.
+
+📥 Shkarko dashboard.html
+
+Zëvendësoje në GitHub → 
+Commit changes → Ctrl + F5.
+
+Pastaj 
+provo vetëm butonat e filtrit. Nëse janë në rregull, kalojmë te Faza 4 – përmirësimi i statistikave.
+
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -648,6 +701,14 @@ input:focus,select:focus{
 @media(max-width:900px){.date-navigation{flex-wrap:wrap}.date-picker-wrap{order:5;width:100%;justify-content:center}}
 @media(max-width:620px){.date-picker-wrap input{width:135px!important}}
 </style>
+
+<style id="status-filter-style">
+.status-filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px;padding:9px;background:rgba(7,27,42,.92);border:1px solid rgba(122,184,211,.22);border-radius:10px}
+.status-filter-btn{width:auto!important;min-width:0!important;height:36px!important;padding:0 12px!important;margin:0!important;border:1px solid rgba(122,184,211,.20)!important;border-radius:9px!important;background:rgba(255,255,255,.04)!important;color:#9fb8c6!important;box-shadow:none!important;font-size:12px!important;font-weight:700!important;cursor:pointer}
+.status-filter-btn:hover{background:rgba(24,185,210,.10)!important;color:#fff!important}
+.status-filter-btn.active{background:#167d98!important;border-color:#36b7d0!important;color:#fff!important}
+@media(max-width:620px){.status-filters{gap:6px}.status-filter-btn{flex:1 1 calc(50% - 6px)!important}}
+</style>
 </head>
 <body>
 
@@ -743,7 +804,7 @@ input:focus,select:focus{
         <section class="card agenda-card">
           <div class="agenda-head">
             <h2>▣ &nbsp; Agjenda e Ditës</h2>
-            <div class="agenda-date">12:00 — 17:00</div>
+            <div class="agenda-date">08:00 — 17:00</div>
           </div>
           <div class="agenda-search">
             <span class="agenda-search-icon">⌕</span>
@@ -751,6 +812,13 @@ input:focus,select:focus{
             <button id="clearAgendaSearch" type="button" title="Pastro kërkimin">×</button>
           </div>
           <div id="agendaSearchInfo" class="agenda-search-info"></div>
+          <div class="status-filters" id="statusFilters">
+            <button type="button" class="status-filter-btn active" data-status-filter="all">Të gjitha</button>
+            <button type="button" class="status-filter-btn" data-status-filter="scheduled">Në pritje</button>
+            <button type="button" class="status-filter-btn" data-status-filter="arrived">Ka ardhur</button>
+            <button type="button" class="status-filter-btn" data-status-filter="finished">Ka mbaruar</button>
+            <button type="button" class="status-filter-btn" data-status-filter="cancelled">Anulluar</button>
+          </div>
           <div id="visits">
             <div class="loading">Po ngarkohen vizitat...</div>
           </div>
@@ -834,6 +902,7 @@ const todayDate =
 
 let selectedDate = new Date();
 let agendaSearchText = "";
+let agendaStatusFilter = "all";
 
 function formatDateISO(date){
     const year = date.getFullYear();
@@ -1297,6 +1366,8 @@ async function loadVisits(){
         const currentStatus =
             visit.status || "scheduled";
 
+        item.dataset.status = currentStatus;
+
         let statusLabel = "Në pritje";
         let statusClass = "";
 
@@ -1499,15 +1570,23 @@ function applyAgendaSearch(){
     let visible = 0;
 
     items.forEach(function(item){
-        const match = !query || (item.dataset.searchText || "").includes(query);
+        const textMatch = !query || (item.dataset.searchText || "").includes(query);
+        const statusMatch = agendaStatusFilter === "all" || item.dataset.status === agendaStatusFilter;
+        const match = textMatch && statusMatch;
         item.style.display = match ? "grid" : "none";
         if(match) visible++;
     });
 
     const info = document.getElementById("agendaSearchInfo");
     if(!info) return;
-    info.textContent = query ? (visible + " vizita u gjetën") : "";
+
+    if(query || agendaStatusFilter !== "all"){
+        info.textContent = visible + " vizita u gjetën";
+    }else{
+        info.textContent = "";
+    }
 }
+
 
 
 /* =========================================================
@@ -1718,6 +1797,25 @@ if(clearAgendaSearch){
 
 
 /* =========================================================
+   FILTRAT E STATUSIT
+========================================================= */
+
+const statusFilterButtons = document.querySelectorAll(".status-filter-btn");
+
+statusFilterButtons.forEach(function(button){
+    button.addEventListener("click", function(){
+        agendaStatusFilter = button.dataset.statusFilter || "all";
+
+        statusFilterButtons.forEach(function(btn){
+            btn.classList.toggle("active", btn === button);
+        });
+
+        applyAgendaSearch();
+    });
+});
+
+
+/* =========================================================
    BUTONI RUAJ VIZITEN
 ========================================================= */
 
@@ -1804,3 +1902,5 @@ if(logoutButton){
 
 </body>
 </html>
+dashboard.html
+HTML
