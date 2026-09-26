@@ -1586,6 +1586,93 @@ const db =
 
 console.log("AMBULATORI GVM: Supabase client u inicializua");
 
+/* =========================================================
+   KERKIMI I PACIENTEVE TE REGJISTRUAR
+========================================================= */
+
+const patientSuggestions = document.getElementById("patientSuggestions");
+let patientSearchTimer = null;
+
+function hidePatientSuggestions(){
+    if(patientSuggestions){
+        patientSuggestions.style.display = "none";
+        patientSuggestions.innerHTML = "";
+    }
+}
+
+function showPatientSuggestions(items){
+    if(!patientSuggestions) return;
+    patientSuggestions.innerHTML = "";
+
+    if(!items || !items.length){
+        patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Nuk u gjet pacient me këtë emër.</div>';
+        patientSuggestions.style.display = "block";
+        return;
+    }
+
+    items.forEach(function(patient){
+        const row = document.createElement("div");
+        row.className = "patient-suggestion";
+        row.innerHTML = '<span class="patient-suggestion-name"></span><span class="patient-suggestion-card"></span>';
+        row.querySelector(".patient-suggestion-name").textContent = patient.full_name || "";
+        row.querySelector(".patient-suggestion-card").textContent = patient.card_number ? "Kartela: " + patient.card_number : "";
+        row.addEventListener("mousedown", function(event){
+            event.preventDefault();
+            patientName.value = patient.full_name || "";
+            cardNumber.value = patient.card_number || "";
+            hidePatientSuggestions();
+        });
+        patientSuggestions.appendChild(row);
+    });
+    patientSuggestions.style.display = "block";
+}
+
+async function searchRegisteredPatients(){
+    const query = patientName.value.trim();
+    if(query.length < 2){
+        hidePatientSuggestions();
+        return;
+    }
+
+    console.log("Kërko pacient:", query);
+
+    const result = await db
+        .from("patients")
+        .select("id,full_name,card_number")
+        .or("full_name.ilike.%" + query + "%,card_number.ilike.%" + query + "%")
+        .order("full_name", {ascending:true})
+        .limit(10);
+
+    if(result.error){
+        console.error("PATIENT SEARCH ERROR:", result.error);
+        if(patientSuggestions){
+            patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Gabim gjatë kërkimit të pacientëve.</div>';
+            patientSuggestions.style.display = "block";
+        }
+        return;
+    }
+
+    showPatientSuggestions(result.data || []);
+}
+
+if(patientName){
+    patientName.addEventListener("input", function(){
+        clearTimeout(patientSearchTimer);
+        patientSearchTimer = setTimeout(searchRegisteredPatients, 300);
+    });
+
+    patientName.addEventListener("focus", function(){
+        if(patientName.value.trim().length >= 2) searchRegisteredPatients();
+    });
+
+    document.addEventListener("click", function(event){
+        if(!event.target.closest(".patient-search-wrap")){
+            hidePatientSuggestions();
+        }
+    });
+}
+
+
 
 /* =========================================================
    ELEMENTET
@@ -1622,82 +1709,6 @@ const todayDate =
 /* =========================================================
    KERKIMI I PACIENTEVE
 ========================================================= */
-
-const patientSuggestions = document.getElementById("patientSuggestions");
-let patientSearchTimer = null;
-
-function hidePatientSuggestions(){
-    if(patientSuggestions){
-        patientSuggestions.style.display = "none";
-        patientSuggestions.innerHTML = "";
-    }
-}
-
-function showPatientSuggestions(items){
-    if(!patientSuggestions) return;
-    patientSuggestions.innerHTML = "";
-    if(!items || !items.length){
-        patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Nuk u gjet pacient me këtë emër.</div>';
-        patientSuggestions.style.display = "block";
-        return;
-    }
-    items.forEach(function(patient){
-        const row = document.createElement("div");
-        row.className = "patient-suggestion";
-        row.innerHTML = '<span class="patient-suggestion-name"></span><span class="patient-suggestion-card"></span>';
-        row.querySelector(".patient-suggestion-name").textContent = patient.full_name || "";
-        row.querySelector(".patient-suggestion-card").textContent = patient.card_number ? "Kartela: " + patient.card_number : "";
-        row.addEventListener("mousedown", function(event){
-            event.preventDefault();
-            patientName.value = patient.full_name || "";
-            cardNumber.value = patient.card_number || "";
-            hidePatientSuggestions();
-        });
-        patientSuggestions.appendChild(row);
-    });
-    patientSuggestions.style.display = "block";
-}
-
-async function searchRegisteredPatients(){
-    const query = patientName.value.trim();
-    if(query.length < 2){
-        hidePatientSuggestions();
-        return;
-    }
-
-    const result = await db
-        .from("patients")
-        .select("id,full_name,card_number")
-        .ilike("full_name", "%" + query + "%")
-        .order("full_name", {ascending:true})
-        .limit(10);
-
-    if(result.error){
-        console.error("PATIENT SEARCH ERROR:", result.error);
-        hidePatientSuggestions();
-        return;
-    }
-
-    showPatientSuggestions(result.data || []);
-}
-
-if(patientName){
-    patientName.addEventListener("input", function(){
-        clearTimeout(patientSearchTimer);
-        patientSearchTimer = setTimeout(searchRegisteredPatients, 250);
-    });
-
-    patientName.addEventListener("focus", function(){
-        if(patientName.value.trim().length >= 2) searchRegisteredPatients();
-    });
-
-    document.addEventListener("click", function(event){
-        if(!event.target.closest(".patient-search-wrap")){
-            hidePatientSuggestions();
-        }
-    });
-}
-
 
 /* =========================================================
    DATA E SOTME
