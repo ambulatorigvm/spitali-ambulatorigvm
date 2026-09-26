@@ -125,6 +125,59 @@ button:hover{filter:brightness(.96)}
  .hospital-logo{align-items:flex-start}.logo-mark{width:42px;height:42px;font-size:24px}
 }
 </style>
+
+<style id="step5-date-nav">
+.date-navigation{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin:0 0 18px;
+    padding:12px;
+    background:#f5f9fb;
+    border:1px solid #d8e4e9;
+    border-radius:10px;
+}
+.date-navigation button{
+    width:auto;
+    min-width:110px;
+    height:40px;
+    padding:0 15px;
+    font-size:13px;
+    box-shadow:none;
+}
+.date-navigation .today-button{
+    background:#fff;
+    color:#176b8c;
+    border:1px solid #bcd1da;
+}
+.date-navigation .today-button:hover{
+    background:#edf7f9;
+}
+.selected-date{
+    text-align:center;
+    flex:1;
+}
+.selected-date .date-main{
+    display:block;
+    color:#123b52;
+    font-size:17px;
+    font-weight:800;
+    text-transform:capitalize;
+}
+.selected-date .date-iso{
+    display:block;
+    color:#7a8d97;
+    font-size:11px;
+    margin-top:3px;
+}
+@media(max-width:620px){
+    .date-navigation{gap:7px;padding:9px}
+    .date-navigation button{min-width:0;padding:0 9px}
+    .selected-date .date-main{font-size:14px}
+}
+</style>
+
 </head>
 <body>
 
@@ -161,7 +214,18 @@ button:hover{filter:brightness(.96)}
     <div class="content">
       <div class="page-heading">
         <h1>Paneli i Ambulatorit</h1>
-        <div id="todayDate" class="date-title"></div>
+        
+<div class="date-navigation">
+    <button type="button" id="prevDate">← Dita e mëparshme</button>
+    <button type="button" class="today-button" id="todayButton">Sot</button>
+    <div class="selected-date">
+        <span class="date-main" id="selectedDateLabel"></span>
+        <span class="date-iso" id="selectedDateIso"></span>
+    </div>
+    <button type="button" id="nextDate">Dita tjetër →</button>
+</div>
+
+    <div id="todayDate" class="date-title"></div>
       </div>
 
       <div class="stats">
@@ -235,6 +299,8 @@ const db =
         SUPABASE_KEY
     );
 
+console.log("AMBULATORI GVM: Supabase client u inicializua");
+
 
 /* =========================================================
    ELEMENTET
@@ -272,30 +338,18 @@ const todayDate =
    DATA E SOTME
 ========================================================= */
 
-function getToday(){
+let selectedDate = new Date();
 
+function formatDateISO(date){
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2,"0");
+    const day = String(date.getDate()).padStart(2,"0");
+    return year + "-" + month + "-" + day;
+}
+
+function isToday(date){
     const now = new Date();
-
-    const year =
-        now.getFullYear();
-
-    const month =
-        String(
-            now.getMonth() + 1
-        ).padStart(2,"0");
-
-    const day =
-        String(
-            now.getDate()
-        ).padStart(2,"0");
-
-    return (
-        year +
-        "-" +
-        month +
-        "-" +
-        day
-    );
+    return formatDateISO(date) === formatDateISO(now);
 }
 
 
@@ -303,31 +357,29 @@ function getToday(){
    SHFAQ DATEN
 ========================================================= */
 
-function showTodayDate(){
+function showSelectedDate(){
+    const formatted = selectedDate.toLocaleDateString(
+        "sq-AL",
+        {
+            weekday:"long",
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+        }
+    );
 
-    const now = new Date();
+    todayDate.textContent = formatted;
 
-    const topDate = document.getElementById("topDate");
-    if(topDate){
-        topDate.textContent = now.toLocaleDateString("sq-AL", {
-            weekday:"long", year:"numeric", month:"long", day:"numeric"
-        });
+    const label = document.getElementById("selectedDateLabel");
+    const iso = document.getElementById("selectedDateIso");
+
+    if(label){
+        label.textContent = formatted;
     }
 
-    const formatted =
-        now.toLocaleDateString(
-            "sq-AL",
-            {
-                weekday:"long",
-                year:"numeric",
-                month:"long",
-                day:"numeric"
-            }
-        );
-
-    todayDate.textContent =
-        formatted;
-
+    if(iso){
+        iso.textContent = formatDateISO(selectedDate);
+    }
 }
 
 
@@ -544,7 +596,7 @@ async function saveVisit(){
 
 
     const date =
-        getToday();
+        formatDateISO(selectedDate);
 
 
     /* DISABLE BUTTON */
@@ -571,8 +623,10 @@ async function saveVisit(){
 
     /* INSERT SUPABASE */
 
-    const result =
-        await db
+    let result;
+
+    try {
+        result = await db
             .from("appointments")
             .insert({
                 appointment_date: date,
@@ -582,12 +636,18 @@ async function saveVisit(){
                 visit_type: type,
                 payment_status: payment
             });
+    } catch (err) {
+        console.error("SUPABASE INSERT EXCEPTION:", err);
+        showMessage(
+            "Gabim gjatë ruajtjes: " + (err.message || err),
+            "error"
+        );
+        saveButton.disabled = false;
+        saveButton.textContent = "Ruaj Vizitën";
+        return;
+    }
 
-
-    console.log(
-        "Supabase result:",
-        result
-    );
+    console.log("Supabase result:", result);
 
 
     /* GABIM */
@@ -862,16 +922,53 @@ async function deleteVisit(
 saveButton.addEventListener("click", saveVisit);
 
 
+
+/* =========================================================
+   NAVIGIMI I DATËS
+========================================================= */
+
+function changeDate(days){
+    const next = new Date(selectedDate);
+    next.setDate(next.getDate() + days);
+    selectedDate = next;
+
+    showSelectedDate();
+    loadVisits();
+}
+
+document.getElementById("prevDate").addEventListener(
+    "click",
+    function(){
+        changeDate(-1);
+    }
+);
+
+document.getElementById("nextDate").addEventListener(
+    "click",
+    function(){
+        changeDate(1);
+    }
+);
+
+document.getElementById("todayButton").addEventListener(
+    "click",
+    function(){
+        selectedDate = new Date();
+        showSelectedDate();
+        loadVisits();
+    }
+);
+
+
 /* =========================================================
    START
 ========================================================= */
 
-showTodayDate();
+showSelectedDate();
 
 createTimeOptions();
 
 loadVisits();
-
 
 </script>
 </body>
