@@ -1386,6 +1386,31 @@ body:before{display:none!important}
 .workspace>.card:first-child .payment-option{font-size:13px!important;padding:7px 10px!important}
 @media(max-width:1050px){.workspace>.card:first-child{max-width:none!important}}
 </style>
+
+<style id="gvm-agenda-wider">
+/* Agjenda më e gjerë në desktop */
+.workspace{
+  grid-template-columns: minmax(270px, 0.72fr) minmax(0, 2.28fr) !important;
+  gap: 20px !important;
+}
+.workspace .agenda-card{
+  width:100% !important;
+  min-width:0 !important;
+}
+.workspace>.card:not(.agenda-card){
+  max-width:340px !important;
+  justify-self:start !important;
+}
+.agenda-card{
+  min-height:600px !important;
+}
+.agenda-head h2{font-size:22px !important}
+.agenda-date{font-size:14px !important}
+@media(max-width:1050px){
+  .workspace{grid-template-columns:1fr !important}
+  .workspace>.card:not(.agenda-card){max-width:none !important}
+}
+</style>
 </head>
 <body>
 
