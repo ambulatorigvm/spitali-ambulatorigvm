@@ -33,6 +33,7 @@ body:before{
   display:flex;align-items:center;gap:13px;padding:13px 14px;margin:3px 0;
   border-radius:9px;color:#174e6c;font-weight:700;font-size:14px
 }
+.nav-item{width:100%;border:0;background:transparent;text-align:left;font-family:inherit;cursor:pointer}.nav-item:hover{background:#edf6fa}.nav-item.disabled{opacity:.52;cursor:default}.nav-item.disabled:hover{background:transparent}.nav-icon{width:22px;text-align:center;font-size:18px}
 .nav-item.active{background:#dceff7;color:#087aa1;border-left:3px solid var(--cyan)}
 .nav-icon{width:24px;text-align:center;font-size:18px}
 .sidebar-footer{margin-top:auto;padding:14px 12px;color:#78909e;font-size:11px;line-height:1.6}
@@ -133,12 +134,12 @@ button:hover{filter:brightness(.96)}
       <strong>SPITALI GVM</strong>
       <span>AMBULATORI GVM</span>
     </div>
-    <div class="nav-item active"><span class="nav-icon">⌂</span> Dashboard</div>
-    <div class="nav-item"><span class="nav-icon">▣</span> Agjenda</div>
-    <div class="nav-item"><span class="nav-icon">♙</span> Vizitat</div>
-    <div class="nav-item"><span class="nav-icon">⌕</span> Kërko</div>
-    <div class="nav-item"><span class="nav-icon">▥</span> Raporte</div>
-    <div class="nav-item"><span class="nav-icon">⚙</span> Cilësimet</div>
+    <button class="nav-item active" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+    <button class="nav-item" type="button" onclick="document.querySelector('.agenda-card').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">▣</span><span>Agjenda</span></button>
+    <button class="nav-item" type="button" onclick="document.querySelector('#visits').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">♙</span><span>Vizitat</span></button>
+    <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⌕</span><span>Kërko</span></button>
+    <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">▥</span><span>Raporte</span></button>
+    <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⚙</span><span>Cilësimet</span></button>
     <div class="sidebar-footer">
       SPITALI GVM<br>AMBULATORI GVM<br>Sistemi i Menaxhimit të Vizitave
     </div>
