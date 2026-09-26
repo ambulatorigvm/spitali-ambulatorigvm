@@ -578,7 +578,7 @@ input:focus,select:focus{
 
 
 <style id="professional-agenda-style">
-/* Agjenda me orare fikse 13:00-17:00 */
+/* Agjenda me orare fikse 08:00-17:00 */
 #visits{display:flex!important;flex-direction:column!important;gap:7px!important}
 .agenda-slot{display:grid!important;grid-template-columns:72px minmax(0,1fr)!important;gap:10px!important;align-items:stretch!important;min-height:64px!important}
 .slot-time{display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;background:rgba(10,35,52,.92)!important;border:1px solid rgba(118,185,209,.18)!important;color:#a9d1df!important;font-size:13px!important;font-weight:900!important}
@@ -643,7 +643,7 @@ input:focus,select:focus{
     grid-template-columns:1fr !important;
   }
 }
-</style>
+
 <style id="logout-style">
 .logout-nav{
   margin-top:10px !important;
@@ -873,573 +873,6 @@ html, body{
 }
 </style>
 
-
-<style id="modern-date-navigation">
-.date-navigation-modern{
-  display:flex!important;
-  flex-direction:column!important;
-  gap:14px!important;
-  padding:15px 16px!important;
-  margin:0 0 18px!important;
-  background:linear-gradient(145deg,rgba(8,29,45,.96),rgba(10,38,57,.92))!important;
-  border:1px solid rgba(116,190,216,.20)!important;
-  border-radius:16px!important;
-  box-shadow:0 12px 28px rgba(0,0,0,.18)!important;
-}
-.date-top-row{
-  display:grid;
-  grid-template-columns:44px 1fr 44px;
-  align-items:center;
-  gap:10px;
-}
-.date-arrow{
-  width:44px!important;height:44px!important;min-width:44px!important;
-  padding:0!important;margin:0!important;border-radius:12px!important;
-  background:rgba(255,255,255,.055)!important;
-  border:1px solid rgba(125,194,216,.20)!important;
-  color:#d9f5fc!important;font-size:30px!important;font-weight:400!important;
-  line-height:1!important;box-shadow:none!important;
-}
-.date-arrow:hover{background:rgba(24,185,210,.16)!important;border-color:rgba(75,210,229,.40)!important}
-.date-navigation-modern .selected-date{
-  flex:none!important;text-align:center!important;min-width:0;
-}
-.date-navigation-modern .selected-date .date-main{
-  color:#f2fbff!important;font-size:21px!important;font-weight:850!important;
-  text-transform:capitalize;line-height:1.2;
-}
-.date-navigation-modern .selected-date .date-iso{
-  color:#7faabd!important;font-size:11px!important;margin-top:4px!important;
-  letter-spacing:.4px;
-}
-.week-strip{
-  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;
-}
-.week-day{
-  border:1px solid rgba(119,187,210,.14);
-  background:rgba(255,255,255,.035);border-radius:11px;
-  min-height:61px;padding:7px 4px;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:4px;color:#91afbd;box-shadow:none!important;
-}
-.week-day:hover{background:rgba(24,185,210,.10);color:#eafaff}
-.week-day .wd-name{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
-.week-day .wd-number{font-size:18px;font-weight:850;color:#d8edf4}
-.week-day.is-today .wd-number{color:#52d4e5}
-.week-day.is-selected{
-  background:linear-gradient(145deg,#1388b4,#0d628f);
-  border-color:rgba(93,220,236,.55);
-  box-shadow:0 7px 18px rgba(0,112,158,.24)!important;
-  color:#fff;
-}
-.week-day.is-selected .wd-number,.week-day.is-selected .wd-name{color:#fff}
-.week-day.is-today.is-selected:after{
-  content:"SOT";font-size:8px;font-weight:900;letter-spacing:.6px;color:#bff7ff;
-}
-.date-bottom-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.date-navigation-modern .today-button{
-  width:auto!important;min-width:86px!important;height:38px!important;
-  margin:0!important;padding:0 16px!important;border-radius:9px!important;
-  background:rgba(24,185,210,.10)!important;color:#8de6f2!important;
-  border:1px solid rgba(67,204,224,.24)!important;box-shadow:none!important;
-}
-.date-navigation-modern .today-button:hover{background:rgba(24,185,210,.18)!important;color:#fff!important}
-.date-navigation-modern .date-picker-wrap{display:flex;align-items:center;gap:7px}
-.date-navigation-modern .date-picker-wrap label{color:#7899a8!important;font-size:10px!important;margin:0!important}
-.date-navigation-modern .date-picker-wrap input{
-  width:132px!important;height:36px!important;margin:0!important;padding:0 8px!important;
-  border:1px solid rgba(119,187,210,.20)!important;border-radius:8px!important;
-  background:#081c2b!important;color:#dff6fc!important;box-shadow:none!important;
-}
-@media(max-width:700px){
-  .week-strip{gap:4px}
-  .week-day{min-height:56px;padding:6px 2px}
-  .week-day .wd-name{font-size:9px}
-  .week-day .wd-number{font-size:16px}
-  .date-navigation-modern .selected-date .date-main{font-size:18px!important}
-}
-@media(max-width:520px){
-  .date-navigation-modern{padding:12px!important;gap:10px!important}
-  .date-top-row{grid-template-columns:38px 1fr 38px;gap:7px}
-  .date-arrow{width:38px!important;min-width:38px!important;height:38px!important;font-size:27px!important}
-  .week-day{min-height:52px}
-  .week-day .wd-name{font-size:8px;letter-spacing:.2px}
-  .week-day .wd-number{font-size:15px}
-  .date-bottom-row{flex-direction:column;align-items:stretch}
-  .date-navigation-modern .today-button{width:100%!important}
-  .date-navigation-modern .date-picker-wrap{justify-content:center}
-}
-</style>
-
-<style id="form-clean-premium">
-/* Formulari i vizitës - pamje më e pastër */
-.workspace > .card:not(.agenda-card){
-  padding:24px!important;
-  border:1px solid rgba(121,190,214,.22)!important;
-  background:linear-gradient(145deg,rgba(10,34,50,.97),rgba(7,26,40,.97))!important;
-  box-shadow:0 12px 30px rgba(0,0,0,.18)!important;
-}
-.workspace > .card:not(.agenda-card) .card-title{
-  margin-bottom:22px!important;
-  padding-bottom:14px!important;
-  border-bottom:1px solid rgba(130,190,210,.14)!important;
-  color:#eefaff!important;
-  font-size:19px!important;
-}
-.workspace > .card:not(.agenda-card) .card-title .title-icon{
-  display:inline-flex!important;align-items:center!important;justify-content:center!important;
-  width:34px!important;height:34px!important;border-radius:10px!important;
-  background:rgba(19,166,199,.14)!important;color:#62d7ed!important;
-}
-.workspace > .card:not(.agenda-card) label{
-  color:#a9c6d2!important;font-size:12px!important;font-weight:800!important;
-  letter-spacing:.2px!important;margin:12px 0 6px!important;
-}
-.workspace > .card:not(.agenda-card) input,
-.workspace > .card:not(.agenda-card) select{
-  height:46px!important;margin-bottom:10px!important;
-  background:rgba(4,19,29,.78)!important;color:#edfaff!important;
-  border:1px solid rgba(127,185,204,.20)!important;border-radius:10px!important;
-}
-.workspace > .card:not(.agenda-card) input::placeholder{color:#678796!important}
-.workspace > .card:not(.agenda-card) input:focus,
-.workspace > .card:not(.agenda-card) select:focus{
-  border-color:rgba(44,196,226,.70)!important;
-  box-shadow:0 0 0 3px rgba(19,166,199,.10)!important;
-}
-.workspace > .card:not(.agenda-card) #paymentBox{
-  margin:2px 0 10px!important;padding:13px 14px!important;
-  background:rgba(19,166,199,.055)!important;
-  border:1px solid rgba(74,192,216,.18)!important;border-radius:11px!important;
-}
-.workspace > .card:not(.agenda-card) #paymentBox > label:first-child{
-  margin:0 0 8px!important;color:#8fc8d7!important;font-size:11px!important;
-  text-transform:uppercase!important;letter-spacing:.6px!important;
-}
-.workspace > .card:not(.agenda-card) .payment-option{
-  display:flex!important;align-items:center!important;gap:9px!important;
-  margin:6px 0!important;padding:8px 10px!important;border-radius:8px!important;
-  background:rgba(255,255,255,.025)!important;color:#d9edf3!important;
-  font-size:13px!important;font-weight:700!important;
-}
-.workspace > .card:not(.agenda-card) .payment-option input{
-  width:17px!important;height:17px!important;margin:0!important;
-  accent-color:#25b8d8!important;
-}
-.workspace > .card:not(.agenda-card) #saveButton{
-  margin-top:10px!important;height:48px!important;border-radius:11px!important;
-  font-size:14px!important;letter-spacing:.1px!important;
-}
-.workspace > .card:not(.agenda-card) #saveButton:disabled{opacity:.65!important;cursor:wait!important}
-@media(max-width:1050px){
-  .workspace > .card:not(.agenda-card){max-width:none!important}
-}
-</style>
-
-
-<style id="agenda-polish-final">
-/* AGJENDA — pamje më e pastër dhe më e lexueshme */
-.agenda-card{overflow:hidden!important}
-.agenda-card .agenda-head{margin-bottom:14px!important;padding-bottom:12px!important;border-bottom:1px solid rgba(125,184,207,.16)!important}
-.agenda-card .agenda-head h2{letter-spacing:.2px!important}
-.agenda-date{padding:6px 11px!important;border:1px solid rgba(74,192,216,.20)!important;border-radius:999px!important;background:rgba(19,166,199,.08)!important;color:#79d3e5!important}
-#visits{gap:9px!important}
-.agenda-slot{grid-template-columns:78px minmax(0,1fr)!important;gap:10px!important;min-height:64px!important}
-.slot-time{border:1px solid rgba(109,178,204,.18)!important;border-radius:11px!important;background:linear-gradient(180deg,rgba(15,42,59,.96),rgba(9,29,43,.96))!important;color:#bde8f2!important;font-size:14px!important;font-weight:850!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important}
-.slot-body{min-height:64px!important;padding:10px 12px!important;border:1px solid rgba(111,175,200,.15)!important;border-radius:11px!important;background:linear-gradient(90deg,rgba(10,31,45,.86),rgba(8,25,38,.76))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important}
-.slot-empty{width:100%!important;padding:4px 8px!important;color:#557889!important;font-size:12px!important;font-weight:700!important;letter-spacing:.2px!important}
-.slot-visit{grid-template-columns:minmax(145px,1.15fr) minmax(115px,.75fr) minmax(190px,1.35fr) auto!important;gap:12px!important;width:100%!important;padding:5px 0 5px 12px!important;border-left:3px solid #18b9d2!important}
-.slot-visit.control{border-left-color:#8178e8!important}
-.slot-visit .visit-name{color:#e9f8fc!important;font-size:14px!important;font-weight:850!important;line-height:1.25!important}
-.slot-visit .visit-line{color:#789aaa!important;font-size:11px!important;margin-top:4px!important}
-.slot-visit .statusLine{gap:5px!important}
-.slot-visit .visit-type,.slot-visit .payment-paid,.slot-visit .payment-free,.slot-visit .status-badge{padding:6px 9px!important;border-radius:999px!important;font-size:10px!important;font-weight:850!important}
-.slot-visit .visit-type{background:rgba(24,185,210,.12)!important;color:#72d8e8!important;border:1px solid rgba(24,185,210,.16)!important}
-.slot-visit .payment-paid{background:rgba(224,161,54,.12)!important;color:#f0c675!important;border:1px solid rgba(224,161,54,.16)!important}
-.slot-visit .payment-free{background:rgba(52,191,130,.11)!important;color:#75d8ad!important;border:1px solid rgba(52,191,130,.15)!important}
-.slot-visit .status-badge{background:rgba(255,255,255,.055)!important;color:#b8cbd4!important;border:1px solid rgba(255,255,255,.08)!important}
-.slot-visit.status-arrived{background:rgba(44,180,126,.035)!important}
-.slot-visit.status-finished{opacity:.78!important}
-.slot-visit.status-cancelled{opacity:.58!important}
-.slot-visit .visit-status-controls{margin-top:0!important;gap:6px!important;justify-content:flex-end!important;width:auto!important}
-.slot-visit .visit-status-controls button{height:32px!important;min-width:0!important;padding:0 10px!important;font-size:10px!important;border-radius:8px!important}
-.slot-visit .visit-status-controls .visit-delete-button{min-width:0!important;padding:0 10px!important}
-@media(max-width:1100px){
- .slot-visit{grid-template-columns:minmax(145px,1fr) minmax(180px,1fr) auto!important}
- .slot-visit .visit-line{grid-column:1}
- .slot-visit .statusLine{grid-column:2}
- .slot-visit .visit-status-controls{grid-column:3;grid-row:1 / span 2}
-}
-@media(max-width:760px){
- .agenda-slot{grid-template-columns:62px minmax(0,1fr)!important}
- .slot-body{padding:9px!important}
- .slot-visit{grid-template-columns:1fr auto!important;gap:7px!important;padding-left:9px!important}
- .slot-visit .visit-line{grid-column:1!important}
- .slot-visit .statusLine{grid-column:1!important}
- .slot-visit .visit-status-controls{grid-column:2!important;grid-row:1 / span 3!important;display:flex!important;flex-direction:column!important;align-items:stretch!important}
- .slot-visit .visit-status-controls button{width:auto!important;min-width:92px!important}
-}
-@media(max-width:480px){
- .agenda-slot{grid-template-columns:58px minmax(0,1fr)!important}
- .slot-time{font-size:12px!important}
- .slot-visit{grid-template-columns:1fr!important}
- .slot-visit .visit-status-controls{grid-column:1!important;grid-row:auto!important;display:grid!important;grid-template-columns:1fr 1fr!important;width:100%!important}
- .slot-visit .visit-status-controls button{min-width:0!important;width:100%!important}
-}
-</style>
-
-
-<style id="gvm-new-look">
-/* =========================================================
-   GVM — LOOK I RI
-   Vetëm pamja; funksionet ekzistuese nuk ndryshohen.
-========================================================= */
-:root{
-  --gvm-bg:#f4f7f9;
-  --gvm-panel:#ffffff;
-  --gvm-navy:#102a43;
-  --gvm-blue:#176b87;
-  --gvm-cyan:#20a7b8;
-  --gvm-text:#19324a;
-  --gvm-muted:#718497;
-  --gvm-line:#e4ebf0;
-  --gvm-soft:#eef7f8;
-  --gvm-shadow:0 14px 40px rgba(24,55,76,.08);
-}
-
-html,body{background:var(--gvm-bg)!important;color:var(--gvm-text)!important}
-body{font-family:Inter,Segoe UI,Arial,sans-serif!important;background-image:none!important}
-body:before{display:none!important}
-
-.app-shell{min-height:100vh;background:#f4f7f9!important}
-
-/* SIDEBAR */
-.sidebar{
-  width:248px!important;flex-basis:248px!important;
-  background:#102a43!important;
-  border:0!important;
-  padding:26px 16px!important;
-  box-shadow:8px 0 30px rgba(16,42,67,.10)!important;
-}
-.brand-mini{
-  padding:5px 14px 26px!important;
-  margin-bottom:20px!important;
-  border-bottom:1px solid rgba(255,255,255,.10)!important;
-}
-.brand-mini strong{color:#fff!important;font-size:20px!important;letter-spacing:.8px!important}
-.brand-mini span{color:#8fb5c5!important;font-size:11px!important;letter-spacing:1.5px!important;text-transform:uppercase}
-.nav-item{
-  color:#b8cfda!important;border-radius:12px!important;margin:4px 0!important;
-  padding:12px 13px!important;font-size:13px!important;font-weight:700!important;
-  transition:.18s ease!important;
-}
-.nav-item:hover{background:rgba(255,255,255,.07)!important;color:#fff!important}
-.nav-item.active{
-  background:linear-gradient(90deg,rgba(32,167,184,.24),rgba(32,167,184,.08))!important;
-  color:#fff!important;border-left:0!important;
-  box-shadow:inset 3px 0 0 #20a7b8!important;
-}
-.nav-icon{color:#82cbd4!important}
-.nav-item.disabled{color:#708b99!important}
-.logout-nav{margin-top:10px!important;border-top:1px solid rgba(255,255,255,.08)!important;border-radius:0!important;padding-top:18px!important}
-.sidebar-footer{color:#6f91a1!important}
-
-/* MAIN */
-.main{padding:24px 30px 50px!important;background:#f4f7f9!important}
-.content{max-width:1320px!important}
-.topbar{
-  max-width:1320px!important;margin:0 auto 20px!important;
-  min-height:78px!important;padding:15px 20px!important;
-  background:#fff!important;border:1px solid #e4ebf0!important;
-  border-radius:18px!important;box-shadow:0 8px 28px rgba(25,55,75,.06)!important;
-}
-.logo-mark{
-  width:48px!important;height:48px!important;border-radius:14px!important;
-  background:linear-gradient(135deg,#1c829b,#20a7b8)!important;
-  box-shadow:0 8px 18px rgba(32,167,184,.20)!important;
-}
-.hospital-name,.ambulatory-name{color:#102a43!important}
-.top-date{color:#718497!important}
-.page-heading{margin:0 0 18px!important;display:block!important}
-.page-heading h1{color:#102a43!important;text-shadow:none!important;font-size:28px!important;letter-spacing:-.5px}
-.date-title{color:#718497!important;text-shadow:none!important}
-
-/* DATE CARD */
-.date-navigation-modern{
-  margin-top:15px!important;
-  background:#fff!important;
-  border:1px solid #e4ebf0!important;
-  border-radius:18px!important;
-  box-shadow:var(--gvm-shadow)!important;
-  padding:14px!important;
-}
-.date-top-row{min-height:54px!important}
-.date-arrow{
-  width:42px!important;height:42px!important;border-radius:12px!important;
-  background:#f0f6f8!important;color:#176b87!important;box-shadow:none!important;
-  font-size:28px!important;
-}
-.date-arrow:hover{background:#e2f3f5!important;filter:none!important}
-.selected-date{text-align:center!important}
-.date-main{color:#102a43!important;font-size:17px!important;font-weight:850!important}
-.date-iso{color:#8a9aa7!important}
-.week-strip{gap:8px!important;margin-top:12px!important}
-.week-day{
-  border:1px solid #e4ebf0!important;background:#f8fafb!important;
-  border-radius:12px!important;min-height:54px!important;
-}
-.week-day:hover{border-color:#b9dfe5!important;background:#f1fafb!important}
-.week-day.active,.week-day.selected{background:#176b87!important;border-color:#176b87!important;color:#fff!important}
-.date-bottom-row{margin-top:12px!important}
-.today-button{
-  width:auto!important;min-width:86px!important;background:#102a43!important;
-  border-radius:10px!important;box-shadow:none!important;
-}
-.date-picker-wrap{background:#f7fafb!important;border:1px solid #e4ebf0!important;border-radius:10px!important}
-
-/* TWO MAIN CARDS */
-.workspace{grid-template-columns:340px minmax(0,1fr)!important;gap:20px!important;align-items:start!important}
-.card{
-  background:#fff!important;border:1px solid #e4ebf0!important;
-  border-radius:18px!important;box-shadow:var(--gvm-shadow)!important;
-  padding:22px!important;
-}
-.workspace>.card:first-child{position:sticky;top:20px}
-.card-title{font-size:17px!important;color:#102a43!important;margin-bottom:20px!important}
-.card-title .title-icon{width:32px;height:32px;border-radius:10px;background:#e7f6f7;display:flex;align-items:center;justify-content:center;color:#176b87!important}
-label{color:#486276!important;font-size:12px!important;letter-spacing:.1px}
-input,select{
-  height:46px!important;border:1px solid #dce6eb!important;
-  background:#fbfcfd!important;border-radius:11px!important;color:#19324a!important;
-  box-shadow:none!important;
-}
-input:hover,select:hover{border-color:#bcd5dd!important}
-input:focus,select:focus{border-color:#20a7b8!important;box-shadow:0 0 0 4px rgba(32,167,184,.10)!important}
-#paymentBox{background:#f3fafb!important;border:1px solid #d9ecef!important;border-radius:12px!important}
-.payment-option{color:#36576b!important}
-#saveButton{
-  height:48px!important;margin-top:5px!important;border-radius:12px!important;
-  background:linear-gradient(135deg,#176b87,#20a7b8)!important;
-  box-shadow:0 8px 18px rgba(23,107,135,.18)!important;
-  font-size:14px!important;
-}
-#saveButton:hover{transform:translateY(-1px);filter:none!important}
-
-/* AGENDA */
-.agenda-card{min-height:0!important}
-.agenda-head{padding-bottom:14px!important;border-bottom:1px solid #edf1f4!important}
-.agenda-head h2{font-size:19px!important;color:#102a43!important}
-.agenda-date{background:#eef7f8!important;color:#176b87!important;padding:7px 10px!important;border-radius:999px!important}
-.agenda-search{margin-top:14px!important;background:#f7fafb!important;border:1px solid #e3ebef!important;border-radius:12px!important}
-.agenda-search input{background:transparent!important;border:0!important;margin:0!important;box-shadow:none!important}
-.status-filters{padding:5px!important;background:#f3f6f8!important;border-radius:12px!important;margin:10px 0 14px!important;gap:4px!important}
-.status-filter-btn{height:34px!important;background:transparent!important;color:#667c8b!important;box-shadow:none!important;border-radius:9px!important;font-size:11px!important}
-.status-filter-btn.active{background:#fff!important;color:#176b87!important;box-shadow:0 2px 8px rgba(25,55,75,.08)!important}
-
-/* APPOINTMENT ROWS */
-#visits{gap:9px!important}
-.agenda-slot{
-  grid-template-columns:76px minmax(0,1fr)!important;
-  gap:10px!important;min-height:66px!important;
-}
-.slot-time{
-  background:#f2f7f8!important;border:0!important;border-radius:12px!important;
-  color:#486276!important;font-size:13px!important;
-}
-.slot-body{
-  background:#fff!important;border:1px solid #e5edf1!important;border-radius:12px!important;
-  box-shadow:0 3px 12px rgba(25,55,75,.035)!important;
-}
-.slot-empty{color:#a3b2bb!important}
-.slot-visit{
-  border-left:4px solid #20a7b8!important;
-  background:#fbfdfe!important;border-radius:10px!important;
-}
-.slot-visit.control{border-left-color:#7c72d8!important}
-.visit-name{color:#19324a!important;font-size:14px!important}
-.visit-line{color:#8497a3!important}
-.visit-type{background:#e8f6f7!important;color:#176b87!important}
-.payment-paid{background:#fff4df!important;color:#a26a05!important}
-.payment-free{background:#e4f7ed!important;color:#18704b!important}
-.status-badge{border-radius:999px!important;font-size:10px!important;padding:5px 8px!important}
-.visit-status-controls{gap:5px!important}
-.visit-status-button,.visit-delete-button,.delete-button{
-  border-radius:9px!important;box-shadow:none!important;height:32px!important;
-  font-size:10px!important;padding:0 9px!important;
-}
-
-/* MESAZH / EMPTY */
-#message{border-radius:12px!important}
-.empty,.loading{background:#f8fafb!important;border:1px dashed #d5e2e8!important;border-radius:12px!important}
-
-/* MODAL */
-.edit-modal{background:rgba(9,25,38,.62)!important;backdrop-filter:blur(8px)!important}
-.edit-box{
-  background:#fff!important;color:#19324a!important;border:1px solid #e4ebf0!important;
-  border-radius:20px!important;box-shadow:0 30px 80px rgba(10,30,45,.25)!important;
-}
-.edit-head h3{color:#102a43!important}
-.edit-close{background:#f1f5f7!important;color:#5e7482!important;box-shadow:none!important}
-.edit-cancel{background:#eef2f4!important;color:#526a79!important;box-shadow:none!important}
-.edit-save{background:linear-gradient(135deg,#176b87,#20a7b8)!important}
-
-/* MOBILE */
-@media(max-width:1050px){
-  .sidebar{width:210px!important;flex-basis:210px!important}
-  .workspace{grid-template-columns:1fr!important}
-  .workspace>.card:first-child{position:static}
-}
-@media(max-width:760px){
-  .main{padding:12px 12px 32px!important}
-  .topbar{border-radius:14px!important;padding:12px!important}
-  .sidebar{width:100%!important;display:block!important;padding:10px!important}
-  .brand-mini{display:none!important}
-  .nav-item{display:inline-flex!important;width:auto!important;margin:2px!important;padding:9px 10px!important}
-  .logout-nav{border-top:0!important;padding-top:9px!important}
-  .page-heading h1{font-size:23px!important}
-  .workspace{gap:12px!important}
-  .card{padding:16px!important;border-radius:15px!important}
-  .date-navigation-modern{border-radius:15px!important}
-  .week-strip{overflow-x:auto!important}
-  .week-day{min-width:58px!important}
-}
-@media(max-width:480px){
-  .logo-names{display:block!important}
-  .hospital-name,.ambulatory-name{font-size:16px!important}
-  .top-date{font-size:12px!important}
-  .agenda-slot{grid-template-columns:58px minmax(0,1fr)!important}
-}
-</style>
-
-<style id="gvm-ultra-modern-look">
-:root{--u-bg:#f7f9fc;--u-white:#fff;--u-ink:#102033;--u-muted:#7a8798;--u-line:#e8edf3;--u-blue:#2563eb;--u-cyan:#06b6d4;--u-green:#10b981;--u-red:#ef4444;--u-shadow:0 20px 60px rgba(16,32,51,.08)}
-html,body{background:var(--u-bg)!important;color:var(--u-ink)!important}
-body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;background-image:none!important}
-.app-shell{background:var(--u-bg)!important;min-height:100vh}
-.sidebar{width:220px!important;flex-basis:220px!important;background:#0b1220!important;border:0!important;padding:22px 12px!important;box-shadow:none!important}
-.brand-mini{padding:8px 12px 24px!important}.brand-mini strong{font-size:16px!important;letter-spacing:.8px!important}.brand-mini span{color:#67e8f9!important;font-size:10px!important;letter-spacing:1.3px!important}
-.nav-item{border:0!important;border-radius:12px!important;margin:4px 0!important;padding:12px 13px!important;color:#94a3b8!important;background:transparent!important;transition:.2s!important}
-.nav-item:hover{background:#172033!important;color:#fff!important}.nav-item.active{background:linear-gradient(135deg,#2563eb,#0891b2)!important;color:#fff!important;box-shadow:0 10px 24px rgba(37,99,235,.25)!important}.nav-icon{width:28px!important;font-size:17px!important}.sidebar-footer{color:#607086!important;border-top:1px solid #202b3c!important;padding:18px 10px!important;font-size:9px!important;line-height:1.7!important}
-.main{padding:18px 24px 44px!important;background:var(--u-bg)!important}
-.topbar{min-height:70px!important;background:rgba(255,255,255,.86)!important;border:1px solid var(--u-line)!important;border-radius:18px!important;padding:12px 18px!important;box-shadow:0 8px 30px rgba(16,32,51,.05)!important;backdrop-filter:blur(14px)!important}
-.logo-mark{width:42px!important;height:42px!important;border-radius:12px!important;background:linear-gradient(135deg,#2563eb,#06b6d4)!important;box-shadow:0 8px 18px rgba(37,99,235,.22)!important}.hospital-name{font-size:13px!important;letter-spacing:.8px!important}.ambulatory-name{font-size:10px!important;letter-spacing:1.4px!important;color:#64748b!important}.top-date{color:#64748b!important;font-size:12px!important}
-.content{max-width:1500px!important;margin:0 auto!important}.page-heading{padding:22px 2px 16px!important}.page-heading h1{font-size:28px!important;letter-spacing:-.7px!important;color:#0f172a!important;margin-bottom:16px!important}
-.date-navigation-modern{background:#fff!important;border:1px solid var(--u-line)!important;border-radius:18px!important;padding:10px!important;box-shadow:var(--u-shadow)!important}.date-top-row{display:flex!important;align-items:center!important;gap:8px!important}.date-arrow{width:42px!important;height:42px!important;min-width:42px!important;border-radius:12px!important;background:#f1f5f9!important;color:#334155!important;border:0!important}.date-arrow:hover{background:#e2e8f0!important}.selected-date .date-main{font-size:16px!important;color:#0f172a!important}.selected-date .date-iso{color:#94a3b8!important}.week-strip{gap:7px!important}.week-day{border-radius:11px!important;border:1px solid #edf1f5!important;background:#f8fafc!important}.week-day.active{background:#eff6ff!important;border-color:#93c5fd!important;color:#1d4ed8!important}.today-button{border-radius:11px!important;border:1px solid #dbeafe!important;background:#eff6ff!important;color:#2563eb!important;font-weight:700!important}.date-picker-wrap{background:#f8fafc!important;border-radius:11px!important;padding:7px 10px!important}
-.workspace{grid-template-columns:360px minmax(0,1fr)!important;gap:22px!important;align-items:start!important}.card{background:rgba(255,255,255,.95)!important;border:1px solid var(--u-line)!important;border-radius:20px!important;box-shadow:var(--u-shadow)!important;padding:24px!important}.workspace>.card:first-child{position:sticky;top:18px!important}.card-title{font-size:16px!important;color:#0f172a!important;margin-bottom:20px!important}.title-icon{width:34px!important;height:34px!important;border-radius:10px!important;background:#eff6ff!important;color:#2563eb!important}
-.card label{font-size:11px!important;font-weight:700!important;color:#64748b!important;text-transform:uppercase!important;letter-spacing:.45px!important;margin-top:15px!important}.card input,.card select{height:46px!important;border-radius:12px!important;border:1px solid #dfe6ee!important;background:#f8fafc!important;color:#172033!important;box-shadow:none!important}.card input:focus,.card select:focus{border-color:#60a5fa!important;background:#fff!important;box-shadow:0 0 0 4px rgba(37,99,235,.08)!important}.payment-option{background:#f8fafc!important;border:1px solid #e7edf3!important;border-radius:11px!important;padding:10px 12px!important;text-transform:none!important;letter-spacing:0!important;font-size:12px!important;color:#334155!important}.payment-option:has(input:checked){background:#eff6ff!important;border-color:#93c5fd!important;color:#1d4ed8!important}.card #saveButton{height:48px!important;border-radius:13px!important;background:linear-gradient(135deg,#2563eb,#0891b2)!important;box-shadow:0 12px 24px rgba(37,99,235,.2)!important;font-size:13px!important;font-weight:800!important}.card #saveButton:hover{transform:translateY(-1px)!important}
-.agenda-card{overflow:hidden!important}.agenda-head{padding-bottom:16px!important;border-bottom:1px solid var(--u-line)!important}.agenda-head h2{font-size:18px!important;color:#0f172a!important}.agenda-date{background:#f1f5f9!important;color:#64748b!important;border-radius:999px!important;padding:7px 11px!important;font-size:10px!important;font-weight:800!important}.agenda-search{background:#f8fafc!important;border:1px solid #e5eaf0!important;border-radius:13px!important;padding:0 11px!important}.agenda-search-icon{color:#94a3b8!important}.agenda-search input{height:44px!important;color:#0f172a!important}.agenda-search input::placeholder{color:#9aa6b5!important}.status-filters{gap:7px!important;margin:10px 0 14px!important}.status-filter-btn{border:1px solid #e5eaf0!important;background:#fff!important;color:#64748b!important;border-radius:999px!important;padding:8px 12px!important;font-size:11px!important;font-weight:700!important}.status-filter-btn.active{background:#0f172a!important;border-color:#0f172a!important;color:#fff!important}
-.visit-item{border:1px solid #e7edf3!important;border-radius:15px!important;background:#fff!important;box-shadow:0 7px 22px rgba(16,32,51,.045)!important;min-height:70px!important;transition:.18s!important}.visit-item:hover{transform:translateY(-1px)!important;box-shadow:0 12px 28px rgba(16,32,51,.08)!important}.visit-time{font-size:14px!important;font-weight:800!important;color:#2563eb!important}.visit-name{font-size:13px!important;color:#172033!important;font-weight:800!important}.visit-card{color:#8a97a7!important}.visit-status{border-radius:999px!important;font-size:10px!important;padding:5px 9px!important}.visit-status-controls button{border-radius:9px!important;border:1px solid #e5eaf0!important;background:#fff!important;color:#475569!important;font-size:10px!important}.visit-status-controls button:hover{background:#f8fafc!important}
-.loading{color:#94a3b8!important}.message-success,.message-error{border-radius:12px!important}
-.edit-modal{backdrop-filter:blur(8px)!important;background:rgba(15,23,42,.45)!important}.edit-modal-content{border-radius:20px!important;border:1px solid #e2e8f0!important;box-shadow:0 30px 90px rgba(15,23,42,.22)!important}
-@media(max-width:1050px){.workspace{grid-template-columns:1fr!important}.workspace>.card:first-child{position:relative;top:auto!important}}
-@media(max-width:760px){.sidebar{width:72px!important;flex-basis:72px!important;padding:16px 8px!important}.brand-mini strong,.brand-mini span,.nav-item span:last-child,.sidebar-footer{display:none!important}.nav-item{justify-content:center!important;padding:12px 8px!important}.nav-icon{margin:0!important}.main{padding:10px!important}.topbar{border-radius:14px!important}.page-heading h1{font-size:23px!important}.workspace{gap:14px!important}.card{padding:17px!important;border-radius:16px!important}}
-</style>
-
-<style id="gvm-dark-large-fonts">
-:root{--gdm-bg:#06111d;--gdm-panel:#0b1c2b;--gdm-panel2:#10283a;--gdm-line:#1c3b4d;--gdm-text:#f3f9fc;--gdm-muted:#a8c0cd;--gdm-cyan:#27c4df;--gdm-blue:#168bd1}
-html,body{background:#06111d!important;color:var(--gdm-text)!important}
-body{font-family:Inter,Segoe UI,Arial,sans-serif!important;background-image:none!important}
-body:before{display:none!important}
-.app-shell{background:#06111d!important}
-.sidebar{background:linear-gradient(180deg,#061522 0%,#0a2233 100%)!important;border-right:1px solid #1b4052!important;width:250px!important;flex-basis:250px!important;padding:28px 16px!important}
-.brand-mini{padding:5px 14px 26px!important;border-bottom:1px solid #1b4052!important}.brand-mini strong{font-size:23px!important;color:#fff!important}.brand-mini span{font-size:14px!important;color:#56cde2!important}
-.nav-item{font-size:16px!important;min-height:52px!important;color:#b9d1dc!important;border-radius:12px!important;margin:6px 0!important;padding:0 15px!important}.nav-icon{font-size:22px!important}.nav-item.active{background:linear-gradient(90deg,#126d9b,#0d5378)!important;color:#fff!important;border-left:4px solid #31c9df!important}
-.sidebar-footer{font-size:12px!important;color:#7899a9!important}
-.main{padding:24px 32px 55px!important;background:#06111d!important}.topbar{background:#0b1c2b!important;border:1px solid #1c3b4d!important;border-radius:18px!important;min-height:100px!important;padding:20px 26px!important;box-shadow:0 16px 45px rgba(0,0,0,.28)!important}.hospital-name{font-size:23px!important;color:#fff!important}.ambulatory-name{font-size:18px!important;color:#42c8df!important}.top-date{font-size:15px!important;color:#b5cbd5!important}
-.content{max-width:1400px!important;margin:0 auto}.page-heading h1{font-size:32px!important;color:#f4f9fc!important;margin:18px 0 16px!important}.date-navigation-modern{background:#0b1c2b!important;border:1px solid #1c3b4d!important;border-radius:16px!important;box-shadow:0 12px 32px rgba(0,0,0,.2)!important}.selected-date .date-main{font-size:22px!important;color:#fff!important}.selected-date .date-iso{font-size:13px!important;color:#8faebb!important}.date-arrow{font-size:30px!important;color:#dff8ff!important}.today-button{font-size:15px!important}
-.workspace{grid-template-columns:380px minmax(0,1fr)!important;gap:24px!important}.card{background:#0b1c2b!important;border:1px solid #1c3b4d!important;border-radius:18px!important;box-shadow:0 16px 45px rgba(0,0,0,.24)!important;padding:26px!important;color:#f3f9fc!important}.card-title{font-size:22px!important;color:#fff!important;margin-bottom:22px!important}.card label{font-size:15px!important;color:#bcd0da!important;margin-top:17px!important}.card input,.card select{height:52px!important;font-size:16px!important;background:#071522!important;color:#f3f9fc!important;border:1px solid #274758!important;border-radius:11px!important;padding:0 15px!important}.card input::placeholder{color:#718d9d!important}.card input:focus,.card select:focus{border-color:#27c4df!important;box-shadow:0 0 0 3px rgba(39,196,223,.12)!important}.payment-option{background:#10283a!important;border:1px solid #274758!important;padding:12px!important;border-radius:10px!important;color:#dcecf2!important;font-size:15px!important}.payment-option input{height:auto!important}.card #saveButton{height:56px!important;font-size:17px!important;font-weight:800!important;border-radius:12px!important;background:linear-gradient(90deg,#087db5,#16b4cc)!important;color:#fff!important;box-shadow:0 10px 25px rgba(15,155,190,.22)!important}
-.agenda-head h2{font-size:23px!important;color:#fff!important}.agenda-date{font-size:15px!important;color:#8fd8e7!important}.agenda-search{background:#071522!important;border:1px solid #274758!important;border-radius:11px!important}.agenda-search input{height:50px!important;font-size:16px!important;color:#fff!important}.agenda-search-icon{font-size:23px!important}.status-filter-btn{font-size:14px!important;padding:9px 14px!important;background:#10283a!important;color:#b9d0db!important;border:1px solid #274758!important}.status-filter-btn.active{background:#126d9b!important;color:#fff!important;border-color:#27c4df!important}
-.agenda-slot{grid-template-columns:88px minmax(0,1fr)!important;min-height:78px!important;gap:12px!important}.slot-time{font-size:17px!important;font-weight:900!important;background:#10283a!important;color:#dff7ff!important;border-color:#274758!important}.slot-body{background:#071522!important;border-color:#274758!important;padding:13px 15px!important}.slot-empty{font-size:15px!important;color:#708b9a!important}.visit-name{font-size:18px!important;color:#f2f9fc!important}.visit-line{font-size:14px!important;color:#9eb6c2!important}.visit-type,.payment-paid,.payment-free,.status-badge{font-size:13px!important;padding:7px 11px!important}.visit-status-controls button,.delete-button{font-size:13px!important;min-height:38px!important;padding:7px 11px!important}.empty,.loading{font-size:15px!important;background:#071522!important;color:#9fb7c2!important;border-color:#274758!important}
-.message-success,.message-error{font-size:15px!important}
-.edit-modal{background:rgba(2,10,17,.82)!important}.edit-modal .modal-content{background:#0b1c2b!important;color:#fff!important;border:1px solid #274758!important}.edit-modal label{font-size:15px!important}.edit-modal input,.edit-modal select{font-size:16px!important;background:#071522!important;color:#fff!important;border-color:#274758!important}
-@media(max-width:1050px){.workspace{grid-template-columns:1fr!important}.sidebar{width:220px!important;flex-basis:220px!important}}
-@media(max-width:760px){.main{padding:12px 14px 35px!important}.sidebar{width:100%!important;padding:10px!important}.nav-item{min-height:46px!important;font-size:14px!important}.page-heading h1{font-size:26px!important}.workspace{grid-template-columns:1fr!important}.card{padding:19px!important}.agenda-slot{grid-template-columns:72px minmax(0,1fr)!important}.slot-time{font-size:15px!important}.visit-name{font-size:16px!important}}
-</style>
-
-<style id="gvm-layout-final">
-/* Rregullimi i përmasave: formulari më kompakt, agjenda më e gjerë */
-@media (min-width:1051px){
-  .workspace{
-    grid-template-columns:minmax(0,1fr) 280px!important;
-    gap:16px!important;
-    align-items:start!important;
-  }
-  .workspace>.card:first-child{
-    padding:16px!important;
-    position:sticky!important;
-    top:18px!important;
-  }
-  .workspace>.card:first-child .card-title{
-    font-size:18px!important;
-    margin-bottom:14px!important;
-  }
-  .workspace>.card:first-child .card-title .title-icon{
-    width:30px!important;
-    height:30px!important;
-  }
-  .workspace>.card:first-child label{
-    font-size:13px!important;
-    margin-top:11px!important;
-    margin-bottom:5px!important;
-  }
-  .workspace>.card:first-child input,
-  .workspace>.card:first-child select{
-    height:44px!important;
-    font-size:14px!important;
-    padding:0 12px!important;
-  }
-  .workspace>.card:first-child .payment-option{
-    padding:9px 10px!important;
-    font-size:13px!important;
-  }
-  .workspace>.card:first-child #saveButton{
-    height:48px!important;
-    font-size:15px!important;
-    margin-top:14px!important;
-  }
-  .workspace>.agenda-card{
-    min-width:0!important;
-    padding:22px!important;
-  }
-}
-</style>
-
-<style>
-.patient-search-wrap{position:relative;width:100%;}
-.patient-suggestions{display:none;position:absolute;z-index:9999;left:0;right:0;top:calc(100% + 5px);background:#102b3e;border:1px solid rgba(24,185,210,.35);border-radius:10px;box-shadow:0 14px 35px rgba(0,0,0,.35);max-height:260px;overflow-y:auto;}
-.patient-suggestion{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 13px;cursor:pointer;border-bottom:1px solid rgba(132,190,218,.10);color:#edf8ff;}
-.patient-suggestion:last-child{border-bottom:0;}
-.patient-suggestion:hover{background:#15394f;}
-.patient-suggestion-name{font-weight:700;}
-.patient-suggestion-card{font-size:12px;color:#18b9d2;white-space:nowrap;}
-.patient-suggestion-empty{padding:12px;color:#9bb5c5;font-size:13px;}
-</style>
-
-<style id="final-dark-visit-fix">
-/* Vizitat duhet te lexohen qarte ne temen e erret */
-.visit-item{
-  background:linear-gradient(145deg,#10283a,#0b1d2c)!important;
-  border:1px solid #274758!important;
-  color:#f3f9fc!important;
-  box-shadow:0 7px 22px rgba(0,0,0,.22)!important;
-}
-.visit-item:hover{
-  background:linear-gradient(145deg,#143247,#0d2233)!important;
-}
-.visit-item .visit-name{color:#f2f9fc!important;font-weight:850!important;}
-.visit-item .visit-line{color:#9eb6c2!important;}
-.visit-item .visit-line strong{color:#c5dbe4!important;}
-.visit-item .visit-time{color:#6ee7f5!important;}
-.visit-item .visit-status-controls button{
-  background:#10283a!important;
-  color:#d7e8ef!important;
-  border:1px solid #315364!important;
-}
-.visit-item .visit-status-controls button:hover{background:#16384c!important;}
-.visit-item.status-arrived{background:linear-gradient(90deg,rgba(30,125,82,.75),rgba(17,65,58,.95))!important;}
-.visit-item.status-finished{background:linear-gradient(90deg,rgba(160,121,25,.72),rgba(66,54,25,.95))!important;}
-.visit-item.status-cancelled{background:linear-gradient(90deg,rgba(75,86,94,.86),rgba(37,48,57,.95))!important;}
-</style>
 </head>
 <body>
 
@@ -1452,7 +885,6 @@ body:before{display:none!important}
     <button class="nav-item active" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('.agenda-card').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">▣</span><span>Agjenda</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('#visits').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">♙</span><span>Vizitat</span></button>
-    <button class="nav-item" type="button" onclick="window.location.href='patients.html'"><span class="nav-icon">♙</span><span>Pacientët</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⌕</span><span>Kërko</span></button>
     <button class="nav-item" type="button" onclick="window.location.href='reports.html'"><span class="nav-icon">▥</span><span>Raporte</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⚙</span><span>Cilësimet</span></button>
@@ -1479,23 +911,18 @@ body:before{display:none!important}
       <div class="page-heading">
         <h1>Paneli i Ambulatorit</h1>
         
-<div class="date-navigation date-navigation-modern">
-    <div class="date-top-row">
-        <button type="button" class="date-arrow" id="prevDate" aria-label="Dita e mëparshme">‹</button>
-        <div class="selected-date">
-            <span class="date-main" id="selectedDateLabel"></span>
-            <span class="date-iso" id="selectedDateIso"></span>
-        </div>
-        <button type="button" class="date-arrow" id="nextDate" aria-label="Dita tjetër">›</button>
+<div class="date-navigation">
+    <button type="button" id="prevDate">← Dita e mëparshme</button>
+    <button type="button" class="today-button" id="todayButton">Sot</button>
+    <div class="date-picker-wrap">
+        <label for="datePicker">Zgjidh datën</label>
+        <input type="date" id="datePicker">
     </div>
-    <div class="week-strip" id="weekStrip"></div>
-    <div class="date-bottom-row">
-        <button type="button" class="today-button" id="todayButton">Sot</button>
-        <div class="date-picker-wrap">
-            <label for="datePicker">Zgjidh datën</label>
-            <input type="date" id="datePicker">
-        </div>
+    <div class="selected-date">
+        <span class="date-main" id="selectedDateLabel"></span>
+        <span class="date-iso" id="selectedDateIso"></span>
     </div>
+    <button type="button" id="nextDate">Dita tjetër →</button>
 </div>
 
     <div id="todayDate" class="date-title"></div>
@@ -1508,10 +935,7 @@ body:before{display:none!important}
           <div class="card-title"><span class="title-icon">＋</span> Shto Vizitë të Re</div>
 
           <label for="patientName">Emër + Mbiemër *</label>
-          <div class="patient-search-wrap">
-            <input type="text" id="patientName" placeholder="Shkruani emrin dhe mbiemrin" autocomplete="off">
-            <div id="patientSuggestions" class="patient-suggestions"></div>
-          </div>
+          <input type="text" id="patientName" placeholder="Shkruani emrin dhe mbiemrin" autocomplete="off">
 
           <label for="visitType">Lloji i vizitës *</label>
           <select id="visitType">
@@ -1537,7 +961,7 @@ body:before{display:none!important}
         <section class="card agenda-card">
           <div class="agenda-head">
             <h2>▣ &nbsp; Agjenda e Ditës</h2>
-            <div class="agenda-date">13:00 — 17:00</div>
+            <div class="agenda-date">08:00 — 17:00</div>
           </div>
           <div class="agenda-search">
             <span class="agenda-search-icon">⌕</span>
@@ -1612,126 +1036,25 @@ const db =
 
 console.log("AMBULATORI GVM: Supabase client u inicializua");
 
-/* =========================================================
-   KERKIMI I PACIENTEVE TE REGJISTRUAR
-========================================================= */
-
-const patientName = document.getElementById("patientName");
-const cardNumber = document.getElementById("cardNumber");
-const visitType = document.getElementById("visitType");
-const paymentBox = document.getElementById("paymentBox");
-const appointmentTime = document.getElementById("appointmentTime");
-const patientSuggestions = document.getElementById("patientSuggestions");
-let patientSearchTimer = null;
-
-function hidePatientSuggestions(){
-    if(patientSuggestions){
-        patientSuggestions.style.display = "none";
-        patientSuggestions.innerHTML = "";
-    }
-}
-
-function showPatientSuggestions(items){
-    if(!patientSuggestions) return;
-    patientSuggestions.innerHTML = "";
-
-    if(!items || !items.length){
-        patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Nuk u gjet pacient me këtë emër.</div>';
-        patientSuggestions.style.display = "block";
-        return;
-    }
-
-    items.forEach(function(patient){
-        const row = document.createElement("div");
-        row.className = "patient-suggestion";
-        row.innerHTML = '<span class="patient-suggestion-name"></span><span class="patient-suggestion-card"></span>';
-        row.querySelector(".patient-suggestion-name").textContent = patient.full_name || "";
-        row.querySelector(".patient-suggestion-card").textContent = patient.card_number ? "Kartela: " + patient.card_number : "";
-        row.addEventListener("mousedown", function(event){
-            event.preventDefault();
-            patientName.value = patient.full_name || "";
-            cardNumber.value = patient.card_number || "";
-            hidePatientSuggestions();
-        });
-        patientSuggestions.appendChild(row);
-    });
-    patientSuggestions.style.display = "block";
-}
-
-async function searchRegisteredPatients(){
-    const query = patientName.value.trim();
-    if(query.length < 2){
-        hidePatientSuggestions();
-        return;
-    }
-
-    console.log("Kërko pacient:", query);
-
-    try{
-        const encoded = encodeURIComponent(query);
-        const url = SUPABASE_URL +
-            "/rest/v1/patients?select=id,full_name,card_number" +
-            "&or=(full_name.ilike.*" + encoded + "*,card_number.ilike.*" + encoded + "*)" +
-            "&order=full_name.asc&limit=10";
-
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": "Bearer " + SUPABASE_KEY
-            }
-        });
-
-        const data = await response.json();
-        if(!response.ok){
-            console.error("PATIENT SEARCH ERROR:", data);
-            showPatientSuggestions([]);
-            if(patientSuggestions){
-                patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Gabim gjatë kërkimit të pacientëve.</div>';
-                patientSuggestions.style.display = "block";
-            }
-            return;
-        }
-
-        showPatientSuggestions(Array.isArray(data) ? data : []);
-    }catch(error){
-        console.error("PATIENT SEARCH FETCH ERROR:", error);
-        if(patientSuggestions){
-            patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Gabim gjatë lidhjes me pacientët.</div>';
-            patientSuggestions.style.display = "block";
-        }
-    }
-}
-
-if(patientName){
-    patientName.addEventListener("input", function(){
-        clearTimeout(patientSearchTimer);
-        patientSearchTimer = setTimeout(searchRegisteredPatients, 300);
-    });
-
-    patientName.addEventListener("focus", function(){
-        if(patientName.value.trim().length >= 2) searchRegisteredPatients();
-    });
-
-    patientName.addEventListener("keydown", function(event){
-        if(event.key === "Escape"){
-            hidePatientSuggestions();
-        }
-    });
-
-    document.addEventListener("click", function(event){
-        if(!event.target.closest(".patient-search-wrap")){
-            hidePatientSuggestions();
-        }
-    });
-}
-
-
 
 /* =========================================================
    ELEMENTET
 ========================================================= */
 
+const patientName =
+    document.getElementById("patientName");
+
+const cardNumber =
+    document.getElementById("cardNumber");
+
+const visitType =
+    document.getElementById("visitType");
+
+const paymentBox =
+    document.getElementById("paymentBox");
+
+const appointmentTime =
+    document.getElementById("appointmentTime");
 
 const saveButton =
     document.getElementById("saveButton");
@@ -1745,10 +1068,6 @@ const message =
 const todayDate =
     document.getElementById("todayDate");
 
-
-/* =========================================================
-   KERKIMI I PACIENTEVE
-========================================================= */
 
 /* =========================================================
    DATA E SOTME
@@ -1798,60 +1117,6 @@ function showSelectedDate(){
     if(iso){
         iso.textContent = formatDateISO(selectedDate);
     }
-
-    renderWeekStrip();
-}
-
-function renderWeekStrip(){
-    const strip = document.getElementById("weekStrip");
-    if(!strip) return;
-
-    const base = new Date(selectedDate);
-    base.setHours(0,0,0,0);
-    const day = base.getDay();
-    const mondayOffset = day === 0 ? -6 : 1 - day;
-    const monday = new Date(base);
-    monday.setDate(base.getDate() + mondayOffset);
-
-    strip.innerHTML = "";
-
-    for(let i = 0; i < 7; i++){
-        const d = new Date(monday);
-        d.setDate(monday.getDate() + i);
-
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "week-day";
-
-        if(formatDateISO(d) === formatDateISO(new Date())){
-            button.classList.add("is-today");
-        }
-        if(formatDateISO(d) === formatDateISO(selectedDate)){
-            button.classList.add("is-selected");
-        }
-
-        const name = document.createElement("span");
-        name.className = "wd-name";
-        name.textContent = d.toLocaleDateString("sq-AL", {weekday:"short"}).replace(".","");
-
-        const number = document.createElement("span");
-        number.className = "wd-number";
-        number.textContent = d.getDate();
-
-        button.appendChild(name);
-        button.appendChild(number);
-
-        button.addEventListener("click", function(){
-            selectedDate = new Date(d);
-            if(datePicker){
-                datePicker.value = formatDateISO(selectedDate);
-            }
-            showSelectedDate();
-            loadVisits();
-        });
-
-        strip.appendChild(button);
-    }
 }
 
 
@@ -1865,7 +1130,7 @@ function createTimeOptions(){
         '<option value="">Zgjidh orën</option>';
 
     for(
-        let hour = 13;
+        let hour = 8;
         hour <= 17;
         hour++
     ){
@@ -2178,6 +1443,8 @@ async function saveVisit(){
 
     /* SUKSES */
 
+    playGvmSound("save");
+
     showMessage(
         "Vizita u ruajt me sukses.",
         "success"
@@ -2191,8 +1458,6 @@ async function saveVisit(){
 
     cardNumber.value =
         "";
-
-    hidePatientSuggestions();
 
     appointmentTime.value =
         "";
@@ -2346,7 +1611,7 @@ async function loadVisits(){
 
     const slots = {};
 
-    for(let hour = 13; hour <= 17; hour++){
+    for(let hour = 8; hour <= 17; hour++){
         for(let minute = 0; minute < 60; minute += 15){
             if(hour === 17 && minute > 0) continue;
 
@@ -2639,7 +1904,7 @@ let editingVisitId = null;
 function fillEditTimes(){
     const select = document.getElementById("editAppointmentTime");
     select.innerHTML = '<option value="">Zgjidh orën</option>';
-    for(let h=13; h<=17; h++){
+    for(let h=12; h<=17; h++){
         for(let m=0; m<60; m+=15){
             if(h===17 && m>0) continue;
             const v = String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
@@ -2705,6 +1970,7 @@ async function saveEditedVisit(){
     const result=await db.from("appointments").update({patient_name:name,card_number:card||null,visit_type:type,appointment_time:time,payment_status:payment}).eq("id",editingVisitId);
     if(result.error){showMessage("Gabim gjatë ndryshimit: "+result.error.message,"error");return;}
     closeEditVisit();
+    playGvmSound("edit");
     showMessage("Vizita u ndryshua me sukses.","success");
     await loadVisits();
 }
@@ -2720,27 +1986,73 @@ document.getElementById("editModal").addEventListener("click",function(e){if(e.t
    STATUSI DHE FSHIRJA
 ========================================================= */
 
+let gvmAudioContext = null;
+
+function getGvmAudioContext(){
+    if(!gvmAudioContext){
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if(!AudioCtx) return null;
+        gvmAudioContext = new AudioCtx();
+    }
+    if(gvmAudioContext.state === "suspended"){
+        gvmAudioContext.resume().catch(function(){});
+    }
+    return gvmAudioContext;
+}
+
+function playGvmSound(type){
+    const ctx = getGvmAudioContext();
+    if(!ctx) return;
+
+    const presets = {
+        arrived:{freqs:[660,880],duration:.12,gap:.08},
+        finished:{freqs:[880,660],duration:.12,gap:.08},
+        cancelled:{freqs:[420,300],duration:.14,gap:.08},
+        save:{freqs:[740,980],duration:.09,gap:.07},
+        edit:{freqs:[620,780],duration:.08,gap:.06},
+        delete:{freqs:[360,260],duration:.10,gap:.07}
+    };
+
+    const preset = presets[type];
+    if(!preset) return;
+
+    preset.freqs.forEach(function(freq,index){
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const start = ctx.currentTime + index * (preset.duration + preset.gap);
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001,start);
+        gain.gain.exponentialRampToValueAtTime(0.08,start+0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001,start+preset.duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start+preset.duration+0.02);
+    });
+}
+
 async function updateVisitStatus(id, status){
+    const currentButton = event && event.currentTarget ? event.currentTarget : null;
+    const currentItem = currentButton ? currentButton.closest(".visit-item") : null;
+    const currentStatus = currentItem ? (currentItem.dataset.status || "scheduled") : "scheduled";
+    const nextStatus = currentStatus === status ? "scheduled" : status;
 
     const result =
         await db
             .from("appointments")
-            .update({
-                status: status
-            })
+            .update({status: nextStatus})
             .eq("id", id);
 
     if(result.error){
-
         showMessage(
-            "Gabim gjatë ndryshimit të statusit: " +
-            result.error.message,
+            "Gabim gjatë ndryshimit të statusit: " + result.error.message,
             "error"
         );
-
         return;
     }
 
+    if(nextStatus !== "scheduled") playGvmSound(nextStatus);
     await loadVisits();
 }
 
@@ -2771,6 +2083,7 @@ async function confirmDeleteVisit() {
     return;
   }
 
+  playGvmSound("delete");
   await loadVisits();
 }
 
