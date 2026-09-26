@@ -626,6 +626,20 @@ input:focus,select:focus{
     grid-template-columns:1fr !important;
   }
 }
+
+<style id="logout-style">
+.logout-nav{
+  margin-top:10px !important;
+  color:#ff9ca4 !important;
+  border:1px solid rgba(225,95,105,.18) !important;
+  background:rgba(225,70,83,.06) !important;
+}
+.logout-nav:hover{
+  background:rgba(225,70,83,.14) !important;
+  color:#fff !important;
+}
+.logout-nav .nav-icon{color:#ff9ca4 !important}
+.logout-nav:hover .nav-icon{color:#fff !important}
 </style>
 </head>
 <body>
@@ -642,6 +656,7 @@ input:focus,select:focus{
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⌕</span><span>Kërko</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">▥</span><span>Raporte</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⚙</span><span>Cilësimet</span></button>
+    <button class="nav-item logout-nav" id="logoutButton" type="button"><span class="nav-icon">↪</span><span>Dil</span></button>
     <div class="sidebar-footer">
       SPITALI GVM<br>AMBULATORI GVM<br>Sistemi i Menaxhimit të Vizitave
     </div>
@@ -1713,6 +1728,32 @@ async function checkAuth(){
 ========================================================= */
 
 checkAuth();
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+const logoutButton = document.getElementById("logoutButton");
+
+if(logoutButton){
+    logoutButton.addEventListener("click", async function(){
+
+        logoutButton.disabled = true;
+        logoutButton.querySelector("span:last-child").textContent = "Po del...";
+
+        const { error } = await db.auth.signOut();
+
+        if(error){
+            console.error("LOGOUT ERROR:", error);
+            logoutButton.disabled = false;
+            logoutButton.querySelector("span:last-child").textContent = "Dil";
+            showMessage("Gabim gjatë daljes: " + error.message, "error");
+            return;
+        }
+
+        window.location.replace("index.html");
+    });
+}
 
 </script>
 
