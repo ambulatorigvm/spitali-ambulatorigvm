@@ -711,11 +711,16 @@ input:focus,select:focus{
     <div id="todayDate" class="date-title"></div>
       </div>
 
-      <div class="stats">
-        <div class="stat"><div class="stat-icon">▣</div><div><div class="stat-label">Vizita sot</div><div class="stat-value" id="statTotal">0</div></div></div>
+      <div class="stats stats-expanded">
+        <div class="stat"><div class="stat-icon">▣</div><div><div class="stat-label">Total</div><div class="stat-value" id="statTotal">0</div></div></div>
         <div class="stat"><div class="stat-icon">♙</div><div><div class="stat-label">Vizita</div><div class="stat-value" id="statVisits">0</div></div></div>
         <div class="stat"><div class="stat-icon">↻</div><div><div class="stat-label">Rikontrolle</div><div class="stat-value" id="statControls">0</div></div></div>
+        <div class="stat"><div class="stat-icon">◷</div><div><div class="stat-label">Në pritje</div><div class="stat-value" id="statScheduled">0</div></div></div>
+        <div class="stat"><div class="stat-icon">✓</div><div><div class="stat-label">Ka ardhur</div><div class="stat-value" id="statArrived">0</div></div></div>
+        <div class="stat"><div class="stat-icon">✓</div><div><div class="stat-label">Ka mbaruar</div><div class="stat-value" id="statFinished">0</div></div></div>
+        <div class="stat"><div class="stat-icon">×</div><div><div class="stat-label">Anulluar</div><div class="stat-value" id="statCancelled">0</div></div></div>
         <div class="stat"><div class="stat-icon">€</div><div><div class="stat-label">Me pagesë</div><div class="stat-value" id="statPaid">0</div></div></div>
+        <div class="stat"><div class="stat-icon">○</div><div><div class="stat-label">Pa pagesë</div><div class="stat-value" id="statFree">0</div></div></div>
       </div>
 
       <div id="message"></div>
@@ -787,6 +792,22 @@ input:focus,select:focus{
 </div>
 </main>
 </div>
+
+
+<style id="stats-expanded-style">
+.stats-expanded{
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+}
+.stats-expanded .stat{
+    min-width:0;
+}
+@media(max-width:1100px){
+    .stats-expanded{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+}
+@media(max-width:700px){
+    .stats-expanded{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+}
+</style>
 
 <script>
 
@@ -1242,7 +1263,66 @@ async function saveVisit(){
 
 
 /* =========================================================
-   NGARKO VIZITAT E SOTME
+   STATISTIKAT E DATËS SË ZGJEDHUR
+========================================================= */
+
+function updateStats(data){
+
+    const list = data || [];
+
+    const counts = {
+        total: list.length,
+        visits: 0,
+        controls: 0,
+        scheduled: 0,
+        arrived: 0,
+        finished: 0,
+        cancelled: 0,
+        paid: 0,
+        free: 0
+    };
+
+    list.forEach(function(visit){
+
+        if(visit.visit_type === "Rikontroll"){
+            counts.controls++;
+        }
+        else{
+            counts.visits++;
+        }
+
+        const status = visit.status || "scheduled";
+
+        if(status === "arrived") counts.arrived++;
+        else if(status === "finished") counts.finished++;
+        else if(status === "cancelled") counts.cancelled++;
+        else counts.scheduled++;
+
+        if(visit.payment_status === "Me pagesë") counts.paid++;
+        if(visit.payment_status === "Pa pagesë") counts.free++;
+    });
+
+    const values = {
+        statTotal: counts.total,
+        statVisits: counts.visits,
+        statControls: counts.controls,
+        statScheduled: counts.scheduled,
+        statArrived: counts.arrived,
+        statFinished: counts.finished,
+        statCancelled: counts.cancelled,
+        statPaid: counts.paid,
+        statFree: counts.free
+    };
+
+    Object.keys(values).forEach(function(id){
+        const element = document.getElementById(id);
+        if(element) element.textContent = values[id];
+    });
+}
+
+
+/* =========================================================
+   NGARKO VIZITAT E DATËS SË ZGJEDHUR
 ========================================================= */
 
 async function loadVisits(){
@@ -1277,6 +1357,8 @@ async function loadVisits(){
             result.error
         );
 
+        updateStats([]);
+
         visits.innerHTML =
             "<div class=\"empty\"><strong>Gabim gjatë ngarkimit</strong><br><br>" +
             result.error.message +
@@ -1287,6 +1369,8 @@ async function loadVisits(){
 
     const data =
         result.data || [];
+
+    updateStats(data);
 
     if(data.length === 0){
 
