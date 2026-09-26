@@ -508,6 +508,11 @@ input:focus,select:focus{
 }
 </style>
 
+
+<style id="edit-visit-style">
+.edit-modal{position:fixed;inset:0;background:rgba(2,12,20,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.edit-modal.show{display:flex}.edit-box{width:min(480px,100%);background:#10232d;border:1px solid rgba(120,190,210,.22);border-radius:18px;box-shadow:0 25px 70px rgba(0,0,0,.5);padding:24px;color:#eef8fb}.edit-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.edit-head h3{margin:0;font-size:20px}.edit-close{border:0;background:rgba(255,255,255,.08);color:#d9edf2;width:34px;height:34px;border-radius:9px;font-size:20px;cursor:pointer}.edit-box label{display:block;margin:11px 0 6px;color:#a9c3cc;font-size:12px;font-weight:700}.edit-box input,.edit-box select{width:100%;box-sizing:border-box;background:#0b1a22;color:#eef8fb;border:1px solid rgba(140,190,205,.2);border-radius:9px;padding:11px 12px;outline:none}.edit-payment{display:none;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:9px;margin-top:8px}.edit-payment label{display:flex;gap:8px;align-items:center;margin:7px 0;color:#dcecf0;font-weight:600}.edit-actions{display:flex;gap:10px;margin-top:20px}.edit-actions button{flex:1;border-radius:9px;padding:11px;border:1px solid rgba(130,180,195,.2);font-weight:800;cursor:pointer}.edit-save{background:#3bbd8a;color:#062017}.edit-cancel{background:rgba(255,255,255,.06);color:#dcecf0}
+</style>
 </head>
 <body>
 
@@ -612,7 +617,20 @@ input:focus,select:focus{
         </section>
       </div>
     </div>
-  </main>
+  
+<div class="edit-modal" id="editModal">
+  <div class="edit-box">
+    <div class="edit-head"><h3>✎ Ndrysho Vizitën</h3><button class="edit-close" id="editClose" type="button">×</button></div>
+    <label for="editPatientName">Emër + Mbiemër *</label><input id="editPatientName" type="text" autocomplete="off">
+    <label for="editCardNumber">Nr. kartelës</label><input id="editCardNumber" type="text" autocomplete="off">
+    <label for="editVisitType">Lloji i vizitës *</label>
+    <select id="editVisitType"><option value="Vizitë">Vizitë</option><option value="Rikontroll">Rikontroll</option></select>
+    <div class="edit-payment" id="editPaymentBox"><label>Pagesa</label><label><input type="radio" name="editPayment" value="Me pagesë"> Me pagesë</label><label><input type="radio" name="editPayment" value="Pa pagesë"> Pa pagesë</label></div>
+    <label for="editAppointmentTime">Orari *</label><select id="editAppointmentTime"></select>
+    <div class="edit-actions"><button class="edit-cancel" id="editCancel" type="button">Anulo</button><button class="edit-save" id="editSave" type="button">Ruaj ndryshimet</button></div>
+  </div>
+</div>
+</main>
 </div>
 
 <script>
@@ -1294,6 +1312,16 @@ async function loadVisits(){
             );
         });
 
+        const editButton =
+            document.createElement("button");
+
+        editButton.type = "button";
+        editButton.className = "visit-status-button";
+        editButton.textContent = "✎ Ndrysho";
+        editButton.addEventListener("click", function(){
+            openEditVisit(visit);
+        });
+
         const deleteButton =
             document.createElement("button");
 
@@ -1310,6 +1338,7 @@ async function loadVisits(){
         controls.appendChild(arrived);
         controls.appendChild(finished);
         controls.appendChild(cancelled);
+        controls.appendChild(editButton);
         controls.appendChild(deleteButton);
 
         item.appendChild(time);
@@ -1339,6 +1368,71 @@ function applyAgendaSearch(){
     if(!info) return;
     info.textContent = query ? (visible + " vizita u gjetën") : "";
 }
+
+
+/* =========================================================
+   NDRYSHO VIZITEN
+========================================================= */
+
+let editingVisitId = null;
+
+function fillEditTimes(){
+    const select = document.getElementById("editAppointmentTime");
+    select.innerHTML = '<option value="">Zgjidh orën</option>';
+    for(let h=12; h<=17; h++){
+        for(let m=0; m<60; m+=15){
+            if(h===17 && m>0) continue;
+            const v = String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
+            const o=document.createElement("option"); o.value=v; o.textContent=v; select.appendChild(o);
+        }
+    }
+}
+
+function toggleEditPayment(){
+    const type=document.getElementById("editVisitType").value;
+    document.getElementById("editPaymentBox").style.display = type === "Rikontroll" ? "block" : "none";
+}
+
+function openEditVisit(visit){
+    editingVisitId=visit.id;
+    fillEditTimes();
+    document.getElementById("editPatientName").value=visit.patient_name || "";
+    document.getElementById("editCardNumber").value=visit.card_number || "";
+    document.getElementById("editVisitType").value=visit.visit_type || "Vizitë";
+    document.getElementById("editAppointmentTime").value=visit.appointment_time ? String(visit.appointment_time).substring(0,5) : "";
+    document.querySelectorAll('input[name="editPayment"]').forEach(r=>r.checked=(r.value===visit.payment_status));
+    toggleEditPayment();
+    document.getElementById("editModal").classList.add("show");
+}
+
+function closeEditVisit(){
+    editingVisitId=null;
+    document.getElementById("editModal").classList.remove("show");
+}
+
+async function saveEditedVisit(){
+    if(!editingVisitId) return;
+    const name=document.getElementById("editPatientName").value.trim();
+    const card=document.getElementById("editCardNumber").value.trim();
+    const type=document.getElementById("editVisitType").value;
+    const time=document.getElementById("editAppointmentTime").value;
+    const selected=document.querySelector('input[name="editPayment"]:checked');
+    if(!name){showMessage("Vendos Emër Mbiemër.","error");return;}
+    if(!time){showMessage("Zgjidh orën e vizitës.","error");return;}
+    if(type === "Rikontroll" && !selected){showMessage("Zgjidh Me pagesë ose Pa pagesë.","error");return;}
+    const payment=type === "Rikontroll" ? selected.value : null;
+    const result=await db.from("appointments").update({patient_name:name,card_number:card||null,visit_type:type,appointment_time:time,payment_status:payment}).eq("id",editingVisitId);
+    if(result.error){showMessage("Gabim gjatë ndryshimit: "+result.error.message,"error");return;}
+    closeEditVisit();
+    showMessage("Vizita u ndryshua me sukses.","success");
+    await loadVisits();
+}
+
+document.getElementById("editVisitType").addEventListener("change",toggleEditPayment);
+document.getElementById("editClose").addEventListener("click",closeEditVisit);
+document.getElementById("editCancel").addEventListener("click",closeEditVisit);
+document.getElementById("editSave").addEventListener("click",saveEditedVisit);
+document.getElementById("editModal").addEventListener("click",function(e){if(e.target===this)closeEditVisit();});
 
 
 /* =========================================================
