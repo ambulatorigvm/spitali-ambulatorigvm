@@ -1590,6 +1590,11 @@ console.log("AMBULATORI GVM: Supabase client u inicializua");
    KERKIMI I PACIENTEVE TE REGJISTRUAR
 ========================================================= */
 
+const patientName = document.getElementById("patientName");
+const cardNumber = document.getElementById("cardNumber");
+const visitType = document.getElementById("visitType");
+const paymentBox = document.getElementById("paymentBox");
+const appointmentTime = document.getElementById("appointmentTime");
 const patientSuggestions = document.getElementById("patientSuggestions");
 let patientSearchTimer = null;
 
@@ -1678,20 +1683,6 @@ if(patientName){
    ELEMENTET
 ========================================================= */
 
-const patientName =
-    document.getElementById("patientName");
-
-const cardNumber =
-    document.getElementById("cardNumber");
-
-const visitType =
-    document.getElementById("visitType");
-
-const paymentBox =
-    document.getElementById("paymentBox");
-
-const appointmentTime =
-    document.getElementById("appointmentTime");
 
 const saveButton =
     document.getElementById("saveButton");
