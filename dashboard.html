@@ -251,10 +251,6 @@ body{
 .workspace{
     display:grid;
 
-    /*
-       FORMULARI = djathtas
-       AGJENDA = majtas
-    */
     grid-template-columns:
         minmax(0,1fr)
         minmax(320px,365px);
@@ -338,7 +334,6 @@ select:focus{
     border:1px solid #234653;
     background:#081c25;
     border-radius:10px;
-
     position:relative;
     z-index:100;
 }
@@ -351,17 +346,12 @@ select:focus{
     display:flex;
     align-items:center;
     gap:8px;
-
     margin:8px 0;
     padding:8px;
-
     border-radius:7px;
-
     cursor:pointer;
-
     font-weight:600;
     color:#b9d0d8;
-
     position:relative;
     z-index:101;
 }
@@ -381,16 +371,12 @@ select:focus{
     width:100%;
     height:44px;
     margin-top:20px;
-
     border:0;
     border-radius:10px;
-
     background:#0b7897;
     color:white;
-
     font-size:14px;
     font-weight:800;
-
     cursor:pointer;
 }
 
@@ -410,10 +396,6 @@ select:focus{
 
 .agenda-card{
     min-width:0;
-
-    /*
-       Mos lejo elementët jashtë kartës.
-    */
     overflow:hidden;
 }
 
@@ -448,7 +430,6 @@ select:focus{
     display:flex;
     flex-direction:column;
     gap:7px;
-
     width:100%;
 }
 
@@ -459,12 +440,9 @@ select:focus{
 
 .slot{
     width:100%;
-
     border:1px solid #183b47;
     border-radius:10px;
-
     overflow:hidden;
-
     background:#091d26;
 }
 
@@ -475,12 +453,9 @@ select:focus{
 
 .slot-empty{
     min-height:52px;
-
     display:flex;
     align-items:center;
-
     padding:0 12px;
-
     color:#68828d;
     font-size:12px;
 }
@@ -491,14 +466,13 @@ select:focus{
 ========================================================= */
 
 /*
-   SHUMË E RËNDËSISHME:
+   STRUKTURA:
 
-   Vizita ka:
-   1. rreshtin e informacionit
-   2. butonat poshtë
+   Rreshti 1:
+   KOHA | PACIENTI | LLOJI / PAGESA
 
-   Nuk përdorim më një kolonë të ngushtë
-   për 5 butonat.
+   Rreshti 2:
+   5 BUTONAT
 */
 
 .visit-item{
@@ -506,24 +480,27 @@ select:focus{
     display:grid !important;
 
     grid-template-columns:
-        65px
-        minmax(160px,1fr)
-        minmax(120px,180px) !important;
+        70px
+        minmax(0,1fr)
+        minmax(130px,190px) !important;
 
-    gap:10px !important;
+    grid-template-rows:
+        auto
+        auto !important;
+
+    column-gap:12px !important;
+    row-gap:0 !important;
 
     width:100% !important;
     min-width:0 !important;
 
-    min-height:85px;
+    min-height:0 !important;
 
-    padding:10px 12px !important;
+    padding:11px 12px 9px !important;
 
     background:#0b222d;
 
     border-left:4px solid #2995b5;
-
-    align-items:center;
 
     position:relative;
 
@@ -537,6 +514,8 @@ select:focus{
 
 .visit-time{
     min-width:0;
+    align-self:start;
+    padding-top:3px;
     font-weight:800;
     font-size:13px;
     color:#dceff4;
@@ -545,6 +524,7 @@ select:focus{
 .visit-patient{
     min-width:0;
     overflow:hidden;
+    align-self:start;
 }
 
 .patient-name{
@@ -566,6 +546,10 @@ select:focus{
 .visit-type{
     min-width:0;
 
+    align-self:start;
+
+    padding-top:3px;
+
     font-size:11px;
     font-weight:700;
     color:#91b0bb;
@@ -574,9 +558,12 @@ select:focus{
 }
 
 .visit-payment{
-    margin-top:3px;
+    margin-top:4px;
     font-size:10px;
     color:#6d9eac;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 
@@ -584,13 +571,10 @@ select:focus{
    STATUS CONTROLS
 ========================================================= */
 
-/*
-   BUTONAT JANË 100% NË RRESHTIN E TYRE.
-*/
-
 .visit-status-controls{
 
     grid-column:1 / -1 !important;
+    grid-row:2 !important;
 
     display:flex !important;
 
@@ -600,24 +584,22 @@ select:focus{
 
     justify-content:flex-start !important;
 
-    flex-wrap:wrap !important;
+    flex-wrap:nowrap !important;
 
-    gap:6px !important;
+    gap:7px !important;
 
     width:100% !important;
-
     min-width:0 !important;
 
-    margin:3px 0 0 0 !important;
+    margin:9px 0 0 0 !important;
 
-    padding:8px 0 2px 0 !important;
+    padding:8px 0 0 0 !important;
 
     border-top:1px solid #173743 !important;
 
     position:static !important;
 
     overflow:visible !important;
-
 }
 
 
@@ -637,17 +619,10 @@ select:focus{
 
     flex:0 0 auto !important;
 
-    width:auto !important;
-
-    min-width:0 !important;
-
-    height:32px !important;
-
-    min-height:32px !important;
+    height:30px !important;
+    min-height:30px !important;
 
     margin:0 !important;
-
-    padding:0 10px !important;
 
     border-radius:7px !important;
 
@@ -655,15 +630,35 @@ select:focus{
 
     box-sizing:border-box !important;
 
+    font-family:Arial,Helvetica,sans-serif !important;
+
     font-size:10px !important;
+
+    font-weight:700 !important;
 
     line-height:1 !important;
 
     cursor:pointer !important;
+
+    transition:
+        filter .15s ease,
+        transform .15s ease,
+        background .15s ease !important;
+}
+
+.visit-status-controls button:hover{
+    filter:brightness(1.16);
+    transform:translateY(-1px);
+}
+
+.visit-status-controls button:active{
+    transform:translateY(0);
 }
 
 
-/* Ka ardhur */
+/* =========================================================
+   BUTTON 1 - KA ARDHUR
+========================================================= */
 
 .visit-status-controls .arrived{
 
@@ -677,7 +672,9 @@ select:focus{
 }
 
 
-/* Ka mbaruar */
+/* =========================================================
+   BUTTON 2 - KA MBARUAR
+========================================================= */
 
 .visit-status-controls .finished{
 
@@ -691,7 +688,9 @@ select:focus{
 }
 
 
-/* Anullo */
+/* =========================================================
+   BUTTON 3 - ANULLO
+========================================================= */
 
 .visit-status-controls .cancelled{
 
@@ -705,9 +704,19 @@ select:focus{
 }
 
 
-/* Ndrysho */
+/* =========================================================
+   BUTTON 4 - NDRYSHO
+========================================================= */
 
-.visit-status-controls button:not(.arrived):not(.finished):not(.cancelled):not(.visit-delete-button){
+.visit-status-controls button:not(
+    .arrived
+):not(
+    .finished
+):not(
+    .cancelled
+):not(
+    .visit-delete-button
+){
 
     width:75px !important;
 
@@ -719,7 +728,9 @@ select:focus{
 }
 
 
-/* Fshi */
+/* =========================================================
+   BUTTON 5 - FSHI
+========================================================= */
 
 .visit-status-controls .visit-delete-button{
 
@@ -730,13 +741,6 @@ select:focus{
     color:#ff9da4 !important;
 
     border:1px solid #753237 !important;
-}
-
-
-/* Hover */
-
-.visit-status-controls button:hover{
-    filter:brightness(1.15);
 }
 
 
@@ -769,6 +773,10 @@ select:focus{
 .modal{
 
     width:min(480px,100%);
+
+    max-height:90vh;
+
+    overflow-y:auto;
 
     background:#0b222d;
 
@@ -858,12 +866,17 @@ select:focus{
 
         grid-template-columns:
             60px
-            minmax(140px,1fr)
-            minmax(105px,150px) !important;
+            minmax(0,1fr)
+            minmax(115px,155px) !important;
 
     }
+
 }
 
+
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media(max-width:950px){
 
@@ -891,23 +904,32 @@ select:focus{
 
         grid-template-columns:
             60px
-            1fr !important;
+            minmax(0,1fr)
+            minmax(120px,160px) !important;
 
     }
 
-    .visit-type{
+}
 
-        grid-column:2;
 
-    }
+/* =========================================================
+   SMALLER TABLET
+========================================================= */
+
+@media(max-width:820px){
 
     .visit-status-controls{
 
-        grid-column:1 / -1 !important;
+        flex-wrap:wrap !important;
 
     }
+
 }
 
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:700px){
 
@@ -977,19 +999,28 @@ select:focus{
 
         grid-template-columns:
             58px
-            1fr !important;
+            minmax(0,1fr) !important;
+
+        grid-template-rows:
+            auto
+            auto
+            auto !important;
 
     }
 
     .visit-type{
 
-        grid-column:2;
+        grid-column:2 !important;
+        grid-row:2 !important;
+
+        padding-top:7px;
 
     }
 
     .visit-status-controls{
 
         grid-column:1 / -1 !important;
+        grid-row:3 !important;
 
         flex-wrap:wrap !important;
 
@@ -997,16 +1028,98 @@ select:focus{
 
     }
 
+}
+
+
+/* =========================================================
+   VERY SMALL SCREEN
+========================================================= */
+
+@media(max-width:430px){
+
+    .visit-status-controls{
+
+        gap:5px !important;
+
+    }
+
     .visit-status-controls button{
 
-        min-width:65px !important;
+        height:29px !important;
+        min-height:29px !important;
 
-        width:auto !important;
+        font-size:9px !important;
 
+        padding:0 7px !important;
+
+    }
+
+    .visit-status-controls .arrived{
+        width:76px !important;
+    }
+
+    .visit-status-controls .finished{
+        width:82px !important;
+    }
+
+    .visit-status-controls .cancelled{
+        width:58px !important;
+    }
+
+    .visit-status-controls button:not(
+        .arrived
+    ):not(
+        .finished
+    ):not(
+        .cancelled
+    ):not(
+        .visit-delete-button
+    ){
+        width:70px !important;
+    }
+
+    .visit-status-controls .visit-delete-button{
+        width:76px !important;
     }
 
 }
 
+
+/* =========================================================
+   EXTRA PROTECTION
+========================================================= */
+
+/*
+   Asnjë element i agjendës nuk mund të dalë
+   sipër formularit.
+*/
+
+.agenda-card{
+    min-width:0 !important;
+    overflow:hidden !important;
+}
+
+.visit-item,
+.visit-status-controls,
+.visit-status-controls button{
+    max-width:100% !important;
+}
+
+.workspace > .card{
+    min-width:0 !important;
+}
+
+.workspace > .card:not(.agenda-card){
+    position:relative !important;
+    z-index:20 !important;
+}
+
+#paymentBox,
+#paymentBox *{
+    position:relative !important;
+    z-index:50 !important;
+    pointer-events:auto !important;
+}
 
 </style>
 </head>
@@ -1465,7 +1578,7 @@ select:focus{
 
         <input
             type="radio"
-            name="editPayment"
+        name="editPayment"
             value="Pa pagesë">
 
         <span>
@@ -2372,6 +2485,8 @@ async function loadVisits(){
                 "visit-status-controls";
 
 
+            /* KA ARDHUR */
+
             const arrived =
                 document.createElement(
                     "button"
@@ -2386,6 +2501,8 @@ async function loadVisits(){
             arrived.textContent =
                 "✓ Ka ardhur";
 
+
+            /* KA MBARUAR */
 
             const finished =
                 document.createElement(
@@ -2402,6 +2519,8 @@ async function loadVisits(){
                 "✓ Ka mbaruar";
 
 
+            /* ANULLO */
+
             const cancelled =
                 document.createElement(
                     "button"
@@ -2417,6 +2536,8 @@ async function loadVisits(){
                 "Anullo";
 
 
+            /* NDRYSHO */
+
             const editButton =
                 document.createElement(
                     "button"
@@ -2425,9 +2546,14 @@ async function loadVisits(){
             editButton.type =
                 "button";
 
+            editButton.className =
+                "edit-visit-button";
+
             editButton.textContent =
                 "✎ Ndrysho";
 
+
+            /* FSHI */
 
             const deleteButton =
                 document.createElement(
@@ -2443,6 +2569,8 @@ async function loadVisits(){
             deleteButton.textContent =
                 "Fshi vizitën";
 
+
+            /* EVENTS */
 
             arrived.addEventListener(
                 "click",
@@ -2495,11 +2623,6 @@ async function loadVisits(){
             );
 
 
-            /*
-               KORRIGJIM:
-               Fshirja hap konfirmimin.
-            */
-
             deleteButton.addEventListener(
                 "click",
                 function(){
@@ -2511,6 +2634,8 @@ async function loadVisits(){
                 }
             );
 
+
+            /* APPEND BUTTONS */
 
             controls.appendChild(
                 arrived
@@ -2533,11 +2658,7 @@ async function loadVisits(){
             );
 
 
-            /*
-               RENDITJA:
-               Informacioni lart,
-               butonat poshte.
-            */
+            /* APPEND VISIT */
 
             item.appendChild(
                 timeEl
@@ -2816,9 +2937,7 @@ function createEditTimeOptions(){
 
         const hour =
             String(
-                Math.floor(
-                    minutes / 60
-                )
+                Math.floor(minutes / 60)
             ).padStart(2,"0");
 
 
@@ -3001,9 +3120,7 @@ document
                 null;
 
 
-            if(
-                !name
-            ){
+            if(!name){
 
                 showMessage(
                     "Vendosni emrin dhe mbiemrin.",
