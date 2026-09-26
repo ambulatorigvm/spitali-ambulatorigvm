@@ -11,7 +11,7 @@
 <style>
 
 /* =========================================================
-   BASE
+   RESET
 ========================================================= */
 
 *{
@@ -28,18 +28,13 @@ body{
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-    background:#eef4f8;
-    color:#173042;
+    background:#071923;
+    color:#eaf4f8;
 }
 
-button,
-input,
-select{
-    font-family:inherit;
-}
 
 /* =========================================================
-   LAYOUT
+   APP
 ========================================================= */
 
 .app{
@@ -47,31 +42,35 @@ select{
     display:flex;
 }
 
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
 .sidebar{
     width:245px;
     min-width:245px;
-    background:#082838;
-    color:white;
+    background:#06151d;
+    border-right:1px solid rgba(255,255,255,.08);
     padding:24px 18px;
-    display:flex;
-    flex-direction:column;
+    color:white;
 }
 
 .brand{
-    padding:8px 10px 28px;
-    border-bottom:1px solid rgba(255,255,255,.12);
+    padding:8px 10px 25px;
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .brand-main{
     font-size:20px;
     font-weight:800;
-    letter-spacing:.5px;
+    letter-spacing:.6px;
 }
 
 .brand-sub{
     margin-top:5px;
     font-size:12px;
-    color:#8fb5c6;
+    color:#83a8b7;
     letter-spacing:1.2px;
 }
 
@@ -82,57 +81,65 @@ select{
 .nav-item{
     padding:13px 14px;
     border-radius:10px;
-    color:#b9ced8;
+    color:#91aeb9;
     font-size:14px;
     margin-bottom:7px;
 }
 
 .nav-item.active{
-    background:#0f4258;
+    background:#0d394b;
     color:white;
 }
+
+
+/* =========================================================
+   MAIN
+========================================================= */
 
 .main{
     flex:1;
     min-width:0;
     padding:20px;
+    overflow-x:hidden;
 }
 
 .topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:15px;
     margin-bottom:18px;
 }
 
 .page-title{
     font-size:24px;
     font-weight:800;
-    color:#102f40;
+    color:#f1f8fb;
 }
 
 .page-subtitle{
-    margin-top:4px;
-    color:#728896;
+    margin-top:5px;
+    color:#8ca5af;
     font-size:13px;
 }
 
 .user-box{
-    background:white;
-    border:1px solid #dce7ed;
+    background:#0c2631;
+    border:1px solid #183b48;
     border-radius:12px;
     padding:10px 14px;
-    font-size:13px;
-    color:#506b78;
+    font-size:12px;
+    color:#a9c2cc;
 }
+
 
 /* =========================================================
    DATE NAVIGATION
 ========================================================= */
 
 .date-navigation{
-    background:white;
-    border:1px solid #dce7ed;
+    background:#0b222d;
+    border:1px solid #173a47;
     border-radius:14px;
     padding:12px;
     display:flex;
@@ -143,9 +150,9 @@ select{
 }
 
 .date-navigation button{
-    border:0;
-    background:#edf5f8;
-    color:#12384a;
+    border:1px solid #204655;
+    background:#102f3c;
+    color:#dcecf2;
     width:38px;
     height:38px;
     border-radius:9px;
@@ -154,7 +161,7 @@ select{
 }
 
 .date-navigation button:hover{
-    background:#dcecf2;
+    background:#174354;
 }
 
 .date-center{
@@ -165,14 +172,15 @@ select{
 .date-main{
     font-size:17px;
     font-weight:800;
-    color:#163a4c;
+    color:#eaf6fa;
 }
 
 .date-small{
     margin-top:3px;
     font-size:12px;
-    color:#78909c;
+    color:#7896a2;
 }
+
 
 /* =========================================================
    STATS
@@ -186,8 +194,8 @@ select{
 }
 
 .stat-card{
-    background:white;
-    border:1px solid #dce7ed;
+    background:#0b222d;
+    border:1px solid #173a47;
     border-radius:14px;
     padding:15px;
 }
@@ -196,15 +204,16 @@ select{
     font-size:11px;
     text-transform:uppercase;
     letter-spacing:.7px;
-    color:#8095a0;
+    color:#7896a2;
 }
 
 .stat-value{
     margin-top:7px;
     font-size:25px;
     font-weight:800;
-    color:#173b4e;
+    color:#eef9fc;
 }
+
 
 /* =========================================================
    MESSAGE
@@ -223,16 +232,17 @@ select{
 }
 
 .message.success{
-    background:#e8f7ef;
-    border:1px solid #b8e3ca;
-    color:#14683c;
+    background:#0c3025;
+    border:1px solid #1b684e;
+    color:#8ce0bd;
 }
 
 .message.error{
-    background:#fff0f0;
-    border:1px solid #efc0c0;
-    color:#a52d2d;
+    background:#35191c;
+    border:1px solid #793036;
+    color:#ffabb0;
 }
+
 
 /* =========================================================
    WORKSPACE
@@ -240,23 +250,37 @@ select{
 
 .workspace{
     display:grid;
-    grid-template-columns:minmax(310px,.82fr) minmax(500px,1.35fr);
+
+    /*
+       FORMULARI = djathtas
+       AGJENDA = majtas
+    */
+    grid-template-columns:
+        minmax(0,1fr)
+        minmax(320px,365px);
+
     gap:15px;
+
     align-items:start;
 }
 
+
+/* =========================================================
+   CARDS
+========================================================= */
+
 .card{
-    background:white;
-    border:1px solid #dce7ed;
+    background:#0b222d;
+    border:1px solid #173a47;
     border-radius:15px;
     padding:18px;
-    box-shadow:0 3px 15px rgba(20,60,80,.04);
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
 }
 
 .card-title{
     font-size:16px;
     font-weight:800;
-    color:#173a4c;
+    color:#eaf7fa;
     margin-bottom:18px;
     display:flex;
     align-items:center;
@@ -269,11 +293,12 @@ select{
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#e7f3f8;
-    color:#0d6d8d;
+    background:#123a49;
+    color:#75d1e8;
     border-radius:8px;
     font-size:17px;
 }
+
 
 /* =========================================================
    FORM
@@ -284,74 +309,93 @@ label{
     margin:12px 0 6px;
     font-size:12px;
     font-weight:700;
-    color:#506b78;
+    color:#91aeb9;
 }
 
 input[type="text"],
 select{
     width:100%;
     height:42px;
-    border:1px solid #ccdce4;
-    background:#fbfdfe;
+    border:1px solid #234653;
+    background:#071b24;
     border-radius:9px;
     padding:0 12px;
-    color:#173042;
+    color:#e9f5f8;
     outline:none;
     font-size:13px;
 }
 
 input[type="text"]:focus,
 select:focus{
-    border-color:#5da4bf;
-    box-shadow:0 0 0 3px rgba(93,164,191,.12);
+    border-color:#3298b5;
+    box-shadow:0 0 0 3px rgba(50,152,181,.12);
 }
 
 #paymentBox{
     display:none;
     margin-top:12px;
     padding:12px;
-    border:1px solid #dce7ed;
-    background:#f7fbfd;
+    border:1px solid #234653;
+    background:#081c25;
     border-radius:10px;
+
+    position:relative;
+    z-index:100;
+}
+
+#paymentBox label:first-child{
+    margin-top:0;
 }
 
 .payment-option{
     display:flex;
     align-items:center;
     gap:8px;
+
     margin:8px 0;
-    padding:7px 8px;
+    padding:8px;
+
     border-radius:7px;
+
     cursor:pointer;
+
     font-weight:600;
-    color:#315361;
+    color:#b9d0d8;
+
+    position:relative;
+    z-index:101;
 }
 
 .payment-option:hover{
-    background:#eaf4f8;
+    background:#102f3c;
 }
 
 .payment-option input{
     width:16px;
     height:16px;
     margin:0;
+    cursor:pointer;
 }
 
 #saveButton{
     width:100%;
     height:44px;
     margin-top:20px;
+
     border:0;
     border-radius:10px;
-    background:#0b718f;
+
+    background:#0b7897;
     color:white;
+
     font-size:14px;
     font-weight:800;
+
     cursor:pointer;
 }
 
 #saveButton:hover{
-    background:#095f79;
+    background:#0d8cad;
 }
 
 #saveButton:disabled{
@@ -359,12 +403,18 @@ select:focus{
     cursor:not-allowed;
 }
 
+
 /* =========================================================
    AGENDA
 ========================================================= */
 
 .agenda-card{
     min-width:0;
+
+    /*
+       Mos lejo elementët jashtë kartës.
+    */
+    overflow:hidden;
 }
 
 .agenda-header{
@@ -378,7 +428,7 @@ select:focus{
 .agenda-title{
     font-size:16px;
     font-weight:800;
-    color:#173a4c;
+    color:#eaf7fa;
 }
 
 .search-box{
@@ -389,58 +439,119 @@ select:focus{
     height:36px;
 }
 
+
+/* =========================================================
+   AGENDA LIST
+========================================================= */
+
 .agenda-list{
     display:flex;
     flex-direction:column;
     gap:7px;
+
+    width:100%;
 }
 
+
+/* =========================================================
+   SLOT
+========================================================= */
+
 .slot{
-    border:1px solid #e0e9ee;
+    width:100%;
+
+    border:1px solid #183b47;
     border-radius:10px;
+
     overflow:hidden;
-    background:#fff;
+
+    background:#091d26;
 }
+
+
+/* =========================================================
+   EMPTY SLOT
+========================================================= */
 
 .slot-empty{
     min-height:52px;
+
     display:flex;
     align-items:center;
+
     padding:0 12px;
-    color:#91a2ab;
+
+    color:#68828d;
     font-size:12px;
 }
 
+
+/* =========================================================
+   VISIT ITEM
+========================================================= */
+
+/*
+   SHUMË E RËNDËSISHME:
+
+   Vizita ka:
+   1. rreshtin e informacionit
+   2. butonat poshtë
+
+   Nuk përdorim më një kolonë të ngushtë
+   për 5 butonat.
+*/
+
 .visit-item{
-    display:grid;
+
+    display:grid !important;
+
     grid-template-columns:
-        72px
-        minmax(150px,1.15fr)
-        minmax(105px,.8fr)
-        minmax(240px,auto);
-    align-items:center;
-    gap:10px;
-    width:100%;
-    min-height:62px;
-    padding:9px 11px;
-    background:white;
+        65px
+        minmax(160px,1fr)
+        minmax(120px,180px) !important;
+
+    gap:10px !important;
+
+    width:100% !important;
+    min-width:0 !important;
+
+    min-height:85px;
+
+    padding:10px 12px !important;
+
+    background:#0b222d;
+
     border-left:4px solid #2995b5;
+
+    align-items:center;
+
+    position:relative;
+
+    overflow:hidden;
 }
 
+
+/* =========================================================
+   VISIT INFORMATION
+========================================================= */
+
 .visit-time{
+    min-width:0;
     font-weight:800;
     font-size:13px;
-    color:#183d4f;
+    color:#dceff4;
 }
 
 .visit-patient{
     min-width:0;
+    overflow:hidden;
 }
 
 .patient-name{
     font-size:13px;
     font-weight:800;
-    color:#173a4c;
+    color:#eaf7fa;
+
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -449,171 +560,205 @@ select:focus{
 .patient-card{
     margin-top:3px;
     font-size:10px;
-    color:#8a9ca5;
+    color:#708c98;
 }
 
 .visit-type{
+    min-width:0;
+
     font-size:11px;
     font-weight:700;
-    color:#496b79;
+    color:#91b0bb;
+
+    overflow:hidden;
 }
 
 .visit-payment{
     margin-top:3px;
     font-size:10px;
-    color:#8a9ca5;
+    color:#6d9eac;
 }
 
-.visit-status-controls{
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    flex-wrap:wrap;
-    gap:5px;
-    width:100%;
-}
-
-.visit-status-button,
-.visit-delete-button{
-    border:0;
-    cursor:pointer;
-    height:31px;
-    min-height:31px;
-    padding:0 8px;
-    border-radius:7px;
-    font-size:10px;
-    font-weight:700;
-    white-space:nowrap;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.visit-status-button.arrived{
-    background:#e5f7ed;
-    color:#167144;
-}
-
-.visit-status-button.finished{
-    background:#e7f0ff;
-    color:#275ca8;
-}
-
-.visit-status-button.cancelled{
-    background:#fff0f0;
-    color:#a32d2d;
-}
-
-.visit-status-button:not(.arrived):not(.finished):not(.cancelled){
-    background:#edf3f6;
-    color:#315361;
-}
-
-.visit-delete-button{
-    background:#fff0f0;
-    color:#a52d2d;
-}
-
-.visit-status-button:hover,
-.visit-delete-button:hover{
-    filter:brightness(.96);
-}
 
 /* =========================================================
-   FIX: BUTONAT E AGJENDËS MOS TË MBIVENDOSEN
+   STATUS CONTROLS
 ========================================================= */
 
-.workspace > .card:not(.agenda-card){
-    position:relative;
-    z-index:20;
-}
-
-.workspace > .agenda-card{
-    position:relative;
-    z-index:10;
-    min-width:0;
-    overflow:hidden;
-}
-
-#paymentBox,
-#paymentBox *{
-    position:relative;
-    z-index:30;
-    pointer-events:auto;
-}
-
-.visit-item{
-    grid-template-columns:
-        64px
-        minmax(135px,1.15fr)
-        minmax(95px,.75fr)
-        minmax(315px,315px) !important;
-
-    min-width:0 !important;
-}
+/*
+   BUTONAT JANË 100% NË RRESHTIN E TYRE.
+*/
 
 .visit-status-controls{
+
+    grid-column:1 / -1 !important;
+
     display:flex !important;
+
+    flex-direction:row !important;
+
     align-items:center !important;
+
     justify-content:flex-start !important;
+
     flex-wrap:wrap !important;
-    gap:5px !important;
+
+    gap:6px !important;
+
     width:100% !important;
+
     min-width:0 !important;
-    margin:0 !important;
-    padding:0 !important;
+
+    margin:3px 0 0 0 !important;
+
+    padding:8px 0 2px 0 !important;
+
+    border-top:1px solid #173743 !important;
+
+    position:static !important;
+
+    overflow:visible !important;
+
 }
 
-.visit-status-button,
-.visit-delete-button{
-    width:auto !important;
-    min-width:0 !important;
-    height:31px !important;
-    min-height:31px !important;
-    flex:0 0 auto !important;
-    margin:0 !important;
-    padding:0 8px !important;
-    white-space:nowrap !important;
+
+/* =========================================================
+   ALL BUTTONS
+========================================================= */
+
+.visit-status-controls button{
+
+    position:static !important;
+
     display:inline-flex !important;
+
     align-items:center !important;
+
     justify-content:center !important;
+
+    flex:0 0 auto !important;
+
+    width:auto !important;
+
+    min-width:0 !important;
+
+    height:32px !important;
+
+    min-height:32px !important;
+
+    margin:0 !important;
+
+    padding:0 10px !important;
+
     border-radius:7px !important;
+
+    white-space:nowrap !important;
+
+    box-sizing:border-box !important;
+
     font-size:10px !important;
+
     line-height:1 !important;
+
+    cursor:pointer !important;
 }
 
-.visit-status-button.arrived{
-    min-width:68px !important;
+
+/* Ka ardhur */
+
+.visit-status-controls .arrived{
+
+    width:82px !important;
+
+    background:#103c2d !important;
+
+    color:#7ee0b5 !important;
+
+    border:1px solid #1d674d !important;
 }
 
-.visit-status-button.finished{
-    min-width:74px !important;
+
+/* Ka mbaruar */
+
+.visit-status-controls .finished{
+
+    width:88px !important;
+
+    background:#123657 !important;
+
+    color:#8db9f0 !important;
+
+    border:1px solid #255c8a !important;
 }
 
-.visit-status-button.cancelled{
-    min-width:52px !important;
+
+/* Anullo */
+
+.visit-status-controls .cancelled{
+
+    width:62px !important;
+
+    background:#401d21 !important;
+
+    color:#ff9da4 !important;
+
+    border:1px solid #753237 !important;
 }
 
-.visit-status-button:not(.arrived):not(.finished):not(.cancelled){
-    min-width:65px !important;
+
+/* Ndrysho */
+
+.visit-status-controls button:not(.arrived):not(.finished):not(.cancelled):not(.visit-delete-button){
+
+    width:75px !important;
+
+    background:#17343f !important;
+
+    color:#a9c7d0 !important;
+
+    border:1px solid #28505d !important;
 }
 
-.visit-delete-button{
-    min-width:72px !important;
+
+/* Fshi */
+
+.visit-status-controls .visit-delete-button{
+
+    width:82px !important;
+
+    background:#401d21 !important;
+
+    color:#ff9da4 !important;
+
+    border:1px solid #753237 !important;
 }
+
+
+/* Hover */
+
+.visit-status-controls button:hover{
+    filter:brightness(1.15);
+}
+
 
 /* =========================================================
    EDIT MODAL
 ========================================================= */
 
 .modal-overlay{
+
     position:fixed;
+
     inset:0;
-    background:rgba(3,22,31,.65);
+
+    background:rgba(0,0,0,.72);
+
     display:none;
+
     align-items:center;
     justify-content:center;
+
     z-index:1000;
+
     padding:20px;
 }
 
@@ -622,718 +767,825 @@ select:focus{
 }
 
 .modal{
+
     width:min(480px,100%);
-    background:white;
+
+    background:#0b222d;
+
+    border:1px solid #244754;
+
     border-radius:16px;
+
     padding:22px;
-    box-shadow:0 20px 60px rgba(0,0,0,.25);
+
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
 }
 
 .modal-title{
+
     font-size:18px;
+
     font-weight:800;
-    color:#163b4d;
+
+    color:#edf8fb;
+
     margin-bottom:15px;
 }
 
 .modal-actions{
+
     display:flex;
+
     justify-content:flex-end;
+
     gap:8px;
+
     margin-top:18px;
 }
 
 .modal-actions button{
+
     border:0;
+
     border-radius:8px;
+
     height:38px;
+
     padding:0 15px;
+
     cursor:pointer;
+
     font-weight:700;
 }
 
 .btn-secondary{
-    background:#edf3f6;
-    color:#365563;
+
+    background:#17343f;
+
+    color:#bad0d7;
 }
 
 .btn-primary{
-    background:#0b718f;
+
+    background:#0b7897;
+
     color:white;
 }
 
 .btn-danger{
-    background:#b83333;
+
+    background:#a52f36;
+
     color:white;
 }
+
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1200px){
+@media(max-width:1100px){
 
     .workspace{
-        grid-template-columns:minmax(300px,.75fr) minmax(460px,1.25fr);
+
+        grid-template-columns:
+            minmax(0,1fr)
+            minmax(300px,330px);
+
     }
 
     .visit-item{
+
         grid-template-columns:
             60px
-            minmax(130px,1fr)
-            minmax(100px,.8fr)
-            300px !important;
-    }
+            minmax(140px,1fr)
+            minmax(105px,150px) !important;
 
-    .visit-status-controls{
-        gap:4px !important;
-    }
-
-    .visit-status-button,
-    .visit-delete-button{
-        font-size:9px !important;
-        padding:0 6px !important;
-    }
-
-    .visit-status-button.arrived{
-        min-width:68px !important;
-    }
-
-    .visit-status-button.finished{
-        min-width:73px !important;
-    }
-
-    .visit-status-button.cancelled{
-        min-width:53px !important;
-    }
-
-    .visit-status-controls button:not(.arrived):not(.finished):not(.cancelled):not(.visit-delete-button){
-        min-width:65px !important;
-    }
-
-    .visit-delete-button{
-        min-width:70px !important;
     }
 }
 
-@media(max-width:1050px){
-
-    .workspace > .agenda-card{
-        overflow:visible;
-    }
-
-    .visit-item{
-        grid-template-columns:
-            60px
-            minmax(120px,1fr)
-            minmax(95px,.8fr)
-            minmax(135px,1fr) !important;
-    }
-
-    .visit-status-controls{
-        grid-column:1/-1 !important;
-        justify-content:flex-start !important;
-        flex-wrap:wrap !important;
-        overflow:visible !important;
-    }
-}
 
 @media(max-width:950px){
 
     .sidebar{
+
         width:200px;
         min-width:200px;
+
     }
 
     .workspace{
+
         grid-template-columns:1fr;
+
     }
 
     .stats{
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+            repeat(2,1fr);
+
     }
 
     .visit-item{
+
         grid-template-columns:
             60px
-            1fr
             1fr !important;
+
+    }
+
+    .visit-type{
+
+        grid-column:2;
+
     }
 
     .visit-status-controls{
-        grid-column:1/-1 !important;
-        width:100% !important;
-        display:flex !important;
-        flex-wrap:wrap !important;
-        justify-content:flex-start !important;
-        padding-top:5px !important;
+
+        grid-column:1 / -1 !important;
+
     }
 }
 
-@media(max-width:760px){
+
+@media(max-width:700px){
 
     .app{
+
         display:block;
+
     }
 
     .sidebar{
+
         width:100%;
         min-width:0;
+
         padding:14px;
+
     }
 
     .nav{
+
         display:none;
+
     }
 
     .main{
+
         padding:12px;
+
     }
 
     .topbar{
+
         display:block;
+
     }
 
     .user-box{
+
         margin-top:10px;
+
         display:inline-block;
+
     }
 
     .stats{
-        grid-template-columns:1fr 1fr;
+
+        grid-template-columns:
+            1fr 1fr;
+
     }
 
     .agenda-header{
+
         display:block;
+
     }
 
     .search-box{
+
         width:100%;
+
         margin-top:10px;
+
     }
 
     .visit-item{
-        grid-template-columns:58px 1fr !important;
+
+        grid-template-columns:
+            58px
+            1fr !important;
+
+    }
+
+    .visit-type{
+
+        grid-column:2;
+
     }
 
     .visit-status-controls{
-        grid-column:1/-1 !important;
+
+        grid-column:1 / -1 !important;
+
         flex-wrap:wrap !important;
-        overflow:visible !important;
+
+        gap:5px !important;
+
     }
 
-    .visit-status-button,
-    .visit-delete-button,
     .visit-status-controls button{
-        width:auto !important;
+
         min-width:65px !important;
-        height:32px !important;
+
+        width:auto !important;
+
     }
+
 }
+
 
 </style>
 </head>
 
+
 <body>
+
 
 <div class="app">
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
 
-    <aside class="sidebar">
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
 
-        <div class="brand">
-            <div class="brand-main">SPITALI GVM</div>
-            <div class="brand-sub">AMBULATORI GVM</div>
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-main">
+            SPITALI GVM
         </div>
 
-        <div class="nav">
-            <div class="nav-item active">
-                📅 &nbsp; Agjenda
-            </div>
+        <div class="brand-sub">
+            AMBULATORI GVM
         </div>
 
-    </aside>
+    </div>
 
 
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
+    <div class="nav">
 
-    <main class="main">
-
-        <div class="topbar">
-
-            <div>
-                <div class="page-title">
-                    Agjenda e Vizitave
-                </div>
-
-                <div class="page-subtitle">
-                    Menaxhimi ditor i vizitave të ambulatorit
-                </div>
-            </div>
-
-            <div class="user-box">
-                AMBULATORI GVM
-            </div>
-
+        <div class="nav-item active">
+            📅 &nbsp; Agjenda
         </div>
 
+    </div>
 
-        <!-- =================================================
-             DATE NAVIGATION
-        ================================================== -->
+</aside>
 
-        <div class="date-navigation">
 
-            <button id="prevDate" type="button">
-                ‹
-            </button>
 
-            <div class="date-center">
+<!-- =====================================================
+     MAIN
+====================================================== -->
 
-                <div
-                    id="selectedDateLabel"
-                    class="date-main">
-                    -
-                </div>
+<main class="main">
 
-                <div
-                    id="selectedDateSmall"
-                    class="date-small">
-                    -
-                </div>
 
-            </div>
+<div class="topbar">
 
-            <button id="nextDate" type="button">
-                ›
-            </button>
+    <div>
 
+        <div class="page-title">
+            Agjenda e Vizitave
         </div>
 
-
-        <!-- =================================================
-             STATS
-        ================================================== -->
-
-        <div class="stats">
-
-            <div class="stat-card">
-                <div class="stat-label">
-                    Gjithsej
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="statTotal">
-                    0
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">
-                    Vizita
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="statVisits">
-                    0
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">
-                    Rikontrolle
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="statRechecks">
-                    0
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">
-                    Të anulluara
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="statCancelled">
-                    0
-                </div>
-            </div>
-
+        <div class="page-subtitle">
+            Menaxhimi ditor i vizitave të ambulatorit
         </div>
 
-
-        <!-- =================================================
-             MESSAGE
-        ================================================== -->
-
-        <div
-            id="message"
-            class="message">
-        </div>
+    </div>
 
 
-        <!-- =================================================
-             WORKSPACE
-        ================================================== -->
-
-        <div class="workspace">
-
-
-            <!-- =============================================
-                 FORM
-            ============================================== -->
-
-            <section class="card">
-
-                <div class="card-title">
-                    <span class="title-icon">＋</span>
-                    Shto Vizitë të Re
-                </div>
-
-
-                <label for="patientName">
-                    Emër + Mbiemër *
-                </label>
-
-                <input
-                    type="text"
-                    id="patientName"
-                    placeholder="Shkruani emrin dhe mbiemrin"
-                    autocomplete="off"
-                >
-
-
-                <label for="visitType">
-                    Lloji i vizitës *
-                </label>
-
-                <select id="visitType">
-
-                    <option value="Vizitë">
-                        Vizitë
-                    </option>
-
-                    <option value="Rikontroll">
-                        Rikontroll
-                    </option>
-
-                </select>
-
-
-                <div id="paymentBox">
-
-                    <label>
-                        Pagesa (vetëm për Rikontroll)
-                    </label>
-
-                    <label class="payment-option">
-
-                        <input
-                            type="radio"
-                            name="payment"
-                            value="Me pagesë"
-                        >
-
-                        <span>
-                            Me pagesë
-                        </span>
-
-                    </label>
-
-
-                    <label class="payment-option">
-
-                        <input
-                            type="radio"
-                            name="payment"
-                            value="Pa pagesë"
-                        >
-
-                        <span>
-                            Pa pagesë
-                        </span>
-
-                    </label>
-
-                </div>
-
-
-                <label for="cardNumber">
-
-                    Nr. kartelës
-
-                    <span
-                        style="
-                        font-weight:500;
-                        color:#8aa0aa;
-                        ">
-                        (opsionale)
-                    </span>
-
-                </label>
-
-                <input
-                    type="text"
-                    id="cardNumber"
-                    placeholder="Shkruani nr. e kartelës"
-                    autocomplete="off"
-                >
-
-
-                <label for="appointmentTime">
-                    Orari *
-                </label>
-
-                <select id="appointmentTime">
-
-                    <option value="">
-                        Zgjidh orën
-                    </option>
-
-                </select>
-
-
-                <button
-                    id="saveButton"
-                    type="button">
-
-                    ＋ &nbsp; Ruaj Vizitën
-
-                </button>
-
-            </section>
-
-
-            <!-- =============================================
-                 AGENDA
-            ============================================== -->
-
-            <section class="card agenda-card">
-
-                <div class="agenda-header">
-
-                    <div class="agenda-title">
-                        Agjenda e ditës
-                    </div>
-
-                    <div class="search-box">
-
-                        <input
-                            type="text"
-                            id="agendaSearch"
-                            placeholder="Kërko emër ose kartelë..."
-                            autocomplete="off"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="agendaList"
-                    class="agenda-list">
-
-                </div>
-
-            </section>
-
-        </div>
-
-    </main>
+    <div class="user-box">
+        AMBULATORI GVM
+    </div>
 
 </div>
 
 
-<!-- =========================================================
+
+<!-- =====================================================
+     DATE NAVIGATION
+====================================================== -->
+
+<div class="date-navigation">
+
+    <button
+        id="prevDate"
+        type="button">
+        ‹
+    </button>
+
+
+    <div class="date-center">
+
+        <div
+            id="selectedDateLabel"
+            class="date-main">
+            -
+        </div>
+
+        <div
+            id="selectedDateSmall"
+            class="date-small">
+            -
+        </div>
+
+    </div>
+
+
+    <button
+        id="nextDate"
+        type="button">
+        ›
+    </button>
+
+</div>
+
+
+
+<!-- =====================================================
+     STATS
+====================================================== -->
+
+<div class="stats">
+
+
+<div class="stat-card">
+
+    <div class="stat-label">
+        Gjithsej
+    </div>
+
+    <div
+        class="stat-value"
+        id="statTotal">
+        0
+    </div>
+
+</div>
+
+
+<div class="stat-card">
+
+    <div class="stat-label">
+        Vizita
+    </div>
+
+    <div
+        class="stat-value"
+        id="statVisits">
+        0
+    </div>
+
+</div>
+
+
+<div class="stat-card">
+
+    <div class="stat-label">
+        Rikontrolle
+    </div>
+
+    <div
+        class="stat-value"
+        id="statRechecks">
+        0
+    </div>
+
+</div>
+
+
+<div class="stat-card">
+
+    <div class="stat-label">
+        Të anulluara
+    </div>
+
+    <div
+        class="stat-value"
+        id="statCancelled">
+        0
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     MESSAGE
+====================================================== -->
+
+<div
+    id="message"
+    class="message">
+</div>
+
+
+
+<!-- =====================================================
+     WORKSPACE
+====================================================== -->
+
+<div class="workspace">
+
+
+<!-- =====================================================
+     AGENDA
+====================================================== -->
+
+<section class="card agenda-card">
+
+
+<div class="agenda-header">
+
+    <div class="agenda-title">
+        Agjenda e ditës
+    </div>
+
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="agendaSearch"
+            placeholder="Kërko emër ose kartelë..."
+            autocomplete="off">
+
+    </div>
+
+</div>
+
+
+<div
+    id="agendaList"
+    class="agenda-list">
+</div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     FORM
+====================================================== -->
+
+<section class="card">
+
+
+<div class="card-title">
+
+    <span class="title-icon">
+        ＋
+    </span>
+
+    Shto Vizitë të Re
+
+</div>
+
+
+
+<label for="patientName">
+    Emër + Mbiemër *
+</label>
+
+<input
+    type="text"
+    id="patientName"
+    placeholder="Shkruani emrin dhe mbiemrin"
+    autocomplete="off">
+
+
+
+<label for="visitType">
+    Lloji i vizitës *
+</label>
+
+<select id="visitType">
+
+    <option value="Vizitë">
+        Vizitë
+    </option>
+
+    <option value="Rikontroll">
+        Rikontroll
+    </option>
+
+</select>
+
+
+
+<!-- =====================================================
+     PAYMENT
+====================================================== -->
+
+<div id="paymentBox">
+
+    <label>
+        Pagesa (vetëm për Rikontroll)
+    </label>
+
+
+    <label class="payment-option">
+
+        <input
+            type="radio"
+            name="payment"
+            value="Me pagesë">
+
+        <span>
+            Me pagesë
+        </span>
+
+    </label>
+
+
+    <label class="payment-option">
+
+        <input
+            type="radio"
+            name="payment"
+            value="Pa pagesë">
+
+        <span>
+            Pa pagesë
+        </span>
+
+    </label>
+
+</div>
+
+
+
+<label for="cardNumber">
+
+    Nr. kartelës
+
+    <span
+        style="
+        font-weight:500;
+        color:#6f8b96;">
+        (opsionale)
+    </span>
+
+</label>
+
+
+<input
+    type="text"
+    id="cardNumber"
+    placeholder="Shkruani nr. e kartelës"
+    autocomplete="off">
+
+
+
+<label for="appointmentTime">
+    Orari *
+</label>
+
+
+<select id="appointmentTime">
+
+    <option value="">
+        Zgjidh orën
+    </option>
+
+</select>
+
+
+
+<button
+    id="saveButton"
+    type="button">
+
+    ＋ &nbsp; Ruaj Vizitën
+
+</button>
+
+
+</section>
+
+
+</div>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =====================================================
      EDIT MODAL
-========================================================== -->
+====================================================== -->
 
 <div
     id="editModal"
     class="modal-overlay">
 
-    <div class="modal">
 
-        <div class="modal-title">
-            Ndrysho Vizitën
-        </div>
+<div class="modal">
 
 
-        <label for="editPatientName">
-            Emër + Mbiemër
-        </label>
-
-        <input
-            type="text"
-            id="editPatientName"
-            autocomplete="off"
-        >
+<div class="modal-title">
+    Ndrysho Vizitën
+</div>
 
 
-        <label for="editVisitType">
-            Lloji i vizitës
-        </label>
+<label for="editPatientName">
+    Emër + Mbiemër
+</label>
 
-        <select id="editVisitType">
-
-            <option value="Vizitë">
-                Vizitë
-            </option>
-
-            <option value="Rikontroll">
-                Rikontroll
-            </option>
-
-        </select>
+<input
+    type="text"
+    id="editPatientName"
+    autocomplete="off">
 
 
-        <div id="editPaymentBox">
 
-            <label>
-                Pagesa
-            </label>
+<label for="editVisitType">
+    Lloji i vizitës
+</label>
 
-            <label class="payment-option">
+<select id="editVisitType">
 
-                <input
-                    type="radio"
-                    name="editPayment"
-                    value="Me pagesë"
-                >
+    <option value="Vizitë">
+        Vizitë
+    </option>
 
-                <span>
-                    Me pagesë
-                </span>
+    <option value="Rikontroll">
+        Rikontroll
+    </option>
 
-            </label>
-
-            <label class="payment-option">
-
-                <input
-                    type="radio"
-                    name="editPayment"
-                    value="Pa pagesë"
-                >
-
-                <span>
-                    Pa pagesë
-                </span>
-
-            </label>
-
-        </div>
+</select>
 
 
-        <label for="editCardNumber">
-            Nr. kartelës
-        </label>
+
+<div id="editPaymentBox">
+
+    <label>
+        Pagesa
+    </label>
+
+
+    <label class="payment-option">
 
         <input
-            type="text"
-            id="editCardNumber"
-            autocomplete="off"
-        >
+            type="radio"
+            name="editPayment"
+            value="Me pagesë">
+
+        <span>
+            Me pagesë
+        </span>
+
+    </label>
 
 
-        <label for="editAppointmentTime">
-            Orari
-        </label>
+    <label class="payment-option">
 
-        <select id="editAppointmentTime">
+        <input
+            type="radio"
+            name="editPayment"
+            value="Pa pagesë">
 
-        </select>
+        <span>
+            Pa pagesë
+        </span>
 
-
-        <div class="modal-actions">
-
-            <button
-                type="button"
-                class="btn-secondary"
-                id="cancelEditButton">
-
-                Anullo
-
-            </button>
-
-            <button
-                type="button"
-                class="btn-primary"
-                id="saveEditButton">
-
-                Ruaj ndryshimet
-
-            </button>
-
-        </div>
-
-    </div>
+    </label>
 
 </div>
 
 
-<!-- =========================================================
-     DELETE CONFIRMATION MODAL
-========================================================== -->
+
+<label for="editCardNumber">
+    Nr. kartelës
+</label>
+
+<input
+    type="text"
+    id="editCardNumber"
+    autocomplete="off">
+
+
+
+<label for="editAppointmentTime">
+    Orari
+</label>
+
+<select id="editAppointmentTime">
+</select>
+
+
+
+<div class="modal-actions">
+
+    <button
+        type="button"
+        class="btn-secondary"
+        id="cancelEditButton">
+
+        Anullo
+
+    </button>
+
+
+    <button
+        type="button"
+        class="btn-primary"
+        id="saveEditButton">
+
+        Ruaj ndryshimet
+
+    </button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DELETE MODAL
+====================================================== -->
 
 <div
     id="deleteConfirmModal"
     class="modal-overlay">
 
-    <div class="modal">
 
-        <div class="modal-title">
-            Fshi vizitën
-        </div>
-
-        <div
-            style="
-            color:#607985;
-            font-size:13px;
-            line-height:1.5;
-            ">
-
-            Jeni të sigurt që dëshironi ta fshini këtë vizitë?
-
-        </div>
+<div class="modal">
 
 
-        <div class="modal-actions">
+<div class="modal-title">
+    Fshi vizitën
+</div>
 
-            <button
-                type="button"
-                class="btn-secondary"
-                onclick="closeDeleteConfirm()">
 
-                Jo, kthehu
+<div
+    style="
+    color:#8da6b0;
+    font-size:13px;
+    line-height:1.5;">
 
-            </button>
-
-            <button
-                type="button"
-                class="btn-danger"
-                onclick="confirmDeleteVisit()">
-
-                Po, fshi
-
-            </button>
-
-        </div>
-
-    </div>
+    Jeni të sigurt që dëshironi ta fshini këtë vizitë?
 
 </div>
+
+
+<div class="modal-actions">
+
+
+<button
+    type="button"
+    class="btn-secondary"
+    onclick="closeDeleteConfirm()">
+
+    Jo, kthehu
+
+</button>
+
+
+<button
+    type="button"
+    class="btn-danger"
+    onclick="confirmDeleteVisit()">
+
+    Po, fshi
+
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
 
 
 <script>
@@ -1428,7 +1680,13 @@ function dateToString(date){
             date.getDate()
         ).padStart(2,"0");
 
-    return `${year}-${month}-${day}`;
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
 }
 
 
@@ -1474,11 +1732,14 @@ function formatDateLong(date){
 function updateDateDisplay(){
 
     selectedDateLabel.textContent =
-        formatDateLong(selectedDate);
+        formatDateLong(
+            selectedDate
+        );
 
     selectedDateSmall.textContent =
-        dateToString(selectedDate);
-
+        dateToString(
+            selectedDate
+        );
 }
 
 
@@ -1490,6 +1751,7 @@ function createTimeOptions(){
 
     appointmentTime.innerHTML =
         '<option value="">Zgjidh orën</option>';
+
 
     for(
         let minutes = 12 * 60;
@@ -1507,19 +1769,32 @@ function createTimeOptions(){
                 minutes % 60
             ).padStart(2,"0");
 
-        const value =
-            `${hour}:${minute}:00`;
 
-        const label =
-            `${hour}:${minute}`;
+        const value =
+            hour +
+            ":" +
+            minute +
+            ":00";
+
 
         const option =
-            document.createElement("option");
+            document.createElement(
+                "option"
+            );
 
-        option.value = value;
-        option.textContent = label;
 
-        appointmentTime.appendChild(option);
+        option.value =
+            value;
+
+        option.textContent =
+            hour +
+            ":" +
+            minute;
+
+
+        appointmentTime.appendChild(
+            option
+        );
     }
 }
 
@@ -1533,7 +1808,8 @@ visitType.addEventListener(
     function(){
 
         if(
-            visitType.value === "Rikontroll"
+            visitType.value ===
+            "Rikontroll"
         ){
 
             paymentBox.style.display =
@@ -1544,15 +1820,19 @@ visitType.addEventListener(
             paymentBox.style.display =
                 "none";
 
+
             document
                 .querySelectorAll(
                     'input[name="payment"]'
                 )
-                .forEach(function(radio){
+                .forEach(
+                    function(radio){
 
-                    radio.checked = false;
+                        radio.checked =
+                            false;
 
-                });
+                    }
+                );
         }
 
     }
@@ -1572,7 +1852,9 @@ function showMessage(
         message;
 
     messageBox.className =
-        "message show " + type;
+        "message show " +
+        type;
+
 
     setTimeout(
         function(){
@@ -1587,7 +1869,7 @@ function showMessage(
 
 
 /* =========================================================
-   SAVE VISIT
+   SAVE
 ========================================================= */
 
 async function saveVisit(){
@@ -1604,28 +1886,8 @@ async function saveVisit(){
     const time =
         appointmentTime.value;
 
+
     let payment = null;
-
-    if(type === "Rikontroll"){
-
-        const selectedPayment =
-            document.querySelector(
-                'input[name="payment"]:checked'
-            );
-
-        if(!selectedPayment){
-
-            showMessage(
-                "Zgjidhni Me pagesë ose Pa pagesë.",
-                "error"
-            );
-
-            return;
-        }
-
-        payment =
-            selectedPayment.value;
-    }
 
 
     if(!name){
@@ -1650,6 +1912,32 @@ async function saveVisit(){
     }
 
 
+    if(
+        type === "Rikontroll"
+    ){
+
+        const selectedPayment =
+            document.querySelector(
+                'input[name="payment"]:checked'
+            );
+
+
+        if(!selectedPayment){
+
+            showMessage(
+                "Zgjidhni Me pagesë ose Pa pagesë.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        payment =
+            selectedPayment.value;
+    }
+
+
     saveButton.disabled =
         true;
 
@@ -1657,21 +1945,34 @@ async function saveVisit(){
         "Po ruhet...";
 
 
-    const date =
-        dateToString(selectedDate);
-
-
     const result =
         await db
             .from("appointments")
             .insert({
-                appointment_date: date,
-                appointment_time: time,
-                patient_name: name,
-                card_number: card || null,
-                visit_type: type,
-                payment_status: payment,
-                status: "scheduled"
+
+                appointment_date:
+                    dateToString(
+                        selectedDate
+                    ),
+
+                appointment_time:
+                    time,
+
+                patient_name:
+                    name,
+
+                card_number:
+                    card || null,
+
+                visit_type:
+                    type,
+
+                payment_status:
+                    payment,
+
+                status:
+                    "scheduled"
+
             });
 
 
@@ -1693,6 +1994,7 @@ async function saveVisit(){
             "success"
         );
 
+
         patientName.value =
             "";
 
@@ -1708,16 +2010,20 @@ async function saveVisit(){
         paymentBox.style.display =
             "none";
 
+
         document
             .querySelectorAll(
                 'input[name="payment"]'
             )
-            .forEach(function(radio){
+            .forEach(
+                function(radio){
 
-                radio.checked =
-                    false;
+                    radio.checked =
+                        false;
 
-            });
+                }
+            );
+
 
         await loadVisits();
     }
@@ -1732,17 +2038,13 @@ async function saveVisit(){
 
 
 /* =========================================================
-   LOAD VISITS
+   LOAD
 ========================================================= */
 
 async function loadVisits(){
 
     agendaList.innerHTML =
         "";
-
-
-    const date =
-        dateToString(selectedDate);
 
 
     const result =
@@ -1753,7 +2055,9 @@ async function loadVisits(){
             )
             .eq(
                 "appointment_date",
-                date
+                dateToString(
+                    selectedDate
+                )
             )
             .order(
                 "appointment_time",
@@ -1782,7 +2086,9 @@ async function loadVisits(){
         result.data || [];
 
 
-    updateStats(visits);
+    updateStats(
+        visits
+    );
 
 
     const search =
@@ -1797,17 +2103,23 @@ async function loadVisits(){
                 function(visit){
 
                     return (
+
                         String(
-                            visit.patient_name || ""
+                            visit.patient_name ||
+                            ""
                         )
                         .toLowerCase()
                         .includes(search)
+
                         ||
+
                         String(
-                            visit.card_number || ""
+                            visit.card_number ||
+                            ""
                         )
                         .toLowerCase()
                         .includes(search)
+
                     );
 
                 }
@@ -1815,7 +2127,8 @@ async function loadVisits(){
             : visits;
 
 
-    const visitByTime = {};
+    const visitByTime =
+        {};
 
 
     filteredVisits.forEach(
@@ -1824,13 +2137,23 @@ async function loadVisits(){
             let time =
                 visit.appointment_time;
 
-            if(time && time.length >= 5){
+
+            if(
+                time &&
+                time.length >= 5
+            ){
+
                 time =
-                    time.substring(0,5);
+                    time.substring(
+                        0,
+                        5
+                    );
             }
+
 
             visitByTime[time] =
                 visit;
+
         }
     );
 
@@ -1843,20 +2166,28 @@ async function loadVisits(){
 
         const hour =
             String(
-                Math.floor(minutes / 60)
+                Math.floor(
+                    minutes / 60
+                )
             ).padStart(2,"0");
+
 
         const minute =
             String(
                 minutes % 60
             ).padStart(2,"0");
 
+
         const time =
-            `${hour}:${minute}`;
+            hour +
+            ":" +
+            minute;
 
 
         const slot =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         slot.className =
             "slot";
@@ -1869,13 +2200,19 @@ async function loadVisits(){
         if(!visit){
 
             const empty =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             empty.className =
                 "slot-empty";
 
+
             empty.innerHTML =
-                `<span>${time}</span>`;
+                "<span>" +
+                time +
+                "</span>";
+
 
             slot.appendChild(
                 empty
@@ -1884,40 +2221,48 @@ async function loadVisits(){
         }else{
 
             const item =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             item.className =
                 "visit-item";
 
 
+            /* STATUS BORDER */
+
             if(
-                visit.status === "arrived"
+                visit.status ===
+                "arrived"
             ){
 
                 item.style.borderLeftColor =
                     "#28a66b";
 
             }else if(
-                visit.status === "finished"
+                visit.status ===
+                "finished"
             ){
 
                 item.style.borderLeftColor =
                     "#3e7ac8";
 
             }else if(
-                visit.status === "cancelled"
+                visit.status ===
+                "cancelled"
             ){
 
                 item.style.borderLeftColor =
                     "#c23a3a";
-
             }
 
 
             /* TIME */
 
             const timeEl =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             timeEl.className =
                 "visit-time";
@@ -1929,24 +2274,31 @@ async function loadVisits(){
             /* PATIENT */
 
             const patient =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             patient.className =
                 "visit-patient";
 
 
             const patientNameEl =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             patientNameEl.className =
                 "patient-name";
 
             patientNameEl.textContent =
-                visit.patient_name || "-";
+                visit.patient_name ||
+                "-";
 
 
             const cardEl =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             cardEl.className =
                 "patient-card";
@@ -1970,13 +2322,16 @@ async function loadVisits(){
             /* TYPE */
 
             const typeEl =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             typeEl.className =
                 "visit-type";
 
             typeEl.textContent =
-                visit.visit_type || "-";
+                visit.visit_type ||
+                "-";
 
 
             if(
@@ -1987,7 +2342,9 @@ async function loadVisits(){
             ){
 
                 const paymentEl =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
                 paymentEl.className =
                     "visit-payment";
@@ -1995,75 +2352,87 @@ async function loadVisits(){
                 paymentEl.textContent =
                     visit.payment_status;
 
+
                 typeEl.appendChild(
                     paymentEl
                 );
             }
 
 
-            /* CONTROLS */
+            /* =================================================
+               BUTTONS
+            ================================================= */
 
             const controls =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             controls.className =
                 "visit-status-controls";
 
 
             const arrived =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             arrived.type =
                 "button";
 
             arrived.className =
-                "visit-status-button arrived";
+                "arrived";
 
             arrived.textContent =
                 "✓ Ka ardhur";
 
 
             const finished =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             finished.type =
                 "button";
 
             finished.className =
-                "visit-status-button finished";
+                "finished";
 
             finished.textContent =
                 "✓ Ka mbaruar";
 
 
             const cancelled =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             cancelled.type =
                 "button";
 
             cancelled.className =
-                "visit-status-button cancelled";
+                "cancelled";
 
             cancelled.textContent =
                 "Anullo";
 
 
             const editButton =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             editButton.type =
                 "button";
-
-            editButton.className =
-                "visit-status-button";
 
             editButton.textContent =
                 "✎ Ndrysho";
 
 
             const deleteButton =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             deleteButton.type =
                 "button";
@@ -2127,10 +2496,9 @@ async function loadVisits(){
 
 
             /*
-             * KORRIGJIMI:
-             * Hapim modalin e konfirmimit
-             * në vend të deleteVisit()
-             */
+               KORRIGJIM:
+               Fshirja hap konfirmimin.
+            */
 
             deleteButton.addEventListener(
                 "click",
@@ -2164,6 +2532,12 @@ async function loadVisits(){
                 deleteButton
             );
 
+
+            /*
+               RENDITJA:
+               Informacioni lart,
+               butonat poshte.
+            */
 
             item.appendChild(
                 timeEl
@@ -2208,7 +2582,12 @@ function updateStats(visits){
     statVisits.textContent =
         visits.filter(
             function(v){
-                return v.visit_type === "Vizitë";
+
+                return (
+                    v.visit_type ===
+                    "Vizitë"
+                );
+
             }
         ).length;
 
@@ -2216,7 +2595,12 @@ function updateStats(visits){
     statRechecks.textContent =
         visits.filter(
             function(v){
-                return v.visit_type === "Rikontroll";
+
+                return (
+                    v.visit_type ===
+                    "Rikontroll"
+                );
+
             }
         ).length;
 
@@ -2224,7 +2608,12 @@ function updateStats(visits){
     statCancelled.textContent =
         visits.filter(
             function(v){
-                return v.status === "cancelled";
+
+                return (
+                    v.status ===
+                    "cancelled"
+                );
+
             }
         ).length;
 }
@@ -2271,7 +2660,7 @@ async function updateVisitStatus(
 
 
 /* =========================================================
-   DELETE CONFIRMATION
+   DELETE
 ========================================================= */
 
 let pendingDeleteId =
@@ -2283,10 +2672,12 @@ function openDeleteConfirm(id){
     pendingDeleteId =
         id;
 
+
     const modal =
         document.getElementById(
             "deleteConfirmModal"
         );
+
 
     if(modal){
 
@@ -2302,10 +2693,12 @@ function closeDeleteConfirm(){
     pendingDeleteId =
         null;
 
+
     const modal =
         document.getElementById(
             "deleteConfirmModal"
         );
+
 
     if(modal){
 
@@ -2366,7 +2759,7 @@ async function confirmDeleteVisit(){
 
 
 /* =========================================================
-   EDIT MODAL
+   EDIT
 ========================================================= */
 
 let editingVisitId =
@@ -2378,25 +2771,30 @@ const editModal =
         "editModal"
     );
 
+
 const editPatientName =
     document.getElementById(
         "editPatientName"
     );
+
 
 const editVisitType =
     document.getElementById(
         "editVisitType"
     );
 
+
 const editPaymentBox =
     document.getElementById(
         "editPaymentBox"
     );
 
+
 const editCardNumber =
     document.getElementById(
         "editCardNumber"
     );
+
 
 const editAppointmentTime =
     document.getElementById(
@@ -2409,6 +2807,7 @@ function createEditTimeOptions(){
     editAppointmentTime.innerHTML =
         "";
 
+
     for(
         let minutes = 12 * 60;
         minutes <= 17 * 60;
@@ -2417,27 +2816,39 @@ function createEditTimeOptions(){
 
         const hour =
             String(
-                Math.floor(minutes / 60)
+                Math.floor(
+                    minutes / 60
+                )
             ).padStart(2,"0");
+
 
         const minute =
             String(
                 minutes % 60
             ).padStart(2,"0");
 
+
         const value =
-            `${hour}:${minute}:00`;
+            hour +
+            ":" +
+            minute +
+            ":00";
+
 
         const option =
             document.createElement(
                 "option"
             );
 
+
         option.value =
             value;
 
         option.textContent =
-            `${hour}:${minute}`;
+            hour +
+            ":" +
+            minute;
+
 
         editAppointmentTime.appendChild(
             option
@@ -2460,6 +2871,7 @@ function updateEditPaymentBox(){
 
         editPaymentBox.style.display =
             "none";
+
 
         document
             .querySelectorAll(
@@ -2490,15 +2902,18 @@ function openEditModal(visit){
 
 
     editPatientName.value =
-        visit.patient_name || "";
+        visit.patient_name ||
+        "";
 
 
     editVisitType.value =
-        visit.visit_type || "Vizitë";
+        visit.visit_type ||
+        "Vizitë";
 
 
     editCardNumber.value =
-        visit.card_number || "";
+        visit.card_number ||
+        "";
 
 
     editAppointmentTime.value =
@@ -2519,9 +2934,12 @@ function openEditModal(visit){
                 '"]'
             );
 
+
         if(radio){
+
             radio.checked =
                 true;
+
         }
     }
 
@@ -2579,10 +2997,26 @@ document
                 editAppointmentTime.value;
 
 
-            let payment = null;
+            let payment =
+                null;
 
 
-            if(type === "Rikontroll"){
+            if(
+                !name
+            ){
+
+                showMessage(
+                    "Vendosni emrin dhe mbiemrin.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if(
+                type === "Rikontroll"
+            ){
 
                 const selected =
                     document.querySelector(
@@ -2606,26 +3040,26 @@ document
             }
 
 
-            if(!name){
-
-                showMessage(
-                    "Vendosni emrin dhe mbiemrin.",
-                    "error"
-                );
-
-                return;
-            }
-
-
             const result =
                 await db
                     .from("appointments")
                     .update({
-                        appointment_time:time,
-                        patient_name:name,
-                        card_number:card || null,
-                        visit_type:type,
-                        payment_status:payment
+
+                        appointment_time:
+                            time,
+
+                        patient_name:
+                            name,
+
+                        card_number:
+                            card || null,
+
+                        visit_type:
+                            type,
+
+                        payment_status:
+                            payment
+
                     })
                     .eq(
                         "id",
@@ -2658,12 +3092,13 @@ document
 
 
             await loadVisits();
+
         }
     );
 
 
 /* =========================================================
-   DATE NAVIGATION
+   DATE BUTTONS
 ========================================================= */
 
 document
@@ -2678,9 +3113,11 @@ document
                 selectedDate.getDate() - 1
             );
 
+
             updateDateDisplay();
 
             await loadVisits();
+
         }
     );
 
@@ -2697,9 +3134,11 @@ document
                 selectedDate.getDate() + 1
             );
 
+
             updateDateDisplay();
 
             await loadVisits();
+
         }
     );
 
@@ -2719,7 +3158,7 @@ agendaSearch.addEventListener(
 
 
 /* =========================================================
-   SAVE BUTTON
+   SAVE
 ========================================================= */
 
 saveButton.addEventListener(
