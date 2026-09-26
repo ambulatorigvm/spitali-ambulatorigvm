@@ -1355,6 +1355,54 @@ body:before{display:none!important}
 @media(max-width:1050px){.workspace{grid-template-columns:1fr!important}.sidebar{width:220px!important;flex-basis:220px!important}}
 @media(max-width:760px){.main{padding:12px 14px 35px!important}.sidebar{width:100%!important;padding:10px!important}.nav-item{min-height:46px!important;font-size:14px!important}.page-heading h1{font-size:26px!important}.workspace{grid-template-columns:1fr!important}.card{padding:19px!important}.agenda-slot{grid-template-columns:72px minmax(0,1fr)!important}.slot-time{font-size:15px!important}.visit-name{font-size:16px!important}}
 </style>
+
+<style id="gvm-layout-final">
+/* Rregullimi i përmasave: formulari më kompakt, agjenda më e gjerë */
+@media (min-width:1051px){
+  .workspace{
+    grid-template-columns:300px minmax(0,1fr)!important;
+    gap:16px!important;
+    align-items:start!important;
+  }
+  .workspace>.card:first-child{
+    padding:18px!important;
+    position:sticky!important;
+    top:18px!important;
+  }
+  .workspace>.card:first-child .card-title{
+    font-size:18px!important;
+    margin-bottom:14px!important;
+  }
+  .workspace>.card:first-child .card-title .title-icon{
+    width:30px!important;
+    height:30px!important;
+  }
+  .workspace>.card:first-child label{
+    font-size:13px!important;
+    margin-top:11px!important;
+    margin-bottom:5px!important;
+  }
+  .workspace>.card:first-child input,
+  .workspace>.card:first-child select{
+    height:44px!important;
+    font-size:14px!important;
+    padding:0 12px!important;
+  }
+  .workspace>.card:first-child .payment-option{
+    padding:9px 10px!important;
+    font-size:13px!important;
+  }
+  .workspace>.card:first-child #saveButton{
+    height:48px!important;
+    font-size:15px!important;
+    margin-top:14px!important;
+  }
+  .workspace>.agenda-card{
+    min-width:0!important;
+    padding:22px!important;
+  }
+}
+</style>
 </head>
 <body>
 
