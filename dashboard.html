@@ -1446,7 +1446,7 @@ async function loadVisits(){
             "Fshi vizitën";
 
         deleteButton.addEventListener("click", function(){
-            deleteVisit(visit.id);
+            openDeleteConfirm(visit.id);
         });
 
         controls.appendChild(arrived);
@@ -1682,14 +1682,37 @@ saveButton.addEventListener(
 
 
 /* =========================================================
+   KONTROLLI I LOGIN-IT
+========================================================= */
+
+async function checkAuth(){
+
+    const result =
+        await db.auth.getSession();
+
+    if(
+        !result.data ||
+        !result.data.session
+    ){
+        window.location.replace("index.html");
+        return;
+    }
+
+    console.log(
+        "AMBULATORI GVM: përdoruesi është i loguar"
+    );
+
+    showSelectedDate();
+    createTimeOptions();
+    loadVisits();
+}
+
+
+/* =========================================================
    START
 ========================================================= */
 
-showSelectedDate();
-
-createTimeOptions();
-
-loadVisits();
+checkAuth();
 
 </script>
 
