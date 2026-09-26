@@ -3,102 +3,462 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AMBULATORI GVM</title>
 
 <style>
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+}
+
 body{
-    font-family:Arial,sans-serif;
-    background:#eef3f8;
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top left,#123c4d 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#0b3040 0%,transparent 35%),
+        #06151d;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
+    color:#eaf4f8;
 }
 
-.box{
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    width:350px;
-    box-shadow:0 0 20px rgba(0,0,0,.1);
+.login-wrapper{
+    width:100%;
+    max-width:430px;
+    padding:20px;
+}
+
+.login-box{
+    background:rgba(11,34,45,.96);
+    border:1px solid #214957;
+    border-radius:20px;
+    padding:35px 32px;
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45),
+        0 0 0 1px rgba(255,255,255,.02);
+}
+
+.logo{
+    width:72px;
+    height:72px;
+    margin:0 auto 20px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#0b7897,#0d4e63);
+    border:1px solid #318eaa;
+    box-shadow:0 10px 30px rgba(0,120,151,.25);
+    font-size:30px;
 }
 
 h1{
+    margin:0;
     text-align:center;
-    color:#155e75;
+    color:#f1f9fb;
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:.4px;
+}
+
+.subtitle{
+    margin-top:7px;
+    text-align:center;
+    color:#82a3ae;
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.form{
+    margin-top:28px;
+}
+
+label{
+    display:block;
+    margin:0 0 7px;
+    color:#9db7c0;
+    font-size:12px;
+    font-weight:700;
+}
+
+.input-wrap{
+    position:relative;
+    margin-bottom:16px;
 }
 
 input{
     width:100%;
-    height:45px;
-    margin-bottom:10px;
-    padding:10px;
-    box-sizing:border-box;
+    height:46px;
+    padding:0 13px;
+    border:1px solid #254b59;
+    border-radius:10px;
+    background:#071b24;
+    color:#edf8fb;
+    outline:none;
+    font-size:14px;
+    transition:.2s;
+}
+
+input::placeholder{
+    color:#607d88;
+}
+
+input:focus{
+    border-color:#2995b5;
+    box-shadow:0 0 0 3px rgba(41,149,181,.12);
 }
 
 button{
     width:100%;
-    height:45px;
-    border:none;
-    background:#0891b2;
+    height:46px;
+    margin-top:7px;
+    border:0;
+    border-radius:10px;
+    background:linear-gradient(135deg,#0b7897,#0b647d);
     color:white;
     cursor:pointer;
-    border-radius:6px;
+    font-size:14px;
+    font-weight:800;
+    transition:.2s;
+}
+
+button:hover{
+    background:linear-gradient(135deg,#0d8cad,#0b718e);
+    transform:translateY(-1px);
+}
+
+button:active{
+    transform:translateY(0);
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
 }
 
 #msg{
-    margin-top:10px;
-    color:red;
+    display:none;
+    margin-top:14px;
+    padding:11px 12px;
+    border-radius:9px;
     text-align:center;
+    font-size:12px;
+    line-height:1.4;
+}
+
+#msg.error{
+    display:block;
+    background:#35191d;
+    border:1px solid #793036;
+    color:#ffabb0;
+}
+
+#msg.success{
+    display:block;
+    background:#0c3025;
+    border:1px solid #1b684e;
+    color:#8ce0bd;
+}
+
+.footer{
+    margin-top:24px;
+    text-align:center;
+    color:#567681;
+    font-size:10px;
+    letter-spacing:.5px;
+}
+
+@media(max-width:480px){
+    .login-wrapper{
+        padding:15px;
+    }
+
+    .login-box{
+        padding:28px 22px;
+    }
+
+    h1{
+        font-size:21px;
+    }
 }
 </style>
 </head>
+
 <body>
 
-<div class="box">
+<div class="login-wrapper">
 
-<h1>AMBULATORI GVM</h1>
+    <div class="login-box">
 
-<input
-type="text"
-id="username"
-placeholder="Përdoruesi">
+        <div class="logo">
+            🏥
+        </div>
 
-<input
-type="password"
-id="password"
-placeholder="Fjalëkalimi">
+        <h1>AMBULATORI GVM</h1>
 
-<button onclick="login()">
-Hyr
-</button>
+        <div class="subtitle">
+            Sistemi i agjendës
+        </div>
 
-<div id="msg"></div>
+        <div class="form">
+
+            <label for="email">
+                Email
+            </label>
+
+            <div class="input-wrap">
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Shkruani email-in"
+                    autocomplete="username"
+                >
+            </div>
+
+            <label for="password">
+                Fjalëkalimi
+            </label>
+
+            <div class="input-wrap">
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Shkruani fjalëkalimin"
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button
+                id="loginButton"
+                type="button"
+                onclick="login()"
+            >
+                Hyr në sistem
+            </button>
+
+            <div id="msg"></div>
+
+        </div>
+
+        <div class="footer">
+            SPITALI GVM · AMBULATORI GVM
+        </div>
+
+    </div>
 
 </div>
 
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
-function login(){
+const SUPABASE_URL =
+    "https://ubpteaqdkxcriqyaxrux.supabase.co";
 
-    const user =
-        document.getElementById("username").value;
+const SUPABASE_KEY =
+    "sb_publishable_dirq3uo9Qy1ez37JkEnciA_sSmYleDZ";
 
-    const pass =
-        document.getElementById("password").value;
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================
+   ELEMENTET
+========================= */
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const msg =
+    document.getElementById("msg");
+
+
+/* =========================
+   MESAZH
+========================= */
+
+function showMessage(text,type){
+
+    msg.textContent = text;
+
+    msg.className = type;
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function login(){
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    if(!email){
+
+        showMessage(
+            "Ju lutem shkruani email-in.",
+            "error"
+        );
+
+        emailInput.focus();
+
+        return;
+    }
+
+    if(!password){
+
+        showMessage(
+            "Ju lutem shkruani fjalëkalimin.",
+            "error"
+        );
+
+        passwordInput.focus();
+
+        return;
+    }
+
+
+    loginButton.disabled = true;
+
+    loginButton.textContent =
+        "Duke hyrë...";
+
+    showMessage(
+        "",
+        ""
+    );
+
+
+    try{
+
+        const result =
+            await supabaseClient.auth.signInWithPassword({
+
+                email:email,
+
+                password:password
+
+            });
+
+
+        if(result.error){
+
+            console.error(
+                "Login error:",
+                result.error
+            );
+
+            showMessage(
+                "Email ose fjalëkalim i gabuar.",
+                "error"
+            );
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "Hyr në sistem";
+
+            return;
+        }
+
+
+        showMessage(
+            "Hyrja u krye me sukses.",
+            "success"
+        );
+
+
+        window.location.href =
+            "dashboard.html";
+
+
+    }catch(error){
+
+        console.error(
+            "System error:",
+            error
+        );
+
+        showMessage(
+            "Ndodhi një gabim gjatë hyrjes.",
+            "error"
+        );
+
+        loginButton.disabled = false;
+
+        loginButton.textContent =
+            "Hyr në sistem";
+    }
+
+}
+
+
+/* =========================
+   ENTER = LOGIN
+========================= */
+
+passwordInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            login();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   KONTROLLO SESIONIN
+========================= */
+
+async function checkExistingSession(){
+
+    const result =
+        await supabaseClient.auth.getSession();
 
     if(
-        user === "admin" &&
-        pass === "12345"
+        result.data &&
+        result.data.session
     ){
-       window.location.href =
-"dashboard.html";
+
+        window.location.href =
+            "dashboard.html";
+
     }
-    else{
-        document.getElementById("msg").textContent =
-        "Përdorues ose fjalëkalim i gabuar";
-    }
+
 }
+
+checkExistingSession();
 
 </script>
 
