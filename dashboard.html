@@ -4349,6 +4349,98 @@ if(logoutButton){
   #visits .slot-body .visit-status-controls{overflow-x:auto!important;overflow-y:hidden!important}
 }
 </style>
+
+<style id="GVM-CALENDAR-FINAL">
+/* KALENDAR PREMIUM - i qete, elegant dhe kompakt */
+.date-navigation{
+  display:grid!important;
+  grid-template-columns:44px minmax(0,1fr) 44px!important;
+  align-items:center!important;
+  gap:12px!important;
+  width:100%!important;
+  margin:0 0 16px!important;
+  padding:10px!important;
+  background:rgba(255,255,255,.97)!important;
+  border:1px solid #d9e7ef!important;
+  border-radius:16px!important;
+  box-shadow:0 8px 24px rgba(7,63,99,.07)!important;
+}
+.date-navigation button{
+  width:44px!important;min-width:44px!important;height:40px!important;
+  margin:0!important;padding:0!important;border-radius:11px!important;
+  background:#f4f9fc!important;color:#17628a!important;
+  border:1px solid #d4e4ec!important;box-shadow:none!important;
+  font-size:18px!important;font-weight:800!important;
+  transform:none!important;filter:none!important;transition:none!important;
+}
+.date-navigation button:hover,.date-navigation button:focus,.date-navigation button:active{
+  background:#f4f9fc!important;color:#17628a!important;
+  border-color:#d4e4ec!important;box-shadow:none!important;
+  transform:none!important;filter:none!important;
+}
+.date-navigation .today-button{
+  background:#0b7db5!important;color:#fff!important;
+  border-color:#0b7db5!important;font-size:12px!important;
+  font-weight:800!important;padding:0 9px!important;
+}
+.date-navigation .today-button:hover,.date-navigation .today-button:focus,.date-navigation .today-button:active{
+  background:#0b7db5!important;color:#fff!important;border-color:#0b7db5!important;
+}
+.selected-date{min-width:0!important;text-align:center!important;padding:1px 8px!important}
+.selected-date .date-main{
+  display:block!important;margin:0!important;color:#0c456c!important;
+  font-size:16px!important;line-height:1.25!important;font-weight:850!important;
+  letter-spacing:.1px!important;text-transform:capitalize!important;
+}
+.selected-date .date-iso{
+  display:block!important;margin-top:3px!important;color:#8399a6!important;
+  font-size:10px!important;font-weight:650!important;letter-spacing:.4px!important;
+}
+/* Orari si kolonë e rregullt */
+#visits{
+  display:flex!important;flex-direction:column!important;gap:0!important;
+  overflow:hidden!important;border:1px solid #dce8ef!important;
+  border-radius:16px!important;background:#f8fbfd!important;
+}
+#visits .agenda-slot{
+  display:grid!important;grid-template-columns:82px minmax(0,1fr)!important;
+  gap:0!important;align-items:stretch!important;min-height:66px!important;
+  margin:0!important;padding:0!important;background:#fff!important;
+  border-bottom:1px solid #e6eef2!important;
+}
+#visits .agenda-slot:last-child{border-bottom:0!important}
+#visits .slot-time{
+  min-height:66px!important;width:auto!important;margin:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  border:0!important;border-right:1px solid #e1ebf0!important;border-radius:0!important;
+  background:linear-gradient(180deg,#f5f9fb,#eef5f8)!important;
+  color:#477286!important;font-size:12px!important;font-weight:850!important;
+}
+#visits .slot-body{
+  min-width:0!important;min-height:66px!important;margin:0!important;
+  padding:7px 10px!important;display:flex!important;align-items:center!important;
+  border:0!important;border-radius:0!important;background:#fff!important;
+}
+#visits .slot-empty{
+  width:100%!important;min-height:50px!important;display:flex!important;
+  align-items:center!important;padding:0 12px!important;
+  color:#a3b3bd!important;font-size:11px!important;font-weight:600!important;
+}
+#visits .visit-item{
+  width:100%!important;box-sizing:border-box!important;margin:0!important;
+  padding:9px 11px!important;border:1px solid #dce8ee!important;
+  border-radius:12px!important;background:#fff!important;
+  box-shadow:0 2px 9px rgba(9,73,119,.045)!important;
+}
+@media(max-width:760px){
+ .date-navigation{grid-template-columns:40px minmax(0,1fr) 40px!important;gap:8px!important;padding:8px!important}
+ .date-navigation button{width:40px!important;min-width:40px!important;height:38px!important}
+ .date-navigation .today-button{font-size:11px!important}
+ #visits .agenda-slot{grid-template-columns:64px minmax(0,1fr)!important}
+ #visits .slot-time{font-size:11px!important}
+}
+</style>
+
 </body>
 </html>
 <style id="GVM-CALENDAR-BEAUTY-FINAL">
