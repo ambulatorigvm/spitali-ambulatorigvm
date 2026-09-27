@@ -1891,9 +1891,63 @@ async function loadVisits(){
             statusClass = "cancelled";
         }
 
-        if(statusClass){
-            item.classList.add(
-                "status-" + statusClass
+        /* Ngjyra e vizitës sipas statusit */
+        item.classList.remove(
+            "status-scheduled",
+            "status-arrived",
+            "status-finished",
+            "status-cancelled"
+        );
+        item.classList.add(
+            "status-" + (statusClass || "scheduled")
+        );
+
+        if(currentStatus === "arrived"){
+            item.style.setProperty(
+                "background",
+                "linear-gradient(90deg,rgba(30,125,82,.78),rgba(17,65,58,.94))",
+                "important"
+            );
+            item.style.setProperty(
+                "border-color",
+                "rgba(83,220,154,.55)",
+                "important"
+            );
+        }
+        else if(currentStatus === "finished"){
+            item.style.setProperty(
+                "background",
+                "linear-gradient(90deg,rgba(160,121,25,.78),rgba(66,54,25,.94))",
+                "important"
+            );
+            item.style.setProperty(
+                "border-color",
+                "rgba(238,206,84,.55)",
+                "important"
+            );
+        }
+        else if(currentStatus === "cancelled"){
+            item.style.setProperty(
+                "background",
+                "linear-gradient(90deg,rgba(75,86,94,.88),rgba(37,48,57,.96))",
+                "important"
+            );
+            item.style.setProperty(
+                "border-color",
+                "rgba(174,190,200,.38)",
+                "important"
+            );
+        }
+        else{
+            item.style.setProperty(
+                "background",
+                "linear-gradient(145deg,#0d293d,#0b2234)",
+                "important"
+            );
+            item.style.setProperty(
+                "border-color",
+                "rgba(137,194,216,.16)",
+                "important"
             );
         }
 
