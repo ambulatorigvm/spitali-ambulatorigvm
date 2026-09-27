@@ -4598,3 +4598,27 @@ if(logoutButton){
   content:none!important;
 }
 </style>
+
+<style id="GVM-NO-HOVER-ANYWHERE">
+/* ZERO HOVER EFFECTS */
+*, *::before, *::after {
+  transition: none !important;
+  animation: none !important;
+}
+.date-navigation button:hover, .date-navigation button:active, .date-navigation button:focus,
+.date-navigation .today-button:hover, .date-navigation .today-button:active, .date-navigation .today-button:focus,
+#visits .agenda-slot:hover, #visits .slot-time:hover, #visits .slot-body:hover,
+#visits .visit-item:hover, #visits .visit-status-controls:hover,
+#visits .visit-status-controls button:hover, #visits .visit-status-controls button:active, #visits .visit-status-controls button:focus,
+button:hover, button:active, input:hover, select:hover, .nav-item:hover, .delete-button:hover, .agenda-search button:hover {
+  transform: none !important;
+  scale: 1 !important;
+  filter: none !important;
+  box-shadow: inherit !important;
+}
+.date-navigation button:hover { background: #fff !important; color:#18527b !important; }
+.date-navigation .today-button:hover { background:#1681e4 !important; color:#fff !important; }
+#visits .agenda-slot:hover { background: inherit !important; }
+#visits .visit-item:hover { background: inherit !important; }
+.nav-item:hover { background: transparent !important; }
+</style>
