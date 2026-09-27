@@ -2375,6 +2375,26 @@ input:focus,select:focus{
 }
 .gvm-drag-hint{display:none!important}
 </style>
+
+<style id="gvm-no-hover-movement">
+/* Opsionet e statusit: pozicion dhe madhësi fikse, pa lëvizje/zmadhoje me mouse */
+#visits .slot-body .visit-status-controls button,
+#visits .slot-body .visit-status-controls button:hover,
+#visits .slot-body .visit-status-controls button:focus,
+#visits .slot-body .visit-status-controls button:active {
+  transform: none !important;
+  scale: 1 !important;
+  zoom: 1 !important;
+  transition: none !important;
+}
+#visits .slot-body .visit-status-controls {
+  transform: none !important;
+  transition: none !important;
+}
+#visits .slot-body .visit-status-controls:hover {
+  transform: none !important;
+}
+</style>
 </head>
 <body>
 
