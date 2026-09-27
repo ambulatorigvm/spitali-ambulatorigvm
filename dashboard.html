@@ -934,7 +934,6 @@ html, body{
     <button class="nav-item active" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('.agenda-card').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">▣</span><span>Agjenda</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('#visits').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">♙</span><span>Vizitat</span></button>
-    <button class="nav-item" type="button" onclick="document.querySelector('#patientsPanel').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">♙</span><span>Pacientët</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⌕</span><span>Kërko</span></button>
     <button class="nav-item" type="button" onclick="window.location.href='reports.html'"><span class="nav-icon">▥</span><span>Raporte</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⚙</span><span>Cilësimet</span></button>
@@ -1034,32 +1033,7 @@ html, body{
     </div>
   
 
-<section class="card" id="patientsPanel">
-  <div class="card-title"><span class="title-icon">♙</span> Lista e Pacientëve</div>
-  <div class="patients-toolbar">
-    <input id="patientsSearch" type="search" placeholder="Kërko sipas emrit ose nr. të kartelës..." autocomplete="off">
-    <span class="patients-count" id="patientsCount">Po ngarkohet...</span>
-  </div>
-  <div class="patients-table-wrap">
-    <table class="patients-table">
-      <thead>
-        <tr>
-          <th>Emër + Mbiemër</th>
-          <th>Nr. Kartelës</th>
-          <th>Nr. Kartelës 2</th>
-        </tr>
-      </thead>
-      <tbody id="patientsTableBody">
-        <tr><td colspan="3" class="patient-empty">Po ngarkohen pacientët...</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="patients-pagination">
-    <button type="button" id="patientsPrev">‹ Më parë</button>
-    <span class="patients-page-info" id="patientsPageInfo">Faqja 1</span>
-    <button type="button" id="patientsNext">Më tej ›</button>
-  </div>
-</section>
+
 
 <div class="edit-modal" id="editModal">
   <div class="edit-box">
