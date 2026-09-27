@@ -194,6 +194,21 @@ button:hover{filter:brightness(.96)}
 
 </style>
 
+<style id="premium-status-controls-final">
+/* Statuset: te dukshme, elegante dhe pa e levizur agjenden */
+.visit-status-controls{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;gap:7px!important;width:100%!important;margin-top:10px!important;position:relative!important;transform:none!important;}
+.visit-status-controls button{width:auto!important;min-width:0!important;height:32px!important;padding:0 11px!important;margin:0!important;border-radius:999px!important;background:rgba(255,255,255,.045)!important;border:1px solid rgba(145,190,210,.24)!important;color:#a9c4d2!important;box-shadow:none!important;font-size:11px!important;font-weight:750!important;white-space:nowrap!important;transition:all .16s ease!important;}
+.visit-status-controls button:hover{transform:translateY(-1px)!important;background:rgba(24,185,210,.10)!important;border-color:rgba(71,205,224,.48)!important;color:#e9fbff!important;}
+.visit-status-controls .visit-status-button.active{box-shadow:0 0 0 2px rgba(24,185,210,.10)!important;}
+.visit-status-controls .visit-status-button.arrived.active{background:rgba(40,167,69,.16)!important;border-color:rgba(73,205,101,.65)!important;color:#8eeaa0!important;}
+.visit-status-controls .visit-status-button.finished.active{background:rgba(226,180,0,.15)!important;border-color:rgba(239,202,61,.65)!important;color:#ffe58a!important;}
+.visit-status-controls .visit-status-button.cancelled.active{background:rgba(138,149,157,.16)!important;border-color:rgba(171,185,193,.52)!important;color:#d5dfe4!important;}
+.visit-status-controls .visit-delete-button{margin-left:2px!important;background:rgba(210,73,82,.08)!important;border-color:rgba(224,125,132,.30)!important;color:#e99a9f!important;min-width:0!important;}
+.visit-status-controls .visit-delete-button:hover{background:rgba(210,73,82,.16)!important;border-color:rgba(224,125,132,.55)!important;color:#ffb4b9!important;}
+@media(max-width:900px){.visit-status-controls{display:flex!important;grid-template-columns:none!important;}.visit-status-controls button{width:auto!important;min-width:0!important;}}
+@media(max-width:600px){.visit-status-controls{display:flex!important;flex-wrap:wrap!important;}.visit-status-controls button{width:auto!important;}}
+</style>
+
 <style id="step5-date-nav">
 .date-navigation{
     display:flex;
@@ -2250,6 +2265,21 @@ input:focus,select:focus{
   .gvm-agenda-drag-handle{width:32px!important;height:32px!important}
   .gvm-drag-hint{display:none!important}
 }
+</style>
+
+<style id="premium-status-controls-last">
+/* FINAL - statuset direkt poshte emrit */
+.visit-status-controls{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;gap:7px!important;width:100%!important;margin-top:10px!important;position:relative!important;transform:none!important;}
+.visit-status-controls button{width:auto!important;min-width:0!important;height:32px!important;padding:0 11px!important;margin:0!important;border-radius:999px!important;background:rgba(255,255,255,.045)!important;border:1px solid rgba(145,190,210,.24)!important;color:#a9c4d2!important;box-shadow:none!important;font-size:11px!important;font-weight:750!important;white-space:nowrap!important;transition:all .16s ease!important;}
+.visit-status-controls button:hover{transform:translateY(-1px)!important;background:rgba(24,185,210,.10)!important;border-color:rgba(71,205,224,.48)!important;color:#e9fbff!important;}
+.visit-status-controls .visit-status-button.active{box-shadow:0 0 0 2px rgba(24,185,210,.10)!important;}
+.visit-status-controls .visit-status-button.arrived.active{background:rgba(40,167,69,.16)!important;border-color:rgba(73,205,101,.65)!important;color:#8eeaa0!important;}
+.visit-status-controls .visit-status-button.finished.active{background:rgba(226,180,0,.15)!important;border-color:rgba(239,202,61,.65)!important;color:#ffe58a!important;}
+.visit-status-controls .visit-status-button.cancelled.active{background:rgba(138,149,157,.16)!important;border-color:rgba(171,185,193,.52)!important;color:#d5dfe4!important;}
+.visit-status-controls .visit-delete-button{margin-left:2px!important;background:rgba(210,73,82,.08)!important;border-color:rgba(224,125,132,.30)!important;color:#e99a9f!important;}
+.visit-status-controls .visit-delete-button:hover{background:rgba(210,73,82,.16)!important;border-color:rgba(224,125,132,.55)!important;color:#ffb4b9!important;}
+@media(max-width:900px){.visit-status-controls{display:flex!important;grid-template-columns:none!important;}.visit-status-controls button{width:auto!important;min-width:0!important;}}
+@media(max-width:600px){.visit-status-controls{display:flex!important;flex-wrap:wrap!important;}.visit-status-controls button{width:auto!important;}}
 </style>
 </head>
 <body>
