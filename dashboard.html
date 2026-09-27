@@ -898,6 +898,30 @@ html, body{
 .date-picker-wrap{margin:9px 0 0!important}.date-picker-wrap label{display:none!important}.date-picker-wrap input{width:42px!important;height:42px!important;padding:0!important;background:rgba(18,137,174,.13)!important;border:1px solid rgba(74,202,227,.22)!important;color:#9fe8f5!important;border-radius:12px!important;font-size:0!important;cursor:pointer!important}
 @media(max-width:620px){.date-navigation{gap:7px!important;padding:13px 9px!important}.date-navigation:before{left:12px}.selected-date{flex:1 1 100%!important;order:-1!important}.selected-date .date-main{font-size:20px!important}.date-navigation button,.date-picker-wrap input{margin-top:13px!important}.date-navigation .today-button{min-width:54px!important;padding:0 10px!important}}
 </style>
+
+<style id="patients-module-style">
+#patientsPanel{margin-top:15px}
+.patients-toolbar{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.patients-toolbar input{flex:1;margin:0}
+.patients-count{color:#86a7b8;font-size:12px;white-space:nowrap}
+.patients-table-wrap{overflow:auto;border:1px solid rgba(132,190,218,.14);border-radius:11px}
+.patients-table{width:100%;border-collapse:collapse;min-width:620px}
+.patients-table th{padding:11px 13px;text-align:left;background:#0a2233;color:#8fb5c6;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.patients-table td{padding:11px 13px;border-top:1px solid rgba(132,190,218,.10);color:#e7f5fa;font-size:13px}
+.patients-table tr:hover td{background:rgba(24,185,210,.045)}
+.patient-card-main{font-weight:800;color:#eefaff}
+.patient-empty{padding:28px;text-align:center;color:#789aaa}
+.patients-pagination{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:12px}
+.patients-pagination button{width:auto;min-width:90px;height:36px;padding:0 12px;font-size:12px}
+.patients-pagination button:disabled{opacity:.45;cursor:default}
+.patients-page-info{color:#8aa9b9;font-size:12px}
+@media(max-width:700px){
+  .patients-toolbar{display:block}
+  .patients-toolbar input{margin-bottom:8px}
+  .patients-count{display:block}
+}
+</style>
+
 </head>
 <body>
 
@@ -910,6 +934,7 @@ html, body{
     <button class="nav-item active" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('.agenda-card').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">▣</span><span>Agjenda</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('#visits').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">♙</span><span>Vizitat</span></button>
+    <button class="nav-item" type="button" onclick="document.querySelector('#patientsPanel').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">♙</span><span>Pacientët</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⌕</span><span>Kërko</span></button>
     <button class="nav-item" type="button" onclick="window.location.href='reports.html'"><span class="nav-icon">▥</span><span>Raporte</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⚙</span><span>Cilësimet</span></button>
@@ -1008,6 +1033,34 @@ html, body{
       </div>
     </div>
   
+
+<section class="card" id="patientsPanel">
+  <div class="card-title"><span class="title-icon">♙</span> Lista e Pacientëve</div>
+  <div class="patients-toolbar">
+    <input id="patientsSearch" type="search" placeholder="Kërko sipas emrit ose nr. të kartelës..." autocomplete="off">
+    <span class="patients-count" id="patientsCount">Po ngarkohet...</span>
+  </div>
+  <div class="patients-table-wrap">
+    <table class="patients-table">
+      <thead>
+        <tr>
+          <th>Emër + Mbiemër</th>
+          <th>Nr. Kartelës</th>
+          <th>Nr. Kartelës 2</th>
+        </tr>
+      </thead>
+      <tbody id="patientsTableBody">
+        <tr><td colspan="3" class="patient-empty">Po ngarkohen pacientët...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="patients-pagination">
+    <button type="button" id="patientsPrev">‹ Më parë</button>
+    <span class="patients-page-info" id="patientsPageInfo">Faqja 1</span>
+    <button type="button" id="patientsNext">Më tej ›</button>
+  </div>
+</section>
+
 <div class="edit-modal" id="editModal">
   <div class="edit-box">
     <div class="edit-head"><h3>✎ Ndrysho Vizitën</h3><button class="edit-close" id="editClose" type="button">×</button></div>
@@ -1078,6 +1131,43 @@ const appointmentTime = document.getElementById("appointmentTime");
 const patientSuggestions = document.getElementById("patientSuggestions");
 let patientSearchTimer = null;
 
+/* =========================================================
+   ORARI SIPAS PËRDORUESIT
+========================================================= */
+let currentUserEmail = "";
+
+function getUserTimeRange(){
+    const email = currentUserEmail.toLowerCase().trim();
+
+    if(email === "ambulatorigvm@gmail.com") return { start: 14 * 60, end: 17 * 60 };
+    if(email === "spitaligvm@gmail.com") return { start: 8 * 60, end: 13 * 60 + 30 };
+
+    // Për çdo llogari tjetër, ruajmë orarin e plotë.
+    return { start: 8 * 60, end: 17 * 60 };
+}
+
+function isTimeAllowed(timeValue){
+    if(!timeValue) return false;
+    const parts = String(timeValue).slice(0,5).split(":");
+    if(parts.length !== 2) return false;
+    const minutes = Number(parts[0]) * 60 + Number(parts[1]);
+    const range = getUserTimeRange();
+    return minutes >= range.start && minutes <= range.end;
+}
+
+function getAllowedTimes(){
+    const range = getUserTimeRange();
+    const times = [];
+
+    for(let minutes = range.start; minutes <= range.end; minutes += 15){
+        const hour = Math.floor(minutes / 60);
+        const minute = minutes % 60;
+        times.push(String(hour).padStart(2,"0") + ":" + String(minute).padStart(2,"0"));
+    }
+
+    return times;
+}
+
 function hidePatientSuggestions(){
     if(patientSuggestions){
         patientSuggestions.style.display = "none";
@@ -1100,7 +1190,11 @@ function showPatientSuggestions(items){
         row.className = "patient-suggestion";
         row.innerHTML = '<span class="patient-suggestion-name"></span><span class="patient-suggestion-card"></span>';
         row.querySelector(".patient-suggestion-name").textContent = patient.full_name || "";
-        row.querySelector(".patient-suggestion-card").textContent = patient.card_number ? "Kartela: " + patient.card_number : "";
+        const cards = [];
+        if(patient.card_number) cards.push(patient.card_number);
+        if(patient.card_number_2) cards.push(patient.card_number_2);
+        row.querySelector(".patient-suggestion-card").textContent =
+            cards.length ? "Kartela: " + cards.join(" / ") : "";
         row.addEventListener("mousedown", function(event){
             event.preventDefault();
             patientName.value = patient.full_name || "";
@@ -1124,7 +1218,7 @@ async function searchRegisteredPatients(){
     try{
         const encoded = encodeURIComponent(query);
         const url = SUPABASE_URL +
-            "/rest/v1/patients?select=id,full_name,card_number" +
+            "/rest/v1/patients?select=id,full_name,card_number,card_number_2" +
             "&or=(full_name.ilike.*" + encoded + "*,card_number.ilike.*" + encoded + "*)" +
             "&order=full_name.asc&limit=10";
 
@@ -1261,46 +1355,12 @@ function createTimeOptions(){
     appointmentTime.innerHTML =
         '<option value="">Zgjidh orën</option>';
 
-    for(
-        let hour = 8;
-        hour <= 17;
-        hour++
-    ){
-
-        for(
-            let minute = 0;
-            minute < 60;
-            minute += 15
-        ){
-
-            if(
-                hour === 17 &&
-                minute > 0
-            ){
-                continue;
-            }
-
-            const time =
-                String(hour).padStart(2,"0")
-                +
-                ":"
-                +
-                String(minute).padStart(2,"0");
-
-            const option =
-                document.createElement("option");
-
-            option.value =
-                time;
-
-            option.textContent =
-                time;
-
-            appointmentTime.appendChild(
-                option
-            );
-        }
-    }
+    getAllowedTimes().forEach(function(time){
+        const option = document.createElement("option");
+        option.value = time;
+        option.textContent = time;
+        appointmentTime.appendChild(option);
+    });
 
 }
 
@@ -1435,6 +1495,15 @@ async function saveVisit(){
 
         appointmentTime.focus();
 
+        return;
+    }
+
+    if(!isTimeAllowed(time)){
+        showMessage(
+            "Ky orar nuk është i lejuar për këtë përdorues.",
+            "error"
+        );
+        appointmentTime.focus();
         return;
     }
 
@@ -1734,8 +1803,10 @@ async function loadVisits(){
         return;
     }
 
-    const data =
-        result.data || [];
+    const allData = result.data || [];
+    const data = allData.filter(function(visit){
+        return isTimeAllowed(visit.appointment_time);
+    });
 
     updateStats(data);
 
@@ -1759,19 +1830,14 @@ async function loadVisits(){
         })
     );
 
-    for(let hour = 8; hour <= 17; hour++){
-        for(let minute = 0; minute < 60; minute += 15){
-            if(hour === 17 && minute > 0) continue;
+    getAllowedTimes().forEach(function(slotTime){
 
-            const slotTime =
-                String(hour).padStart(2,"0") + ":" +
-                String(minute).padStart(2,"0");
-
-            const slotMinutes = hour * 60 + minute;
+            const timeParts = slotTime.split(":");
+            const slotMinutes = Number(timeParts[0]) * 60 + Number(timeParts[1]);
 
             // Për sot: oraret e kaluara hiqen vetëm kur nuk kanë vizitë.
             if(isToday && slotMinutes < currentMinutes && !occupiedTimes.has(slotTime)){
-                continue;
+                return;
             }
 
             const slot = document.createElement("div");
@@ -1795,8 +1861,7 @@ async function loadVisits(){
             slot.appendChild(body);
             visits.appendChild(slot);
             slots[slotTime] = { slot, body, empty };
-        }
-    }
+    });
 
     data.forEach(function(visit){
 
@@ -2062,13 +2127,12 @@ let editingVisitId = null;
 function fillEditTimes(){
     const select = document.getElementById("editAppointmentTime");
     select.innerHTML = '<option value="">Zgjidh orën</option>';
-    for(let h=12; h<=17; h++){
-        for(let m=0; m<60; m+=15){
-            if(h===17 && m>0) continue;
-            const v = String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
-            const o=document.createElement("option"); o.value=v; o.textContent=v; select.appendChild(o);
-        }
-    }
+    getAllowedTimes().forEach(function(v){
+        const o=document.createElement("option");
+        o.value=v;
+        o.textContent=v;
+        select.appendChild(o);
+    });
 }
 
 function toggleEditPayment(){
@@ -2102,6 +2166,7 @@ async function saveEditedVisit(){
     const selected=document.querySelector('input[name="editPayment"]:checked');
     if(!name){showMessage("Vendos Emër Mbiemër.","error");return;}
     if(!time){showMessage("Zgjidh orën e vizitës.","error");return;}
+    if(!isTimeAllowed(time)){showMessage("Ky orar nuk është i lejuar për këtë përdorues.","error");return;}
     if(type === "Rikontroll" && !selected){showMessage("Zgjidh Me pagesë ose Pa pagesë.","error");return;}
     const payment=type === "Rikontroll" ? selected.value : null;
 
@@ -2376,13 +2441,157 @@ async function checkAuth(){
         return;
     }
 
+    currentUserEmail = (result.data.session.user.email || "").toLowerCase().trim();
+
     console.log(
-        "AMBULATORI GVM: përdoruesi është i loguar"
+        "AMBULATORI GVM: përdoruesi është i loguar",
+        currentUserEmail,
+        getUserTimeRange()
     );
 
     showSelectedDate();
     createTimeOptions();
     loadVisits();
+    loadPatientsList();
+}
+
+
+
+/* =========================================================
+   MODULI I LISTES SE PACIENTEVE
+========================================================= */
+
+const patientsSearch = document.getElementById("patientsSearch");
+const patientsTableBody = document.getElementById("patientsTableBody");
+const patientsCount = document.getElementById("patientsCount");
+const patientsPageInfo = document.getElementById("patientsPageInfo");
+const patientsPrev = document.getElementById("patientsPrev");
+const patientsNext = document.getElementById("patientsNext");
+
+let patientsPage = 0;
+const patientsPageSize = 50;
+let patientsSearchTimer = null;
+
+function escapePatientHtml(value){
+    return String(value ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+}
+
+async function loadPatientsList(){
+    if(!patientsTableBody) return;
+
+    patientsTableBody.innerHTML =
+      '<tr><td colspan="3" class="patient-empty">Po ngarkohen pacientët...</td></tr>';
+
+    const q = patientsSearch ? patientsSearch.value.trim() : "";
+    const from = patientsPage * patientsPageSize;
+    const to = from + patientsPageSize - 1;
+
+    try{
+        let query = db
+          .from("patients")
+          .select("id,full_name,card_number,card_number_2", {count:"exact"})
+          .order("full_name", {ascending:true})
+          .range(from,to);
+
+        if(q){
+            const safe = q.replace(/[(),]/g," ").trim();
+            query = query.or(
+              "full_name.ilike.*" + safe + "*," +
+              "card_number.ilike.*" + safe + "*," +
+              "card_number_2.ilike.*" + safe + "*"
+            );
+        }
+
+        const {data,error,count} = await query;
+
+        if(error){
+            console.error("PATIENT LIST ERROR:", error);
+            patientsTableBody.innerHTML =
+              '<tr><td colspan="3" class="patient-empty">Gabim gjatë ngarkimit: ' +
+              escapePatientHtml(error.message) + '</td></tr>';
+            if(patientsCount) patientsCount.textContent = "Gabim";
+            return;
+        }
+
+        const total = count || 0;
+        const totalPages = Math.max(1, Math.ceil(total / patientsPageSize));
+
+        if(patientsPage >= totalPages){
+            patientsPage = Math.max(0,totalPages - 1);
+            return loadPatientsList();
+        }
+
+        if(patientsCount){
+            patientsCount.textContent = total.toLocaleString("sq-AL") + " pacientë";
+        }
+
+        if(patientsPageInfo){
+            patientsPageInfo.textContent =
+              "Faqja " + (patientsPage + 1) + " / " + totalPages;
+        }
+
+        if(patientsPrev) patientsPrev.disabled = patientsPage === 0;
+        if(patientsNext) patientsNext.disabled = patientsPage >= totalPages - 1;
+
+        if(!data || !data.length){
+            patientsTableBody.innerHTML =
+              '<tr><td colspan="3" class="patient-empty">Nuk u gjet asnjë pacient.</td></tr>';
+            return;
+        }
+
+        patientsTableBody.innerHTML = data.map(function(patient){
+            const c1 = patient.card_number
+              ? escapePatientHtml(patient.card_number)
+              : '<span style="color:#637f8e">—</span>';
+            const c2 = patient.card_number_2
+              ? escapePatientHtml(patient.card_number_2)
+              : '<span style="color:#637f8e">—</span>';
+
+            return '<tr>' +
+              '<td><span class="patient-card-main">' +
+              escapePatientHtml(patient.full_name || "") +
+              '</span></td>' +
+              '<td>' + c1 + '</td>' +
+              '<td>' + c2 + '</td>' +
+              '</tr>';
+        }).join("");
+
+    }catch(error){
+        console.error("PATIENT LIST FETCH ERROR:", error);
+        patientsTableBody.innerHTML =
+          '<tr><td colspan="3" class="patient-empty">Gabim gjatë lidhjes me pacientët.</td></tr>';
+    }
+}
+
+if(patientsSearch){
+    patientsSearch.addEventListener("input",function(){
+        clearTimeout(patientsSearchTimer);
+        patientsSearchTimer = setTimeout(function(){
+            patientsPage = 0;
+            loadPatientsList();
+        },300);
+    });
+}
+
+if(patientsPrev){
+    patientsPrev.addEventListener("click",function(){
+        if(patientsPage > 0){
+            patientsPage--;
+            loadPatientsList();
+        }
+    });
+}
+
+if(patientsNext){
+    patientsNext.addEventListener("click",function(){
+        patientsPage++;
+        loadPatientsList();
+    });
 }
 
 
