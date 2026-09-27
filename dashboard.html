@@ -980,7 +980,7 @@ html, body{
       <div id="message"></div>
 
       <div class="workspace">
-        <section class="card">
+        <section class="card" id="addVisitCard">
           <div class="card-title"><span class="title-icon">＋</span> Shto Vizitë të Re</div>
 
           <label for="patientName">Emër + Mbiemër *</label>
@@ -1109,6 +1109,21 @@ let patientSearchTimer = null;
    ORARI SIPAS PËRDORUESIT
 ========================================================= */
 let currentUserEmail = "";
+
+/* Vetëm ky përdorues mund të shtojë vizita */
+const ADD_VISIT_ALLOWED_EMAIL = "jolandaquni@icloud.com";
+
+function canAddVisits(){
+    return currentUserEmail.toLowerCase().trim() === ADD_VISIT_ALLOWED_EMAIL;
+}
+
+function applyAddVisitAccess(){
+    const addVisitCard = document.getElementById("addVisitCard");
+    if(!addVisitCard) return;
+
+    const allowed = canAddVisits();
+    addVisitCard.style.display = allowed ? "" : "none";
+}
 
 function getUserTimeRange(){
     const email = currentUserEmail.toLowerCase().trim();
@@ -1428,6 +1443,12 @@ function showMessage(
 ========================================================= */
 
 async function saveVisit(){
+
+    /* Kontroll sigurie edhe para INSERT-it */
+    if(!canAddVisits()){
+        showMessage("Nuk keni akses për të shtuar vizita.", "error");
+        return;
+    }
 
     const name =
         patientName.value.trim();
@@ -2416,6 +2437,7 @@ async function checkAuth(){
     }
 
     currentUserEmail = (result.data.session.user.email || "").toLowerCase().trim();
+    applyAddVisitAccess();
 
     console.log(
         "AMBULATORI GVM: përdoruesi është i loguar",
