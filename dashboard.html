@@ -1311,11 +1311,11 @@ input:focus,select:focus{
 .slot-body .visit-status-controls:before{content:'⋮';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#0877d1;font-size:24px;font-weight:900;line-height:1;pointer-events:none}
 .slot-body .visit-status-controls button{opacity:0!important;position:relative!important;z-index:2!important;width:38px!important;min-width:38px!important;height:38px!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important;color:transparent!important;box-shadow:none!important;font-size:0!important}
 .slot-body .visit-status-controls button + button{display:none!important}
-.slot-body .visit-status-controls:hover{width:190px!important;height:auto!important;min-height:38px!important;padding:6px!important;position:absolute!important;right:0!important;top:9px!important;z-index:30!important;background:#fff!important;border:1px solid #d7e7f2!important;border-radius:10px!important;box-shadow:0 10px 28px rgba(8,61,101,.16)!important;gap:5px!important;justify-content:flex-start!important}
+.slot-body .visit-status-controls:hover{width:38px!important;height:40px!important;min-height:40px!important;padding:0!important;position:relative!important;right:auto!important;top:auto!important;z-index:2!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;gap:0!important;justify-content:flex-end!important}
 .slot-body .visit-status-controls:hover:before{display:none!important}
-.slot-body .visit-status-controls:hover button{opacity:1!important;display:inline-flex!important;width:auto!important;min-width:0!important;height:30px!important;padding:0 7px!important;background:#fff!important;color:#174f73!important;border:1px solid #d7e7f2!important;font-size:10px!important;border-radius:7px!important}
-.slot-body .visit-status-controls:hover button + button{display:inline-flex!important}
-.slot-body .visit-status-controls:hover .visit-delete-button{display:inline-flex!important;color:#c54b55!important}
+.slot-body .visit-status-controls:hover button{opacity:0!important;display:block!important;width:38px!important;min-width:38px!important;height:38px!important;padding:0!important;background:transparent!important;color:transparent!important;border:0!important;font-size:0!important;border-radius:0!important}
+.slot-body .visit-status-controls:hover button + button{display:none!important}
+.slot-body .visit-status-controls:hover .visit-delete-button{display:none!important}
 
 @media(max-width:1050px){
  .slot-body .visit-item{grid-template-columns:minmax(0,1fr) 95px 100px 34px!important;gap:8px!important}
@@ -2249,150 +2249,6 @@ input:focus,select:focus{
   .agenda-date{display:none!important}
   .gvm-agenda-drag-handle{width:32px!important;height:32px!important}
   .gvm-drag-hint{display:none!important}
-}
-</style>
-
-<style id="gvm-final-orari-status-boxes">
-/* Pamje e re e orareve — funksionet/JS nuk preken */
-#visits{gap:8px!important}
-#visits .agenda-slot{
-  grid-template-columns:78px minmax(0,1fr)!important;
-  gap:10px!important;
-  min-height:94px!important;
-}
-#visits .slot-time{
-  align-self:stretch!important;
-  height:auto!important;
-  min-height:94px!important;
-  border-radius:14px!important;
-  background:linear-gradient(180deg,#eaf5ff,#f4f9fd)!important;
-  border:1px solid #d5e7f3!important;
-  color:#1477c9!important;
-  font-size:15px!important;
-  font-weight:900!important;
-  box-shadow:0 3px 10px rgba(19,105,160,.06)!important;
-}
-#visits .slot-body{
-  min-height:94px!important;
-  padding:10px 14px!important;
-  border:1px solid #dbe8f0!important;
-  border-radius:14px!important;
-  background:#fff!important;
-  box-shadow:0 4px 14px rgba(16,76,112,.055)!important;
-}
-#visits .slot-body .visit-item{
-  display:grid!important;
-  grid-template-columns:minmax(220px,1fr) auto!important;
-  grid-template-rows:auto auto auto!important;
-  column-gap:18px!important;
-  row-gap:7px!important;
-  min-height:72px!important;
-  padding:0!important;
-  border:0!important;
-  border-radius:10px!important;
-  background:#fff!important;
-  box-shadow:none!important;
-  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease!important;
-}
-#visits .slot-body .visit-name{
-  grid-column:1!important;grid-row:1!important;
-  height:auto!important;padding:2px 0 0 45px!important;margin:0!important;
-  color:#123f67!important;font-size:15px!important;font-weight:850!important;
-  line-height:24px!important;
-}
-#visits .slot-body .visit-name:before{
-  left:0!important;top:50%!important;width:34px!important;height:34px!important;
-  background:#edf6fd!important;color:#147fe5!important;
-  box-shadow:inset 0 0 0 1px #d7eaf7!important;
-}
-#visits .slot-body .visit-line{
-  grid-column:1!important;grid-row:2!important;
-  margin:0 0 0 45px!important;height:auto!important;
-  color:#668395!important;font-size:11px!important;
-}
-#visits .slot-body .statusLine{
-  grid-column:2!important;grid-row:1 / span 2!important;
-  align-self:center!important;justify-content:flex-end!important;
-}
-/* Statuset: kuti të vogla të ndara, gjithmonë të dukshme poshtë emrit */
-#visits .slot-body .visit-status-controls{
-  grid-column:1 / -1!important;grid-row:3!important;
-  position:static!important;width:100%!important;height:30px!important;min-height:30px!important;
-  display:flex!important;align-items:center!important;justify-content:flex-start!important;
-  flex-wrap:nowrap!important;gap:6px!important;margin:0!important;padding:0!important;
-  overflow:visible!important;transform:none!important;background:transparent!important;
-  border:0!important;box-shadow:none!important;
-}
-#visits .slot-body .visit-status-controls:before{display:none!important}
-#visits .slot-body .visit-status-controls button,
-#visits .slot-body .visit-status-controls:hover button{
-  opacity:1!important;display:inline-flex!important;position:static!important;
-  width:auto!important;min-width:0!important;height:28px!important;
-  padding:0 10px!important;margin:0!important;
-  border:1px solid #d6e3ea!important;border-radius:7px!important;
-  background:#f8fbfd!important;color:#476477!important;
-  font-size:10.5px!important;font-weight:750!important;line-height:1!important;
-  box-shadow:none!important;transform:none!important;white-space:nowrap!important;
-}
-#visits .slot-body .visit-status-controls button:hover{
-  background:#eef7fc!important;border-color:#bcd8e7!important;color:#126da2!important;
-}
-#visits .slot-body .visit-status-controls .scheduled.active{
-  background:#eaf4ff!important;color:#1973c6!important;border-color:#bcd9f2!important;
-}
-#visits .slot-body .visit-status-controls .arrived.active{
-  background:#e8f8ef!important;color:#167747!important;border-color:#b8e4ca!important;
-}
-#visits .slot-body .visit-status-controls .finished.active{
-  background:#fff6dc!important;color:#8b6800!important;border-color:#ecd99b!important;
-}
-#visits .slot-body .visit-status-controls .cancelled.active{
-  background:#f0f2f3!important;color:#5b666d!important;border-color:#ccd4d8!important;
-}
-#visits .slot-body .visit-status-controls .visit-delete-button{
-  color:#b14b53!important;background:#fff7f7!important;border-color:#efd0d2!important;
-}
-#visits .slot-body .visit-status-controls .visit-delete-button:hover{
-  background:#fff0f1!important;color:#a83740!important;border-color:#e6b6ba!important;
-}
-/* Karta merr ngjyrë sipas statusit, por pa ndryshuar madhësinë */
-#visits .slot-body .visit-item.status-arrived{background:#edf9f1!important;border-color:#c4e7cf!important}
-#visits .slot-body .visit-item.status-finished{background:#fff9e7!important;border-color:#ead99e!important}
-#visits .slot-body .visit-item.status-cancelled{background:#f2f4f5!important;border-color:#d2d9dd!important;opacity:1!important}
-#visits .slot-body .visit-item.status-arrived .visit-name:before{background:#e0f5e7!important;color:#208250!important}
-#visits .slot-body .visit-item.status-finished .visit-name:before{background:#fff1c8!important;color:#9a7400!important}
-#visits .slot-body .visit-item.status-cancelled .visit-name:before{background:#e6eaec!important;color:#68747b!important}
-/* Mos shfaq më menunë me hover */
-#visits .slot-body .visit-status-controls:hover{position:static!important;width:100%!important;min-width:0!important;height:30px!important;min-height:30px!important;padding:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important}
-@media(max-width:760px){
-  #visits .agenda-slot{grid-template-columns:62px minmax(0,1fr)!important;min-height:105px!important}
-  #visits .slot-time{min-height:105px!important;font-size:13px!important}
-  #visits .slot-body{min-height:105px!important;padding:9px!important}
-  #visits .slot-body .visit-item{grid-template-columns:1fr!important;grid-template-rows:auto auto auto auto!important;row-gap:5px!important}
-  #visits .slot-body .statusLine{grid-column:1!important;grid-row:2!important;justify-content:flex-start!important}
-  #visits .slot-body .visit-line{grid-row:2!important}
-  #visits .slot-body .visit-status-controls{grid-row:4!important;overflow-x:auto!important;padding-bottom:2px!important}
-}
-.gvm-drag-hint{display:none!important}
-</style>
-
-<style id="gvm-no-hover-movement">
-/* Opsionet e statusit: pozicion dhe madhësi fikse, pa lëvizje/zmadhoje me mouse */
-#visits .slot-body .visit-status-controls button,
-#visits .slot-body .visit-status-controls button:hover,
-#visits .slot-body .visit-status-controls button:focus,
-#visits .slot-body .visit-status-controls button:active {
-  transform: none !important;
-  scale: 1 !important;
-  zoom: 1 !important;
-  transition: none !important;
-}
-#visits .slot-body .visit-status-controls {
-  transform: none !important;
-  transition: none !important;
-}
-#visits .slot-body .visit-status-controls:hover {
-  transform: none !important;
 }
 </style>
 </head>
@@ -4206,177 +4062,39 @@ if(logoutButton){
   }
 })();
 </script>
-</body>
-</html>
-<style id="final-time-rows">
-/* Pamje e re e orareve: çdo orar si rresht i veçantë, i pastër dhe i qëndrueshëm */
-#visits{
-  display:flex!important;
-  flex-direction:column!important;
-  gap:10px!important;
-}
-#visits .agenda-slot{
-  display:grid!important;
-  grid-template-columns:88px minmax(0,1fr)!important;
-  gap:10px!important;
-  align-items:stretch!important;
-  min-height:76px!important;
-  padding:0!important;
-  margin:0!important;
-  border:0!important;
-  background:transparent!important;
-}
-#visits .slot-time{
-  min-height:76px!important;
-  height:auto!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  border-radius:14px!important;
-  background:#f4f8fa!important;
-  border:1px solid #d9e6eb!important;
-  color:#31566a!important;
-  font-size:15px!important;
-  font-weight:900!important;
-  letter-spacing:.2px!important;
-  box-shadow:0 2px 8px rgba(20,55,70,.06)!important;
-}
-#visits .slot-body{
-  min-height:76px!important;
-  height:auto!important;
-  display:flex!important;
-  flex-direction:column!important;
-  justify-content:center!important;
-  align-items:stretch!important;
-  gap:6px!important;
-  padding:8px 10px!important;
-  border-radius:14px!important;
-  background:#fff!important;
-  border:1px solid #e1eaee!important;
-  box-shadow:0 2px 9px rgba(20,55,70,.045)!important;
-  box-sizing:border-box!important;
-}
-#visits .slot-empty{
-  min-height:58px!important;
-  height:100%!important;
-  display:flex!important;
-  align-items:center!important;
-  padding:0 12px!important;
-  color:#9aabb4!important;
-  font-size:12px!important;
-  font-weight:700!important;
-}
-#visits .agenda-slot:nth-child(even) .slot-time{
-  background:#eef6f9!important;
-}
-#visits .agenda-slot:hover .slot-time{
-  border-color:#b9d7e2!important;
-  background:#edf7fa!important;
-}
-#visits .agenda-slot:hover .slot-body{
-  border-color:#cbdfe6!important;
-}
-/* Mos lejo klikimin e statusit të ndikojë te rreshti i orarit */
-#visits .visit-status-controls,
-#visits .visit-status-controls button{
-  position:relative!important;
-  z-index:5!important;
-}
-@media(max-width:700px){
-  #visits .agenda-slot{
-    grid-template-columns:70px minmax(0,1fr)!important;
-    gap:8px!important;
-    min-height:70px!important;
-  }
-  #visits .slot-time,#visits .slot-body{min-height:70px!important}
-  #visits .slot-time{font-size:13px!important}
-}
-@media(max-width:430px){
-  #visits .agenda-slot{
-    grid-template-columns:64px minmax(0,1fr)!important;
-    gap:7px!important;
-  }
-  #visits .slot-body{padding:7px!important}
-}
-</style>
-<style id="gvm-status-no-motion-final">
-/* FINAL: butonat e statusit jane plotesisht statike */
+
+<style id="gvm-final-no-expand">
+/* FINAL: status controls NEVER expand, move, resize or open on hover */
 #visits .slot-body .visit-status-controls,
 #visits .slot-body .visit-status-controls:hover,
-#visits .slot-body .visit-status-controls:focus,
-#visits .slot-body .visit-status-controls:active{
-  width:100% !important;
-  min-width:0 !important;
-  height:30px !important;
-  min-height:30px !important;
-  position:static !important;
-  top:auto !important;
-  right:auto !important;
-  left:auto !important;
-  transform:none !important;
-  scale:1 !important;
-  zoom:1 !important;
-  padding:0 !important;
-  margin:0 !important;
-  gap:6px !important;
-  overflow:visible !important;
-  transition:none !important;
-  animation:none !important;
-  box-shadow:none !important;
-  border:0 !important;
-  background:transparent !important;
+#visits .slot-body .visit-status-controls:focus-within{
+  position:relative!important; right:auto!important; top:auto!important; left:auto!important; bottom:auto!important;
+  width:38px!important; min-width:38px!important; max-width:38px!important;
+  height:40px!important; min-height:40px!important; max-height:40px!important;
+  margin:0!important; padding:0!important; gap:0!important;
+  transform:none!important; scale:1!important; zoom:1!important;
+  background:transparent!important; border:0!important; border-radius:0!important;
+  box-shadow:none!important; overflow:visible!important;
+  display:flex!important; align-items:center!important; justify-content:flex-end!important;
 }
-#visits .slot-body .visit-status-controls > button,
-#visits .slot-body .visit-status-controls > button:hover,
-#visits .slot-body .visit-status-controls > button:focus,
-#visits .slot-body .visit-status-controls > button:active{
-  position:static !important;
-  flex:0 0 auto !important;
-  box-sizing:border-box !important;
-  transform:none !important;
-  scale:1 !important;
-  zoom:1 !important;
-  transition:none !important;
-  animation:none !important;
-  margin:0 !important;
-  top:auto !important;
-  right:auto !important;
-  bottom:auto !important;
-  left:auto !important;
-  min-width:0 !important;
-  height:28px !important;
-  padding:0 10px !important;
-  line-height:28px !important;
-  font-size:10.5px !important;
-  font-weight:750 !important;
-  border-radius:7px !important;
-  box-shadow:none !important;
-  outline:none !important;
+#visits .slot-body .visit-status-controls:before,
+#visits .slot-body .visit-status-controls:hover:before{
+  display:flex!important; opacity:1!important; visibility:visible!important;
 }
-#visits .slot-body .visit-status-controls > button:nth-child(1){width:86px !important}
-#visits .slot-body .visit-status-controls > button:nth-child(2){width:91px !important}
-#visits .slot-body .visit-status-controls > button:nth-child(3){width:101px !important}
-#visits .slot-body .visit-status-controls > button:nth-child(4){width:96px !important}
-#visits .slot-body .visit-status-controls > button:nth-child(5){width:82px !important}
-#visits .slot-body .visit-status-controls > button:nth-child(6){width:96px !important}
-#visits .slot-body .visit-status-controls > button:hover{
-  background:#f8fbfd !important;
-  color:#476477 !important;
-  border-color:#d6e3ea !important;
+#visits .slot-body .visit-status-controls button,
+#visits .slot-body .visit-status-controls:hover button,
+#visits .slot-body .visit-status-controls button:hover{
+  display:block!important; opacity:0!important; visibility:visible!important;
+  position:relative!important; width:38px!important; min-width:38px!important; max-width:38px!important;
+  height:38px!important; min-height:38px!important; max-height:38px!important;
+  margin:0!important; padding:0!important;
+  transform:none!important; scale:1!important; zoom:1!important;
+  transition:none!important; animation:none!important;
+  background:transparent!important; border:0!important; border-radius:0!important;
+  box-shadow:none!important; color:transparent!important; font-size:0!important;
 }
-#visits .slot-body .visit-status-controls > .scheduled.active:hover{
-  background:#eaf4ff !important;color:#1973c6 !important;border-color:#bcd9f2 !important;
-}
-#visits .slot-body .visit-status-controls > .arrived.active:hover{
-  background:#e8f8ef !important;color:#167747 !important;border-color:#b8e4ca !important;
-}
-#visits .slot-body .visit-status-controls > .finished.active:hover{
-  background:#fff6dc !important;color:#8b6800 !important;border-color:#ecd99b !important;
-}
-#visits .slot-body .visit-status-controls > .cancelled.active:hover{
-  background:#f0f2f3 !important;color:#5b666d !important;border-color:#ccd4d8 !important;
-}
-#visits .slot-body .visit-status-controls > .visit-delete-button:hover{
-  background:#fff7f7 !important;color:#b14b53 !important;border-color:#efd0d2 !important;
-}
+#visits .slot-body .visit-status-controls button + button{display:none!important;}
+#visits .slot-body .visit-status-controls:hover button + button{display:none!important;}
 </style>
+</body>
+</html>
