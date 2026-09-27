@@ -980,6 +980,92 @@ html, body{
 .visit-item.status-arrived .visit-line,.visit-item.status-finished .visit-line,.visit-item.status-cancelled .visit-line,.visit-item.status-scheduled .visit-line{color:#34464e !important;}
 .visit-item.status-arrived .visit-line strong,.visit-item.status-finished .visit-line strong,.visit-item.status-cancelled .visit-line strong,.visit-item.status-scheduled .visit-line strong{color:#1f343d !important;}
 </style>
+
+<style id="final-readable-status-colors">
+/* Ngjyra të lehta + tekst i errët për lexueshmëri */
+.visit-item.status-arrived{
+  background:#eaf7ee !important;
+  border-left:5px solid #2e8b57 !important;
+  border-top:1px solid #c6e6d0 !important;
+  border-right:1px solid #c6e6d0 !important;
+  border-bottom:1px solid #c6e6d0 !important;
+  color:#172b22 !important;
+}
+.visit-item.status-finished{
+  background:#fff8df !important;
+  border-left:5px solid #c49a00 !important;
+  border-top:1px solid #eadca8 !important;
+  border-right:1px solid #eadca8 !important;
+  border-bottom:1px solid #eadca8 !important;
+  color:#2b2718 !important;
+}
+.visit-item.status-cancelled{
+  background:#f0f2f3 !important;
+  border-left:5px solid #7a858c !important;
+  border-top:1px solid #d5dadd !important;
+  border-right:1px solid #d5dadd !important;
+  border-bottom:1px solid #d5dadd !important;
+  color:#202a2f !important;
+}
+.visit-item.status-scheduled{
+  background:#edf6fc !important;
+  border-left:5px solid #438db8 !important;
+  border-top:1px solid #cfe3ef !important;
+  border-right:1px solid #cfe3ef !important;
+  border-bottom:1px solid #cfe3ef !important;
+  color:#172a35 !important;
+}
+
+/* Të gjitha tekstet e rreshtit mbeten të errëta dhe të lexueshme */
+.visit-item.status-arrived *,
+.visit-item.status-finished *,
+.visit-item.status-cancelled *,
+.visit-item.status-scheduled *{
+  color:#26343a !important;
+  text-shadow:none !important;
+}
+
+/* Emri dhe ora më të theksuara */
+.visit-item.status-arrived .visit-name,
+.visit-item.status-finished .visit-name,
+.visit-item.status-cancelled .visit-name,
+.visit-item.status-scheduled .visit-name,
+.visit-item.status-arrived .visit-time,
+.visit-item.status-finished .visit-time,
+.visit-item.status-cancelled .visit-time,
+.visit-item.status-scheduled .visit-time{
+  color:#17252b !important;
+  font-weight:800 !important;
+}
+
+/* Butonat ruajnë pamjen e tyre dhe nuk marrin ngjyrën e rreshtit */
+.visit-item .visit-status-controls button{
+  color:#244554 !important;
+  background:#ffffff !important;
+  border-color:#cbd6db !important;
+}
+.visit-item .visit-status-controls .arrived.active{
+  color:#176b3a !important;
+  background:#e8f6ed !important;
+  border-color:#58a875 !important;
+}
+.visit-item .visit-status-controls .finished.active{
+  color:#765c00 !important;
+  background:#fff7d6 !important;
+  border-color:#d4b33c !important;
+}
+.visit-item .visit-status-controls .cancelled.active{
+  color:#4d5960 !important;
+  background:#edf0f2 !important;
+  border-color:#9da8ae !important;
+}
+.visit-item .visit-status-controls .visit-delete-button{
+  color:#9a3434 !important;
+  background:#fff !important;
+  border-color:#ddb8b8 !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -2743,6 +2829,38 @@ if(logoutButton){
     </div>
   </div>
 </div>
+
+
+<style id="larger-visit-rows">
+/* Përmasa më të mëdha për lexim më të rehatshëm */
+.visit-item{
+  padding:16px 18px !important;
+  min-height:92px !important;
+  border-radius:12px !important;
+}
+.visit-item .visit-time{
+  font-size:18px !important;
+  font-weight:800 !important;
+}
+.visit-item .visit-name{
+  font-size:17px !important;
+  font-weight:800 !important;
+}
+.visit-item .visit-line{
+  font-size:14px !important;
+  line-height:1.5 !important;
+}
+.visit-item .status-badge{
+  font-size:13px !important;
+  padding:6px 10px !important;
+}
+.visit-item .visit-status-controls button{
+  min-height:42px !important;
+  font-size:13px !important;
+  padding:0 15px !important;
+  border-radius:8px !important;
+}
+</style>
 
 </body>
 </html>
