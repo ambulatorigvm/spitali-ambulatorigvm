@@ -4351,3 +4351,78 @@ if(logoutButton){
 </style>
 </body>
 </html>
+<style id="GVM-CALENDAR-BEAUTY-FINAL">
+/* KALENDAR + AGJENDA — premium, clean, stable */
+.date-navigation{
+  display:grid!important;grid-template-columns:46px 1fr 46px!important;align-items:center!important;gap:12px!important;
+  padding:8px!important;margin:0 0 16px!important;background:rgba(255,255,255,.97)!important;
+  border:1px solid #d8e7ef!important;border-radius:16px!important;box-shadow:0 8px 24px rgba(10,76,112,.08)!important;
+}
+.date-navigation button{
+  width:46px!important;min-width:46px!important;height:40px!important;margin:0!important;padding:0!important;
+  border-radius:11px!important;background:#f4f9fc!important;color:#166b91!important;
+  border:1px solid #d6e5ed!important;box-shadow:none!important;filter:none!important;transform:none!important;transition:none!important;
+}
+.date-navigation button:hover,.date-navigation button:focus,.date-navigation button:active{transform:none!important;filter:none!important;box-shadow:none!important}
+.date-navigation .today-button{width:46px!important;min-width:46px!important;background:#eaf6fb!important;color:#0b719b!important;border-color:#c9e2ec!important}
+.selected-date{min-width:0!important;text-align:center!important}
+.selected-date .date-main{font-size:17px!important;font-weight:850!important;color:#12496b!important;line-height:1.2!important}
+.selected-date .date-iso{font-size:10px!important;color:#8299a7!important;margin-top:3px!important}
+
+/* vetem paneli i agjendes */
+.agenda-card{padding:18px!important;border-radius:17px!important;background:rgba(255,255,255,.97)!important;border:1px solid #dceaf1!important;box-shadow:0 10px 30px rgba(8,68,105,.09)!important}
+.agenda-head{margin-bottom:12px!important;padding:0 2px!important}
+.agenda-head h2{font-size:19px!important;color:#0c466a!important;letter-spacing:-.2px!important}
+.agenda-date{font-size:11px!important;color:#7892a2!important;background:#f2f8fb!important;border:1px solid #deebf1!important;border-radius:999px!important;padding:6px 9px!important}
+
+#visits{
+  display:flex!important;flex-direction:column!important;gap:0!important;
+  background:#f7fafc!important;border:1px solid #dbe8ef!important;border-radius:15px!important;
+  overflow:hidden!important;padding:0!important;
+}
+#visits .agenda-slot{
+  display:grid!important;grid-template-columns:82px minmax(0,1fr)!important;gap:0!important;
+  min-height:72px!important;margin:0!important;padding:0!important;align-items:stretch!important;
+  background:#fff!important;border:0!important;border-bottom:1px solid #e5edf2!important;
+}
+#visits .agenda-slot:last-child{border-bottom:0!important}
+#visits .agenda-slot:hover{background:#fff!important;transform:none!important}
+#visits .slot-time{
+  width:auto!important;height:auto!important;min-height:72px!important;margin:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  background:linear-gradient(180deg,#f6fafc,#eef5f8)!important;
+  border:0!important;border-right:1px solid #dfeaf0!important;border-radius:0!important;
+  color:#47748a!important;font-size:12px!important;font-weight:850!important;letter-spacing:.2px!important;
+}
+#visits .slot-body{
+  min-width:0!important;min-height:72px!important;margin:0!important;padding:8px 10px!important;
+  display:flex!important;align-items:center!important;background:#fff!important;
+  border:0!important;border-radius:0!important;
+}
+#visits .slot-empty{
+  width:100%!important;height:100%!important;min-height:54px!important;display:flex!important;align-items:center!important;
+  padding:0 14px!important;color:#a0b1bb!important;font-size:11px!important;font-weight:600!important;
+}
+#visits .visit-item{
+  width:100%!important;min-width:0!important;box-sizing:border-box!important;margin:0!important;
+  padding:10px 12px!important;border:1px solid #dce8ee!important;border-left:3px solid #2a9ac0!important;
+  border-radius:12px!important;background:#fff!important;box-shadow:0 3px 10px rgba(10,72,108,.055)!important;
+  transform:none!important;transition:none!important;
+}
+#visits .visit-item:hover{transform:none!important;box-shadow:0 3px 10px rgba(10,72,108,.055)!important}
+#visits .visit-name{font-size:13px!important;font-weight:850!important;color:#174b68!important}
+#visits .visit-time{font-size:10px!important}
+#visits .visit-line{font-size:10px!important;color:#8299a7!important;margin-top:2px!important}
+#visits .statusLine{gap:5px!important;margin-top:4px!important}
+#visits .visit-type,#visits .payment-paid,#visits .payment-free,#visits .status-badge{padding:4px 7px!important;font-size:9px!important;border-radius:999px!important}
+
+/* bosh: shenje diskrete, jo kuti e rende */
+#visits .slot-empty:before{content:'·';font-size:18px;color:#c0d0d8;margin-right:8px;line-height:0}
+
+@media(max-width:760px){
+ .date-navigation{grid-template-columns:42px 1fr 42px!important;gap:8px!important}
+ .date-navigation button,.date-navigation .today-button{width:42px!important;min-width:42px!important}
+ #visits .agenda-slot{grid-template-columns:64px minmax(0,1fr)!important}
+ #visits .slot-time{font-size:11px!important}
+}
+</style>
