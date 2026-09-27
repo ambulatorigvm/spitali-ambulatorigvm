@@ -4077,3 +4077,110 @@ if(logoutButton){
 </style>
 </body>
 </html>
+<style id="GVM-FIX-STATUS-FINAL-V4">
+/* GVM: STATUS BUTTONS - FIXED, NO SHIFT, NO RESIZE */
+#visits .slot-body .visit-item{
+  overflow:visible!important;
+}
+#visits .slot-body .visit-status-controls,
+#visits .slot-body .visit-status-controls:hover,
+#visits .slot-body .visit-status-controls:focus-within{
+  position:static!important;
+  display:flex!important;
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:6px!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:30px!important;
+  min-height:30px!important;
+  max-height:30px!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  transform:none!important;
+  scale:1!important;
+  zoom:1!important;
+  transition:none!important;
+  animation:none!important;
+}
+#visits .slot-body .visit-status-controls:before,
+#visits .slot-body .visit-status-controls:hover:before{
+  display:none!important;
+  content:none!important;
+}
+#visits .slot-body .visit-status-controls > button,
+#visits .slot-body .visit-status-controls:hover > button,
+#visits .slot-body .visit-status-controls:focus-within > button{
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  position:static!important;
+  opacity:1!important;
+  visibility:visible!important;
+  box-sizing:border-box!important;
+  height:28px!important;
+  min-height:28px!important;
+  max-height:28px!important;
+  margin:0!important;
+  padding:0 9px!important;
+  border-radius:7px!important;
+  font-size:10px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  transform:none!important;
+  scale:1!important;
+  zoom:1!important;
+  transition:none!important;
+  animation:none!important;
+  box-shadow:none!important;
+}
+/* Fixed widths stop the row from moving when the pointer enters a button. */
+#visits .slot-body .visit-status-controls > button:nth-child(1){width:86px!important;min-width:86px!important;max-width:86px!important}
+#visits .slot-body .visit-status-controls > button:nth-child(2){width:91px!important;min-width:91px!important;max-width:91px!important}
+#visits .slot-body .visit-status-controls > button:nth-child(3){width:101px!important;min-width:101px!important;max-width:101px!important}
+#visits .slot-body .visit-status-controls > button:nth-child(4){width:96px!important;min-width:96px!important;max-width:96px!important}
+#visits .slot-body .visit-status-controls > button:nth-child(5){width:82px!important;min-width:82px!important;max-width:82px!important}
+#visits .slot-body .visit-status-controls > button:nth-child(6){width:96px!important;min-width:96px!important;max-width:96px!important}
+#visits .slot-body .visit-status-controls > button:hover,
+#visits .slot-body .visit-status-controls > button:focus,
+#visits .slot-body .visit-status-controls > button:active{
+  transform:none!important;
+  scale:1!important;
+  zoom:1!important;
+  height:28px!important;
+  min-height:28px!important;
+  max-height:28px!important;
+  transition:none!important;
+  animation:none!important;
+}
+/* Keep the status row in its own fixed grid row. */
+#visits .slot-body .visit-item{
+  grid-template-rows:auto 30px!important;
+  row-gap:0!important;
+  min-height:68px!important;
+}
+#visits .slot-body .visit-status-controls{
+  grid-column:1 / -1!important;
+  grid-row:2!important;
+  align-self:center!important;
+}
+@media(max-width:760px){
+  #visits .slot-body .visit-item{
+    grid-template-rows:auto auto 30px!important;
+    min-height:78px!important;
+  }
+  #visits .slot-body .visit-status-controls{
+    grid-column:1!important;
+    grid-row:3!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+  }
+}
+</style>
