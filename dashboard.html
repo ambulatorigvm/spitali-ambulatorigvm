@@ -2384,6 +2384,68 @@ input:focus,select:focus{
   #visits .slot-body .visit-status-controls{overflow-x:auto!important;overflow-y:hidden!important;padding-bottom:1px!important}
 }
 </style>
+
+<style id="GVM-ESTHETIC-CALENDAR-TIMES">
+/* KALENDAR + ORARE: pamje e pastër, fikse, pa levizje */
+.date-navigation{
+  display:grid!important;grid-template-columns:44px 1fr 44px!important;align-items:center!important;gap:10px!important;
+  margin:0 0 16px!important;padding:10px!important;background:rgba(255,255,255,.97)!important;
+  border:1px solid #dce9f1!important;border-radius:14px!important;box-shadow:0 6px 20px rgba(7,63,99,.07)!important;
+}
+.date-navigation button{
+  width:44px!important;min-width:44px!important;height:38px!important;padding:0!important;margin:0!important;
+  border-radius:10px!important;background:#f5faff!important;color:#17638c!important;
+  border:1px solid #d7e7ef!important;box-shadow:none!important;transform:none!important;transition:none!important;
+}
+.date-navigation button:hover,.date-navigation button:active,.date-navigation button:focus{
+  transform:none!important;filter:none!important;box-shadow:none!important;
+}
+.selected-date{min-width:0!important;text-align:center!important;padding:2px 8px!important}
+.selected-date .date-main{font-size:16px!important;font-weight:850!important;color:#0b456d!important;line-height:1.25!important}
+.selected-date .date-iso{font-size:10px!important;color:#7a95a5!important;margin-top:3px!important}
+#visits{gap:0!important;border:1px solid #dbe8ef!important;border-radius:15px!important;overflow:hidden!important;background:#f7fafc!important}
+#visits .agenda-slot{
+  display:grid!important;grid-template-columns:78px minmax(0,1fr)!important;gap:0!important;
+  min-height:68px!important;margin:0!important;padding:0!important;align-items:stretch!important;
+  border-bottom:1px solid #e1ebf0!important;background:#fff!important;
+}
+#visits .agenda-slot:last-child{border-bottom:0!important}
+#visits .agenda-slot:hover{background:#fff!important;transform:none!important}
+#visits .slot-time{
+  width:auto!important;height:auto!important;min-height:68px!important;margin:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  border:0!important;border-right:1px solid #e0ebf1!important;border-radius:0!important;
+  background:linear-gradient(180deg,#f4f9fc,#edf5f9)!important;color:#3f6c83!important;
+  font-size:12px!important;font-weight:850!important;letter-spacing:.1px!important;
+}
+#visits .slot-body{
+  min-width:0!important;min-height:68px!important;margin:0!important;padding:7px 9px!important;
+  display:flex!important;align-items:center!important;border:0!important;border-radius:0!important;background:#fff!important;
+}
+#visits .slot-empty{
+  width:100%!important;min-height:46px!important;display:flex!important;align-items:center!important;
+  padding:0 12px!important;color:#a1b2bd!important;font-size:11px!important;font-weight:600!important;
+}
+#visits .visit-item{
+  width:100%!important;min-width:0!important;box-sizing:border-box!important;
+  margin:0!important;padding:9px 11px!important;border:1px solid #dbe7ed!important;
+  border-radius:11px!important;background:#fff!important;box-shadow:0 2px 8px rgba(9,73,119,.045)!important;
+  transform:none!important;transition:none!important;
+}
+#visits .visit-item:hover{transform:none!important;box-shadow:0 2px 8px rgba(9,73,119,.045)!important}
+#visits .visit-time{font-size:11px!important}
+#visits .visit-name{font-size:13px!important;font-weight:850!important;color:#174c68!important}
+#visits .visit-line{font-size:10px!important;color:#8299a6!important}
+#visits .statusLine{gap:5px!important;margin-top:4px!important}
+#visits .visit-type,#visits .payment-paid,#visits .payment-free,#visits .status-badge{padding:4px 7px!important;font-size:9px!important;border-radius:999px!important}
+@media(max-width:760px){
+ .date-navigation{grid-template-columns:40px 1fr 40px!important}
+ .date-navigation button{width:40px!important;min-width:40px!important}
+ #visits .agenda-slot{grid-template-columns:62px minmax(0,1fr)!important}
+ #visits .slot-time{font-size:11px!important}
+}
+</style>
+
 </head>
 <body>
 
