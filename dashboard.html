@@ -1092,6 +1092,57 @@ tr .appointment-time,
 /* Keep status backgrounds soft while preserving readable text */
 </style>
 
+
+<style id="status-text-readability">
+/* Status rows: patient names white by default; after status change, text becomes dark */
+.appointment-row .patient-name,
+.visit-row .patient-name,
+tr .patient-name,
+.appointment-name,
+.patient-name {
+    color: #ffffff !important;
+    font-weight: 800 !important;
+}
+
+/* When a row has a status class, use dark text for readability */
+.appointment-row.status-arrived .patient-name,
+.appointment-row.status-completed .patient-name,
+.appointment-row.status-cancelled .patient-name,
+.visit-row.status-arrived .patient-name,
+.visit-row.status-completed .patient-name,
+.visit-row.status-cancelled .patient-name,
+tr.status-arrived .patient-name,
+tr.status-completed .patient-name,
+tr.status-cancelled .patient-name,
+.status-arrived .patient-name,
+.status-completed .patient-name,
+.status-cancelled .patient-name {
+    color: #111827 !important;
+}
+
+/* Keep appointment times dark blue unless the row is status-colored */
+.appointment-row .appointment-time,
+.visit-row .appointment-time,
+tr .appointment-time,
+.appointment-time,
+.visit-time {
+    color: #123B66 !important;
+    font-weight: 800 !important;
+}
+
+.appointment-row.status-arrived .appointment-time,
+.appointment-row.status-completed .appointment-time,
+.appointment-row.status-cancelled .appointment-time,
+.visit-row.status-arrived .appointment-time,
+.visit-row.status-completed .appointment-time,
+.visit-row.status-cancelled .appointment-time,
+tr.status-arrived .appointment-time,
+tr.status-completed .appointment-time,
+tr.status-cancelled .appointment-time {
+    color: #111827 !important;
+}
+</style>
+
 </head>
 <body>
 
