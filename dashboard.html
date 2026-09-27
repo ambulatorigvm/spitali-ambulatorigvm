@@ -969,6 +969,17 @@ html, body{
 }
 </style>
 
+
+<style id="status-readable-colors">
+/* Ngjyra pastel që nuk pengojnë leximin */
+.visit-item.status-arrived{background:#e8f5e9 !important;border-left:5px solid #43a047 !important;color:#24343b !important;}
+.visit-item.status-finished{background:#fff8dc !important;border-left:5px solid #d6a600 !important;color:#24343b !important;}
+.visit-item.status-cancelled{background:#eef1f3 !important;border-left:5px solid #8b969d !important;color:#34434a !important;opacity:1 !important;}
+.visit-item.status-scheduled{background:#eaf4fb !important;border-left:5px solid #4b9bc7 !important;color:#24343b !important;}
+.visit-item.status-arrived .visit-time,.visit-item.status-finished .visit-time,.visit-item.status-cancelled .visit-time,.visit-item.status-scheduled .visit-time{color:#1f343d !important;}
+.visit-item.status-arrived .visit-line,.visit-item.status-finished .visit-line,.visit-item.status-cancelled .visit-line,.visit-item.status-scheduled .visit-line{color:#34464e !important;}
+.visit-item.status-arrived .visit-line strong,.visit-item.status-finished .visit-line strong,.visit-item.status-cancelled .visit-line strong,.visit-item.status-scheduled .visit-line strong{color:#1f343d !important;}
+</style>
 </head>
 <body>
 
@@ -1951,17 +1962,17 @@ async function loadVisits(){
 
         /* Ngjyra e GJITHË rreshtit sipas statusit */
         if(currentStatus === "arrived"){
-            item.style.setProperty("background", "#c9f2d2", "important");
+            item.style.setProperty("background", "#e8f5e9", "important");
             item.style.setProperty("border-color", "#72c982", "important");
             item.style.setProperty("color", "#174f28", "important");
         }
         else if(currentStatus === "finished"){
-            item.style.setProperty("background", "#fff0a8", "important");
+            item.style.setProperty("background", "#fff8dc", "important");
             item.style.setProperty("border-color", "#e1c34d", "important");
             item.style.setProperty("color", "#5f5000", "important");
         }
         else if(currentStatus === "cancelled"){
-            item.style.setProperty("background", "#d9dee1", "important");
+            item.style.setProperty("background", "#eef1f3", "important");
             item.style.setProperty("border-color", "#aab3b8", "important");
             item.style.setProperty("color", "#465158", "important");
         }
