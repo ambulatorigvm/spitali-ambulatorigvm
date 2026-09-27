@@ -2252,96 +2252,128 @@ input:focus,select:focus{
 }
 </style>
 
-<style id="gvm-status-clean-final">
-/* STATUS ROW — clean, compact, fixed layout */
-.visit-item{
-  position:relative !important;
-  overflow:hidden !important;
-  transition:background .22s ease, border-color .22s ease, box-shadow .22s ease !important;
+<style id="gvm-final-orari-status-boxes">
+/* Pamje e re e orareve — funksionet/JS nuk preken */
+#visits{gap:8px!important}
+#visits .agenda-slot{
+  grid-template-columns:78px minmax(0,1fr)!important;
+  gap:10px!important;
+  min-height:94px!important;
 }
-.visit-status-controls{
-  display:flex !important;
-  flex-wrap:nowrap !important;
-  align-items:center !important;
-  gap:0 !important;
-  width:100% !important;
-  min-height:28px !important;
-  margin-top:12px !important;
-  padding:0 !important;
-  overflow:visible !important;
+#visits .slot-time{
+  align-self:stretch!important;
+  height:auto!important;
+  min-height:94px!important;
+  border-radius:14px!important;
+  background:linear-gradient(180deg,#eaf5ff,#f4f9fd)!important;
+  border:1px solid #d5e7f3!important;
+  color:#1477c9!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  box-shadow:0 3px 10px rgba(19,105,160,.06)!important;
 }
-.visit-status-controls button{
-  flex:0 0 auto !important;
-  width:auto !important;
-  min-width:0 !important;
-  height:28px !important;
-  margin:0 !important;
-  padding:0 10px !important;
-  border:0 !important;
-  border-right:1px solid rgba(20,55,72,.14) !important;
-  border-radius:0 !important;
-  background:transparent !important;
-  box-shadow:none !important;
-  color:#607580 !important;
-  font-size:11px !important;
-  font-weight:700 !important;
-  line-height:28px !important;
-  white-space:nowrap !important;
-  cursor:pointer !important;
-  transform:none !important;
-  transition:color .16s ease, background .16s ease !important;
+#visits .slot-body{
+  min-height:94px!important;
+  padding:10px 14px!important;
+  border:1px solid #dbe8f0!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  box-shadow:0 4px 14px rgba(16,76,112,.055)!important;
 }
-.visit-status-controls button:first-child{padding-left:0 !important}
-.visit-status-controls button:last-child{border-right:0 !important}
-.visit-status-controls button:hover{
-  background:rgba(255,255,255,.32) !important;
-  color:#173f51 !important;
+#visits .slot-body .visit-item{
+  display:grid!important;
+  grid-template-columns:minmax(220px,1fr) auto!important;
+  grid-template-rows:auto auto auto!important;
+  column-gap:18px!important;
+  row-gap:7px!important;
+  min-height:72px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease!important;
 }
-.visit-status-controls .scheduled.active{color:#a66a00 !important}
-.visit-status-controls .arrived.active{color:#167346 !important}
-.visit-status-controls .finished.active{color:#8a6200 !important}
-.visit-status-controls .cancelled.active{color:#a53d45 !important}
-.visit-status-controls .visit-delete-button{
-  margin-left:0 !important;
-  min-width:0 !important;
-  border-right:0 !important;
-  color:#a53d45 !important;
+#visits .slot-body .visit-name{
+  grid-column:1!important;grid-row:1!important;
+  height:auto!important;padding:2px 0 0 45px!important;margin:0!important;
+  color:#123f67!important;font-size:15px!important;font-weight:850!important;
+  line-height:24px!important;
 }
-/* Ndrysho remains available but visually quiet */
-.visit-status-controls .visit-status-button:not(.scheduled):not(.arrived):not(.finished):not(.cancelled){
-  color:#81929a !important;
+#visits .slot-body .visit-name:before{
+  left:0!important;top:50%!important;width:34px!important;height:34px!important;
+  background:#edf6fd!important;color:#147fe5!important;
+  box-shadow:inset 0 0 0 1px #d7eaf7!important;
 }
-/* Entire appointment card changes softly with the selected status */
-.visit-item.status-scheduled{
-  background:linear-gradient(135deg,#fffdf7,#fff9ed) !important;
-  border-color:#ead8a7 !important;
+#visits .slot-body .visit-line{
+  grid-column:1!important;grid-row:2!important;
+  margin:0 0 0 45px!important;height:auto!important;
+  color:#668395!important;font-size:11px!important;
 }
-.visit-item.status-arrived{
-  background:linear-gradient(135deg,#f1fbf5,#e5f6ec) !important;
-  border-color:#a9d8bb !important;
+#visits .slot-body .statusLine{
+  grid-column:2!important;grid-row:1 / span 2!important;
+  align-self:center!important;justify-content:flex-end!important;
 }
-.visit-item.status-finished{
-  background:linear-gradient(135deg,#fffdf2,#fff5cf) !important;
-  border-color:#e3cf86 !important;
+/* Statuset: kuti të vogla të ndara, gjithmonë të dukshme poshtë emrit */
+#visits .slot-body .visit-status-controls{
+  grid-column:1 / -1!important;grid-row:3!important;
+  position:static!important;width:100%!important;height:30px!important;min-height:30px!important;
+  display:flex!important;align-items:center!important;justify-content:flex-start!important;
+  flex-wrap:nowrap!important;gap:6px!important;margin:0!important;padding:0!important;
+  overflow:visible!important;transform:none!important;background:transparent!important;
+  border:0!important;box-shadow:none!important;
 }
-.visit-item.status-cancelled{
-  background:linear-gradient(135deg,#fbf5f6,#f2e7e9) !important;
-  border-color:#d9b9bd !important;
-  opacity:1 !important;
+#visits .slot-body .visit-status-controls:before{display:none!important}
+#visits .slot-body .visit-status-controls button,
+#visits .slot-body .visit-status-controls:hover button{
+  opacity:1!important;display:inline-flex!important;position:static!important;
+  width:auto!important;min-width:0!important;height:28px!important;
+  padding:0 10px!important;margin:0!important;
+  border:1px solid #d6e3ea!important;border-radius:7px!important;
+  background:#f8fbfd!important;color:#476477!important;
+  font-size:10.5px!important;font-weight:750!important;line-height:1!important;
+  box-shadow:none!important;transform:none!important;white-space:nowrap!important;
 }
-.visit-item.status-scheduled .visit-name,.visit-item.status-arrived .visit-name,.visit-item.status-finished .visit-name,.visit-item.status-cancelled .visit-name{
-  color:#173d4f !important;
+#visits .slot-body .visit-status-controls button:hover{
+  background:#eef7fc!important;border-color:#bcd8e7!important;color:#126da2!important;
 }
-/* Clicking statuses never starts any drag or causes layout movement */
-.visit-status-controls,.visit-status-controls *{
-  -webkit-user-select:none !important;
-  user-select:none !important;
-  -webkit-touch-callout:none !important;
+#visits .slot-body .visit-status-controls .scheduled.active{
+  background:#eaf4ff!important;color:#1973c6!important;border-color:#bcd9f2!important;
 }
-@media(max-width:900px){
-  .visit-status-controls{overflow-x:auto !important; scrollbar-width:none !important;}
-  .visit-status-controls::-webkit-scrollbar{display:none !important;}
+#visits .slot-body .visit-status-controls .arrived.active{
+  background:#e8f8ef!important;color:#167747!important;border-color:#b8e4ca!important;
 }
+#visits .slot-body .visit-status-controls .finished.active{
+  background:#fff6dc!important;color:#8b6800!important;border-color:#ecd99b!important;
+}
+#visits .slot-body .visit-status-controls .cancelled.active{
+  background:#f0f2f3!important;color:#5b666d!important;border-color:#ccd4d8!important;
+}
+#visits .slot-body .visit-status-controls .visit-delete-button{
+  color:#b14b53!important;background:#fff7f7!important;border-color:#efd0d2!important;
+}
+#visits .slot-body .visit-status-controls .visit-delete-button:hover{
+  background:#fff0f1!important;color:#a83740!important;border-color:#e6b6ba!important;
+}
+/* Karta merr ngjyrë sipas statusit, por pa ndryshuar madhësinë */
+#visits .slot-body .visit-item.status-arrived{background:#edf9f1!important;border-color:#c4e7cf!important}
+#visits .slot-body .visit-item.status-finished{background:#fff9e7!important;border-color:#ead99e!important}
+#visits .slot-body .visit-item.status-cancelled{background:#f2f4f5!important;border-color:#d2d9dd!important;opacity:1!important}
+#visits .slot-body .visit-item.status-arrived .visit-name:before{background:#e0f5e7!important;color:#208250!important}
+#visits .slot-body .visit-item.status-finished .visit-name:before{background:#fff1c8!important;color:#9a7400!important}
+#visits .slot-body .visit-item.status-cancelled .visit-name:before{background:#e6eaec!important;color:#68747b!important}
+/* Mos shfaq më menunë me hover */
+#visits .slot-body .visit-status-controls:hover{position:static!important;width:100%!important;min-width:0!important;height:30px!important;min-height:30px!important;padding:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important}
+@media(max-width:760px){
+  #visits .agenda-slot{grid-template-columns:62px minmax(0,1fr)!important;min-height:105px!important}
+  #visits .slot-time{min-height:105px!important;font-size:13px!important}
+  #visits .slot-body{min-height:105px!important;padding:9px!important}
+  #visits .slot-body .visit-item{grid-template-columns:1fr!important;grid-template-rows:auto auto auto auto!important;row-gap:5px!important}
+  #visits .slot-body .statusLine{grid-column:1!important;grid-row:2!important;justify-content:flex-start!important}
+  #visits .slot-body .visit-line{grid-row:2!important}
+  #visits .slot-body .visit-status-controls{grid-row:4!important;overflow-x:auto!important;padding-bottom:2px!important}
+}
+.gvm-drag-hint{display:none!important}
 </style>
 </head>
 <body>
@@ -3407,7 +3439,7 @@ async function loadVisits(){
             "visit-status-button arrived" +
             (currentStatus === "arrived" ? " active" : "");
         arrived.textContent =
-            "Në proces";
+            "✓ Ka ardhur";
 
         arrived.addEventListener("click", function(){
             updateVisitStatus(
@@ -3443,7 +3475,7 @@ async function loadVisits(){
             "visit-status-button cancelled" +
             (currentStatus === "cancelled" ? " active" : "");
         cancelled.textContent =
-            "Anullo";
+            "✕ Anulluar";
 
         cancelled.addEventListener("click", function(){
             updateVisitStatus(
@@ -3470,7 +3502,7 @@ async function loadVisits(){
         deleteButton.className =
             "visit-delete-button";
         deleteButton.textContent =
-            "Fshi";
+            "Fshi vizitën";
 
         deleteButton.addEventListener("click", function(){
             openDeleteConfirm(visit.id);
@@ -3481,12 +3513,6 @@ async function loadVisits(){
         controls.appendChild(cancelled);
         controls.appendChild(editButton);
         controls.appendChild(deleteButton);
-
-        ["pointerdown","mousedown","touchstart"].forEach(function(eventName){
-            controls.addEventListener(eventName,function(e){
-                e.stopPropagation();
-            },{passive:eventName === "touchstart"});
-        });
 
         item.appendChild(time);
         item.appendChild(name);
@@ -4089,7 +4115,11 @@ if(logoutButton){
     handle.setAttribute('aria-label','Lëviz agjendën');
     handle.innerHTML='⠿';
 
+    const hint=document.createElement('span');
+    hint.className='gvm-drag-hint';
+    hint.textContent='TËRHIQE NGA KËTU';
     head.appendChild(handle);
+    head.appendChild(hint);
 
     let dragging=false;
     let startX=0,startY=0;
