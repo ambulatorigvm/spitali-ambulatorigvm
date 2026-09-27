@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPITALI GVM — AMBULATORI GVM</title>
+<title>SPITALI GVM — GVM Care & Research</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
@@ -192,13 +192,6 @@ button:hover{filter:brightness(.96)}
 @media(max-width:900px){.visit-status-controls{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;}.visit-status-controls button{width:100% !important;min-width:0 !important;}}
 @media(max-width:600px){.visit-status-controls{grid-template-columns:1fr !important;}}
 
-
-.restricted-access-box{padding:28px 18px;text-align:center;background:linear-gradient(145deg,rgba(235,247,252,.96),rgba(247,251,253,.96));border:1px solid #d5e7ef;border-radius:14px;color:#31566b}
-.restricted-icon{width:58px;height:58px;margin:4px auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e5f3fa;color:#0b80a7;font-size:25px}
-.restricted-access-box h3{margin:0 0 9px;color:#123f67;font-size:18px}
-.restricted-access-box p{margin:0 auto 7px;line-height:1.5;font-size:13px}
-.restricted-access-box strong{color:#087aa1}
-.restricted-note{color:#78909e;font-size:12px!important}
 </style>
 
 <style id="step5-date-nav">
@@ -683,7 +676,7 @@ input:focus,select:focus{
 
 <style id="mobile-friendly-gvm">
 /* =========================================================
-   MOBILE FRIENDLY – AMBULATORI GVM
+   MOBILE FRIENDLY – GVM Care & Research
 ========================================================= */
 html, body{
   max-width:100%;
@@ -1044,7 +1037,7 @@ footer,.footer{color:#7890a0!important}
   <aside class="sidebar">
     <div class="brand-mini">
       <strong>SPITALI GVM</strong>
-      <span>AMBULATORI GVM</span>
+      <span>GVM Care & Research</span>
     </div>
     <button class="nav-item active" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('.agenda-card').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">▣</span><span>Agjenda</span></button>
@@ -1054,7 +1047,7 @@ footer,.footer{color:#7890a0!important}
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⚙</span><span>Cilësimet</span></button>
     <button class="nav-item logout-nav" id="logoutButton" type="button"><span class="nav-icon">↪</span><span>Dil</span></button>
     <div class="sidebar-footer">
-      SPITALI GVM<br>AMBULATORI GVM<br>Sistemi i Menaxhimit të Vizitave
+      SPITALI GVM<br>GVM Care & Research<br>Sistemi i Menaxhimit të Vizitave
     </div>
   </aside>
 
@@ -1065,7 +1058,7 @@ footer,.footer{color:#7890a0!important}
         <div class="logo-names">
           <div class="hospital-name">SPITALI GVM</div>
           <div class="logo-divider"></div>
-          <div class="ambulatory-name">AMBULATORI GVM</div>
+          <div class="ambulatory-name">GVM Care & Research</div>
         </div>
       </div>
       <div class="top-date" id="topDate"></div>
@@ -1095,7 +1088,7 @@ footer,.footer{color:#7890a0!important}
       <div id="message"></div>
 
       <div class="workspace">
-        <section class="card" id="appointmentCreateCard">
+        <section class="card">
           <div class="card-title"><span class="title-icon">＋</span> Shto Vizitë të Re</div>
 
           <label for="patientName">Emër + Mbiemër *</label>
@@ -1201,7 +1194,7 @@ const db =
         SUPABASE_KEY
     );
 
-console.log("AMBULATORI GVM: Supabase client u inicializua");
+console.log("GVM Care & Research: Supabase client u inicializua");
 
 
 /* =========================================================
@@ -1224,31 +1217,6 @@ let patientSearchTimer = null;
    ORARI SIPAS PËRDORUESIT
 ========================================================= */
 let currentUserEmail = "";
-
-const APPOINTMENT_CREATOR_EMAIL = "jolandaquni@icloud.com";
-
-function isJolanda(){
-    return currentUserEmail.toLowerCase().trim() === APPOINTMENT_CREATOR_EMAIL;
-}
-
-function canCreateAppointments(){ return isJolanda(); }
-function canEditAppointments(){ return isJolanda(); }
-function canDeleteAppointments(){ return isJolanda(); }
-function canChangeStatus(){ return true; }
-
-function applyAppointmentPermissions(){
-    const createCard = document.getElementById("appointmentCreateCard");
-    if(createCard && !canCreateAppointments()){
-        createCard.innerHTML = `
-            <div class="card-title"><span class="title-icon">🔒</span> Shto Vizitë të Re</div>
-            <div class="restricted-access-box">
-                <div class="restricted-icon">🔐</div>
-                <h3>Akses i kufizuar</h3>
-                <p>Vetëm <strong>${APPOINTMENT_CREATOR_EMAIL}</strong> mund të shtojë vizita të reja.</p>
-                <p class="restricted-note">Ju mund të shihni agjendën dhe të ndryshoni statusin e vizitave.</p>
-            </div>`;
-    }
-}
 
 function getUserTimeRange(){
     const email = currentUserEmail.toLowerCase().trim();
@@ -1568,10 +1536,6 @@ function showMessage(
 ========================================================= */
 
 async function saveVisit(){
-    if(!canCreateAppointments()){
-        showMessage("Nuk keni leje për të shtuar vizita.", "error");
-        return;
-    }
 
     const name =
         patientName.value.trim();
@@ -2159,10 +2123,6 @@ async function loadVisits(){
         const editButton =
             document.createElement("button");
 
-        if(!canEditAppointments()){
-            editButton.style.display = "none";
-        }
-
         editButton.type = "button";
         editButton.className = "visit-status-button";
         editButton.textContent = "✎ Ndrysho";
@@ -2172,10 +2132,6 @@ async function loadVisits(){
 
         const deleteButton =
             document.createElement("button");
-
-        if(!canDeleteAppointments()){
-            deleteButton.style.display = "none";
-        }
 
         deleteButton.type = "button";
         deleteButton.className =
@@ -2284,10 +2240,6 @@ function closeEditVisit(){
 }
 
 async function saveEditedVisit(){
-    if(!canEditAppointments()){
-        showMessage("Nuk keni leje për të ndryshuar të dhënat e vizitës.", "error");
-        return;
-    }
     if(!editingVisitId) return;
     const name=document.getElementById("editPatientName").value.trim();
     const card=document.getElementById("editCardNumber").value.trim();
@@ -2390,18 +2342,11 @@ async function updateVisitStatus(id, status, currentButton){
     const currentStatus = currentItem ? (currentItem.dataset.status || "scheduled") : "scheduled";
     const nextStatus = currentStatus === status ? "scheduled" : status;
 
-    if(!canChangeStatus()){
-        showMessage("Nuk keni leje për të ndryshuar statusin.", "error");
-        return;
-    }
-
-    const result = await db.rpc(
-        "set_appointment_status",
-        {
-            p_id: Number(id),
-            p_status: nextStatus
-        }
-    );
+    const result =
+        await db
+            .from("appointments")
+            .update({status: nextStatus})
+            .eq("id", id);
 
     if(result.error){
         showMessage(
@@ -2431,11 +2376,6 @@ function closeDeleteConfirm() {
 }
 
 async function confirmDeleteVisit() {
-  if (!canDeleteAppointments()) {
-    showMessage("Nuk keni leje për të fshirë vizita.", "error");
-    closeDeleteConfirm();
-    return;
-  }
   if (!pendingDeleteId) return;
 
   const id = pendingDeleteId;
@@ -2585,10 +2525,8 @@ async function checkAuth(){
 
     currentUserEmail = (result.data.session.user.email || "").toLowerCase().trim();
 
-    applyAppointmentPermissions();
-
     console.log(
-        "AMBULATORI GVM: përdoruesi është i loguar",
+        "GVM Care & Research: përdoruesi është i loguar",
         currentUserEmail,
         getUserTimeRange()
     );
