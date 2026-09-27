@@ -194,21 +194,6 @@ button:hover{filter:brightness(.96)}
 
 </style>
 
-<style id="premium-status-controls-final">
-/* Statuset: te dukshme, elegante dhe pa e levizur agjenden */
-.visit-status-controls{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;gap:7px!important;width:100%!important;margin-top:10px!important;position:relative!important;transform:none!important;}
-.visit-status-controls button{width:auto!important;min-width:0!important;height:32px!important;padding:0 11px!important;margin:0!important;border-radius:999px!important;background:rgba(255,255,255,.045)!important;border:1px solid rgba(145,190,210,.24)!important;color:#a9c4d2!important;box-shadow:none!important;font-size:11px!important;font-weight:750!important;white-space:nowrap!important;transition:all .16s ease!important;}
-.visit-status-controls button:hover{transform:translateY(-1px)!important;background:rgba(24,185,210,.10)!important;border-color:rgba(71,205,224,.48)!important;color:#e9fbff!important;}
-.visit-status-controls .visit-status-button.active{box-shadow:0 0 0 2px rgba(24,185,210,.10)!important;}
-.visit-status-controls .visit-status-button.arrived.active{background:rgba(40,167,69,.16)!important;border-color:rgba(73,205,101,.65)!important;color:#8eeaa0!important;}
-.visit-status-controls .visit-status-button.finished.active{background:rgba(226,180,0,.15)!important;border-color:rgba(239,202,61,.65)!important;color:#ffe58a!important;}
-.visit-status-controls .visit-status-button.cancelled.active{background:rgba(138,149,157,.16)!important;border-color:rgba(171,185,193,.52)!important;color:#d5dfe4!important;}
-.visit-status-controls .visit-delete-button{margin-left:2px!important;background:rgba(210,73,82,.08)!important;border-color:rgba(224,125,132,.30)!important;color:#e99a9f!important;min-width:0!important;}
-.visit-status-controls .visit-delete-button:hover{background:rgba(210,73,82,.16)!important;border-color:rgba(224,125,132,.55)!important;color:#ffb4b9!important;}
-@media(max-width:900px){.visit-status-controls{display:flex!important;grid-template-columns:none!important;}.visit-status-controls button{width:auto!important;min-width:0!important;}}
-@media(max-width:600px){.visit-status-controls{display:flex!important;flex-wrap:wrap!important;}.visit-status-controls button{width:auto!important;}}
-</style>
-
 <style id="step5-date-nav">
 .date-navigation{
     display:flex;
@@ -2267,19 +2252,96 @@ input:focus,select:focus{
 }
 </style>
 
-<style id="premium-status-controls-last">
-/* FINAL - statuset direkt poshte emrit */
-.visit-status-controls{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;gap:7px!important;width:100%!important;margin-top:10px!important;position:relative!important;transform:none!important;}
-.visit-status-controls button{width:auto!important;min-width:0!important;height:32px!important;padding:0 11px!important;margin:0!important;border-radius:999px!important;background:rgba(255,255,255,.045)!important;border:1px solid rgba(145,190,210,.24)!important;color:#a9c4d2!important;box-shadow:none!important;font-size:11px!important;font-weight:750!important;white-space:nowrap!important;transition:all .16s ease!important;}
-.visit-status-controls button:hover{transform:translateY(-1px)!important;background:rgba(24,185,210,.10)!important;border-color:rgba(71,205,224,.48)!important;color:#e9fbff!important;}
-.visit-status-controls .visit-status-button.active{box-shadow:0 0 0 2px rgba(24,185,210,.10)!important;}
-.visit-status-controls .visit-status-button.arrived.active{background:rgba(40,167,69,.16)!important;border-color:rgba(73,205,101,.65)!important;color:#8eeaa0!important;}
-.visit-status-controls .visit-status-button.finished.active{background:rgba(226,180,0,.15)!important;border-color:rgba(239,202,61,.65)!important;color:#ffe58a!important;}
-.visit-status-controls .visit-status-button.cancelled.active{background:rgba(138,149,157,.16)!important;border-color:rgba(171,185,193,.52)!important;color:#d5dfe4!important;}
-.visit-status-controls .visit-delete-button{margin-left:2px!important;background:rgba(210,73,82,.08)!important;border-color:rgba(224,125,132,.30)!important;color:#e99a9f!important;}
-.visit-status-controls .visit-delete-button:hover{background:rgba(210,73,82,.16)!important;border-color:rgba(224,125,132,.55)!important;color:#ffb4b9!important;}
-@media(max-width:900px){.visit-status-controls{display:flex!important;grid-template-columns:none!important;}.visit-status-controls button{width:auto!important;min-width:0!important;}}
-@media(max-width:600px){.visit-status-controls{display:flex!important;flex-wrap:wrap!important;}.visit-status-controls button{width:auto!important;}}
+<style id="gvm-status-clean-final">
+/* STATUS ROW — clean, compact, fixed layout */
+.visit-item{
+  position:relative !important;
+  overflow:hidden !important;
+  transition:background .22s ease, border-color .22s ease, box-shadow .22s ease !important;
+}
+.visit-status-controls{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  align-items:center !important;
+  gap:0 !important;
+  width:100% !important;
+  min-height:28px !important;
+  margin-top:12px !important;
+  padding:0 !important;
+  overflow:visible !important;
+}
+.visit-status-controls button{
+  flex:0 0 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:28px !important;
+  margin:0 !important;
+  padding:0 10px !important;
+  border:0 !important;
+  border-right:1px solid rgba(20,55,72,.14) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:#607580 !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  line-height:28px !important;
+  white-space:nowrap !important;
+  cursor:pointer !important;
+  transform:none !important;
+  transition:color .16s ease, background .16s ease !important;
+}
+.visit-status-controls button:first-child{padding-left:0 !important}
+.visit-status-controls button:last-child{border-right:0 !important}
+.visit-status-controls button:hover{
+  background:rgba(255,255,255,.32) !important;
+  color:#173f51 !important;
+}
+.visit-status-controls .scheduled.active{color:#a66a00 !important}
+.visit-status-controls .arrived.active{color:#167346 !important}
+.visit-status-controls .finished.active{color:#8a6200 !important}
+.visit-status-controls .cancelled.active{color:#a53d45 !important}
+.visit-status-controls .visit-delete-button{
+  margin-left:0 !important;
+  min-width:0 !important;
+  border-right:0 !important;
+  color:#a53d45 !important;
+}
+/* Ndrysho remains available but visually quiet */
+.visit-status-controls .visit-status-button:not(.scheduled):not(.arrived):not(.finished):not(.cancelled){
+  color:#81929a !important;
+}
+/* Entire appointment card changes softly with the selected status */
+.visit-item.status-scheduled{
+  background:linear-gradient(135deg,#fffdf7,#fff9ed) !important;
+  border-color:#ead8a7 !important;
+}
+.visit-item.status-arrived{
+  background:linear-gradient(135deg,#f1fbf5,#e5f6ec) !important;
+  border-color:#a9d8bb !important;
+}
+.visit-item.status-finished{
+  background:linear-gradient(135deg,#fffdf2,#fff5cf) !important;
+  border-color:#e3cf86 !important;
+}
+.visit-item.status-cancelled{
+  background:linear-gradient(135deg,#fbf5f6,#f2e7e9) !important;
+  border-color:#d9b9bd !important;
+  opacity:1 !important;
+}
+.visit-item.status-scheduled .visit-name,.visit-item.status-arrived .visit-name,.visit-item.status-finished .visit-name,.visit-item.status-cancelled .visit-name{
+  color:#173d4f !important;
+}
+/* Clicking statuses never starts any drag or causes layout movement */
+.visit-status-controls,.visit-status-controls *{
+  -webkit-user-select:none !important;
+  user-select:none !important;
+  -webkit-touch-callout:none !important;
+}
+@media(max-width:900px){
+  .visit-status-controls{overflow-x:auto !important; scrollbar-width:none !important;}
+  .visit-status-controls::-webkit-scrollbar{display:none !important;}
+}
 </style>
 </head>
 <body>
@@ -3212,21 +3274,20 @@ async function loadVisits(){
             visit.status || "scheduled";
 
         item.dataset.status = currentStatus;
-        item.classList.add("status-" + currentStatus);
 
         let statusLabel = "Në pritje";
         let statusClass = "";
 
         if(currentStatus === "arrived"){
-            statusLabel = "Në proces";
+            statusLabel = "Ka ardhur";
             statusClass = "arrived";
         }
         else if(currentStatus === "finished"){
-            statusLabel = "Përfunduar";
+            statusLabel = "Ka mbaruar";
             statusClass = "finished";
         }
         else if(currentStatus === "cancelled"){
-            statusLabel = "Anullo";
+            statusLabel = "Anulluar";
             statusClass = "cancelled";
         }
 
@@ -3326,7 +3387,7 @@ async function loadVisits(){
             "visit-status-button scheduled" +
             (currentStatus === "scheduled" ? " active" : "");
         scheduled.textContent =
-            "● Në pritje";
+            "• Në pritje";
 
         scheduled.addEventListener("click", function(){
             updateVisitStatus(
@@ -3346,7 +3407,7 @@ async function loadVisits(){
             "visit-status-button arrived" +
             (currentStatus === "arrived" ? " active" : "");
         arrived.textContent =
-            "◉ Në proces";
+            "Në proces";
 
         arrived.addEventListener("click", function(){
             updateVisitStatus(
@@ -3382,7 +3443,7 @@ async function loadVisits(){
             "visit-status-button cancelled" +
             (currentStatus === "cancelled" ? " active" : "");
         cancelled.textContent =
-            "× Anullo";
+            "Anullo";
 
         cancelled.addEventListener("click", function(){
             updateVisitStatus(
@@ -3409,7 +3470,7 @@ async function loadVisits(){
         deleteButton.className =
             "visit-delete-button";
         deleteButton.textContent =
-            "⌫ Fshi";
+            "Fshi";
 
         deleteButton.addEventListener("click", function(){
             openDeleteConfirm(visit.id);
@@ -3420,6 +3481,12 @@ async function loadVisits(){
         controls.appendChild(cancelled);
         controls.appendChild(editButton);
         controls.appendChild(deleteButton);
+
+        ["pointerdown","mousedown","touchstart"].forEach(function(eventName){
+            controls.addEventListener(eventName,function(e){
+                e.stopPropagation();
+            },{passive:eventName === "touchstart"});
+        });
 
         item.appendChild(time);
         item.appendChild(name);
@@ -4022,11 +4089,7 @@ if(logoutButton){
     handle.setAttribute('aria-label','Lëviz agjendën');
     handle.innerHTML='⠿';
 
-    const hint=document.createElement('span');
-    hint.className='gvm-drag-hint';
-    hint.textContent='';
     head.appendChild(handle);
-    head.appendChild(hint);
 
     let dragging=false;
     let startX=0,startY=0;
@@ -4093,99 +4156,5 @@ if(logoutButton){
   }
 })();
 </script>
-
-<style id="gvm-final-status-cards">
-/* =========================================================
-   GVM — STATUSI SI NGJYRË E GJITHË KARTËS
-   Vetëm pamja e vizitës; logjika e databazës nuk ndryshon.
-========================================================= */
-#visits .visit-item{
-  border-radius:16px!important;
-  border:1px solid rgba(110,145,162,.20)!important;
-  transition:background .22s ease,border-color .22s ease,box-shadow .22s ease!important;
-  overflow:visible!important;
-}
-#visits .visit-item.status-scheduled{
-  background:linear-gradient(135deg,#ffffff 0%,#f3f9fd 100%)!important;
-  border-color:#cfe1eb!important;
-}
-#visits .visit-item.status-arrived{
-  background:linear-gradient(135deg,#e9fff2 0%,#d4f7e3 100%)!important;
-  border-color:#8bd1a9!important;
-}
-#visits .visit-item.status-finished{
-  background:linear-gradient(135deg,#fff9df 0%,#ffefb4 100%)!important;
-  border-color:#dfc76b!important;
-}
-#visits .visit-item.status-cancelled{
-  background:linear-gradient(135deg,#fff0f1 0%,#ffdfe2 100%)!important;
-  border-color:#e4a1a8!important;
-  opacity:1!important;
-}
-
-#visits .visit-item > .visit-status-controls{
-  grid-column:2 / -1!important;
-  grid-row:auto!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-start!important;
-  flex-wrap:nowrap!important;
-  gap:7px!important;
-  margin:4px 0 0!important;
-  padding:7px 0 0!important;
-  border-top:1px solid rgba(90,130,150,.13)!important;
-}
-#visits .visit-item > .visit-status-controls > button{
-  flex:0 0 auto!important;
-  width:auto!important;
-  min-width:0!important;
-  height:29px!important;
-  padding:0 11px!important;
-  margin:0!important;
-  border-radius:999px!important;
-  border:1px solid rgba(105,139,155,.22)!important;
-  background:rgba(255,255,255,.62)!important;
-  color:#496a7b!important;
-  font-size:10.5px!important;
-  font-weight:800!important;
-  box-shadow:none!important;
-  transform:none!important;
-  transition:all .18s ease!important;
-}
-#visits .visit-item > .visit-status-controls > button:hover{
-  transform:translateY(-1px)!important;
-  background:rgba(255,255,255,.92)!important;
-  border-color:rgba(70,125,151,.35)!important;
-}
-#visits .visit-item > .visit-status-controls > .scheduled.active{
-  background:#1687c7!important; border-color:#1687c7!important; color:#fff!important;
-}
-#visits .visit-item > .visit-status-controls > .arrived.active{
-  background:#20a866!important; border-color:#20a866!important; color:#fff!important;
-}
-#visits .visit-item > .visit-status-controls > .finished.active{
-  background:#c89d18!important; border-color:#c89d18!important; color:#fff!important;
-}
-#visits .visit-item > .visit-status-controls > .cancelled.active{
-  background:#d84f5b!important; border-color:#d84f5b!important; color:#fff!important;
-}
-#visits .visit-item > .visit-status-controls > .visit-delete-button{
-  color:#b9434d!important;
-  background:rgba(255,255,255,.58)!important;
-  border-color:rgba(205,77,88,.25)!important;
-}
-#visits .visit-item.status-arrived .visit-status-controls,
-#visits .visit-item.status-finished .visit-status-controls,
-#visits .visit-item.status-cancelled .visit-status-controls{
-  border-top-color:rgba(80,110,90,.16)!important;
-}
-#visits .gvm-drag-hint{display:none!important;}
-
-@media(max-width:700px){
-  #visits .visit-item > .visit-status-controls{
-    flex-wrap:wrap!important;
-  }
-}
-</style>
 </body>
 </html>
