@@ -1332,6 +1332,30 @@ input:focus,select:focus{
  .slot-body .visit-status-controls{grid-column:2!important;grid-row:1 / span 3!important}
 }
 </style>
+
+<style id="status-menu-final">
+.slot-body .visit-status-controls:hover .visit-status-button.scheduled{
+  background:#eef7ff!important;
+  color:#1768bd!important;
+  border-color:#c7e2f5!important;
+}
+.slot-body .visit-status-controls:hover .visit-status-button.arrived{
+  background:#e7f8ef!important;
+  color:#087b4b!important;
+  border-color:#c8ead8!important;
+}
+.slot-body .visit-status-controls:hover .visit-status-button.finished{
+  background:#fff6dc!important;
+  color:#9a6b00!important;
+  border-color:#f0dfad!important;
+}
+.slot-body .visit-status-controls:hover .visit-status-button.cancelled{
+  background:#fff0f0!important;
+  color:#c33d48!important;
+  border-color:#f0cccc!important;
+}
+</style>
+
 </head>
 <body>
 
@@ -2368,6 +2392,26 @@ async function loadVisits(){
         controls.className =
             "visit-status-controls";
 
+        const scheduled =
+            document.createElement("button");
+
+        scheduled.type = "button";
+        scheduled.className =
+            "visit-status-button scheduled" +
+            (currentStatus === "scheduled" ? " active" : "");
+        scheduled.textContent =
+            "• Në pritje";
+
+        scheduled.addEventListener("click", function(){
+            updateVisitStatus(
+                visit.id,
+                "scheduled",
+                this
+            );
+        });
+
+        controls.appendChild(scheduled);
+
         const arrived =
             document.createElement("button");
 
@@ -2394,7 +2438,7 @@ async function loadVisits(){
             "visit-status-button finished" +
             (currentStatus === "finished" ? " active" : "");
         finished.textContent =
-            "✓ Ka mbaruar";
+            "✓ Përfunduar";
 
         finished.addEventListener("click", function(){
             updateVisitStatus(
@@ -2412,7 +2456,7 @@ async function loadVisits(){
             "visit-status-button cancelled" +
             (currentStatus === "cancelled" ? " active" : "");
         cancelled.textContent =
-            "Anullo";
+            "✕ Anulluar";
 
         cancelled.addEventListener("click", function(){
             updateVisitStatus(
