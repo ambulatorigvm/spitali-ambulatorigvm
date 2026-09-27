@@ -922,6 +922,114 @@ html, body{
 }
 </style>
 
+
+<style id="gvm-clinical-visual-only">
+/* =========================================================
+   GVM CLINICAL LOOK — VISUAL ONLY
+   No JavaScript, database, login or functionality changes.
+========================================================= */
+:root{
+  --gvm-navy:#073f73;
+  --gvm-blue:#147fe5;
+  --gvm-light:#f4f9fd;
+  --gvm-line:#dbe8f1;
+  --gvm-text:#173f66;
+}
+html,body{background:#eef6fb!important;color:var(--gvm-text)!important}
+body{
+  background-image:linear-gradient(rgba(238,247,252,.88),rgba(238,247,252,.96)),url("hospital-bg.jpg")!important;
+  background-position:center top!important;
+  background-size:100% 420px,100% 420px!important;
+  background-repeat:no-repeat!important;
+  background-attachment:scroll!important;
+}
+body:before{display:none!important}
+.app-shell{min-height:100vh!important}
+.sidebar{
+  width:264px!important;flex:0 0 264px!important;
+  padding:24px 16px!important;
+  background:linear-gradient(180deg,#063b70 0%,#082e57 100%)!important;
+  border-right:0!important;color:#fff!important;
+  box-shadow:8px 0 28px rgba(7,53,91,.16)!important;
+}
+.brand-mini{padding:4px 14px 26px!important;border-bottom:1px solid rgba(255,255,255,.12)!important;margin-bottom:20px!important}
+.brand-mini strong{color:#fff!important;font-size:21px!important;letter-spacing:.5px!important}
+.brand-mini span{color:#a9d5f4!important;font-size:12px!important;margin-top:5px!important}
+.nav-item{color:#e8f5ff!important;border-radius:11px!important;padding:14px 15px!important;margin:4px 0!important;font-size:14px!important}
+.nav-item:hover{background:rgba(255,255,255,.08)!important}
+.nav-item.active{background:linear-gradient(90deg,#1685e8,#1476d4)!important;color:#fff!important;border-left:0!important;box-shadow:0 8px 20px rgba(0,0,0,.16)!important}
+.nav-item.disabled{color:#d3e5f3!important}
+.nav-icon{color:inherit!important}
+.sidebar-footer{color:#9dc8e5!important;padding:14px!important}
+.main{padding:0 28px 42px!important;min-width:0!important}
+.topbar{
+  max-width:none!important;width:100%!important;height:212px!important;min-height:212px!important;
+  margin:0 0 18px!important;padding:30px 36px!important;
+  border:0!important;border-radius:0 0 18px 18px!important;
+  position:relative!important;overflow:hidden!important;
+  background:linear-gradient(90deg,rgba(238,248,254,.97) 0%,rgba(238,248,254,.80) 43%,rgba(238,248,254,.18) 100%),url("hospital-bg.jpg") center/cover no-repeat!important;
+  box-shadow:0 12px 32px rgba(10,65,105,.12)!important;
+}
+.topbar:after{content:""!important;position:absolute!important;inset:0!important;background:linear-gradient(90deg,rgba(255,255,255,.18),transparent 55%)!important;pointer-events:none!important}
+.hospital-logo{position:relative!important;z-index:2!important;align-items:center!important;gap:14px!important}
+.logo-mark{width:52px!important;height:52px!important;border-radius:14px!important;background:linear-gradient(135deg,#1689e8,#0d66bd)!important;box-shadow:0 8px 18px rgba(12,103,183,.25)!important}
+.logo-names{gap:14px!important;flex-wrap:wrap!important}
+.hospital-name,.ambulatory-name{color:#073f73!important;font-size:25px!important;font-weight:850!important}
+.logo-divider{background:#9fc1d9!important;height:30px!important}
+.top-date{position:relative!important;z-index:2!important;color:#315d7d!important;background:rgba(255,255,255,.76)!important;padding:11px 15px!important;border-radius:12px!important;border:1px solid rgba(205,226,239,.9)!important}
+.content{max-width:1220px!important}
+.page-heading{margin:0 2px 16px!important;align-items:center!important}
+.page-heading h1{color:#073f73!important;text-shadow:none!important;font-size:26px!important}
+.page-heading .date-title{color:#5d7890!important;text-shadow:none!important}
+.date-navigation{
+  background:rgba(255,255,255,.90)!important;border:1px solid var(--gvm-line)!important;
+  border-radius:12px!important;box-shadow:0 5px 18px rgba(9,73,119,.07)!important;
+}
+.date-navigation button{background:#fff!important;color:#18527b!important;border-color:#cbdde9!important}
+.date-navigation .today-button{background:#1681e4!important;color:#fff!important;border-color:#1681e4!important}
+.selected-date .date-main{color:#123f67!important}.selected-date .date-iso{color:#7890a1!important}
+.stats{gap:14px!important;margin-bottom:18px!important}
+.stat{
+  background:rgba(255,255,255,.96)!important;border:1px solid #dce9f1!important;
+  border-radius:15px!important;padding:17px 18px!important;
+  box-shadow:0 8px 24px rgba(8,67,110,.08)!important;
+}
+.stat-icon{border-radius:50%!important;background:#e7f3ff!important;color:#147fe5!important}
+.stat-label{color:#6b8497!important}.stat-value{color:#0a4474!important}
+.workspace{grid-template-columns:minmax(0,1.55fr) minmax(330px,.72fr)!important;gap:18px!important}
+.card{
+  background:rgba(255,255,255,.97)!important;border:1px solid #dce9f1!important;
+  border-radius:15px!important;box-shadow:0 10px 28px rgba(8,67,110,.08)!important;
+  color:#173f66!important;
+}
+.workspace>.card:not(.agenda-card){order:2!important}
+.workspace .agenda-card{order:1!important}
+.card-title,.agenda-head h2{color:#123f67!important}
+.card-title .title-icon{color:#147fe5!important}
+label{color:#365f7b!important}
+input,select{
+  background:#fff!important;color:#183f61!important;border:1px solid #d4e3ed!important;
+  border-radius:10px!important;box-shadow:none!important;
+}
+input:focus,select:focus{border-color:#5ba9eb!important;box-shadow:0 0 0 3px rgba(20,127,229,.10)!important}
+#saveButton{background:linear-gradient(135deg,#1687ea,#126dca)!important;border-radius:11px!important;box-shadow:0 8px 18px rgba(20,127,229,.22)!important}
+.agenda-head{padding-bottom:4px!important}
+.agenda-date{color:#648197!important}
+.agenda-search{background:#f5f9fc!important;border:1px solid #dce8f0!important}
+.agenda-search-icon{color:#147fe5!important}
+.agenda-search input{background:transparent!important;color:#183f61!important}
+.agenda-slot{background:#f7fbfe!important;border:1px solid #e0ebf2!important;border-radius:11px!important}
+.slot-time{color:#147fe5!important;background:#e8f4ff!important;border-radius:9px!important}
+.visit-item{background:#fff!important;border:1px solid #dce8f0!important;border-radius:10px!important;box-shadow:0 3px 10px rgba(7,63,99,.04)!important}
+.visit-item:hover{box-shadow:0 7px 18px rgba(7,63,99,.08)!important;transform:translateY(-1px)!important}
+.visit-name{color:#143f66!important}.visit-card{color:#6c879b!important}
+.agenda-empty,.loading{color:#7890a0!important}
+.visit-status-controls button{border-radius:9px!important}
+footer,.footer{color:#7890a0!important}
+@media(max-width:1050px){.sidebar{width:210px!important;flex-basis:210px!important}.main{padding:0 18px 30px!important}}
+@media(max-width:760px){.sidebar{width:100%!important;display:block!important}.main{padding:0 12px 28px!important}.topbar{height:180px!important;min-height:180px!important;padding:22px!important}.hospital-name,.ambulatory-name{font-size:19px!important}.workspace{grid-template-columns:1fr!important}}
+</style>
+
 </head>
 <body>
 
