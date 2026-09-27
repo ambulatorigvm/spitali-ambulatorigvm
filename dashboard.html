@@ -1066,6 +1066,32 @@ html, body{
 }
 </style>
 
+
+<style id="final-readability-overrides">
+/* Final readability: strong patient names and dark-blue times */
+.appointment-row .patient-name,
+.visit-row .patient-name,
+tr .patient-name,
+.appointment-name,
+.patient-name {
+    color: #111827 !important;
+    font-weight: 800 !important;
+    font-size: 1.05em !important;
+}
+
+.appointment-row .appointment-time,
+.visit-row .appointment-time,
+tr .appointment-time,
+.appointment-time,
+.visit-time {
+    color: #123B66 !important;
+    font-weight: 800 !important;
+    font-size: 1.05em !important;
+}
+
+/* Keep status backgrounds soft while preserving readable text */
+</style>
+
 </head>
 <body>
 
