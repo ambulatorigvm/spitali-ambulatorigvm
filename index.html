@@ -1,16 +1,204 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GVM Care & Research</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top left,#123c4d 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#0b3040 0%,transparent 35%),
+        #06151d;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#eaf4f8;
+}
+
+.login-wrapper{
+    width:100%;
+    max-width:430px;
+    padding:20px;
+}
+
+.login-box{
+    background:rgba(11,34,45,.96);
+    border:1px solid #214957;
+    border-radius:20px;
+    padding:35px 32px;
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.45),
+        0 0 0 1px rgba(255,255,255,.02);
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    margin:0 auto 20px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#0b7897,#0d4e63);
+    border:1px solid #318eaa;
+    box-shadow:0 10px 30px rgba(0,120,151,.25);
+    font-size:28px;
+    font-weight:900;
+    color:white;
+    letter-spacing:2px;
+}
+
+h1{
+    margin:0;
+    text-align:center;
+    color:#f1f9fb;
+    font-size:42px;
+    font-weight:900;
+    letter-spacing:3px;
+}
+
+.subtitle{
+    margin-top:6px;
+    text-align:center;
+    color:#8fd7eb;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:1px;
+}
+
+.form{
+    margin-top:28px;
+}
+
+label{
+    display:block;
+    margin:0 0 7px;
+    color:#9db7c0;
+    font-size:12px;
+    font-weight:700;
+}
+
+input{
+    width:100%;
+    height:46px;
+    padding:0 13px;
+    margin-bottom:16px;
+    border:1px solid #254b59;
+    border-radius:10px;
+    background:#071b24;
+    color:#edf8fb;
+    outline:none;
+    font-size:14px;
+}
+
+input::placeholder{
+    color:#607d88;
+}
+
+input:focus{
+    border-color:#2995b5;
+    box-shadow:0 0 0 3px rgba(41,149,181,.12);
+}
+
+button{
+    width:100%;
+    height:46px;
+    margin-top:7px;
+    border:0;
+    border-radius:10px;
+    background:linear-gradient(135deg,#0b7897,#0b647d);
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:800;
+}
+
+button:hover{
+    background:linear-gradient(135deg,#0d8cad,#0b718e);
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+#msg{
+    display:none;
+    margin-top:14px;
+    padding:11px 12px;
+    border-radius:9px;
+    text-align:center;
+    font-size:12px;
+}
+
+#msg.error{
+    display:block;
+    background:#35191d;
+    border:1px solid #793036;
+    color:#ffabb0;
+}
+
+#msg.success{
+    display:block;
+    background:#0c3025;
+    border:1px solid #1b684e;
+    color:#8ce0bd;
+}
+
+.footer{
+    margin-top:24px;
+    text-align:center;
+    color:#567681;
+    font-size:10px;
+}
+
+@media(max-width:480px){
+    .login-wrapper{
+        padding:15px;
+    }
+
+    .login-box{
+        padding:28px 22px;
+    }
+
+    h1{
+        font-size:34px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+<div class="login-box">
+
 <div class="logo">GVM</div>
 
 <h1>GVM</h1>
 
 <div class="subtitle">
-Care &amp; Research
+Care & Research
 </div>
 
 <div class="form">
 
-<label for="email">
-Email
-</label>
+<label for="email">Email</label>
 
 <input
 type="email"
@@ -19,9 +207,7 @@ placeholder="Shkruani email-in"
 autocomplete="username"
 >
 
-<label for="password">
-Fjalëkalimi
-</label>
+<label for="password">Fjalëkalimi</label>
 
 <input
 type="password"
@@ -43,5 +229,130 @@ Hyr në sistem
 </div>
 
 <div class="footer">
-GVM Care &amp; Research
+GVM Care & Research
 </div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://ubpteaqdkxcriqyaxrux.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_dirq3uo9Qy1ez37JkEnciA_sSmYleDZ";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+const emailInput =
+document.getElementById("email");
+
+const passwordInput =
+document.getElementById("password");
+
+const loginButton =
+document.getElementById("loginButton");
+
+const msg =
+document.getElementById("msg");
+
+function showMessage(text,type){
+    msg.textContent = text;
+    msg.className = type;
+}
+
+async function login(){
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if(!email){
+        showMessage("Ju lutem shkruani email-in.","error");
+        emailInput.focus();
+        return;
+    }
+
+    if(!password){
+        showMessage("Ju lutem shkruani fjalëkalimin.","error");
+        passwordInput.focus();
+        return;
+    }
+
+    loginButton.disabled = true;
+    loginButton.textContent = "Duke hyrë...";
+
+    try{
+
+        const result =
+        await supabaseClient.auth.signInWithPassword({
+            email:email,
+            password:password
+        });
+
+        if(result.error){
+
+            showMessage(
+                "Email ose fjalëkalim i gabuar.",
+                "error"
+            );
+
+            loginButton.disabled = false;
+            loginButton.textContent = "Hyr në sistem";
+            return;
+        }
+
+        showMessage(
+            "Hyrja u krye me sukses.",
+            "success"
+        );
+
+        window.location.href = "dashboard.html";
+
+    }catch(error){
+
+        showMessage(
+            "Ndodhi një gabim gjatë hyrjes.",
+            "error"
+        );
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Hyr në sistem";
+    }
+}
+
+passwordInput.addEventListener(
+"keydown",
+function(event){
+    if(event.key === "Enter"){
+        login();
+    }
+});
+
+async function checkExistingSession(){
+
+    const result =
+    await supabaseClient.auth.getSession();
+
+    if(
+        result.data &&
+        result.data.session
+    ){
+        window.location.href =
+        "dashboard.html";
+    }
+}
+
+checkExistingSession();
+
+</script>
+
+</body>
+</html>
