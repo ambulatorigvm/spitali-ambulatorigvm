@@ -2333,11 +2333,23 @@ async function updateVisitStatus(id, status, currentButton){
         await db
             .from("appointments")
             .update({status: nextStatus})
-            .eq("id", id);
+            .eq("id", id)
+            .select("id,status");
 
     if(result.error){
+        console.error("SUPABASE STATUS UPDATE ERROR:", result.error);
         showMessage(
             "Gabim gjatë ndryshimit të statusit: " + result.error.message,
+            "error"
+        );
+        return;
+    }
+
+    /* Nëse RLS e bllokon UPDATE, Supabase mund të kthejë 0 rreshta pa error. */
+    if(!result.data || result.data.length === 0){
+        console.error("STATUS UPDATE BLOCKED OR ROW NOT FOUND", { id, nextStatus });
+        showMessage(
+            "Statusi nuk u ndryshua. Kontrolloni RLS/UPDATE në Supabase.",
             "error"
         );
         return;
