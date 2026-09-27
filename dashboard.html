@@ -1958,6 +1958,147 @@ input:focus,select:focus{
 }
 </style>
 
+
+<style id="gvm-status-toolbar-final">
+/* STATUS ACTIONS — pamje e pastër, kompakte dhe profesionale */
+.visit-item > .visit-status-controls{
+  grid-column:2 / -1 !important;
+  grid-row:auto !important;
+  display:flex !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+  gap:6px !important;
+  width:auto !important;
+  margin:2px 0 0 !important;
+  padding:6px 0 0 !important;
+  border-top:1px solid rgba(137,194,216,.10) !important;
+  justify-content:flex-start !important;
+}
+
+.visit-item > .visit-status-controls > button{
+  width:auto !important;
+  min-width:0 !important;
+  height:31px !important;
+  padding:0 10px !important;
+  border-radius:8px !important;
+  font-size:11px !important;
+  font-weight:750 !important;
+  line-height:1 !important;
+  letter-spacing:.05px !important;
+  background:rgba(255,255,255,.035) !important;
+  border:1px solid rgba(137,194,216,.15) !important;
+  color:#a9c3cf !important;
+  box-shadow:none !important;
+  transition:all .16s ease !important;
+}
+
+.visit-item > .visit-status-controls > button:hover{
+  transform:translateY(-1px) !important;
+  background:rgba(24,185,210,.10) !important;
+  border-color:rgba(88,205,226,.30) !important;
+  color:#eafaff !important;
+}
+
+/* Në pritje */
+.visit-item > .visit-status-controls > .scheduled{
+  color:#a9c3cf !important;
+}
+.visit-item > .visit-status-controls > .scheduled.active{
+  background:rgba(80,160,190,.14) !important;
+  border-color:rgba(101,196,222,.38) !important;
+  color:#c9edf5 !important;
+}
+
+/* Ka ardhur */
+.visit-item > .visit-status-controls > .arrived.active{
+  background:rgba(45,190,120,.15) !important;
+  border-color:rgba(83,220,154,.42) !important;
+  color:#8af0ba !important;
+}
+
+/* Përfunduar */
+.visit-item > .visit-status-controls > .finished.active{
+  background:rgba(230,193,49,.14) !important;
+  border-color:rgba(238,206,84,.40) !important;
+  color:#ffe685 !important;
+}
+
+/* Anulluar */
+.visit-item > .visit-status-controls > .cancelled.active{
+  background:rgba(180,193,201,.13) !important;
+  border-color:rgba(174,190,200,.32) !important;
+  color:#d0d9de !important;
+}
+
+/* Ndrysho */
+.visit-item > .visit-status-controls > .visit-status-button:not(.scheduled):not(.arrived):not(.finished):not(.cancelled){
+  background:rgba(24,139,209,.07) !important;
+  color:#8fd5e8 !important;
+}
+
+/* Fshi — veçuar nga statuset */
+.visit-item > .visit-status-controls > .visit-delete-button{
+  margin-left:auto !important;
+  color:#eaa0a7 !important;
+  border-color:rgba(225,95,105,.20) !important;
+  background:rgba(225,70,83,.055) !important;
+}
+.visit-item > .visit-status-controls > .visit-delete-button:hover{
+  color:#ffb8be !important;
+  background:rgba(225,70,83,.13) !important;
+  border-color:rgba(225,95,105,.34) !important;
+}
+
+/* Badge-i i statusit mbetet pranë Vizitë/Rikontroll */
+.visit-item .statusLine{
+  align-items:center !important;
+  min-width:0 !important;
+}
+
+/* Desktop: emri dhe detajet duken më të ajrosura */
+@media(min-width:1051px){
+  .visit-item{
+    grid-template-columns:72px minmax(190px,1.15fr) minmax(105px,.72fr) minmax(160px,1fr) auto !important;
+    row-gap:4px !important;
+    padding:10px 12px !important;
+  }
+  .visit-item > .visit-status-controls{
+    grid-column:2 / -1 !important;
+  }
+}
+
+/* Tablet */
+@media(max-width:1050px){
+  .visit-item > .visit-status-controls{
+    grid-column:1 / -1 !important;
+    padding-top:7px !important;
+  }
+}
+
+/* Telefon: butonat mbeten të vegjël dhe të rregullt */
+@media(max-width:700px){
+  .visit-item > .visit-status-controls{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:6px !important;
+    padding-top:7px !important;
+  }
+  .visit-item > .visit-status-controls > button{
+    width:100% !important;
+    height:34px !important;
+    padding:0 7px !important;
+  }
+  .visit-item > .visit-status-controls > .visit-delete-button{
+    margin-left:0 !important;
+  }
+}
+
+@media(max-width:430px){
+  .visit-item > .visit-status-controls{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
+</style>
 </head>
 <body>
 
