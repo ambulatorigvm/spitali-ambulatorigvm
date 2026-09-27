@@ -1285,7 +1285,7 @@ tr.status-cancelled .appointment-time {
         </section>
 
         <section class="card report-card" id="visitReportCard" style="display:none;">
-          <div class="card-title"><span class="title-icon">▥</span> Raport i Vizitave</div>
+          <div class="card-title"><span class="title-icon">▥</span> Statistikat e Vizitave</div>
           <div class="report-filters">
             <div>
               <label for="reportFrom">Nga</label>
@@ -1295,26 +1295,11 @@ tr.status-cancelled .appointment-time {
               <label for="reportTo">Deri</label>
               <input type="date" id="reportTo">
             </div>
-            <button type="button" id="generateReportButton">Gjenero Raportin</button>
+            <button type="button" id="generateReportButton">Shiko</button>
           </div>
-          <div class="report-summary" id="reportSummary">Zgjidh periudhën dhe gjenero raportin.</div>
-          <div class="report-table-wrap">
-            <table class="report-table">
-              <thead>
-                <tr>
-                  <th>Data</th>
-                  <th>Ora</th>
-                  <th>Pacienti</th>
-                  <th>Kartela</th>
-                  <th>Lloji</th>
-                  <th>Statusi</th>
-                  <th>Pagesa</th>
-                </tr>
-              </thead>
-              <tbody id="reportTableBody">
-                <tr><td colspan="7" class="report-empty">Nuk ka raport të gjeneruar.</td></tr>
-              </tbody>
-            </table>
+          <div class="report-summary" id="reportSummary">Zgjidh periudhën.</div>
+          <div class="daily-report" id="dailyReport">
+            <div class="report-empty">Nuk ka statistika të gjeneruara.</div>
           </div>
         </section>
 
@@ -1363,29 +1348,27 @@ tr.status-cancelled .appointment-time {
 
 
 <style id="visit-report-style">
-.report-card{grid-column:1/-1!important;}
-.report-filters{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;margin-bottom:14px;}
-.report-filters label{display:block;margin-bottom:6px;font-weight:800;color:#dff6ff;}
-.report-filters input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid rgba(137,194,216,.35);border-radius:10px;background:#0d293d;color:#fff;font-weight:700;}
-.report-filters button{border:0;border-radius:10px;padding:12px 18px;background:#16a6c7;color:#fff;font-weight:850;cursor:pointer;min-height:44px;}
+.report-card{grid-column:auto!important;min-width:0;}
+.report-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end;margin-bottom:12px;}
+.report-filters>div{min-width:0;}
+.report-filters label{display:block;margin-bottom:5px;font-weight:800;color:#365b6e;font-size:11px;}
+.report-filters input{width:100%;box-sizing:border-box;height:38px;margin:0;padding:7px 9px;border:1px solid #c9dbe4;border-radius:8px;background:#fff;color:#173f59;font-weight:700;font-size:12px;}
+.report-filters button{grid-column:1/-1;border:0;border-radius:8px;padding:9px 12px;background:linear-gradient(135deg,#0b8aaa,#08738f);color:#fff;font-weight:850;cursor:pointer;min-height:38px;font-size:12px;}
 .report-filters button:disabled{opacity:.6;cursor:wait;}
-.report-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px;}
-.report-stat{border-radius:12px;padding:12px 14px;background:#0d293d;border:1px solid rgba(137,194,216,.25);}
-.report-stat .label{font-size:12px;color:#b8d2df;font-weight:700;}
-.report-stat .value{font-size:24px;color:#fff;font-weight:900;margin-top:3px;}
-.report-table-wrap{overflow:auto;border-radius:12px;border:1px solid rgba(137,194,216,.2);}
-.report-table{width:100%;border-collapse:collapse;min-width:850px;background:#102f44;color:#fff;}
-.report-table th{padding:11px 10px;text-align:left;background:#0a2233;color:#dff6ff;font-size:13px;white-space:nowrap;}
-.report-table td{padding:10px;border-top:1px solid rgba(137,194,216,.14);font-size:13px;font-weight:650;}
-.report-table tr.status-arrived td{background:#e8f5e9;color:#174f28;}
-.report-table tr.status-finished td{background:#fff8dc;color:#5f5000;}
-.report-table tr.status-cancelled td{background:#eef1f3;color:#465158;}
-.report-table tr.status-scheduled td{background:#0d293d;color:#edf8ff;}
-.report-empty{text-align:center;padding:22px!important;color:#b8d2df!important;}
-@media(max-width:800px){
-  .report-filters{grid-template-columns:1fr;}
-  .report-summary{grid-template-columns:repeat(2,minmax(0,1fr));}
-}
+.report-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.report-stat{border-radius:9px;padding:9px 10px;background:#f4fafc;border:1px solid #d8e6ed;}
+.report-stat .label{font-size:10px;color:#6b8290;font-weight:800;}
+.report-stat .value{font-size:21px;color:#073f63;font-weight:900;margin-top:2px;}
+.daily-report{display:flex;flex-direction:column;gap:7px;max-height:410px;overflow:auto;padding-right:2px;}
+.daily-row{display:grid;grid-template-columns:72px 1fr;gap:8px;align-items:center;padding:8px 9px;border:1px solid #d8e6ed;border-radius:9px;background:#fbfdfe;}
+.daily-date{font-size:11px;font-weight:850;color:#174e6c;}
+.daily-counts{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.daily-pill{padding:5px 4px;border-radius:7px;text-align:center;background:#edf6fa;border:1px solid #d8e6ed;}
+.daily-pill strong{display:block;font-size:15px;color:#073f63;font-weight:900;line-height:1.05;}
+.daily-pill span{display:block;font-size:9px;color:#6b8290;font-weight:750;margin-top:2px;}
+.daily-empty{padding:18px 10px;text-align:center;background:#f8fbfc;border:1px dashed #cbdde5;border-radius:9px;color:#748d9a;font-size:12px;}
+@media(max-width:800px){.report-filters{grid-template-columns:1fr 1fr}.daily-row{grid-template-columns:1fr}.daily-counts{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.report-filters{grid-template-columns:1fr}.report-filters button{grid-column:auto}.daily-counts{grid-template-columns:repeat(3,1fr)}}
 </style>
 <style id="stats-expanded-style">
 .stats-expanded{
@@ -2811,23 +2794,7 @@ const reportFrom = document.getElementById("reportFrom");
 const reportTo = document.getElementById("reportTo");
 const generateReportButton = document.getElementById("generateReportButton");
 const reportSummary = document.getElementById("reportSummary");
-const reportTableBody = document.getElementById("reportTableBody");
-
-function escapeReportHtml(value){
-    return String(value == null ? "" : value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
-
-function reportStatusLabel(status){
-    if(status === "arrived") return "Ka ardhur";
-    if(status === "finished") return "Ka mbaruar";
-    if(status === "cancelled") return "Anulluar";
-    return "Në pritje";
-}
+const dailyReport = document.getElementById("dailyReport");
 
 function setDefaultReportDates(){
     if(!reportFrom || !reportTo) return;
@@ -2837,6 +2804,12 @@ function setDefaultReportDates(){
     reportTo.value = formatDateISO(now);
 }
 
+function formatReportDay(dateString){
+    const parts = String(dateString || "").split("-");
+    if(parts.length !== 3) return dateString || "—";
+    return parts[2] + "/" + parts[1];
+}
+
 async function loadVisitReport(){
     if(canAddVisits()) return;
 
@@ -2844,75 +2817,87 @@ async function loadVisitReport(){
     const to = reportTo && reportTo.value;
 
     if(!from || !to){
-        reportSummary.textContent = "Zgjidh datën e fillimit dhe të mbarimit.";
+        reportSummary.innerHTML = '<div class="report-stat"><div class="label">Info</div><div class="value" style="font-size:13px">Zgjidh periudhën</div></div>';
+        if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Zgjidh datat dhe kliko “Shiko”.</div>';
         return;
     }
 
     if(from > to){
-        reportSummary.textContent = "Data 'Nga' nuk mund të jetë pas datës 'Deri'.";
+        reportSummary.innerHTML = '<div class="report-stat"><div class="label">Gabim</div><div class="value" style="font-size:13px">Data e fillimit është më e madhe.</div></div>';
+        if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Kontrollo datat e raportit.</div>';
         return;
     }
 
     generateReportButton.disabled = true;
-    generateReportButton.textContent = "Po ngarkohet...";
-    reportSummary.textContent = "Po përgatitet raporti...";
+    generateReportButton.textContent = "...";
+    reportSummary.innerHTML = '<div class="report-stat"><div class="label">Raporti</div><div class="value" style="font-size:13px">Po ngarkohet...</div></div>';
+    if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Po përgatiten statistikat...</div>';
 
     const result = await db
         .from("appointments")
-        .select("id, appointment_date, appointment_time, patient_name, card_number, visit_type, payment_status, status")
+        .select("appointment_date, visit_type, status")
         .gte("appointment_date", from)
         .lte("appointment_date", to)
-        .order("appointment_date", {ascending:false})
-        .order("appointment_time", {ascending:true});
+        .order("appointment_date", {ascending:true});
 
     if(result.error){
         console.error("REPORT SELECT ERROR:", result.error);
-        reportSummary.textContent = "Gabim gjatë ngarkimit të raportit: " + result.error.message;
-        reportTableBody.innerHTML = '<tr><td colspan="7" class="report-empty">Nuk u ngarkua raporti.</td></tr>';
+        reportSummary.innerHTML = '<div class="report-stat"><div class="label">Gabim</div><div class="value" style="font-size:13px">Nuk u ngarkua raporti.</div></div>';
+        if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Kontrollo lidhjen ose lejet e Supabase.</div>';
         generateReportButton.disabled = false;
-        generateReportButton.textContent = "Gjenero Raportin";
+        generateReportButton.textContent = "Shiko";
         return;
     }
 
     const rows = result.data || [];
-    const counts = {total:rows.length, scheduled:0, arrived:0, finished:0, cancelled:0};
+    const counts = {total:rows.length, visits:0, rechecks:0, cancelled:0};
+    const byDay = {};
 
     rows.forEach(function(row){
-        const status = row.status || "scheduled";
-        if(status === "arrived") counts.arrived++;
-        else if(status === "finished") counts.finished++;
-        else if(status === "cancelled") counts.cancelled++;
-        else counts.scheduled++;
+        const day = row.appointment_date || "—";
+        if(!byDay[day]) byDay[day] = {total:0, visits:0, rechecks:0, cancelled:0};
+        byDay[day].total++;
+
+        const type = String(row.visit_type || "Vizitë").toLowerCase();
+        if(type === "rikontroll"){
+            counts.rechecks++;
+            byDay[day].rechecks++;
+        }else{
+            counts.visits++;
+            byDay[day].visits++;
+        }
+
+        if((row.status || "scheduled") === "cancelled"){
+            counts.cancelled++;
+            byDay[day].cancelled++;
+        }
     });
 
     reportSummary.innerHTML =
-        '<div class="report-stat"><div class="label">Total</div><div class="value">'+counts.total+'</div></div>' +
-        '<div class="report-stat"><div class="label">Në pritje</div><div class="value">'+counts.scheduled+'</div></div>' +
-        '<div class="report-stat"><div class="label">Ka ardhur</div><div class="value">'+counts.arrived+'</div></div>' +
-        '<div class="report-stat"><div class="label">Ka mbaruar</div><div class="value">'+counts.finished+'</div></div>' +
-        '<div class="report-stat"><div class="label">Anulluar</div><div class="value">'+counts.cancelled+'</div></div>';
+        '<div class="report-stat"><div class="label">Vizita gjithsej</div><div class="value">'+counts.total+'</div></div>' +
+        '<div class="report-stat"><div class="label">Rikontrolle</div><div class="value">'+counts.rechecks+'</div></div>' +
+        '<div class="report-stat"><div class="label">Vizita të reja</div><div class="value">'+counts.visits+'</div></div>' +
+        '<div class="report-stat"><div class="label">Anulluara</div><div class="value">'+counts.cancelled+'</div></div>';
 
-    if(!rows.length){
-        reportTableBody.innerHTML = '<tr><td colspan="7" class="report-empty">Nuk ka vizita për periudhën e zgjedhur.</td></tr>';
+    const days = Object.keys(byDay).sort().reverse();
+    if(!days.length){
+        dailyReport.innerHTML = '<div class="daily-empty">Nuk ka vizita në periudhën e zgjedhur.</div>';
     }else{
-        reportTableBody.innerHTML = rows.map(function(row){
-            const status = row.status || "scheduled";
-            const time = row.appointment_time ? String(row.appointment_time).substring(0,5) : "—";
-            const payment = row.payment_status || "—";
-            return '<tr class="status-'+escapeReportHtml(status)+'">' +
-                '<td>'+escapeReportHtml(row.appointment_date || "—")+'</td>' +
-                '<td>'+escapeReportHtml(time)+'</td>' +
-                '<td><strong>'+escapeReportHtml(row.patient_name || "—")+'</strong></td>' +
-                '<td>'+escapeReportHtml(row.card_number || "—")+'</td>' +
-                '<td>'+escapeReportHtml(row.visit_type || "Vizitë")+'</td>' +
-                '<td><strong>'+escapeReportHtml(reportStatusLabel(status))+'</strong></td>' +
-                '<td>'+escapeReportHtml(payment)+'</td>' +
-                '</tr>';
+        dailyReport.innerHTML = days.map(function(day){
+            const d = byDay[day];
+            return '<div class="daily-row">' +
+                '<div class="daily-date">'+formatReportDay(day)+'</div>' +
+                '<div class="daily-counts">' +
+                    '<div class="daily-pill"><strong>'+d.total+'</strong><span>Gjithsej</span></div>' +
+                    '<div class="daily-pill"><strong>'+d.visits+'</strong><span>Vizita</span></div>' +
+                    '<div class="daily-pill"><strong>'+d.rechecks+'</strong><span>Rikontrolle</span></div>' +
+                '</div>' +
+            '</div>';
         }).join("");
     }
 
     generateReportButton.disabled = false;
-    generateReportButton.textContent = "Gjenero Raportin";
+    generateReportButton.textContent = "Shiko";
 }
 
 if(generateReportButton){
@@ -3099,6 +3084,7 @@ if(patientsNext){
    START
 ========================================================= */
 
+setDefaultReportDates();
 checkAuth();
 
 // Përditëso agjendën periodikisht që oraret bosh të kaluara të zhduken vetë.
