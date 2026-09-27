@@ -3212,20 +3212,21 @@ async function loadVisits(){
             visit.status || "scheduled";
 
         item.dataset.status = currentStatus;
+        item.classList.add("status-" + currentStatus);
 
         let statusLabel = "Në pritje";
         let statusClass = "";
 
         if(currentStatus === "arrived"){
-            statusLabel = "Ka ardhur";
+            statusLabel = "Në proces";
             statusClass = "arrived";
         }
         else if(currentStatus === "finished"){
-            statusLabel = "Ka mbaruar";
+            statusLabel = "Përfunduar";
             statusClass = "finished";
         }
         else if(currentStatus === "cancelled"){
-            statusLabel = "Anulluar";
+            statusLabel = "Anullo";
             statusClass = "cancelled";
         }
 
@@ -3325,7 +3326,7 @@ async function loadVisits(){
             "visit-status-button scheduled" +
             (currentStatus === "scheduled" ? " active" : "");
         scheduled.textContent =
-            "• Në pritje";
+            "● Në pritje";
 
         scheduled.addEventListener("click", function(){
             updateVisitStatus(
@@ -3345,7 +3346,7 @@ async function loadVisits(){
             "visit-status-button arrived" +
             (currentStatus === "arrived" ? " active" : "");
         arrived.textContent =
-            "✓ Ka ardhur";
+            "◉ Në proces";
 
         arrived.addEventListener("click", function(){
             updateVisitStatus(
@@ -3381,7 +3382,7 @@ async function loadVisits(){
             "visit-status-button cancelled" +
             (currentStatus === "cancelled" ? " active" : "");
         cancelled.textContent =
-            "✕ Anulluar";
+            "× Anullo";
 
         cancelled.addEventListener("click", function(){
             updateVisitStatus(
@@ -3408,7 +3409,7 @@ async function loadVisits(){
         deleteButton.className =
             "visit-delete-button";
         deleteButton.textContent =
-            "Fshi vizitën";
+            "⌫ Fshi";
 
         deleteButton.addEventListener("click", function(){
             openDeleteConfirm(visit.id);
@@ -4023,7 +4024,7 @@ if(logoutButton){
 
     const hint=document.createElement('span');
     hint.className='gvm-drag-hint';
-    hint.textContent='TËRHIQE NGA KËTU';
+    hint.textContent='';
     head.appendChild(handle);
     head.appendChild(hint);
 
@@ -4092,5 +4093,99 @@ if(logoutButton){
   }
 })();
 </script>
+
+<style id="gvm-final-status-cards">
+/* =========================================================
+   GVM — STATUSI SI NGJYRË E GJITHË KARTËS
+   Vetëm pamja e vizitës; logjika e databazës nuk ndryshon.
+========================================================= */
+#visits .visit-item{
+  border-radius:16px!important;
+  border:1px solid rgba(110,145,162,.20)!important;
+  transition:background .22s ease,border-color .22s ease,box-shadow .22s ease!important;
+  overflow:visible!important;
+}
+#visits .visit-item.status-scheduled{
+  background:linear-gradient(135deg,#ffffff 0%,#f3f9fd 100%)!important;
+  border-color:#cfe1eb!important;
+}
+#visits .visit-item.status-arrived{
+  background:linear-gradient(135deg,#e9fff2 0%,#d4f7e3 100%)!important;
+  border-color:#8bd1a9!important;
+}
+#visits .visit-item.status-finished{
+  background:linear-gradient(135deg,#fff9df 0%,#ffefb4 100%)!important;
+  border-color:#dfc76b!important;
+}
+#visits .visit-item.status-cancelled{
+  background:linear-gradient(135deg,#fff0f1 0%,#ffdfe2 100%)!important;
+  border-color:#e4a1a8!important;
+  opacity:1!important;
+}
+
+#visits .visit-item > .visit-status-controls{
+  grid-column:2 / -1!important;
+  grid-row:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex-wrap:nowrap!important;
+  gap:7px!important;
+  margin:4px 0 0!important;
+  padding:7px 0 0!important;
+  border-top:1px solid rgba(90,130,150,.13)!important;
+}
+#visits .visit-item > .visit-status-controls > button{
+  flex:0 0 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  height:29px!important;
+  padding:0 11px!important;
+  margin:0!important;
+  border-radius:999px!important;
+  border:1px solid rgba(105,139,155,.22)!important;
+  background:rgba(255,255,255,.62)!important;
+  color:#496a7b!important;
+  font-size:10.5px!important;
+  font-weight:800!important;
+  box-shadow:none!important;
+  transform:none!important;
+  transition:all .18s ease!important;
+}
+#visits .visit-item > .visit-status-controls > button:hover{
+  transform:translateY(-1px)!important;
+  background:rgba(255,255,255,.92)!important;
+  border-color:rgba(70,125,151,.35)!important;
+}
+#visits .visit-item > .visit-status-controls > .scheduled.active{
+  background:#1687c7!important; border-color:#1687c7!important; color:#fff!important;
+}
+#visits .visit-item > .visit-status-controls > .arrived.active{
+  background:#20a866!important; border-color:#20a866!important; color:#fff!important;
+}
+#visits .visit-item > .visit-status-controls > .finished.active{
+  background:#c89d18!important; border-color:#c89d18!important; color:#fff!important;
+}
+#visits .visit-item > .visit-status-controls > .cancelled.active{
+  background:#d84f5b!important; border-color:#d84f5b!important; color:#fff!important;
+}
+#visits .visit-item > .visit-status-controls > .visit-delete-button{
+  color:#b9434d!important;
+  background:rgba(255,255,255,.58)!important;
+  border-color:rgba(205,77,88,.25)!important;
+}
+#visits .visit-item.status-arrived .visit-status-controls,
+#visits .visit-item.status-finished .visit-status-controls,
+#visits .visit-item.status-cancelled .visit-status-controls{
+  border-top-color:rgba(80,110,90,.16)!important;
+}
+#visits .gvm-drag-hint{display:none!important;}
+
+@media(max-width:700px){
+  #visits .visit-item > .visit-status-controls{
+    flex-wrap:wrap!important;
+  }
+}
+</style>
 </body>
 </html>
