@@ -1143,6 +1143,62 @@ tr.status-cancelled .appointment-time {
 }
 </style>
 
+
+<style id="FINAL_STATUS_COLORS_CLEAR">
+/* NGJYRA TE QARTA PER CDO STATUS - override all previous styles */
+.visit-item.status-scheduled {
+  background:#123B66 !important;
+  background-image:none !important;
+  border:2px solid #2D6FA3 !important;
+  opacity:1 !important;
+  color:#FFFFFF !important;
+}
+.visit-item.status-arrived {
+  background:#BFEFCB !important;
+  background-image:none !important;
+  border:2px solid #39A957 !important;
+  opacity:1 !important;
+  color:#111111 !important;
+}
+.visit-item.status-finished {
+  background:#FFF0A3 !important;
+  background-image:none !important;
+  border:2px solid #D6AD00 !important;
+  opacity:1 !important;
+  color:#111111 !important;
+}
+.visit-item.status-cancelled {
+  background:#E2E5E8 !important;
+  background-image:none !important;
+  border:2px solid #8B949E !important;
+  opacity:1 !important;
+  color:#111111 !important;
+}
+
+/* Emri dhe ora: te lexueshme ne cdo status */
+.visit-item.status-scheduled .visit-name,
+.visit-item.status-scheduled .visit-time { color:#FFFFFF !important; }
+.visit-item.status-arrived .visit-name,
+.visit-item.status-arrived .visit-time,
+.visit-item.status-finished .visit-name,
+.visit-item.status-finished .visit-time,
+.visit-item.status-cancelled .visit-name,
+.visit-item.status-cancelled .visit-time { color:#111111 !important; }
+
+.visit-item.status-arrived .visit-line,
+.visit-item.status-arrived .visit-line strong,
+.visit-item.status-finished .visit-line,
+.visit-item.status-finished .visit-line strong,
+.visit-item.status-cancelled .visit-line,
+.visit-item.status-cancelled .visit-line strong { color:#222222 !important; }
+
+.visit-item.status-scheduled .visit-line,
+.visit-item.status-scheduled .visit-line strong { color:#EAF6FF !important; }
+
+.visit-item .visit-name { font-size:16px !important; font-weight:900 !important; }
+.visit-item .visit-time { font-size:16px !important; font-weight:900 !important; }
+</style>
+
 </head>
 <body>
 
@@ -2937,6 +2993,105 @@ if(logoutButton){
   padding:0 15px !important;
   border-radius:8px !important;
 }
+</style>
+
+
+<style id="FINAL_STATUS_VISIBILITY_FIX">
+/* ===== FINAL: status colors + readable text ===== */
+.visit-item.status-scheduled{
+  background:#123b55 !important;
+  border:2px solid #2d607d !important;
+  color:#ffffff !important;
+  opacity:1 !important;
+}
+.visit-item.status-arrived{
+  background:#c9f0d2 !important;
+  border:2px solid #49a963 !important;
+  color:#102418 !important;
+  opacity:1 !important;
+}
+.visit-item.status-finished{
+  background:#ffed9e !important;
+  border:2px solid #c5a21c !important;
+  color:#241f08 !important;
+  opacity:1 !important;
+}
+.visit-item.status-cancelled{
+  background:#dfe4e7 !important;
+  border:2px solid #89959c !important;
+  color:#1b252a !important;
+  opacity:1 !important;
+}
+
+/* Scheduled = white text. Status changed = black/dark text. */
+.visit-item.status-scheduled .visit-time,
+.visit-item.status-scheduled .visit-name,
+.visit-item.status-scheduled .visit-line,
+.visit-item.status-scheduled .visit-line strong,
+.visit-item.status-scheduled .visit-type,
+.visit-item.status-scheduled .payment-paid,
+.visit-item.status-scheduled .payment-free,
+.visit-item.status-scheduled .status-badge{
+  color:#ffffff !important;
+  text-shadow:none !important;
+}
+
+.visit-item.status-arrived .visit-time,
+.visit-item.status-arrived .visit-name,
+.visit-item.status-arrived .visit-line,
+.visit-item.status-arrived .visit-line strong,
+.visit-item.status-arrived .visit-type,
+.visit-item.status-arrived .payment-paid,
+.visit-item.status-arrived .payment-free,
+.visit-item.status-arrived .status-badge,
+.visit-item.status-finished .visit-time,
+.visit-item.status-finished .visit-name,
+.visit-item.status-finished .visit-line,
+.visit-item.status-finished .visit-line strong,
+.visit-item.status-finished .visit-type,
+.visit-item.status-finished .payment-paid,
+.visit-item.status-finished .payment-free,
+.visit-item.status-finished .status-badge,
+.visit-item.status-cancelled .visit-time,
+.visit-item.status-cancelled .visit-name,
+.visit-item.status-cancelled .visit-line,
+.visit-item.status-cancelled .visit-line strong,
+.visit-item.status-cancelled .visit-type,
+.visit-item.status-cancelled .payment-paid,
+.visit-item.status-cancelled .payment-free,
+.visit-item.status-cancelled .status-badge{
+  color:#111111 !important;
+  text-shadow:none !important;
+}
+
+/* Badges remain distinct but readable */
+.visit-item.status-scheduled .status-badge{
+  background:#1e5c7c !important;
+  border:1px solid #6da5bf !important;
+}
+.visit-item.status-arrived .status-badge{
+  background:#a8dfb6 !important;
+  border:1px solid #55a868 !important;
+}
+.visit-item.status-finished .status-badge{
+  background:#f7dd63 !important;
+  border:1px solid #c5a21c !important;
+}
+.visit-item.status-cancelled .status-badge{
+  background:#c7cfd4 !important;
+  border:1px solid #89959c !important;
+}
+
+/* Keep controls readable and independent from row colors */
+.visit-item .visit-status-controls button{
+  color:#29404c !important;
+  background:#ffffff !important;
+  text-shadow:none !important;
+}
+.visit-item .visit-status-controls .arrived.active{color:#176b3a !important;background:#e8f6ed !important;}
+.visit-item .visit-status-controls .finished.active{color:#765c00 !important;background:#fff7d6 !important;}
+.visit-item .visit-status-controls .cancelled.active{color:#4d5960 !important;background:#edf0f2 !important;}
+.visit-item .visit-status-controls .visit-delete-button{color:#a02f2f !important;background:#ffffff !important;}
 </style>
 
 </body>
