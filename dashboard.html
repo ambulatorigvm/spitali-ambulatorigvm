@@ -4188,3 +4188,94 @@ if(logoutButton){
 </script>
 </body>
 </html>
+<style id="final-time-rows">
+/* Pamje e re e orareve: çdo orar si rresht i veçantë, i pastër dhe i qëndrueshëm */
+#visits{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+}
+#visits .agenda-slot{
+  display:grid!important;
+  grid-template-columns:88px minmax(0,1fr)!important;
+  gap:10px!important;
+  align-items:stretch!important;
+  min-height:76px!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:transparent!important;
+}
+#visits .slot-time{
+  min-height:76px!important;
+  height:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:14px!important;
+  background:#f4f8fa!important;
+  border:1px solid #d9e6eb!important;
+  color:#31566a!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  letter-spacing:.2px!important;
+  box-shadow:0 2px 8px rgba(20,55,70,.06)!important;
+}
+#visits .slot-body{
+  min-height:76px!important;
+  height:auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-items:stretch!important;
+  gap:6px!important;
+  padding:8px 10px!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  border:1px solid #e1eaee!important;
+  box-shadow:0 2px 9px rgba(20,55,70,.045)!important;
+  box-sizing:border-box!important;
+}
+#visits .slot-empty{
+  min-height:58px!important;
+  height:100%!important;
+  display:flex!important;
+  align-items:center!important;
+  padding:0 12px!important;
+  color:#9aabb4!important;
+  font-size:12px!important;
+  font-weight:700!important;
+}
+#visits .agenda-slot:nth-child(even) .slot-time{
+  background:#eef6f9!important;
+}
+#visits .agenda-slot:hover .slot-time{
+  border-color:#b9d7e2!important;
+  background:#edf7fa!important;
+}
+#visits .agenda-slot:hover .slot-body{
+  border-color:#cbdfe6!important;
+}
+/* Mos lejo klikimin e statusit të ndikojë te rreshti i orarit */
+#visits .visit-status-controls,
+#visits .visit-status-controls button{
+  position:relative!important;
+  z-index:5!important;
+}
+@media(max-width:700px){
+  #visits .agenda-slot{
+    grid-template-columns:70px minmax(0,1fr)!important;
+    gap:8px!important;
+    min-height:70px!important;
+  }
+  #visits .slot-time,#visits .slot-body{min-height:70px!important}
+  #visits .slot-time{font-size:13px!important}
+}
+@media(max-width:430px){
+  #visits .agenda-slot{
+    grid-template-columns:64px minmax(0,1fr)!important;
+    gap:7px!important;
+  }
+  #visits .slot-body{padding:7px!important}
+}
+</style>
