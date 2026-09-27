@@ -1272,6 +1272,269 @@ input:focus,select:focus{
 }
 </style>
 
+
+<style id="agenda-photo-match">
+/* =========================================================
+   AGJENDA — PAMJE SI MODELI I FOTOS
+   Vetëm CSS: nuk ndryshon HTML/JS/funksionet.
+========================================================= */
+
+.agenda-slot{
+  display:grid!important;
+  grid-template-columns:72px minmax(0,1fr)!important;
+  gap:10px!important;
+  align-items:stretch!important;
+  min-height:58px!important;
+  margin-bottom:6px!important;
+}
+
+.slot-time{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:48px!important;
+  align-self:center!important;
+  padding:0 8px!important;
+  border:1px solid #cfe5f5!important;
+  border-radius:10px!important;
+  background:#eaf5ff!important;
+  color:#0877d1!important;
+  font-size:14px!important;
+  font-weight:900!important;
+  letter-spacing:.1px!important;
+  box-shadow:none!important;
+}
+
+.slot-body{
+  display:flex!important;
+  align-items:center!important;
+  min-width:0!important;
+  min-height:48px!important;
+  padding:5px 10px!important;
+  border:1px solid #dceaf4!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  box-shadow:0 2px 8px rgba(8,73,118,.035)!important;
+}
+
+.slot-visit{
+  display:grid!important;
+  grid-template-columns:minmax(180px,1.25fr) 105px 125px minmax(150px,auto)!important;
+  gap:12px!important;
+  align-items:center!important;
+  width:100%!important;
+  min-width:0!important;
+  border-left:0!important;
+  padding:0!important;
+}
+
+.slot-visit.control{
+  border-left:0!important;
+}
+
+/* Pacienti + kartela në të njëjtën kolonë vizuale */
+.slot-visit .visit-name{
+  grid-column:1!important;
+  grid-row:1!important;
+  margin:0!important;
+  color:#073f73!important;
+  font-size:14px!important;
+  font-weight:850!important;
+  line-height:1.2!important;
+}
+
+.slot-visit .visit-line{
+  grid-column:1!important;
+  grid-row:2!important;
+  margin:2px 0 0!important;
+  color:#52718b!important;
+  font-size:11px!important;
+  font-weight:650!important;
+  line-height:1.1!important;
+}
+
+.slot-visit .visit-name,
+.slot-visit .visit-line{
+  /* Përdorim layout-in e kolonës së parë pa prekur DOM-in */
+}
+
+.slot-visit{
+  grid-template-rows:auto auto!important;
+}
+
+/* Lloji i vizitës */
+.slot-visit .statusLine{
+  grid-column:2!important;
+  grid-row:1 / span 2!important;
+  justify-content:center!important;
+  align-items:center!important;
+  gap:6px!important;
+  flex-wrap:wrap!important;
+}
+
+.visit-type{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:62px!important;
+  padding:6px 10px!important;
+  border:0!important;
+  border-radius:999px!important;
+  background:#e9f5ff!important;
+  color:#0877d1!important;
+  font-size:11px!important;
+  font-weight:850!important;
+}
+
+/* Pagesa */
+.payment-paid,
+.payment-free{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:76px!important;
+  padding:6px 10px!important;
+  border:0!important;
+  border-radius:999px!important;
+  font-size:11px!important;
+  font-weight:850!important;
+}
+
+.payment-paid{
+  background:#e4f7ed!important;
+  color:#087b4b!important;
+}
+
+.payment-free{
+  background:#ffe9e9!important;
+  color:#d93636!important;
+}
+
+/* Statusi */
+.status-badge{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:6px 10px!important;
+  border-radius:999px!important;
+  font-size:11px!important;
+  font-weight:850!important;
+  background:#fff2d8!important;
+  color:#b56b00!important;
+  border:0!important;
+}
+
+.status-badge.arrived{
+  background:#e4f7ed!important;
+  color:#087b4b!important;
+}
+
+.status-badge.finished{
+  background:#eaf2ff!important;
+  color:#1768bd!important;
+}
+
+.status-badge.cancelled{
+  background:#f0f2f4!important;
+  color:#687782!important;
+}
+
+/* Butonat funksionalë: mbeten të disponueshëm, por vizualisht të pastër */
+.slot-visit .visit-status-controls{
+  grid-column:3 / 5!important;
+  grid-row:1 / span 2!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:5px!important;
+  margin:0!important;
+  width:auto!important;
+}
+
+.slot-visit .visit-status-controls button{
+  min-width:auto!important;
+  height:30px!important;
+  padding:0 8px!important;
+  border-radius:8px!important;
+  background:#f5f9fc!important;
+  color:#31566f!important;
+  border:1px solid #dce9f1!important;
+  box-shadow:none!important;
+  font-size:10px!important;
+  font-weight:750!important;
+}
+
+.slot-visit .visit-status-controls button:hover{
+  background:#eaf5ff!important;
+  color:#0877d1!important;
+  border-color:#bcdcf2!important;
+}
+
+.slot-visit .visit-status-controls .visit-delete-button{
+  color:#c74c55!important;
+  background:#fff7f7!important;
+  border-color:#f0d6d8!important;
+}
+
+/* Rreshti bosh */
+.slot-empty{
+  color:#9ab0bf!important;
+  font-size:11px!important;
+  text-align:left!important;
+  padding-left:4px!important;
+}
+
+/* Mos lejo statuset e vizitave të errësojnë pamjen e bardhë */
+.visit-item.status-arrived,
+.visit-item.status-finished,
+.visit-item.status-cancelled{
+  background:#fff!important;
+  border-color:#dceaf4!important;
+  opacity:1!important;
+}
+
+/* Hapësira dhe titulli i agjendës */
+#visits{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:5px!important;
+}
+
+@media(max-width:1050px){
+  .slot-visit{
+    grid-template-columns:minmax(150px,1fr) 90px minmax(120px,auto)!important;
+  }
+  .slot-visit .statusLine{
+    grid-column:2!important;
+  }
+  .slot-visit .visit-status-controls{
+    grid-column:3!important;
+  }
+}
+
+@media(max-width:760px){
+  .agenda-slot{
+    grid-template-columns:58px minmax(0,1fr)!important;
+  }
+  .slot-visit{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:5px!important;
+    padding:5px!important;
+  }
+  .slot-visit .visit-name,
+  .slot-visit .visit-line,
+  .slot-visit .statusLine,
+  .slot-visit .visit-status-controls{
+    grid-column:1!important;
+    grid-row:auto!important;
+    justify-content:flex-start!important;
+  }
+  .slot-visit .visit-status-controls{
+    flex-wrap:wrap!important;
+  }
+}
+</style>
+
 </head>
 <body>
 
