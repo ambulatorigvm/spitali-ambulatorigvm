@@ -922,6 +922,53 @@ html, body{
 }
 </style>
 
+<style id="status-row-colors-final">
+/* Rreshti i plotë ndryshon ngjyrë sipas statusit */
+.visit-item.status-arrived{
+  background:#c9f2d2 !important;
+  border:1px solid #72c982 !important;
+  color:#174f28 !important;
+}
+.visit-item.status-finished{
+  background:#fff0a8 !important;
+  border:1px solid #e1c34d !important;
+  color:#5f5000 !important;
+}
+.visit-item.status-cancelled{
+  background:#d9dee1 !important;
+  border:1px solid #aab3b8 !important;
+  color:#465158 !important;
+}
+.visit-item.status-scheduled{
+  background:#0d293d !important;
+  border:1px solid rgba(137,194,216,.30) !important;
+  color:#edf8ff !important;
+}
+
+/* Teksti brenda rreshtit ndjek ngjyrën e statusit */
+.visit-item.status-arrived .visit-time,
+.visit-item.status-arrived .visit-name,
+.visit-item.status-arrived .visit-line,
+.visit-item.status-arrived .visit-line strong,
+.visit-item.status-arrived .visit-type{
+  color:#174f28 !important;
+}
+.visit-item.status-finished .visit-time,
+.visit-item.status-finished .visit-name,
+.visit-item.status-finished .visit-line,
+.visit-item.status-finished .visit-line strong,
+.visit-item.status-finished .visit-type{
+  color:#5f5000 !important;
+}
+.visit-item.status-cancelled .visit-time,
+.visit-item.status-cancelled .visit-name,
+.visit-item.status-cancelled .visit-line,
+.visit-item.status-cancelled .visit-line strong,
+.visit-item.status-cancelled .visit-type{
+  color:#465158 !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -1902,53 +1949,26 @@ async function loadVisits(){
             "status-" + (statusClass || "scheduled")
         );
 
+        /* Ngjyra e GJITHË rreshtit sipas statusit */
         if(currentStatus === "arrived"){
-            item.style.setProperty(
-                "background",
-                "linear-gradient(90deg,rgba(30,125,82,.78),rgba(17,65,58,.94))",
-                "important"
-            );
-            item.style.setProperty(
-                "border-color",
-                "rgba(83,220,154,.55)",
-                "important"
-            );
+            item.style.setProperty("background", "#c9f2d2", "important");
+            item.style.setProperty("border-color", "#72c982", "important");
+            item.style.setProperty("color", "#174f28", "important");
         }
         else if(currentStatus === "finished"){
-            item.style.setProperty(
-                "background",
-                "linear-gradient(90deg,rgba(160,121,25,.78),rgba(66,54,25,.94))",
-                "important"
-            );
-            item.style.setProperty(
-                "border-color",
-                "rgba(238,206,84,.55)",
-                "important"
-            );
+            item.style.setProperty("background", "#fff0a8", "important");
+            item.style.setProperty("border-color", "#e1c34d", "important");
+            item.style.setProperty("color", "#5f5000", "important");
         }
         else if(currentStatus === "cancelled"){
-            item.style.setProperty(
-                "background",
-                "linear-gradient(90deg,rgba(75,86,94,.88),rgba(37,48,57,.96))",
-                "important"
-            );
-            item.style.setProperty(
-                "border-color",
-                "rgba(174,190,200,.38)",
-                "important"
-            );
+            item.style.setProperty("background", "#d9dee1", "important");
+            item.style.setProperty("border-color", "#aab3b8", "important");
+            item.style.setProperty("color", "#465158", "important");
         }
         else{
-            item.style.setProperty(
-                "background",
-                "linear-gradient(145deg,#0d293d,#0b2234)",
-                "important"
-            );
-            item.style.setProperty(
-                "border-color",
-                "rgba(137,194,216,.16)",
-                "important"
-            );
+            item.style.setProperty("background", "#0d293d", "important");
+            item.style.setProperty("border-color", "rgba(137,194,216,.30)", "important");
+            item.style.setProperty("color", "#edf8ff", "important");
         }
 
         const time =
