@@ -1199,6 +1199,25 @@ tr.status-cancelled .appointment-time {
 .visit-item .visit-time { font-size:16px !important; font-weight:900 !important; }
 </style>
 
+
+<style id="daily-only-report-overrides">
+.report-stat-daily {
+    grid-column: 1 / -1;
+}
+.daily-row {
+    align-items: center;
+}
+.daily-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.daily-pill {
+    min-width: 72px;
+    text-align: center;
+}
+</style>
+
 </head>
 <body>
 
@@ -1285,7 +1304,7 @@ tr.status-cancelled .appointment-time {
         </section>
 
         <section class="card report-card" id="visitReportCard" style="display:none;">
-          <div class="card-title"><span class="title-icon">▥</span> Statistikat e Vizitave</div>
+          <div class="card-title"><span class="title-icon">▥</span> Statistikat Ditore</div>
           <div class="report-filters">
             <div>
               <label for="reportFrom">Nga</label>
@@ -2873,11 +2892,8 @@ async function loadVisitReport(){
         }
     });
 
-    reportSummary.innerHTML =
-        '<div class="report-stat"><div class="label">Vizita gjithsej</div><div class="value">'+counts.total+'</div></div>' +
-        '<div class="report-stat"><div class="label">Rikontrolle</div><div class="value">'+counts.rechecks+'</div></div>' +
-        '<div class="report-stat"><div class="label">Vizita të reja</div><div class="value">'+counts.visits+'</div></div>' +
-        '<div class="report-stat"><div class="label">Anulluara</div><div class="value">'+counts.cancelled+'</div></div>';
+    /* Vetëm statistika ditore — pa total për gjithë periudhën. */
+    reportSummary.innerHTML = '<div class="report-stat report-stat-daily"><div class="label">Statistika ditore</div><div class="value" style="font-size:15px">Vizita për çdo ditë</div></div>';
 
     const days = Object.keys(byDay).sort().reverse();
     if(!days.length){
@@ -2891,6 +2907,7 @@ async function loadVisitReport(){
                     '<div class="daily-pill"><strong>'+d.total+'</strong><span>Gjithsej</span></div>' +
                     '<div class="daily-pill"><strong>'+d.visits+'</strong><span>Vizita</span></div>' +
                     '<div class="daily-pill"><strong>'+d.rechecks+'</strong><span>Rikontrolle</span></div>' +
+                    '<div class="daily-pill"><strong>'+d.cancelled+'</strong><span>Anulluara</span></div>' +
                 '</div>' +
             '</div>';
         }).join("");
