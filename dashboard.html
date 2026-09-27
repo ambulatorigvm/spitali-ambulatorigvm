@@ -1,1559 +1,1379 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Agjenda | AMBULATORI GVM</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --blue: #1769aa;
-      --blue-dark: #0f4f82;
-      --blue-light: #eaf4fb;
-      --border: #dce6ee;
-      --text: #1f2d3d;
-      --muted: #718096;
-      --white: #ffffff;
-      --green: #2e9b68;
-      --green-light: #eaf8f1;
-      --orange: #d98a22;
-      --orange-light: #fff5e6;
-      --shadow: 0 10px 30px rgba(31, 55, 75, 0.08);
-    }
-
-    html,
-    body {
-      width: 100%;
-      min-height: 100%;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f5f8fb;
-      color: var(--text);
-    }
-
-    body {
-      overflow-x: hidden;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    /* =========================
-       MAIN LAYOUT
-    ========================= */
-
-    .app {
-      min-height: 100vh;
-      display: flex;
-    }
-
-    .sidebar {
-      width: 245px;
-      min-width: 245px;
-      min-height: 100vh;
-      background: #ffffff;
-      border-right: 1px solid #e2e9ef;
-      padding: 26px 18px;
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      z-index: 20;
-    }
-
-    .brand {
-      padding: 4px 12px 28px;
-      border-bottom: 1px solid #edf1f4;
-      margin-bottom: 24px;
-    }
-
-    .brand-main {
-      font-size: 22px;
-      font-weight: 750;
-      letter-spacing: -0.5px;
-      color: #173b59;
-    }
-
-    .brand-sub {
-      margin-top: 5px;
-      font-size: 12px;
-      letter-spacing: 1.2px;
-      color: #8b9aa8;
-      text-transform: uppercase;
-    }
-
-    .nav-title {
-      padding: 0 12px 10px;
-      color: #9aa8b5;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-
-    .nav-item {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      color: #657686;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px 14px;
-      border-radius: 10px;
-      margin-bottom: 5px;
-      cursor: pointer;
-      text-align: left;
-      transition: none;
-    }
-
-    .nav-item:hover {
-      background: transparent;
-      color: #657686;
-    }
-
-    .nav-item.active {
-      background: #eaf4fb;
-      color: var(--blue);
-      font-weight: 650;
-    }
-
-    .nav-icon {
-      width: 20px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .sidebar-bottom {
-      position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 22px;
-      padding: 14px;
-      border-radius: 12px;
-      background: #f7fafc;
-      border: 1px solid #e6edf2;
-    }
-
-    .sidebar-bottom-title {
-      font-size: 11px;
-      color: #9aa8b5;
-      margin-bottom: 5px;
-    }
-
-    .sidebar-bottom-text {
-      font-size: 12px;
-      color: #506273;
-      font-weight: 600;
-    }
-
-    /* =========================
-       CONTENT
-    ========================= */
-
-    .main {
-      width: calc(100% - 245px);
-      margin-left: 245px;
-      min-height: 100vh;
-      padding: 28px 34px 40px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 26px;
-    }
-
-    .page-title h1 {
-      font-size: 27px;
-      line-height: 1.2;
-      color: #18364f;
-      letter-spacing: -0.5px;
-    }
-
-    .page-title p {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .today-button {
-      border: 1px solid #d8e4ed;
-      background: white;
-      color: #31526c;
-      border-radius: 9px;
-      padding: 10px 15px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: none;
-    }
-
-    .today-button:hover {
-      background: white;
-      border-color: #d8e4ed;
-    }
-
-    /* =========================
-       DATE BAR
-    ========================= */
-
-    .date-panel {
-      background: white;
-      border: 1px solid #e1e9ef;
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      padding: 18px 20px;
-      margin-bottom: 20px;
-    }
-
-    .date-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .date-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .date-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #29465d;
-    }
-
-    .date-subtitle {
-      font-size: 12px;
-      color: #91a0ad;
-    }
-
-    .date-navigation {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .date-arrow {
-      width: 34px;
-      height: 34px;
-      border: 1px solid #dce5ec;
-      background: #fff;
-      border-radius: 8px;
-      color: #557086;
-      cursor: pointer;
-      font-size: 17px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: none;
-    }
-
-    .date-arrow:hover {
-      background: #fff;
-      border-color: #dce5ec;
-      color: #557086;
-    }
-
-    .dates {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .date-card {
-      min-height: 76px;
-      border: 1px solid #e1e8ee;
-      background: #fff;
-      border-radius: 11px;
-      padding: 10px;
-      cursor: pointer;
-      text-align: left;
-      transition: none;
-    }
-
-    .date-card:hover {
-      border-color: #e1e8ee;
-      background: #fff;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .date-card.active {
-      background: #eef7fc;
-      border-color: #8fc1df;
-    }
-
-    .date-card.today {
-      border-color: #a9cde3;
-    }
-
-    .date-weekday {
-      color: #91a0ad;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-    }
-
-    .date-number {
-      margin-top: 7px;
-      font-size: 21px;
-      line-height: 1;
-      font-weight: 700;
-      color: #2c475c;
-    }
-
-    .date-card.active .date-number {
-      color: var(--blue);
-    }
-
-    .date-month {
-      margin-top: 4px;
-      color: #8c9aa6;
-      font-size: 10px;
-    }
-
-    /* =========================
-       CONTENT GRID
-    ========================= */
-
-    .content-grid {
-      display: grid;
-      grid-template-columns: 350px minmax(0, 1fr);
-      gap: 20px;
-      align-items: start;
-    }
-
-    /* =========================
-       FORM CARD
-    ========================= */
-
-    .card {
-      background: white;
-      border: 1px solid #e1e9ef;
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-    }
-
-    .form-card {
-      padding: 21px;
-      position: sticky;
-      top: 20px;
-    }
-
-    .card-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .card-heading h2 {
-      font-size: 16px;
-      color: #29465d;
-    }
-
-    .card-heading span {
-      font-size: 11px;
-      color: #98a6b2;
-    }
-
-    .field {
-      margin-bottom: 15px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #607384;
-    }
-
-    .field input,
-    .field select {
-      width: 100%;
-      height: 42px;
-      border: 1px solid #dce5ec;
-      border-radius: 9px;
-      padding: 0 12px;
-      outline: none;
-      background: #fff;
-      color: #2d4355;
-      font-size: 13px;
-    }
-
-    .field input:focus,
-    .field select:focus {
-      border-color: #8bbbd8;
-      box-shadow: 0 0 0 3px rgba(42, 126, 173, .08);
-    }
-
-    .visit-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .visit-option {
-      position: relative;
-    }
-
-    .visit-option input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .visit-option label {
-      height: 42px;
-      margin: 0;
-      border: 1px solid #dce5ec;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #64798a;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: none;
-    }
-
-    .visit-option label:hover {
-      border-color: #dce5ec;
-      background: #fff;
-    }
-
-    .visit-option input:checked + label {
-      border-color: #86b8d5;
-      background: #edf7fc;
-      color: #1769aa;
-    }
-
-    .payment-box {
-      display: none;
-      margin-top: 11px;
-      padding: 12px;
-      border: 1px solid #e6edf2;
-      border-radius: 10px;
-      background: #fafcfd;
-    }
-
-    .payment-box.visible {
-      display: block;
-    }
-
-    .payment-title {
-      font-size: 10px;
-      font-weight: 700;
-      color: #7b8c9b;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      margin-bottom: 8px;
-    }
-
-    .payment-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7px;
-    }
-
-    .payment-option {
-      position: relative;
-    }
-
-    .payment-option input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .payment-option label {
-      height: 38px;
-      margin: 0;
-      border: 1px solid #dce5ec;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      color: #6b7d8b;
-      cursor: pointer;
-      transition: none;
-    }
-
-    .payment-option input:checked + label {
-      background: #f2f8fc;
-      border-color: #9fc4da;
-      color: #1769aa;
-    }
-
-    .save-button {
-      width: 100%;
-      height: 44px;
-      margin-top: 3px;
-      border: 0;
-      border-radius: 9px;
-      background: #1769aa;
-      color: white;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      transition: none;
-    }
-
-    .save-button:hover {
-      background: #1769aa;
-    }
-
-    .save-button:disabled {
-      opacity: .65;
-      cursor: default;
-    }
-
-    .message {
-      display: none;
-      margin-top: 11px;
-      border-radius: 9px;
-      padding: 10px 12px;
-      font-size: 11px;
-      line-height: 1.4;
-    }
-
-    .message.success {
-      display: block;
-      background: var(--green-light);
-      color: #287a55;
-      border: 1px solid #ccebdc;
-    }
-
-    .message.error {
-      display: block;
-      background: #fff1f1;
-      color: #a04444;
-      border: 1px solid #f0d0d0;
-    }
-
-    /* =========================
-       AGENDA
-    ========================= */
-
-    .agenda-card {
-      overflow: hidden;
-    }
-
-    .agenda-top {
-      padding: 20px 21px;
-      border-bottom: 1px solid #edf1f4;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .agenda-top h2 {
-      font-size: 16px;
-      color: #29465d;
-    }
-
-    .agenda-top p {
-      margin-top: 4px;
-      font-size: 11px;
-      color: #91a0ad;
-    }
-
-    .agenda-count {
-      min-width: 34px;
-      height: 28px;
-      padding: 0 9px;
-      border-radius: 8px;
-      background: #edf6fb;
-      color: #1769aa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .agenda {
-      width: 100%;
-    }
-
-    .appointment-row {
-      display: grid;
-      grid-template-columns: 86px minmax(0, 1fr);
-      min-height: 74px;
-      border-bottom: 1px solid #edf2f5;
-    }
-
-    .appointment-row:last-child {
-      border-bottom: 0;
-    }
-
-    .time-cell {
-      padding: 17px 12px 17px 20px;
-      color: #8293a0;
-      font-size: 12px;
-      font-weight: 650;
-      border-right: 1px solid #edf2f5;
-    }
-
-    .appointment-cell {
-      min-width: 0;
-      padding: 11px 18px;
-      display: flex;
-      align-items: center;
-    }
-
-    .empty-slot {
-      width: 100%;
-      min-height: 48px;
-      border: 1px dashed #e2e9ee;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      padding: 0 13px;
-      color: #b0bbc4;
-      font-size: 11px;
-    }
-
-    .appointment {
-      width: 100%;
-      min-height: 52px;
-      border: 1px solid #dfe8ee;
-      border-left: 4px solid #7bb4d3;
-      border-radius: 9px;
-      padding: 9px 12px;
-      background: #fbfdfe;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .appointment-info {
-      min-width: 0;
-    }
-
-    .appointment-name {
-      font-size: 13px;
-      font-weight: 700;
-      color: #29465d;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .appointment-meta {
-      margin-top: 4px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      height: 21px;
-      padding: 0 7px;
-      border-radius: 5px;
-      font-size: 9px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .tag.visit {
-      background: #eaf4fb;
-      color: #2775a5;
-    }
-
-    .tag.payment {
-      background: #edf8f2;
-      color: #2e8960;
-    }
-
-    .tag.no-payment {
-      background: #fff5e7;
-      color: #b87822;
-    }
-
-    .card-number {
-      font-size: 10px;
-      color: #91a0ac;
-    }
-
-    .delete-button {
-      flex: 0 0 auto;
-      width: 30px;
-      height: 30px;
-      border: 1px solid #e4ebef;
-      background: #fff;
-      border-radius: 7px;
-      color: #a1adb6;
-      cursor: pointer;
-      transition: none;
-    }
-
-    .delete-button:hover {
-      background: #fff;
-      border-color: #e4ebef;
-      color: #a1adb6;
-    }
-
-    .loading {
-      padding: 40px;
-      text-align: center;
-      color: #91a0ad;
-      font-size: 12px;
-    }
-
-    .no-data {
-      padding: 42px 20px;
-      text-align: center;
-      color: #9ba8b2;
-      font-size: 12px;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media (max-width: 1100px) {
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-card {
-        position: static;
-      }
-    }
-
-    @media (max-width: 800px) {
-      .sidebar {
-        width: 70px;
-        min-width: 70px;
-        padding: 20px 9px;
-      }
-
-      .brand {
-        padding: 5px 0 20px;
-        text-align: center;
-      }
-
-      .brand-main {
-        font-size: 12px;
-        line-height: 1.3;
-      }
-
-      .brand-sub,
-      .nav-title,
-      .nav-text,
-      .sidebar-bottom {
-        display: none;
-      }
-
-      .nav-item {
-        justify-content: center;
-        padding: 13px 8px;
-      }
-
-      .main {
-        width: calc(100% - 70px);
-        margin-left: 70px;
-        padding: 20px 15px 30px;
-      }
-
-      .dates {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 550px) {
-      .topbar {
-        align-items: flex-start;
-        gap: 12px;
-      }
-
-      .page-title h1 {
-        font-size: 22px;
-      }
-
-      .today-button {
-        font-size: 11px;
-        padding: 9px 10px;
-      }
-
-      .dates {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .appointment-row {
-        grid-template-columns: 67px minmax(0, 1fr);
-      }
-
-      .time-cell {
-        padding-left: 12px;
-      }
-
-      .appointment-cell {
-        padding: 9px 10px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPITALI GVM — AMBULATORI GVM</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+:root{
+  --navy:#073f63;--blue:#087fa8;--cyan:#13a6c7;--teal:#0d8fae;
+  --ink:#173f59;--muted:#6d8492;--line:#d8e6ed;--white:#fff;
+}
+html,body{min-height:100%}
+body{
+  margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);
+  background:#dbeaf1 url("hospital-bg.png") center top/cover fixed no-repeat;
+}
+body:before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:linear-gradient(90deg,rgba(238,247,251,.95) 0%,rgba(238,247,251,.82) 35%,rgba(221,239,247,.60) 100%);
+}
+.app-shell{min-height:100vh;display:flex}
+.sidebar{
+  width:230px;flex:0 0 230px;background:rgba(247,252,255,.94);
+  border-right:1px solid rgba(181,207,220,.8);padding:22px 14px;
+  display:flex;flex-direction:column;box-shadow:4px 0 18px rgba(7,63,99,.08)
+}
+.brand-mini{padding:4px 12px 24px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.brand-mini strong{display:block;color:var(--navy);font-size:18px;letter-spacing:.3px}
+.brand-mini span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.nav-item{
+  display:flex;align-items:center;gap:13px;padding:13px 14px;margin:3px 0;
+  border-radius:9px;color:#174e6c;font-weight:700;font-size:14px
+}
+.nav-item{width:100%;border:0;background:transparent;text-align:left;font-family:inherit;cursor:pointer}.nav-item:hover{background:#edf6fa}.nav-item.disabled{opacity:.52;cursor:default}.nav-item.disabled:hover{background:transparent}.nav-icon{width:22px;text-align:center;font-size:18px}
+.nav-item.active{background:#dceff7;color:#087aa1;border-left:3px solid var(--cyan)}
+.nav-icon{width:24px;text-align:center;font-size:18px}
+.sidebar-footer{margin-top:auto;padding:14px 12px;color:#78909e;font-size:11px;line-height:1.6}
+.main{flex:1;min-width:0;padding:20px 26px 42px}
+.topbar{
+  max-width:1200px;margin:0 auto 18px;background:rgba(255,255,255,.94);
+  border:1px solid rgba(205,224,233,.9);border-radius:12px;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;box-shadow:0 5px 18px rgba(7,63,99,.07)
+}
+.hospital-logo{display:flex;align-items:center;gap:13px}
+.logo-mark{
+  width:48px;height:48px;border-radius:11px;background:linear-gradient(135deg,#0b8aaa,#08738f);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800
+}
+.logo-names{display:flex;align-items:center;gap:20px}
+.hospital-name,.ambulatory-name{font-weight:850;color:var(--navy);letter-spacing:.3px;line-height:1}
+.hospital-name{font-size:24px}.ambulatory-name{font-size:24px}
+.logo-divider{width:1px;height:27px;background:#b8ccd6}
+.top-date{font-size:14px;color:#486979;font-weight:650}
+.content{max-width:1200px;margin:0 auto}
+.page-heading{display:flex;align-items:end;justify-content:space-between;margin:12px 2px 14px}
+.page-heading h1{margin:0;color:#fff;text-shadow:0 2px 10px rgba(0,45,75,.28);font-size:25px}
+.page-heading .date-title{margin:0;color:#eef9fd;font-size:13px;font-weight:650;text-shadow:0 1px 6px #315e70}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.stat{
+ background:rgba(255,255,255,.94);border:1px solid rgba(208,225,233,.95);border-radius:12px;
+ padding:15px 16px;box-shadow:0 5px 16px rgba(7,63,99,.07);display:flex;align-items:center;gap:13px
+}
+.stat-icon{width:42px;height:42px;border-radius:10px;background:#e3f3f8;color:#0781a7;display:flex;align-items:center;justify-content:center;font-size:20px}
+.stat-label{font-size:12px;color:#6b8290;font-weight:700}.stat-value{font-size:23px;font-weight:850;color:var(--navy);margin-top:2px}
+.workspace{display:grid;grid-template-columns:minmax(310px,.82fr) minmax(500px,1.35fr);gap:14px}
+.card{
+ background:rgba(255,255,255,.95);padding:22px;border:1px solid rgba(207,225,233,.95);
+ border-radius:13px;box-shadow:0 7px 20px rgba(7,63,99,.08);margin:0
+}
+.card-title{display:flex;align-items:center;gap:10px;margin:0 0 18px;color:var(--navy);font-size:18px;font-weight:850}
+.card-title .title-icon{color:var(--cyan)}
+label{display:block;font-weight:700;font-size:13px;color:#365b6e;margin-bottom:6px}
+input,select{
+ width:100%;height:44px;margin-bottom:14px;padding:9px 12px;border:1px solid #c9dbe4;
+ border-radius:8px;font-size:15px;background:#fff;color:#173f59
+}
+input:focus,select:focus{outline:none;border-color:#13a6c7;box-shadow:0 0 0 3px rgba(19,166,199,.12)}
+button{
+ width:100%;height:44px;border:0;border-radius:8px;background:linear-gradient(135deg,#0b8aaa,#08738f);
+ color:#fff;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 9px rgba(8,115,143,.2)
+}
+button:hover{filter:brightness(.96)}
+#paymentBox{display:none;margin-bottom:14px;padding:12px 13px;background:#f4fafc;border:1px solid var(--line);border-radius:8px}
+.payment-option{display:flex;align-items:center;gap:8px;margin:7px 0;font-weight:600;font-size:13px}
+.payment-option input{width:16px;height:16px;margin:0;accent-color:var(--cyan)}
+#message{display:none;margin-bottom:12px;padding:10px 13px;border-radius:8px;text-align:center;font-weight:700;font-size:13px}
+.message-success{display:block!important;background:#eaf8f0;color:#17663e;border:1px solid #b9dfc7}
+.message-error{display:block!important;background:#fff1f1;color:#9e3030;border:1px solid #e6bcbc}
+.agenda-card{min-height:520px}
+.agenda-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.agenda-head h2{margin:0;color:var(--navy);font-size:18px}
+.agenda-date{font-size:12px;color:#67818f;font-weight:700}
+#visits{display:flex;flex-direction:column;gap:7px}
+.agenda-slot{display:grid;grid-template-columns:70px minmax(0,1fr);gap:12px;align-items:stretch;min-height:58px}
+.slot-time{display:flex;align-items:center;justify-content:center;color:#557381;font-size:13px;font-weight:850;background:#f1f7f9;border:1px solid #dce8ed;border-radius:8px}
+.slot-body{display:flex;align-items:center;min-width:0;border:1px solid #e0ebf0;border-radius:8px;background:#fbfdfe;padding:9px 11px}
+.slot-empty{color:#9aaeb8;font-size:12px}
+.slot-visit{display:grid;grid-template-columns:minmax(130px,1.1fr) 130px 170px 90px;gap:10px;align-items:center;width:100%;border-left:4px solid #16a5c4}
+.slot-visit.control{border-left-color:#726bd8}
+.visit-name{font-weight:800;color:#244f66;font-size:14px}
+.visit-line{font-size:11px;color:#78909e;margin-top:3px}
+.statusLine{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.visit-type,.payment-paid,.payment-free{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:800}
+.visit-type{background:#e4f3fa;color:#087aa1}
+.payment-paid{background:#fff1d7;color:#996000}
+.payment-free{background:#dff6eb;color:#17734b}
+.delete-button{height:32px;font-size:11px;background:#f4f7f8;color:#8c4b4b;box-shadow:none;border:1px solid #e2e8eb}
+.delete-button:hover{background:#fdecec}
+.empty,.loading{padding:28px;text-align:center;background:#f8fbfc;border:1px dashed #cbdde5;border-radius:9px;color:#748d9a;font-size:13px}
+@media(max-width:1050px){
+ .sidebar{width:190px;flex-basis:190px}.workspace{grid-template-columns:1fr}.agenda-slot{grid-template-columns:58px minmax(0,1fr)}.stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+ .app-shell{display:block}.sidebar{width:100%;display:block;padding:10px 12px}.brand-mini{display:none}
+ .sidebar-footer{display:none}.nav-item{display:inline-flex;margin:2px;font-size:12px;padding:9px}
+ .main{padding:10px 12px 30px}.topbar{padding:12px;display:block}
+ .logo-names{gap:8px;flex-wrap:wrap}.hospital-name,.ambulatory-name{font-size:18px}.logo-divider{display:none}
+ .top-date{margin-top:8px}.stats{grid-template-columns:1fr 1fr}.visit-item{grid-template-columns:55px 1fr 1fr}
+ .visit-line{display:none}.slot-visit{grid-template-columns:1fr auto}.slot-visit .statusLine{grid-column:1}.slot-visit > div:last-child{grid-column:2}.delete-button{grid-column:auto}
+}
+@media(max-width:480px){
+ .stats{grid-template-columns:1fr}.workspace{grid-template-columns:1fr}.agenda-slot{grid-template-columns:58px minmax(0,1fr)}
+ .hospital-logo{align-items:flex-start}.logo-mark{width:42px;height:42px;font-size:24px}
+}
+
+/* Konfirmim fshirjeje */
+.delete-confirm-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.62);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+  backdrop-filter:blur(5px);
+}
+.delete-confirm-overlay.show{display:flex}
+.delete-confirm-card{
+  width:min(430px,100%);
+  background:#16232d;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:26px;
+  box-shadow:0 24px 70px rgba(0,0,0,.45);
+  text-align:center;
+}
+.delete-confirm-icon{
+  width:54px;
+  height:54px;
+  margin:0 auto 14px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(220,70,70,.16);
+  color:#ff8585;
+  font-size:25px;
+}
+.delete-confirm-card h3{margin:0 0 8px;font-size:20px}
+.delete-confirm-card p{
+  margin:0 0 22px;
+  color:#b9c6ce;
+  line-height:1.5;
+}
+.delete-confirm-actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+}
+.delete-confirm-actions button{
+  min-width:120px;
+  border:0;
+  border-radius:10px;
+  padding:11px 16px;
+  font-weight:700;
+  cursor:pointer;
+}
+.delete-cancel-btn{background:#263844;color:#fff}
+.delete-ok-btn{background:#c94b55;color:#fff}
+
+
+/* =========================================================
+   RREGULLIMI I BUTONAVE TE VIZITES
+========================================================= */
+.visit-status-controls{display:flex !important;flex-wrap:wrap !important;gap:8px !important;align-items:center !important;justify-content:flex-start !important;width:100% !important;margin-top:12px !important;position:relative !important;}
+.visit-status-controls button{position:relative !important;display:inline-flex !important;align-items:center !important;justify-content:center !important;flex:0 0 auto !important;width:auto !important;min-width:110px !important;height:38px !important;padding:0 14px !important;margin:0 !important;white-space:nowrap !important;box-sizing:border-box !important;transform:none !important;}
+.visit-status-controls .visit-delete-button{min-width:125px !important;}
+@media(max-width:900px){.visit-status-controls{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;}.visit-status-controls button{width:100% !important;min-width:0 !important;}}
+@media(max-width:600px){.visit-status-controls{grid-template-columns:1fr !important;}}
+
+</style>
+
+<style id="step5-date-nav">
+.date-navigation{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin:0 0 18px;
+    padding:12px;
+    background:#f5f9fb;
+    border:1px solid #d8e4e9;
+    border-radius:10px;
+}
+.date-navigation button{
+    width:auto;
+    min-width:110px;
+    height:40px;
+    padding:0 15px;
+    font-size:13px;
+    box-shadow:none;
+}
+.date-navigation .today-button{
+    background:#fff;
+    color:#176b8c;
+    border:1px solid #bcd1da;
+}
+.date-navigation .today-button:hover{
+    background:#edf7f9;
+}
+.selected-date{
+    text-align:center;
+    flex:1;
+}
+.selected-date .date-main{
+    display:block;
+    color:#123b52;
+    font-size:17px;
+    font-weight:800;
+    text-transform:capitalize;
+}
+.selected-date .date-iso{
+    display:block;
+    color:#7a8d97;
+    font-size:11px;
+    margin-top:3px;
+}
+@media(max-width:620px){
+    .date-navigation{gap:7px;padding:9px}
+    .date-navigation button{min-width:0;padding:0 9px}
+    .selected-date .date-main{font-size:14px}
+}
+</style>
+
+
+
+<style id="agenda-search-style">
+.agenda-search{display:flex;align-items:center;gap:8px;margin:0 0 9px;background:rgba(7,27,42,.92);border:1px solid rgba(122,184,211,.22);border-radius:10px;padding:0 10px}
+.agenda-search-icon{color:#6ed8e8;font-size:20px;line-height:1}
+.agenda-search input{flex:1!important;margin:0!important;height:42px!important;border:0!important;background:transparent!important;box-shadow:none!important;padding:8px 4px!important}
+.agenda-search input:focus{box-shadow:none!important;border:0!important}
+.agenda-search button{width:28px;height:28px;padding:0;border-radius:50%;border:1px solid rgba(122,184,211,.2);background:rgba(255,255,255,.05);color:#9fb8c6;font-size:20px;line-height:1;cursor:pointer}
+.agenda-search button:hover{background:rgba(24,185,210,.12);color:#fff}
+.agenda-search-info{min-height:18px;margin:0 2px 5px;color:#7397a9;font-size:11px}
+</style>
+<style id="step6-status">
+.visit-item{
+    position:relative;
+    transition:transform .15s ease, box-shadow .15s ease;
+    border:1px solid #d8e4e9 !important;
+}
+.visit-item.status-arrived{
+    background:#c9f2d2 !important;
+    border-color:#72c982 !important;
+}
+.visit-item.status-finished{
+    background:#fff0a8 !important;
+    border-color:#e1c34d !important;
+}
+.visit-item.status-cancelled{
+    background:#d9dee1 !important;
+    border-color:#aab3b8 !important;
+    opacity:.9;
+}
+.visit-status-controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:10px;
+}
+.visit-status-button,.visit-delete-button{
+    border:1px solid #ccd9df;
+    background:rgba(255,255,255,.9);
+    color:#244554;
+    border-radius:7px;
+    padding:7px 10px;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+}
+.visit-status-button.active{
+    box-shadow:0 0 0 2px rgba(22,106,139,.12);
+}
+.visit-status-button.arrived.active{
+    border-color:#28a745;
+    background:#eaf8ed;
+    color:#18752f;
+}
+.visit-status-button.finished.active{
+    border-color:#e2b400;
+    background:#fff6d8;
+    color:#806500;
+}
+.visit-status-button.cancelled.active{
+    border-color:#8a959d;
+    background:#e9edef;
+    color:#4f5b62;
+}
+.visit-delete-button{
+    margin-left:auto;
+    border-color:#e2b8b8;
+    color:#a53a3a;
+}
+.status-badge{
+    display:inline-block;
+    margin-left:7px;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:800;
+}
+.status-badge.arrived{background:#b2e8bd;color:#146b2b}
+.status-badge.finished{background:#ffe27a;color:#735d00}
+.status-badge.cancelled{background:#c3cbd0;color:#465158}
+</style>
+
+
+<style id="gvm-dark-premium">
+:root{
+  --dp-bg:#071522;
+  --dp-panel:#0d2131;
+  --dp-panel2:#102b3e;
+  --dp-line:rgba(132,190,218,.18);
+  --dp-text:#edf8ff;
+  --dp-muted:#9bb5c5;
+  --dp-blue:#168bd1;
+  --dp-cyan:#18b9d2;
+}
+html,body{min-height:100%}
+body{
+  color:var(--dp-text)!important;
+  background:#06121d url("hospital-bg.png") center top/cover fixed no-repeat!important;
+}
+body:before{
+  background:
+    linear-gradient(90deg,rgba(4,15,26,.94) 0%,rgba(5,22,36,.90) 42%,rgba(6,24,38,.72) 100%)!important;
+}
+.app-shell{min-height:100vh}
+.sidebar{
+  width:225px;flex-basis:225px;
+  background:linear-gradient(180deg,rgba(4,20,34,.97),rgba(5,28,45,.94))!important;
+  border-right:1px solid rgba(88,170,205,.18)!important;
+  box-shadow:8px 0 30px rgba(0,0,0,.24)!important;
+  padding:20px 13px!important;
+}
+.brand-mini{
+  border-bottom:1px solid var(--dp-line)!important;
+  padding:5px 13px 22px!important;
+}
+.brand-mini strong{color:#fff!important;font-size:19px!important;letter-spacing:1px}
+.brand-mini span{color:#79cce3!important}
+.nav-item{
+  color:#b9d2df!important;
+  border-radius:10px!important;
+  margin:4px 0!important;
+}
+.nav-item:hover{background:rgba(24,139,209,.12)!important}
+.nav-item.active{
+  color:#fff!important;
+  background:linear-gradient(90deg,#0878bb,#12669a)!important;
+  border-left:3px solid #29c4df!important;
+  box-shadow:0 7px 18px rgba(0,0,0,.18)
+}
+.nav-icon{color:#8bd9eb}
+.sidebar-footer{color:#6e93a7!important}
+
+.main{padding:18px 24px 40px!important}
+.topbar{
+  max-width:1220px!important;
+  min-height:112px;
+  margin:0 auto 18px!important;
+  padding:18px 24px!important;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(6,27,43,.96) 0%,rgba(7,32,49,.80) 48%,rgba(7,32,49,.38) 100%),
+    url("hospital-bg.png") center 42%/cover no-repeat!important;
+  border:1px solid rgba(139,205,229,.20)!important;
+  border-radius:16px!important;
+  box-shadow:0 14px 36px rgba(0,0,0,.25)!important;
+}
+.topbar:after{
+  content:"";
+  position:absolute;right:-80px;top:-120px;width:360px;height:360px;
+  border-radius:50%;border:1px solid rgba(68,205,229,.18);
+  box-shadow:0 0 0 40px rgba(68,205,229,.025),0 0 0 80px rgba(68,205,229,.02);
+}
+.hospital-logo{position:relative;z-index:1}
+.logo-mark{
+  background:linear-gradient(135deg,#13a6c7,#1677bd)!important;
+  border:1px solid rgba(255,255,255,.20);
+  box-shadow:0 8px 22px rgba(13,143,174,.30)
+}
+.hospital-name,.ambulatory-name{color:#fff!important}
+.logo-divider{background:rgba(190,225,237,.35)!important}
+.top-date{color:#b6d0de!important;position:relative;z-index:1}
+
+.content{max-width:1220px!important}
+.page-heading{margin:10px 2px 15px!important}
+.page-heading h1{color:#fff!important;font-size:26px!important}
+.page-heading .date-title{color:#a9cad9!important}
+
+.date-navigation{
+  background:rgba(9,30,46,.82)!important;
+  border:1px solid var(--dp-line)!important;
+  border-radius:12px!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+}
+.date-navigation button{
+  background:linear-gradient(135deg,#117bbd,#0b5e91)!important;
+  color:#fff!important;
+  border:1px solid rgba(126,210,232,.20)!important;
+}
+.date-navigation .today-button{
+  background:rgba(255,255,255,.06)!important;
+  color:#bdeaf5!important;
+  border:1px solid rgba(126,210,232,.22)!important;
+}
+.selected-date .date-main{color:#eaf8ff!important}
+.selected-date .date-iso{color:#86a7b8!important}
+
+.stats{gap:12px!important}
+.stat{
+  background:linear-gradient(145deg,rgba(15,42,61,.97),rgba(9,29,44,.97))!important;
+  border:1px solid var(--dp-line)!important;
+  box-shadow:0 9px 24px rgba(0,0,0,.18)!important;
+}
+.stat-icon{
+  background:rgba(24,185,210,.12)!important;
+  color:#62d8e8!important;
+  border:1px solid rgba(24,185,210,.18)
+}
+.stat-label{color:#8eacbc!important}
+.stat-value{color:#f2fbff!important}
+
+.workspace{
+  grid-template-columns:minmax(0,1fr) minmax(320px,365px)!important;
+  gap:15px!important;
+}
+.workspace .agenda-card{order:1}
+.workspace>.card:not(.agenda-card){order:2}
+
+.card{
+  background:linear-gradient(145deg,rgba(13,34,50,.97),rgba(8,26,40,.97))!important;
+  border:1px solid var(--dp-line)!important;
+  border-radius:15px!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.22)!important;
+  color:var(--dp-text)!important;
+}
+.card-title,.agenda-head h2{color:#eefaff!important}
+.card-title .title-icon{color:#49cce0!important}
+label{color:#b7d0dd!important}
+input,select{
+  background:#071b2a!important;
+  color:#edf8ff!important;
+  border:1px solid rgba(122,184,211,.25)!important;
+}
+input::placeholder{color:#66899b!important}
+input:focus,select:focus{
+  border-color:#22b9d4!important;
+  box-shadow:0 0 0 3px rgba(34,185,212,.10)!important
+}
+#paymentBox{
+  background:rgba(24,185,210,.06)!important;
+  border:1px solid rgba(24,185,210,.18)!important;
+}
+.payment-option{color:#c5dbe5!important}
+#message.message-success{background:rgba(45,181,111,.13)!important;color:#80e2ad!important;border-color:rgba(90,218,145,.28)!important}
+#message.message-error{background:rgba(225,70,83,.13)!important;color:#ff9ca4!important;border-color:rgba(225,70,83,.28)!important}
+
+.agenda-card{min-height:520px}
+.agenda-date{color:#82a8b9!important}
+#visits{gap:8px!important}
+.agenda-slot{grid-template-columns:72px minmax(0,1fr)!important;gap:10px!important}
+.slot-time{
+  color:#b9d4df!important;
+  background:#0a2233!important;
+  border:1px solid rgba(116,183,209,.18)!important;
+}
+.slot-body{
+  background:rgba(7,24,37,.76)!important;
+  border:1px solid rgba(116,183,209,.16)!important;
+  border-radius:9px!important;
+  padding:9px 11px!important;
+}
+.slot-empty{color:#67899a!important}
+
+.visit-item{
+  display:grid!important;
+  grid-template-columns:72px minmax(150px,1.15fr) minmax(105px,.8fr) minmax(170px,1.1fr) minmax(240px,auto)!important;
+  align-items:center!important;
+  gap:10px!important;
+  width:100%!important;
+  min-height:62px!important;
+  padding:9px 11px!important;
+  border:1px solid rgba(137,194,216,.16)!important;
+  border-radius:10px!important;
+  background:linear-gradient(145deg,#0d293d,#0b2234)!important;
+  box-shadow:0 5px 15px rgba(0,0,0,.14)!important;
+}
+.visit-item:hover{transform:translateY(-1px);box-shadow:0 9px 20px rgba(0,0,0,.20)!important}
+.visit-item.status-arrived{background:linear-gradient(90deg,rgba(30,125,82,.75),rgba(17,65,58,.90))!important;border-color:rgba(83,220,154,.40)!important}
+.visit-item.status-finished{background:linear-gradient(90deg,rgba(160,121,25,.72),rgba(66,54,25,.90))!important;border-color:rgba(238,206,84,.40)!important}
+.visit-item.status-cancelled{background:linear-gradient(90deg,rgba(75,86,94,.86),rgba(37,48,57,.94))!important;border-color:rgba(174,190,200,.28)!important;opacity:.88}
+
+.visit-time{font-size:14px!important;font-weight:900!important;color:#eaf8ff!important;text-align:center!important}
+.visit-name{color:#eefaff!important;font-size:14px!important}
+.visit-line{color:#88a9b9!important}
+.visit-line strong{color:#a9c5d2}
+.statusLine{gap:5px!important}
+.visit-type,.payment-paid,.payment-free,.status-badge{border:1px solid rgba(255,255,255,.12)!important}
+.visit-type{background:rgba(33,165,210,.15)!important;color:#83def1!important}
+.payment-paid{background:rgba(221,164,44,.17)!important;color:#ffd878!important}
+.payment-free{background:rgba(47,190,125,.15)!important;color:#83e5b5!important}
+.status-badge.arrived{background:rgba(75,218,148,.20)!important;color:#8af0ba!important}
+.status-badge.finished{background:rgba(244,210,74,.18)!important;color:#ffe685!important}
+.status-badge.cancelled{background:rgba(184,198,207,.14)!important;color:#c9d4da!important}
+.status-badge{color:#a9c2cf}
+
+.visit-status-controls{justify-content:flex-end!important;margin-top:0!important}
+.visit-status-button,.visit-delete-button{
+  background:rgba(4,17,28,.42)!important;
+  color:#c7dce5!important;
+  border:1px solid rgba(137,194,216,.20)!important;
+}
+.visit-status-button.arrived.active{background:rgba(45,190,120,.20)!important;color:#8af0ba!important;border-color:rgba(83,220,154,.38)!important}
+.visit-status-button.finished.active{background:rgba(230,193,49,.18)!important;color:#ffe685!important;border-color:rgba(238,206,84,.38)!important}
+.visit-status-button.cancelled.active{background:rgba(180,193,201,.16)!important;color:#d0d9de!important;border-color:rgba(174,190,200,.28)!important}
+.visit-delete-button{color:#ff9ca4!important;border-color:rgba(225,95,105,.25)!important}
+
+.empty,.loading{
+  background:rgba(6,22,34,.72)!important;
+  border:1px dashed rgba(125,180,201,.22)!important;
+  color:#7698a9!important;
+}
+
+#saveButton{
+  background:linear-gradient(135deg,#1599cf,#0b6faf)!important;
+  border:1px solid rgba(120,220,240,.20)!important;
+  box-shadow:0 8px 20px rgba(7,111,175,.22)!important;
+}
+#saveButton:hover{filter:brightness(1.08)}
+
+@media(max-width:1050px){
+  .workspace{grid-template-columns:1fr!important}
+  .workspace .agenda-card{order:1}
+  .workspace>.card:not(.agenda-card){order:2}
+  .visit-item{grid-template-columns:60px 1fr 1fr!important}
+  .visit-status-controls{grid-column:1/-1;justify-content:flex-start!important}
+}
+@media(max-width:760px){
+  .sidebar{background:rgba(4,20,34,.98)!important}
+  .main{padding:10px 12px 30px!important}
+  .topbar{min-height:92px!important;padding:14px!important}
+  .visit-item{grid-template-columns:58px 1fr 1fr!important}
+  .visit-status-controls{grid-column:1/-1}
+}
+@media(max-width:480px){
+  .visit-item{grid-template-columns:55px 1fr!important}
+  .visit-time{grid-row:1/2}
+  .visit-status-controls{grid-column:1/-1}
+}
+</style>
+
+
+<style id="professional-agenda-style">
+/* Agjenda me orare fikse 08:00-17:00 */
+#visits{display:flex!important;flex-direction:column!important;gap:7px!important}
+.agenda-slot{display:grid!important;grid-template-columns:72px minmax(0,1fr)!important;gap:10px!important;align-items:stretch!important;min-height:64px!important}
+.slot-time{display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;background:rgba(10,35,52,.92)!important;border:1px solid rgba(118,185,209,.18)!important;color:#a9d1df!important;font-size:13px!important;font-weight:900!important}
+.slot-body{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important;gap:7px!important;min-width:0!important;padding:6px!important;border-radius:10px!important;background:rgba(6,24,37,.58)!important;border:1px solid rgba(118,185,209,.13)!important}
+.slot-empty{display:flex!important;align-items:center!important;min-height:48px!important;padding:0 12px!important;color:#587787!important;font-size:12px!important;font-weight:600!important}
+.slot-body .visit-item{margin:0!important;width:100%!important;box-sizing:border-box!important}
+@media(max-width:760px){
+  .agenda-slot{grid-template-columns:58px minmax(0,1fr)!important;gap:7px!important}
+  .slot-time{font-size:12px!important}
+  .slot-body{padding:5px!important}
+}
+@media(max-width:430px){
+  .agenda-slot{grid-template-columns:54px minmax(0,1fr)!important}
+}
+</style>
+<style id="edit-visit-style">
+.edit-modal{position:fixed;inset:0;background:rgba(2,12,20,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.edit-modal.show{display:flex}.edit-box{width:min(480px,100%);background:#10232d;border:1px solid rgba(120,190,210,.22);border-radius:18px;box-shadow:0 25px 70px rgba(0,0,0,.5);padding:24px;color:#eef8fb}.edit-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.edit-head h3{margin:0;font-size:20px}.edit-close{border:0;background:rgba(255,255,255,.08);color:#d9edf2;width:34px;height:34px;border-radius:9px;font-size:20px;cursor:pointer}.edit-box label{display:block;margin:11px 0 6px;color:#a9c3cc;font-size:12px;font-weight:700}.edit-box input,.edit-box select{width:100%;box-sizing:border-box;background:#0b1a22;color:#eef8fb;border:1px solid rgba(140,190,205,.2);border-radius:9px;padding:11px 12px;outline:none}.edit-payment{display:none;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:9px;margin-top:8px}.edit-payment label{display:flex;gap:8px;align-items:center;margin:7px 0;color:#dcecf0;font-weight:600}.edit-actions{display:flex;gap:10px;margin-top:20px}.edit-actions button{flex:1;border-radius:9px;padding:11px;border:1px solid rgba(130,180,195,.2);font-weight:800;cursor:pointer}.edit-save{background:#3bbd8a;color:#062017}.edit-cancel{background:rgba(255,255,255,.06);color:#dcecf0}
+</style>
+
+<style id="final-button-overlap-fix">
+/* Rregullim përfundimtar: butonat e veprimeve zënë një rresht të plotë */
+.visit-item > .visit-status-controls{
+  grid-column:1 / -1 !important;
+  width:100% !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:8px !important;
+  margin-top:6px !important;
+  min-width:0 !important;
+}
+.visit-item > .visit-status-controls > button{
+  position:static !important;
+  display:inline-flex !important;
+  flex:0 0 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:36px !important;
+  padding:0 13px !important;
+  margin:0 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  overflow:visible !important;
+}
+.visit-item > .visit-status-controls > .visit-delete-button{
+  margin-left:0 !important;
+}
+@media(max-width:700px){
+  .visit-item > .visit-status-controls{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:8px !important;
+  }
+  .visit-item > .visit-status-controls > button{
+    width:100% !important;
+  }
+}
+@media(max-width:430px){
+  .visit-item > .visit-status-controls{
+    grid-template-columns:1fr !important;
+  }
+}
+
+<style id="logout-style">
+.logout-nav{
+  margin-top:10px !important;
+  color:#ff9ca4 !important;
+  border:1px solid rgba(225,95,105,.18) !important;
+  background:rgba(225,70,83,.06) !important;
+}
+.logout-nav:hover{
+  background:rgba(225,70,83,.14) !important;
+  color:#fff !important;
+}
+.logout-nav .nav-icon{color:#ff9ca4 !important}
+.logout-nav:hover .nav-icon{color:#fff !important}
+</style>
+<style id="date-picker-style">
+.date-picker-wrap{display:flex;align-items:center;gap:7px}
+.date-picker-wrap label{color:#6d8794;font-size:11px;white-space:nowrap}
+.date-picker-wrap input{width:145px!important;height:40px!important;margin:0!important;padding:0 9px!important;border:1px solid #bcd1da!important;border-radius:8px!important;background:#fff!important;color:#123b52!important;box-shadow:none!important}
+@media(max-width:900px){.date-navigation{flex-wrap:wrap}.date-picker-wrap{order:5;width:100%;justify-content:center}}
+@media(max-width:620px){.date-picker-wrap input{width:135px!important}}
+</style>
+
+<style id="status-filter-style">
+.status-filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px;padding:9px;background:rgba(7,27,42,.92);border:1px solid rgba(122,184,211,.22);border-radius:10px}
+.status-filter-btn{width:auto!important;min-width:0!important;height:36px!important;padding:0 12px!important;margin:0!important;border:1px solid rgba(122,184,211,.20)!important;border-radius:9px!important;background:rgba(255,255,255,.04)!important;color:#9fb8c6!important;box-shadow:none!important;font-size:12px!important;font-weight:700!important;cursor:pointer}
+.status-filter-btn:hover{background:rgba(24,185,210,.10)!important;color:#fff!important}
+.status-filter-btn.active{background:#167d98!important;border-color:#36b7d0!important;color:#fff!important}
+@media(max-width:620px){.status-filters{gap:6px}.status-filter-btn{flex:1 1 calc(50% - 6px)!important}}
+</style>
+
+<style id="mobile-friendly-gvm">
+/* =========================================================
+   MOBILE FRIENDLY – AMBULATORI GVM
+========================================================= */
+html, body{
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+@media (max-width: 760px){
+  .app-shell{min-height:100vh;}
+
+  .sidebar{
+    position:relative!important;
+    width:100%!important;
+    min-width:0!important;
+    padding:10px 10px!important;
+    overflow:hidden!important;
+  }
+
+  .sidebar .nav{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    gap:6px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    padding-bottom:3px!important;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .sidebar .nav::-webkit-scrollbar{display:none;}
+  .nav-item{
+    flex:0 0 auto!important;
+    white-space:nowrap!important;
+    margin:0!important;
+  }
+
+  .main{
+    width:100%!important;
+    box-sizing:border-box!important;
+    padding:10px!important;
+  }
+
+  .topbar{
+    border-radius:12px!important;
+    margin-bottom:10px!important;
+  }
+
+  .hospital-logo{
+    max-width:100%;
+  }
+
+  .page-heading h1{
+    font-size:22px!important;
+    line-height:1.2!important;
+  }
+
+  .date-navigation{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:7px!important;
+    width:100%!important;
+  }
+  .date-navigation .selected-date{
+    grid-column:1/-1!important;
+    grid-row:1!important;
+    width:100%!important;
+    box-sizing:border-box!important;
+    text-align:center!important;
+  }
+  .date-navigation #prevDate{grid-column:1!important;grid-row:2!important;}
+  .date-navigation #nextDate{grid-column:2!important;grid-row:2!important;}
+  .date-navigation #todayButton{
+    grid-column:1/-1!important;
+    grid-row:3!important;
+  }
+
+  .stats-expanded{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+  .stat{
+    min-width:0!important;
+    padding:11px!important;
+  }
+  .stat-label{font-size:11px!important;}
+  .stat-value{font-size:22px!important;}
+
+  .workspace{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:10px!important;
+  }
+  .workspace .agenda-card{order:1!important;}
+  .workspace>.card:not(.agenda-card){order:2!important;}
+
+  .card{
+    min-width:0!important;
+    border-radius:13px!important;
+  }
+
+  .agenda-head{
+    align-items:flex-start!important;
+    gap:8px!important;
+  }
+  .agenda-head h2{
+    font-size:16px!important;
+  }
+
+  .agenda-slot{
+    grid-template-columns:58px minmax(0,1fr)!important;
+    gap:7px!important;
+  }
+  .slot-time{
+    font-size:12px!important;
+    padding:8px 3px!important;
+  }
+
+  .visit-item{
+    grid-template-columns:64px minmax(0,1fr)!important;
+    gap:8px!important;
+    padding:10px!important;
+    min-width:0!important;
+  }
+  .visit-time{
+    grid-column:1!important;
+    grid-row:1!important;
+    align-self:start!important;
+    font-size:13px!important;
+  }
+  .visit-name{
+    grid-column:2!important;
+    grid-row:1!important;
+    min-width:0!important;
+    overflow-wrap:anywhere!important;
+    font-size:14px!important;
+  }
+  .visit-line{
+    grid-column:2!important;
+    grid-row:2!important;
+    min-width:0!important;
+    overflow-wrap:anywhere!important;
+    font-size:12px!important;
+  }
+  .statusLine{
+    grid-column:1/-1!important;
+    grid-row:3!important;
+    display:flex!important;
+    flex-wrap:wrap!important;
+    gap:5px!important;
+    min-width:0!important;
+  }
+  .visit-status-controls{
+    grid-column:1/-1!important;
+    grid-row:4!important;
+    width:100%!important;
+  }
+
+  .visit-status-controls button{
+    min-height:38px!important;
+    font-size:12px!important;
+    padding:0 9px!important;
+  }
+
+  .agenda-search input{
+    min-width:0!important;
+    font-size:14px!important;
+  }
+
+  #patientName,#cardNumber,#appointmentTime,#visitType,#saveButton{
+    width:100%!important;
+    box-sizing:border-box!important;
+  }
+}
+
+@media (max-width: 430px){
+  .main{padding:8px!important;}
+  .stats-expanded{grid-template-columns:1fr 1fr!important;}
+  .stat{padding:9px!important;}
+  .stat-icon{display:none!important;}
+  .stat-value{font-size:20px!important;}
+  .page-heading h1{font-size:20px!important;}
+  .visit-item{grid-template-columns:58px minmax(0,1fr)!important;}
+  .visit-status-controls{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+  }
+  .visit-status-controls button{width:100%!important;}
+  .edit-modal{padding:10px!important;}
+  .edit-box{padding:17px!important;border-radius:14px!important;}
+}
+
+@media (max-width: 360px){
+  .stats-expanded{grid-template-columns:1fr!important;}
+  .date-navigation button{font-size:11px!important;padding:9px 7px!important;}
+  .visit-item{grid-template-columns:54px minmax(0,1fr)!important;}
+}
+</style>
+
+
+<style>
+.patient-search-wrap{position:relative;width:100%;}
+.patient-suggestions{display:none;position:absolute;z-index:9999;left:0;right:0;top:calc(100% + 5px);background:#102b3e;border:1px solid rgba(24,185,210,.35);border-radius:10px;box-shadow:0 14px 35px rgba(0,0,0,.35);max-height:260px;overflow-y:auto;}
+.patient-suggestion{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 13px;cursor:pointer;border-bottom:1px solid rgba(132,190,218,.10);color:#edf8ff;}
+.patient-suggestion:last-child{border-bottom:0;}
+.patient-suggestion:hover{background:#15394f;}
+.patient-suggestion-name{font-weight:700;}
+.patient-suggestion-card{font-size:12px;color:#18b9d2;white-space:nowrap;}
+.patient-suggestion-empty{padding:12px;color:#9bb5c5;font-size:13px;}
+</style>
+<style id="premium-calendar-only">
+.date-navigation{display:flex!important;align-items:center!important;justify-content:center!important;gap:18px!important;margin:0 0 18px!important;padding:14px 18px!important;background:rgba(7,22,35,.72)!important;border:1px solid rgba(91,192,220,.16)!important;border-radius:16px!important;box-shadow:0 10px 30px rgba(0,0,0,.18)!important;position:relative!important;flex-wrap:wrap!important}
+.date-navigation:before{content:"KALENDARI I AGJENDËS";position:absolute;left:18px;top:9px;color:#6f9bad;font-size:9px;font-weight:800;letter-spacing:1.8px}
+.date-navigation button{width:42px!important;min-width:42px!important;height:42px!important;padding:0!important;margin:9px 0 0!important;border-radius:12px!important;background:rgba(18,137,174,.13)!important;color:#9fe8f5!important;border:1px solid rgba(74,202,227,.22)!important;box-shadow:none!important;font-size:20px!important}
+.date-navigation button:hover{background:rgba(24,185,210,.22)!important;color:#fff!important;transform:translateY(-1px)}
+.date-navigation #prevDate{font-size:0!important}.date-navigation #prevDate:after{content:'‹';font-size:28px!important;line-height:1}
+.date-navigation #nextDate{font-size:0!important}.date-navigation #nextDate:after{content:'›';font-size:28px!important;line-height:1}
+.date-navigation .today-button{width:auto!important;min-width:58px!important;padding:0 14px!important;font-size:11px!important;font-weight:800!important;letter-spacing:.3px!important;background:rgba(255,255,255,.045)!important;color:#bfeaf3!important;border-color:rgba(125,198,218,.2)!important}
+.selected-date{order:0!important;flex:0 1 330px!important;text-align:center!important;margin:9px 0 0!important}
+.selected-date .date-main{display:block!important;color:#f2fbff!important;font-size:24px!important;font-weight:900!important;letter-spacing:.4px!important;text-transform:uppercase!important;line-height:1.15!important}
+.selected-date .date-iso{display:block!important;color:#6f9bad!important;font-size:10px!important;margin-top:4px!important;letter-spacing:1.2px!important}
+.date-picker-wrap{margin:9px 0 0!important}.date-picker-wrap label{display:none!important}.date-picker-wrap input{width:42px!important;height:42px!important;padding:0!important;background:rgba(18,137,174,.13)!important;border:1px solid rgba(74,202,227,.22)!important;color:#9fe8f5!important;border-radius:12px!important;font-size:0!important;cursor:pointer!important}
+@media(max-width:620px){.date-navigation{gap:7px!important;padding:13px 9px!important}.date-navigation:before{left:12px}.selected-date{flex:1 1 100%!important;order:-1!important}.selected-date .date-main{font-size:20px!important}.date-navigation button,.date-picker-wrap input{margin-top:13px!important}.date-navigation .today-button{min-width:54px!important;padding:0 10px!important}}
+</style>
+
+<style id="patients-module-style">
+#patientsPanel{margin-top:15px}
+.patients-toolbar{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.patients-toolbar input{flex:1;margin:0}
+.patients-count{color:#86a7b8;font-size:12px;white-space:nowrap}
+.patients-table-wrap{overflow:auto;border:1px solid rgba(132,190,218,.14);border-radius:11px}
+.patients-table{width:100%;border-collapse:collapse;min-width:620px}
+.patients-table th{padding:11px 13px;text-align:left;background:#0a2233;color:#8fb5c6;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.patients-table td{padding:11px 13px;border-top:1px solid rgba(132,190,218,.10);color:#e7f5fa;font-size:13px}
+.patients-table tr:hover td{background:rgba(24,185,210,.045)}
+.patient-card-main{font-weight:800;color:#eefaff}
+.patient-empty{padding:28px;text-align:center;color:#789aaa}
+.patients-pagination{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:12px}
+.patients-pagination button{width:auto;min-width:90px;height:36px;padding:0 12px;font-size:12px}
+.patients-pagination button:disabled{opacity:.45;cursor:default}
+.patients-page-info{color:#8aa9b9;font-size:12px}
+@media(max-width:700px){
+  .patients-toolbar{display:block}
+  .patients-toolbar input{margin-bottom:8px}
+  .patients-count{display:block}
+}
+</style>
+
 </head>
-
 <body>
 
-<div class="app">
-
-  <!-- SIDEBAR -->
+<div class="app-shell">
   <aside class="sidebar">
-
-    <div class="brand">
-      <div class="brand-main">GVM</div>
-      <div class="brand-sub">Care & Health</div>
+    <div class="brand-mini">
+      <strong>SPITALI GVM</strong>
+      <span>AMBULATORI GVM</span>
     </div>
-
-    <div class="nav-title">Menu</div>
-
-    <button class="nav-item active" type="button">
-      <span class="nav-icon">▦</span>
-      <span class="nav-text">Agjenda</span>
-    </button>
-
-    <button class="nav-item" type="button" onclick="window.location.reload()">
-      <span class="nav-icon">↻</span>
-      <span class="nav-text">Rifresko</span>
-    </button>
-
-    <div class="sidebar-bottom">
-      <div class="sidebar-bottom-title">Sistemi</div>
-      <div class="sidebar-bottom-text">Agjenda e vizitave</div>
+    <button class="nav-item active" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+    <button class="nav-item" type="button" onclick="document.querySelector('.agenda-card').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">▣</span><span>Agjenda</span></button>
+    <button class="nav-item" type="button" onclick="document.querySelector('#visits').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">♙</span><span>Vizitat</span></button>
+    <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⌕</span><span>Kërko</span></button>
+    <button class="nav-item" type="button" onclick="window.location.href='reports.html'"><span class="nav-icon">▥</span><span>Raporte</span></button>
+    <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⚙</span><span>Cilësimet</span></button>
+    <button class="nav-item logout-nav" id="logoutButton" type="button"><span class="nav-icon">↪</span><span>Dil</span></button>
+    <div class="sidebar-footer">
+      SPITALI GVM<br>AMBULATORI GVM<br>Sistemi i Menaxhimit të Vizitave
     </div>
-
   </aside>
 
-
-  <!-- MAIN -->
   <main class="main">
+    <header class="topbar">
+      <div class="hospital-logo">
+        <div class="logo-mark">✚</div>
+        <div class="logo-names">
+          <div class="hospital-name">SPITALI GVM</div>
+          <div class="logo-divider"></div>
+          <div class="ambulatory-name">AMBULATORI GVM</div>
+        </div>
+      </div>
+      <div class="top-date" id="topDate"></div>
+    </header>
 
-    <div class="topbar">
+    <div class="content">
+      <div class="page-heading">
+        <h1>Paneli i Ambulatorit</h1>
+        
+<div class="date-navigation">
+    <button type="button" id="prevDate">← Dita e mëparshme</button>
+    <button type="button" class="today-button" id="todayButton">Sot</button>
+    <div class="date-picker-wrap">
+        <label for="datePicker">Zgjidh datën</label>
+        <input type="date" id="datePicker">
+    </div>
+    <div class="selected-date">
+        <span class="date-main" id="selectedDateLabel"></span>
+        <span class="date-iso" id="selectedDateIso"></span>
+    </div>
+    <button type="button" id="nextDate">Dita tjetër →</button>
+</div>
 
-      <div class="page-title">
-        <h1>Agjenda</h1>
-        <p>Menaxhimi i vizitave të planifikuara</p>
+    <div id="todayDate" class="date-title"></div>
       </div>
 
-      <button
-        type="button"
-        class="today-button"
-        onclick="goToday()">
-        Sot
-      </button>
+      <div id="message"></div>
 
-    </div>
+      <div class="workspace">
+        <section class="card">
+          <div class="card-title"><span class="title-icon">＋</span> Shto Vizitë të Re</div>
 
+          <label for="patientName">Emër + Mbiemër *</label>
+          <div class="patient-search-wrap"><input type="text" id="patientName" placeholder="Shkruani emrin dhe mbiemrin" autocomplete="off"><div id="patientSuggestions" class="patient-suggestions"></div></div>
 
-    <!-- DATE PANEL -->
-    <section class="date-panel">
+          <label for="visitType">Lloji i vizitës *</label>
+          <select id="visitType">
+            <option value="Vizitë">Vizitë</option>
+            <option value="Rikontroll">Rikontroll</option>
+          </select>
 
-      <div class="date-header">
-
-        <div class="date-header-left">
-          <div>
-            <div class="date-title" id="selectedDateTitle">
-              Agjenda
-            </div>
-            <div class="date-subtitle" id="selectedDateSubtitle">
-              -
-            </div>
+          <div id="paymentBox">
+            <label>Pagesa (vetëm për Rikontroll)</label>
+            <label class="payment-option"><input type="radio" name="payment" value="Me pagesë"><span>Me pagesë</span></label>
+            <label class="payment-option"><input type="radio" name="payment" value="Pa pagesë"><span>Pa pagesë</span></label>
           </div>
-        </div>
 
-        <div class="date-navigation">
-          <button
-            type="button"
-            class="date-arrow"
-            onclick="changeDate(-1)"
-            aria-label="Dita e mëparshme">
-            ‹
-          </button>
+          <label for="cardNumber">Nr. kartelës <span style="font-weight:500;color:#8aa0aa">(opsionale)</span></label>
+          <input type="text" id="cardNumber" placeholder="Shkruani nr. e kartelës" autocomplete="off">
 
-          <button
-            type="button"
-            class="date-arrow"
-            onclick="changeDate(1)"
-            aria-label="Dita tjetër">
-            ›
-          </button>
-        </div>
+          <label for="appointmentTime">Orari *</label>
+          <select id="appointmentTime"><option value="">Zgjidh orën</option></select>
 
+          <button id="saveButton" type="button">＋ &nbsp; Ruaj Vizitën</button>
+        </section>
+
+        <section class="card agenda-card">
+          <div class="agenda-head">
+            <h2>▣ &nbsp; Agjenda e Ditës</h2>
+            <div class="agenda-date">08:00 — 17:00</div>
+          </div>
+          <div class="agenda-search">
+            <span class="agenda-search-icon">⌕</span>
+            <input id="agendaSearch" type="search" placeholder="Kërko pacientin ose nr. e kartelës..." autocomplete="off">
+            <button id="clearAgendaSearch" type="button" title="Pastro kërkimin">×</button>
+          </div>
+          <div id="agendaSearchInfo" class="agenda-search-info"></div>
+          <div class="status-filters" id="statusFilters">
+            <button type="button" class="status-filter-btn active" data-status-filter="all">Të gjitha</button>
+            <button type="button" class="status-filter-btn" data-status-filter="scheduled">Në pritje</button>
+            <button type="button" class="status-filter-btn" data-status-filter="arrived">Ka ardhur</button>
+            <button type="button" class="status-filter-btn" data-status-filter="finished">Ka mbaruar</button>
+            <button type="button" class="status-filter-btn" data-status-filter="cancelled">Anulluar</button>
+          </div>
+          <div id="visits">
+            <div class="loading">Po ngarkohen vizitat...</div>
+          </div>
+        </section>
       </div>
-
-      <div class="dates" id="dateCards"></div>
-
-    </section>
-
-
-    <!-- MAIN GRID -->
-    <div class="content-grid">
-
-
-      <!-- NEW APPOINTMENT -->
-      <section class="card form-card">
-
-        <div class="card-heading">
-          <h2>Vizitë e re</h2>
-          <span id="formDateLabel"></span>
-        </div>
-
-
-        <form id="appointmentForm">
-
-          <div class="field">
-
-            <label for="patientName">
-              Emër + Mbiemër
-            </label>
-
-            <input
-              id="patientName"
-              type="text"
-              autocomplete="off"
-              placeholder="Shkruani emrin dhe mbiemrin"
-              required>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              Lloji i vizitës
-            </label>
-
-            <div class="visit-options">
-
-              <div class="visit-option">
-
-                <input
-                  type="radio"
-                  id="visitNew"
-                  name="visitType"
-                  value="Vizitë"
-                  checked>
-
-                <label for="visitNew">
-                  Vizitë
-                </label>
-
-              </div>
-
-
-              <div class="visit-option">
-
-                <input
-                  type="radio"
-                  id="visitControl"
-                  name="visitType"
-                  value="Rikontroll">
-
-                <label for="visitControl">
-                  Rikontroll
-                </label>
-
-              </div>
-
-            </div>
-
-
-            <!-- PAYMENT -->
-            <div
-              class="payment-box"
-              id="paymentBox">
-
-              <div class="payment-title">
-                Pagesa e rikontrollit
-              </div>
-
-              <div class="payment-options">
-
-                <div class="payment-option">
-
-                  <input
-                    type="radio"
-                    id="paymentYes"
-                    name="paymentStatus"
-                    value="Me pagesë">
-
-                  <label for="paymentYes">
-                    Me pagesë
-                  </label>
-
-                </div>
-
-
-                <div class="payment-option">
-
-                  <input
-                    type="radio"
-                    id="paymentNo"
-                    name="paymentStatus"
-                    value="Pa pagesë">
-
-                  <label for="paymentNo">
-                    Pa pagesë
-                  </label>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="cardNumber">
-              Nr. kartele
-              <span style="font-weight:400;color:#9ba8b2;">
-                (opsional)
-              </span>
-            </label>
-
-            <input
-              id="cardNumber"
-              type="text"
-              autocomplete="off"
-              placeholder="Nr. i kartelës">
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="appointmentTime">
-              Orari
-            </label>
-
-            <select id="appointmentTime" required>
-            </select>
-
-          </div>
-
-
-          <button
-            class="save-button"
-            id="saveButton"
-            type="submit">
-
-            Ruaj vizitën
-
-          </button>
-
-
-          <div
-            id="formMessage"
-            class="message">
-          </div>
-
-        </form>
-
-      </section>
-
-
-      <!-- AGENDA -->
-      <section class="card agenda-card">
-
-        <div class="agenda-top">
-
-          <div>
-            <h2>Vizitat e planifikuara</h2>
-            <p id="agendaDateText">
-              -
-            </p>
-          </div>
-
-          <div
-            class="agenda-count"
-            id="appointmentCount">
-            0
-          </div>
-
-        </div>
-
-        <div
-          class="agenda"
-          id="agenda">
-
-          <div class="loading">
-            Po ngarkohet agjenda...
-          </div>
-
-        </div>
-
-      </section>
-
     </div>
+  
 
-  </main>
 
+
+<div class="edit-modal" id="editModal">
+  <div class="edit-box">
+    <div class="edit-head"><h3>✎ Ndrysho Vizitën</h3><button class="edit-close" id="editClose" type="button">×</button></div>
+    <label for="editPatientName">Emër + Mbiemër *</label><input id="editPatientName" type="text" autocomplete="off">
+    <label for="editCardNumber">Nr. kartelës</label><input id="editCardNumber" type="text" autocomplete="off">
+    <label for="editVisitType">Lloji i vizitës *</label>
+    <select id="editVisitType"><option value="Vizitë">Vizitë</option><option value="Rikontroll">Rikontroll</option></select>
+    <div class="edit-payment" id="editPaymentBox"><label>Pagesa</label><label><input type="radio" name="editPayment" value="Me pagesë"> Me pagesë</label><label><input type="radio" name="editPayment" value="Pa pagesë"> Pa pagesë</label></div>
+    <label for="editAppointmentTime">Orari *</label><select id="editAppointmentTime"></select>
+    <div class="edit-actions"><button class="edit-cancel" id="editCancel" type="button">Anulo</button><button class="edit-save" id="editSave" type="button">Ruaj ndryshimet</button></div>
+  </div>
+</div>
+</main>
 </div>
 
 
+<style id="stats-expanded-style">
+.stats-expanded{
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+}
+.stats-expanded .stat{
+    min-width:0;
+}
+@media(max-width:1100px){
+    .stats-expanded{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+}
+@media(max-width:700px){
+    .stats-expanded{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+}
+</style>
+
 <script>
+
+
 /* =========================================================
    SUPABASE
 ========================================================= */
 
-const SUPABASE_URL = "https://ubpteaqdkxcriqyaxrux.supabase.co";
+const SUPABASE_URL =
+    "https://ubpteaqdkxcriqyaxrux.supabase.co";
 
-/*
-  Vendos këtu ANON KEY-un të projektit tënd Supabase.
-  Nëse në versionin tënd ekzistues ke një anon key tjetër,
-  zëvendëso vetëm vlerën më poshtë.
-*/
-const SUPABASE_ANON_KEY = "VENDOS_ANON_KEY_KETU";
+const SUPABASE_KEY =
+    "sb_publishable_dirq3uo9Qy1ez37JkEnciA_sSmYleDZ";
+
+
+const db =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+console.log("AMBULATORI GVM: Supabase client u inicializua");
 
 
 /* =========================================================
-   SUPABASE REQUEST HELPER
+   ELEMENTET
 ========================================================= */
 
-async function supabaseRequest(endpoint, options = {}) {
+/* =========================================================
+   KERKIMI I PACIENTEVE TE REGJISTRUAR
+========================================================= */
 
-  const headers = {
-    "apikey": SUPABASE_ANON_KEY,
-    "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-    "Content-Type": "application/json",
-    "Prefer": "return=representation",
-    ...(options.headers || {})
-  };
+const patientName = document.getElementById("patientName");
+const cardNumber = document.getElementById("cardNumber");
+const visitType = document.getElementById("visitType");
+const paymentBox = document.getElementById("paymentBox");
+const appointmentTime = document.getElementById("appointmentTime");
+const patientSuggestions = document.getElementById("patientSuggestions");
+let patientSearchTimer = null;
 
-  const response = await fetch(
-    SUPABASE_URL + "/rest/v1/" + endpoint,
-    {
-      ...options,
-      headers
+/* =========================================================
+   ORARI SIPAS PËRDORUESIT
+========================================================= */
+let currentUserEmail = "";
+
+function getUserTimeRange(){
+    const email = currentUserEmail.toLowerCase().trim();
+
+    if(email === "ambulatorigvm@gmail.com") return { start: 14 * 60, end: 17 * 60 };
+    if(email === "spitaligvm@gmail.com") return { start: 8 * 60, end: 13 * 60 + 30 };
+
+    // Për çdo llogari tjetër, ruajmë orarin e plotë.
+    return { start: 8 * 60, end: 17 * 60 };
+}
+
+function isTimeAllowed(timeValue){
+    if(!timeValue) return false;
+    const parts = String(timeValue).slice(0,5).split(":");
+    if(parts.length !== 2) return false;
+    const minutes = Number(parts[0]) * 60 + Number(parts[1]);
+    const range = getUserTimeRange();
+    return minutes >= range.start && minutes <= range.end;
+}
+
+function getAllowedTimes(){
+    const range = getUserTimeRange();
+    const times = [];
+
+    for(let minutes = range.start; minutes <= range.end; minutes += 15){
+        const hour = Math.floor(minutes / 60);
+        const minute = minutes % 60;
+        times.push(String(hour).padStart(2,"0") + ":" + String(minute).padStart(2,"0"));
     }
-  );
 
-  const text = await response.text();
+    return times;
+}
 
-  let data = null;
+function hidePatientSuggestions(){
+    if(patientSuggestions){
+        patientSuggestions.style.display = "none";
+        patientSuggestions.innerHTML = "";
+    }
+}
 
-  try {
-    data = text ? JSON.parse(text) : null;
-  } catch (e) {
-    data = text;
-  }
+function showPatientSuggestions(items){
+    if(!patientSuggestions) return;
+    patientSuggestions.innerHTML = "";
 
-  if (!response.ok) {
-
-    let message = "Gabim gjatë komunikimit me Supabase.";
-
-    if (data && data.message) {
-      message = data.message;
-    } else if (data && data.error) {
-      message = data.error;
-    } else if (typeof data === "string" && data) {
-      message = data;
+    if(!items || !items.length){
+        patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Nuk u gjet pacient me këtë emër.</div>';
+        patientSuggestions.style.display = "block";
+        return;
     }
 
-    throw new Error(message);
-  }
+    items.forEach(function(patient){
+        const row = document.createElement("div");
+        row.className = "patient-suggestion";
+        row.innerHTML = '<span class="patient-suggestion-name"></span><span class="patient-suggestion-card"></span>';
+        row.querySelector(".patient-suggestion-name").textContent = patient.full_name || "";
+        const cards = [];
+        if(patient.card_number) cards.push(patient.card_number);
+        if(patient.card_number_2) cards.push(patient.card_number_2);
+        row.querySelector(".patient-suggestion-card").textContent =
+            cards.length ? "Kartela: " + cards.join(" / ") : "";
+        row.addEventListener("mousedown", function(event){
+            event.preventDefault();
+            patientName.value = patient.full_name || "";
+            cardNumber.value = patient.card_number || "";
+            hidePatientSuggestions();
+        });
+        patientSuggestions.appendChild(row);
+    });
+    patientSuggestions.style.display = "block";
+}
 
-  return data;
+async function searchRegisteredPatients(){
+    const query = patientName.value.trim();
+    if(query.length < 2){
+        hidePatientSuggestions();
+        return;
+    }
+
+    console.log("Kërko pacient:", query);
+
+    try{
+        const encoded = encodeURIComponent(query);
+        const url = SUPABASE_URL +
+            "/rest/v1/patients?select=id,full_name,card_number,card_number_2" +
+            "&or=(full_name.ilike.*" + encoded + "*,card_number.ilike.*" + encoded + "*)" +
+            "&order=full_name.asc&limit=10";
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": "Bearer " + SUPABASE_KEY
+            }
+        });
+
+        const data = await response.json();
+        if(!response.ok){
+            console.error("PATIENT SEARCH ERROR:", data);
+            showPatientSuggestions([]);
+            if(patientSuggestions){
+                patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Gabim gjatë kërkimit të pacientëve.</div>';
+                patientSuggestions.style.display = "block";
+            }
+            return;
+        }
+
+        showPatientSuggestions(Array.isArray(data) ? data : []);
+    }catch(error){
+        console.error("PATIENT SEARCH FETCH ERROR:", error);
+        if(patientSuggestions){
+            patientSuggestions.innerHTML = '<div class="patient-suggestion-empty">Gabim gjatë lidhjes me pacientët.</div>';
+            patientSuggestions.style.display = "block";
+        }
+    }
+}
+
+if(patientName){
+    patientName.addEventListener("input", function(){
+        clearTimeout(patientSearchTimer);
+        patientSearchTimer = setTimeout(searchRegisteredPatients, 300);
+    });
+
+    patientName.addEventListener("focus", function(){
+        if(patientName.value.trim().length >= 2) searchRegisteredPatients();
+    });
+
+    patientName.addEventListener("keydown", function(event){
+        if(event.key === "Escape"){
+            hidePatientSuggestions();
+        }
+    });
+
+    document.addEventListener("click", function(event){
+        if(!event.target.closest(".patient-search-wrap")){
+            hidePatientSuggestions();
+        }
+    });
 }
 
 
+
 /* =========================================================
-   STATE
+   ELEMENTET
+========================================================= */
+
+
+
+const saveButton =
+    document.getElementById("saveButton");
+
+const visits =
+    document.getElementById("visits");
+
+const message =
+    document.getElementById("message");
+
+const todayDate =
+    document.getElementById("todayDate");
+
+
+/* =========================================================
+   DATA E SOTME
 ========================================================= */
 
 let selectedDate = new Date();
+let agendaSearchText = "";
+let agendaStatusFilter = "all";
 
-let appointments = [];
-
-const TIME_START_HOUR = 12;
-const TIME_END_HOUR = 17;
-const TIME_INTERVAL = 15;
-
-
-/* =========================================================
-   DOM
-========================================================= */
-
-const dateCards = document.getElementById("dateCards");
-
-const selectedDateTitle =
-  document.getElementById("selectedDateTitle");
-
-const selectedDateSubtitle =
-  document.getElementById("selectedDateSubtitle");
-
-const formDateLabel =
-  document.getElementById("formDateLabel");
-
-const agendaDateText =
-  document.getElementById("agendaDateText");
-
-const agenda =
-  document.getElementById("agenda");
-
-const appointmentCount =
-  document.getElementById("appointmentCount");
-
-const appointmentForm =
-  document.getElementById("appointmentForm");
-
-const patientName =
-  document.getElementById("patientName");
-
-const cardNumber =
-  document.getElementById("cardNumber");
-
-const appointmentTime =
-  document.getElementById("appointmentTime");
-
-const saveButton =
-  document.getElementById("saveButton");
-
-const formMessage =
-  document.getElementById("formMessage");
-
-const paymentBox =
-  document.getElementById("paymentBox");
-
-const visitNew =
-  document.getElementById("visitNew");
-
-const visitControl =
-  document.getElementById("visitControl");
-
-const paymentYes =
-  document.getElementById("paymentYes");
-
-const paymentNo =
-  document.getElementById("paymentNo");
-
-
-/* =========================================================
-   DATE HELPERS
-========================================================= */
-
-function pad(number) {
-  return String(number).padStart(2, "0");
+function formatDateISO(date){
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2,"0");
+    const day = String(date.getDate()).padStart(2,"0");
+    return year + "-" + month + "-" + day;
 }
 
-
-function formatDateSQL(date) {
-
-  return (
-    date.getFullYear() +
-    "-" +
-    pad(date.getMonth() + 1) +
-    "-" +
-    pad(date.getDate())
-  );
-
-}
-
-
-function parseDateSQL(value) {
-
-  const parts = value.split("-");
-
-  return new Date(
-    Number(parts[0]),
-    Number(parts[1]) - 1,
-    Number(parts[2])
-  );
-
-}
-
-
-function formatDateLong(date) {
-
-  return new Intl.DateTimeFormat(
-    "sq-AL",
-    {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    }
-  ).format(date);
-
-}
-
-
-function formatDateShort(date) {
-
-  return new Intl.DateTimeFormat(
-    "sq-AL",
-    {
-      day: "numeric",
-      month: "short"
-    }
-  ).format(date);
-
-}
-
-
-function isSameDate(a, b) {
-
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
-
+function isToday(date){
+    const now = new Date();
+    return formatDateISO(date) === formatDateISO(now);
 }
 
 
 /* =========================================================
-   DATE NAVIGATION
+   SHFAQ DATEN
 ========================================================= */
 
-function goToday() {
-
-  selectedDate = new Date();
-
-  renderDateCards();
-
-  updateDateLabels();
-
-  loadAppointments();
-
-}
-
-
-function changeDate(days) {
-
-  const newDate = new Date(selectedDate);
-
-  newDate.setDate(
-    newDate.getDate() + days
-  );
-
-  selectedDate = newDate;
-
-  renderDateCards();
-
-  updateDateLabels();
-
-  loadAppointments();
-
-}
-
-
-function selectDate(date) {
-
-  selectedDate = new Date(date);
-
-  renderDateCards();
-
-  updateDateLabels();
-
-  loadAppointments();
-
-}
-
-
-/* =========================================================
-   DATE CARDS
-========================================================= */
-
-function renderDateCards() {
-
-  dateCards.innerHTML = "";
-
-  const start = new Date(selectedDate);
-
-  /*
-    Fill 7 days centered around selected date.
-  */
-
-  start.setDate(
-    start.getDate() - 3
-  );
-
-  for (let i = 0; i < 7; i++) {
-
-    const date = new Date(start);
-
-    date.setDate(
-      start.getDate() + i
+function showSelectedDate(){
+    const formatted = selectedDate.toLocaleDateString(
+        "sq-AL",
+        {
+            weekday:"long",
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+        }
     );
 
-    const button =
-      document.createElement("button");
+    todayDate.textContent = formatted;
 
-    button.type = "button";
+    const label = document.getElementById("selectedDateLabel");
+    const iso = document.getElementById("selectedDateIso");
 
-    button.className = "date-card";
-
-    if (isSameDate(date, selectedDate)) {
-      button.classList.add("active");
+    if(label){
+        label.textContent = formatted;
     }
 
-    if (isSameDate(date, new Date())) {
-      button.classList.add("today");
+    if(iso){
+        iso.textContent = formatDateISO(selectedDate);
     }
+}
 
-    const weekday =
-      new Intl.DateTimeFormat(
-        "sq-AL",
-        { weekday: "short" }
-      ).format(date);
 
-    const month =
-      new Intl.DateTimeFormat(
-        "sq-AL",
-        { month: "short" }
-      ).format(date);
+/* =========================================================
+   KRIJO ORARET
+========================================================= */
 
-    button.innerHTML = `
-      <div class="date-weekday">
-        ${weekday}
-      </div>
+function createTimeOptions(){
 
-      <div class="date-number">
-        ${date.getDate()}
-      </div>
+    appointmentTime.innerHTML =
+        '<option value="">Zgjidh orën</option>';
 
-      <div class="date-month">
-        ${month}
-      </div>
-    `;
-
-    button.addEventListener(
-      "click",
-      () => selectDate(date)
-    );
-
-    dateCards.appendChild(button);
-
-  }
+    getAllowedTimes().forEach(function(time){
+        const option = document.createElement("option");
+        option.value = time;
+        option.textContent = time;
+        appointmentTime.appendChild(option);
+    });
 
 }
 
 
 /* =========================================================
-   DATE LABELS
+   SHOW / HIDE PAGESEN
 ========================================================= */
 
-function updateDateLabels() {
+visitType.addEventListener(
+    "change",
+    function(){
 
-  const longDate =
-    formatDateLong(selectedDate);
+        if(
+            visitType.value ===
+            "Rikontroll"
+        ){
 
-  const shortDate =
-    formatDateShort(selectedDate);
+            paymentBox.style.display =
+                "block";
 
-  selectedDateTitle.textContent =
-    longDate.charAt(0).toUpperCase() +
-    longDate.slice(1);
+        }
+        else{
 
-  selectedDateSubtitle.textContent =
-    "Zgjidhni një orar për të planifikuar vizitën.";
+            paymentBox.style.display =
+                "none";
 
-  formDateLabel.textContent =
-    shortDate;
+            document
+                .querySelectorAll(
+                    'input[name="payment"]'
+                )
+                .forEach(
+                    function(radio){
+                        radio.checked =
+                            false;
+                    }
+                );
+        }
 
-  agendaDateText.textContent =
-    longDate.charAt(0).toUpperCase() +
-    longDate.slice(1);
-
-}
-
-
-/* =========================================================
-   TIME OPTIONS
-========================================================= */
-
-function generateTimeOptions() {
-
-  appointmentTime.innerHTML = "";
-
-  for (
-    let minutes = TIME_START_HOUR * 60;
-    minutes <= TIME_END_HOUR * 60;
-    minutes += TIME_INTERVAL
-  ) {
-
-    const hour =
-      Math.floor(minutes / 60);
-
-    const minute =
-      minutes % 60;
-
-    const value =
-      pad(hour) + ":" + pad(minute);
-
-    const option =
-      document.createElement("option");
-
-    option.value = value + ":00";
-
-    option.textContent = value;
-
-    appointmentTime.appendChild(option);
-
-  }
-
-}
-
-
-/* =========================================================
-   VISIT / PAYMENT
-========================================================= */
-
-function updatePaymentVisibility() {
-
-  if (visitControl.checked) {
-
-    paymentBox.classList.add("visible");
-
-  } else {
-
-    paymentBox.classList.remove("visible");
-
-    paymentYes.checked = false;
-    paymentNo.checked = false;
-
-  }
-
-}
-
-
-visitNew.addEventListener(
-  "change",
-  updatePaymentVisibility
-);
-
-visitControl.addEventListener(
-  "change",
-  updatePaymentVisibility
+    }
 );
 
 
@@ -1561,566 +1381,1249 @@ visitControl.addEventListener(
    MESSAGE
 ========================================================= */
 
-function showMessage(text, type) {
+function showMessage(
+    text,
+    type
+){
 
-  formMessage.textContent = text;
+    message.textContent =
+        text;
 
-  formMessage.className =
-    "message " + type;
+    message.className =
+        "";
 
-}
+    if(type === "success"){
 
-
-function clearMessage() {
-
-  formMessage.textContent = "";
-
-  formMessage.className =
-    "message";
-
-}
-
-
-/* =========================================================
-   LOAD APPOINTMENTS
-========================================================= */
-
-async function loadAppointments() {
-
-  agenda.innerHTML = `
-    <div class="loading">
-      Po ngarkohet agjenda...
-    </div>
-  `;
-
-  const dateString =
-    formatDateSQL(selectedDate);
-
-  try {
-
-    const data =
-      await supabaseRequest(
-        "appointments?select=*&appointment_date=eq." +
-        encodeURIComponent(dateString) +
-        "&order=appointment_time.asc",
-        {
-          method: "GET"
-        }
-      );
-
-    appointments =
-      Array.isArray(data) ? data : [];
-
-    renderAgenda();
-
-  } catch (error) {
-
-    console.error(error);
-
-    agenda.innerHTML = `
-      <div class="no-data">
-        Nuk u arrit të ngarkohet agjenda.<br><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-    appointmentCount.textContent = "0";
-
-  }
-
-}
-
-
-/* =========================================================
-   RENDER AGENDA
-========================================================= */
-
-function renderAgenda() {
-
-  agenda.innerHTML = "";
-
-  appointmentCount.textContent =
-    appointments.length;
-
-
-  for (
-    let minutes = TIME_START_HOUR * 60;
-    minutes <= TIME_END_HOUR * 60;
-    minutes += TIME_INTERVAL
-  ) {
-
-    const hour =
-      Math.floor(minutes / 60);
-
-    const minute =
-      minutes % 60;
-
-    const time =
-      pad(hour) + ":" + pad(minute);
-
-    const timeWithSeconds =
-      time + ":00";
-
-    const appointment =
-      appointments.find(item => {
-
-        return normalizeTime(
-          item.appointment_time
-        ) === time;
-
-      });
-
-
-    const row =
-      document.createElement("div");
-
-    row.className =
-      "appointment-row";
-
-
-    const timeCell =
-      document.createElement("div");
-
-    timeCell.className =
-      "time-cell";
-
-    timeCell.textContent =
-      time;
-
-
-    const appointmentCell =
-      document.createElement("div");
-
-    appointmentCell.className =
-      "appointment-cell";
-
-
-    if (appointment) {
-
-      appointmentCell.innerHTML =
-        createAppointmentHTML(
-          appointment
+        message.classList.add(
+            "message-success"
         );
 
-    } else {
+    }
+    else{
 
-      appointmentCell.innerHTML = `
-        <div class="empty-slot">
-          Orar i lirë
-        </div>
-      `;
+        message.classList.add(
+            "message-error"
+        );
 
     }
 
+    setTimeout(
+        function(){
 
-    row.appendChild(timeCell);
+            message.style.display =
+                "none";
 
-    row.appendChild(appointmentCell);
+            message.className =
+                "";
 
-    agenda.appendChild(row);
-
-  }
-
-}
-
-
-/* =========================================================
-   NORMALIZE TIME
-========================================================= */
-
-function normalizeTime(value) {
-
-  if (!value) {
-    return "";
-  }
-
-  return String(value)
-    .substring(0, 5);
-
-}
-
-
-/* =========================================================
-   APPOINTMENT HTML
-========================================================= */
-
-function createAppointmentHTML(item) {
-
-  const name =
-    escapeHtml(
-      item.patient_name || ""
+        },
+        5000
     );
 
-  const visitType =
-    escapeHtml(
-      item.visit_type || ""
-    );
-
-  const card =
-    escapeHtml(
-      item.card_number || ""
-    );
-
-  const payment =
-    item.payment_status || "";
-
-
-  let paymentHTML = "";
-
-  if (
-    visitType === "Rikontroll" &&
-    payment
-  ) {
-
-    if (payment === "Me pagesë") {
-
-      paymentHTML = `
-        <span class="tag payment">
-          Me pagesë
-        </span>
-      `;
-
-    } else if (payment === "Pa pagesë") {
-
-      paymentHTML = `
-        <span class="tag no-payment">
-          Pa pagesë
-        </span>
-      `;
-
-    } else {
-
-      paymentHTML = `
-        <span class="tag payment">
-          ${escapeHtml(payment)}
-        </span>
-      `;
-
-    }
-
-  }
-
-
-  let cardHTML = "";
-
-  if (card) {
-
-    cardHTML = `
-      <span class="card-number">
-        Kartelë: ${card}
-      </span>
-    `;
-
-  }
-
-
-  return `
-    <div class="appointment">
-
-      <div class="appointment-info">
-
-        <div class="appointment-name">
-          ${name}
-        </div>
-
-        <div class="appointment-meta">
-
-          <span class="tag visit">
-            ${visitType}
-          </span>
-
-          ${paymentHTML}
-
-          ${cardHTML}
-
-        </div>
-
-      </div>
-
-      <button
-        type="button"
-        class="delete-button"
-        onclick="deleteAppointment(${Number(item.id)})"
-        title="Fshi vizitën">
-
-        ×
-
-      </button>
-
-    </div>
-  `;
-
 }
 
 
 /* =========================================================
-   ESCAPE HTML
+   RUAJ VIZITEN
 ========================================================= */
 
-function escapeHtml(value) {
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
-
-
-/* =========================================================
-   SAVE APPOINTMENT
-========================================================= */
-
-appointmentForm.addEventListener(
-  "submit",
-  async function(event) {
-
-    event.preventDefault();
-
-    clearMessage();
-
+async function saveVisit(){
 
     const name =
-      patientName.value.trim();
+        patientName.value.trim();
 
     const card =
-      cardNumber.value.trim();
+        cardNumber.value.trim();
+
+    const type =
+        visitType.value;
 
     const time =
-      appointmentTime.value;
+        appointmentTime.value;
 
-    const visitType =
-      document.querySelector(
-        'input[name="visitType"]:checked'
-      )?.value || "Vizitë";
-
-    let paymentStatus =
-      null;
+    let payment =
+        null;
 
 
-    if (!name) {
+    /* VALIDIM */
 
-      showMessage(
-        "Ju lutem vendosni emrin dhe mbiemrin.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if (!time) {
-
-      showMessage(
-        "Ju lutem zgjidhni orarin.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if (
-      visitType === "Rikontroll"
-    ) {
-
-      const selectedPayment =
-        document.querySelector(
-          'input[name="paymentStatus"]:checked'
-        );
-
-      if (!selectedPayment) {
+    if(!name){
 
         showMessage(
-          "Për Rikontroll duhet të zgjidhni Me pagesë ose Pa pagesë.",
-          "error"
+            "Vendos Emër Mbiemër.",
+            "error"
         );
 
+        patientName.focus();
+
         return;
+    }
 
-      }
 
-      paymentStatus =
-        selectedPayment.value;
+    if(!time){
+
+        showMessage(
+            "Zgjidh orën e vizitës.",
+            "error"
+        );
+
+        appointmentTime.focus();
+
+        return;
+    }
+
+    if(!isTimeAllowed(time)){
+        showMessage(
+            "Ky orar nuk është i lejuar për këtë përdorues.",
+            "error"
+        );
+        appointmentTime.focus();
+        return;
+    }
+
+
+    /* PAGESA VETEM PER RIKONTROLL */
+
+    if(type === "Rikontroll"){
+
+        const selectedPayment =
+            document.querySelector(
+                'input[name="payment"]:checked'
+            );
+
+        if(!selectedPayment){
+
+            showMessage(
+                "Zgjidh Me pagesë ose Pa pagesë.",
+                "error"
+            );
+
+            return;
+        }
+
+        payment =
+            selectedPayment.value;
 
     }
 
 
-    /*
-      Kontrollo nëse orari është i zënë.
-    */
-
-    const existing =
-      appointments.find(item => {
-
-        return normalizeTime(
-          item.appointment_time
-        ) === normalizeTime(time);
-
-      });
+    const date =
+        formatDateISO(selectedDate);
 
 
-    if (existing) {
+    /* KONTROLLI I ORARIT - MOS LEJO DY VIZITA NË TË NJËJTIN ORAR */
 
-      showMessage(
-        "Ky orar është tashmë i zënë.",
-        "error"
-      );
+    const conflictCheck = await db
+        .from("appointments")
+        .select("id")
+        .eq("appointment_date", date)
+        .eq("appointment_time", time)
+        .limit(1);
 
-      return;
+    if(conflictCheck.error){
+        console.error("CONFLICT CHECK ERROR:", conflictCheck.error);
+        showMessage(
+            "Nuk mund të kontrollohet orari: " + conflictCheck.error.message,
+            "error"
+        );
+        return;
+    }
 
+    if(conflictCheck.data && conflictCheck.data.length > 0){
+        showMessage(
+            "Ky orar është tashmë i zënë. Zgjidh një orar tjetër.",
+            "error"
+        );
+        appointmentTime.focus();
+        return;
     }
 
 
-    saveButton.disabled = true;
+    /* DISABLE BUTTON */
+
+    saveButton.disabled =
+        true;
 
     saveButton.textContent =
-      "Po ruhet...";
+        "Po ruhet...";
 
 
-    const payload = {
+    console.log(
+        "Po ruhet vizita:",
+        {
+            appointment_date:date,
+            appointment_time:time,
+            patient_name:name,
+            card_number:card || null,
+            visit_type:type,
+            payment_status:payment
+        }
+    );
 
-      appointment_date:
-        formatDateSQL(selectedDate),
 
-      appointment_time:
-        time,
+    /* INSERT SUPABASE */
 
-      patient_name:
-        name,
-
-      card_number:
-        card || null,
-
-      visit_type:
-        visitType,
-
-      payment_status:
-        paymentStatus
-
-    };
-
+    let result;
 
     try {
+        result = await db
+            .from("appointments")
+            .insert({
+                appointment_date: date,
+                appointment_time: time,
+                patient_name: name,
+                card_number: card || null,
+                visit_type: type,
+                payment_status: payment,
+                status: "scheduled"
+            });
+    } catch (err) {
+        console.error("SUPABASE INSERT EXCEPTION:", err);
+        showMessage(
+            "Gabim gjatë ruajtjes: " + (err.message || err),
+            "error"
+        );
+        saveButton.disabled = false;
+        saveButton.textContent = "Ruaj Vizitën";
+        return;
+    }
 
-      await supabaseRequest(
-        "appointments",
-        {
-          method: "POST",
-          body: JSON.stringify(payload)
-        }
-      );
-
-
-      showMessage(
-        "Vizita u ruajt me sukses.",
-        "success"
-      );
-
-
-      appointmentForm.reset();
-
-      visitNew.checked = true;
-
-      updatePaymentVisibility();
-
-      generateTimeOptions();
-
-      await loadAppointments();
+    console.log("Supabase result:", result);
 
 
-    } catch (error) {
+    /* GABIM */
 
-      console.error(error);
+    if(result.error){
 
-      showMessage(
-        "Vizita nuk u ruajt: " +
-        error.message,
-        "error"
-      );
+        console.error(
+            "SUPABASE INSERT ERROR:",
+            result.error
+        );
 
+        showMessage(
+            "Gabim Supabase: " +
+            result.error.message,
+            "error"
+        );
+
+        saveButton.disabled =
+            false;
+
+        saveButton.textContent =
+            "Ruaj Vizitën";
+
+        return;
     }
 
 
-    saveButton.disabled = false;
+    /* SUKSES */
+
+    playGvmSound("save");
+
+    showMessage(
+        "Vizita u ruajt me sukses.",
+        "success"
+    );
+
+
+    /* PASTRO FORMULAREN */
+
+    patientName.value =
+        "";
+
+    cardNumber.value =
+        "";
+
+    appointmentTime.value =
+        "";
+
+    visitType.value =
+        "Vizitë";
+
+    paymentBox.style.display =
+        "none";
+
+
+    document
+        .querySelectorAll(
+            'input[name="payment"]'
+        )
+        .forEach(
+            function(radio){
+
+                radio.checked =
+                    false;
+
+            }
+        );
+
+
+    saveButton.disabled =
+        false;
 
     saveButton.textContent =
-      "Ruaj vizitën";
+        "Ruaj Vizitën";
 
+
+    /* RINGARKO LISTEN */
+
+    await loadVisits();
+
+}
+
+
+/* =========================================================
+   STATISTIKAT E DATËS SË ZGJEDHUR
+========================================================= */
+
+function updateStats(data){
+
+    const list = data || [];
+
+    const counts = {
+        total: list.length,
+        visits: 0,
+        controls: 0,
+        scheduled: 0,
+        arrived: 0,
+        finished: 0,
+        cancelled: 0,
+        paid: 0,
+        free: 0
+    };
+
+    list.forEach(function(visit){
+
+        if(visit.visit_type === "Rikontroll"){
+            counts.controls++;
+        }
+        else{
+            counts.visits++;
+        }
+
+        const status = visit.status || "scheduled";
+
+        if(status === "arrived") counts.arrived++;
+        else if(status === "finished") counts.finished++;
+        else if(status === "cancelled") counts.cancelled++;
+        else counts.scheduled++;
+
+        if(visit.payment_status === "Me pagesë") counts.paid++;
+        if(visit.payment_status === "Pa pagesë") counts.free++;
+    });
+
+    const values = {
+        statTotal: counts.total,
+        statVisits: counts.visits,
+        statControls: counts.controls,
+        statScheduled: counts.scheduled,
+        statArrived: counts.arrived,
+        statFinished: counts.finished,
+        statCancelled: counts.cancelled,
+        statPaid: counts.paid,
+        statFree: counts.free
+    };
+
+    Object.keys(values).forEach(function(id){
+        const element = document.getElementById(id);
+        if(element) element.textContent = values[id];
+    });
+}
+
+
+/* =========================================================
+   NGARKO VIZITAT E DATËS SË ZGJEDHUR
+========================================================= */
+
+async function loadVisits(){
+
+    visits.innerHTML =
+        '<div class="loading">Po ngarkohen vizitat...</div>';
+
+    const date =
+        formatDateISO(selectedDate);
+
+    const result =
+        await db
+            .from("appointments")
+            .select(
+                "id, appointment_date, appointment_time, patient_name, card_number, visit_type, payment_status, status"
+            )
+            .eq(
+                "appointment_date",
+                date
+            )
+            .order(
+                "appointment_time",
+                {
+                    ascending:true
+                }
+            );
+
+    if(result.error){
+
+        console.error(
+            "SUPABASE SELECT ERROR:",
+            result.error
+        );
+
+        updateStats([]);
+
+        visits.innerHTML =
+            "<div class=\"empty\"><strong>Gabim gjatë ngarkimit</strong><br><br>" +
+            result.error.message +
+            "</div>";
+
+        return;
+    }
+
+    const allData = result.data || [];
+    const data = allData.filter(function(visit){
+        return isTimeAllowed(visit.appointment_time);
+    });
+
+    updateStats(data);
+
+    visits.innerHTML = "";
+
+    const slots = {};
+
+    // Në ditën e sotme, fshehim oraret që kanë kaluar dhe janë bosh.
+    // Nëse një orar i kaluar ka vizitë, ai mbetet i dukshëm.
+    const now = new Date();
+    const todayISO =
+        now.getFullYear() + "-" +
+        String(now.getMonth() + 1).padStart(2,"0") + "-" +
+        String(now.getDate()).padStart(2,"0");
+    const isToday = date === todayISO;
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const occupiedTimes = new Set(
+        data.map(function(visit){
+            return String(visit.appointment_time || "").slice(0,5);
+        })
+    );
+
+    getAllowedTimes().forEach(function(slotTime){
+
+            const timeParts = slotTime.split(":");
+            const slotMinutes = Number(timeParts[0]) * 60 + Number(timeParts[1]);
+
+            // Për sot: oraret e kaluara hiqen vetëm kur nuk kanë vizitë.
+            if(isToday && slotMinutes < currentMinutes && !occupiedTimes.has(slotTime)){
+                return;
+            }
+
+            const slot = document.createElement("div");
+            slot.className = "agenda-slot";
+            slot.dataset.time = slotTime;
+
+            const timeCell = document.createElement("div");
+            timeCell.className = "slot-time";
+            timeCell.textContent = slotTime;
+
+            const body = document.createElement("div");
+            body.className = "slot-body";
+            body.dataset.slotBody = slotTime;
+
+            const empty = document.createElement("div");
+            empty.className = "slot-empty";
+            empty.textContent = "Orar i lirë";
+            body.appendChild(empty);
+
+            slot.appendChild(timeCell);
+            slot.appendChild(body);
+            visits.appendChild(slot);
+            slots[slotTime] = { slot, body, empty };
+    });
+
+    data.forEach(function(visit){
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "visit-item";
+        item.dataset.searchText = (
+            (visit.patient_name || "") + " " +
+            (visit.card_number || "")
+        ).toLowerCase();
+
+        const currentStatus =
+            visit.status || "scheduled";
+
+        item.dataset.status = currentStatus;
+
+        let statusLabel = "Në pritje";
+        let statusClass = "";
+
+        if(currentStatus === "arrived"){
+            statusLabel = "Ka ardhur";
+            statusClass = "arrived";
+        }
+        else if(currentStatus === "finished"){
+            statusLabel = "Ka mbaruar";
+            statusClass = "finished";
+        }
+        else if(currentStatus === "cancelled"){
+            statusLabel = "Anulluar";
+            statusClass = "cancelled";
+        }
+
+        if(statusClass){
+            item.classList.add(
+                "status-" + statusClass
+            );
+        }
+
+        const time =
+            document.createElement("div");
+
+        time.className =
+            "visit-time";
+
+        time.textContent =
+            visit.appointment_time
+                ? String(visit.appointment_time).substring(0,5)
+                : "--:--";
+
+        const name =
+            document.createElement("div");
+
+        name.className =
+            "visit-name";
+
+        name.textContent =
+            visit.patient_name || "";
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "visit-line";
+
+        card.innerHTML =
+            "<strong>Nr. Kartelës:</strong> " +
+            (visit.card_number || "—");
+
+        const statusLine =
+            document.createElement("div");
+
+        const type =
+            document.createElement("span");
+
+        type.className =
+            "visit-type";
+
+        type.textContent =
+            visit.visit_type || "Vizitë";
+
+        statusLine.appendChild(type);
+
+        if(visit.visit_type === "Rikontroll"){
+
+            const payment =
+                document.createElement("span");
+
+            if(visit.payment_status === "Me pagesë"){
+                payment.className = "payment-paid";
+                payment.textContent = "Me pagesë";
+            }
+            else if(visit.payment_status === "Pa pagesë"){
+                payment.className = "payment-free";
+                payment.textContent = "Pa pagesë";
+            }
+            else{
+                payment.className = "payment-paid";
+                payment.textContent = "Pagesa nuk është zgjedhur";
+            }
+
+            statusLine.appendChild(payment);
+        }
+
+        const badge =
+            document.createElement("span");
+
+        badge.className =
+            "status-badge " + statusClass;
+
+        badge.textContent =
+            statusLabel;
+
+        statusLine.appendChild(badge);
+
+        const controls =
+            document.createElement("div");
+
+        controls.className =
+            "visit-status-controls";
+
+        const arrived =
+            document.createElement("button");
+
+        arrived.type = "button";
+        arrived.className =
+            "visit-status-button arrived" +
+            (currentStatus === "arrived" ? " active" : "");
+        arrived.textContent =
+            "✓ Ka ardhur";
+
+        arrived.addEventListener("click", function(){
+            updateVisitStatus(
+                visit.id,
+                "arrived",
+                this
+            );
+        });
+
+        const finished =
+            document.createElement("button");
+
+        finished.type = "button";
+        finished.className =
+            "visit-status-button finished" +
+            (currentStatus === "finished" ? " active" : "");
+        finished.textContent =
+            "✓ Ka mbaruar";
+
+        finished.addEventListener("click", function(){
+            updateVisitStatus(
+                visit.id,
+                "finished",
+                this
+            );
+        });
+
+        const cancelled =
+            document.createElement("button");
+
+        cancelled.type = "button";
+        cancelled.className =
+            "visit-status-button cancelled" +
+            (currentStatus === "cancelled" ? " active" : "");
+        cancelled.textContent =
+            "Anullo";
+
+        cancelled.addEventListener("click", function(){
+            updateVisitStatus(
+                visit.id,
+                "cancelled",
+                this
+            );
+        });
+
+        const editButton =
+            document.createElement("button");
+
+        editButton.type = "button";
+        editButton.className = "visit-status-button";
+        editButton.textContent = "✎ Ndrysho";
+        editButton.addEventListener("click", function(){
+            openEditVisit(visit);
+        });
+
+        const deleteButton =
+            document.createElement("button");
+
+        deleteButton.type = "button";
+        deleteButton.className =
+            "visit-delete-button";
+        deleteButton.textContent =
+            "Fshi vizitën";
+
+        deleteButton.addEventListener("click", function(){
+            openDeleteConfirm(visit.id);
+        });
+
+        controls.appendChild(arrived);
+        controls.appendChild(finished);
+        controls.appendChild(cancelled);
+        controls.appendChild(editButton);
+        controls.appendChild(deleteButton);
+
+        item.appendChild(time);
+        item.appendChild(name);
+        item.appendChild(card);
+        item.appendChild(statusLine);
+        item.appendChild(controls);
+
+        const slotTime = visit.appointment_time
+            ? String(visit.appointment_time).substring(0,5)
+            : "";
+
+        const target = slots[slotTime];
+
+        if(target){
+            if(target.empty && target.empty.parentNode){
+                target.empty.remove();
+            }
+            target.body.appendChild(item);
+        }
+        else{
+            visits.appendChild(item);
+        }
+    });
+
+    applyAgendaSearch();
+}
+
+function applyAgendaSearch(){
+    const query = agendaSearchText.trim().toLowerCase();
+    const items = Array.from(document.querySelectorAll("#visits .visit-item"));
+    let visible = 0;
+
+    items.forEach(function(item){
+        const textMatch = !query || (item.dataset.searchText || "").includes(query);
+        const statusMatch = agendaStatusFilter === "all" || item.dataset.status === agendaStatusFilter;
+        const match = textMatch && statusMatch;
+        item.style.display = match ? "grid" : "none";
+        if(match) visible++;
+    });
+
+    const info = document.getElementById("agendaSearchInfo");
+    if(!info) return;
+
+    if(query || agendaStatusFilter !== "all"){
+        info.textContent = visible + " vizita u gjetën";
+    }else{
+        info.textContent = "";
+    }
+}
+
+
+
+/* =========================================================
+   NDRYSHO VIZITEN
+========================================================= */
+
+let editingVisitId = null;
+
+function fillEditTimes(){
+    const select = document.getElementById("editAppointmentTime");
+    select.innerHTML = '<option value="">Zgjidh orën</option>';
+    getAllowedTimes().forEach(function(v){
+        const o=document.createElement("option");
+        o.value=v;
+        o.textContent=v;
+        select.appendChild(o);
+    });
+}
+
+function toggleEditPayment(){
+    const type=document.getElementById("editVisitType").value;
+    document.getElementById("editPaymentBox").style.display = type === "Rikontroll" ? "block" : "none";
+}
+
+function openEditVisit(visit){
+    editingVisitId=visit.id;
+    fillEditTimes();
+    document.getElementById("editPatientName").value=visit.patient_name || "";
+    document.getElementById("editCardNumber").value=visit.card_number || "";
+    document.getElementById("editVisitType").value=visit.visit_type || "Vizitë";
+    document.getElementById("editAppointmentTime").value=visit.appointment_time ? String(visit.appointment_time).substring(0,5) : "";
+    document.querySelectorAll('input[name="editPayment"]').forEach(r=>r.checked=(r.value===visit.payment_status));
+    toggleEditPayment();
+    document.getElementById("editModal").classList.add("show");
+}
+
+function closeEditVisit(){
+    editingVisitId=null;
+    document.getElementById("editModal").classList.remove("show");
+}
+
+async function saveEditedVisit(){
+    if(!editingVisitId) return;
+    const name=document.getElementById("editPatientName").value.trim();
+    const card=document.getElementById("editCardNumber").value.trim();
+    const type=document.getElementById("editVisitType").value;
+    const time=document.getElementById("editAppointmentTime").value;
+    const selected=document.querySelector('input[name="editPayment"]:checked');
+    if(!name){showMessage("Vendos Emër Mbiemër.","error");return;}
+    if(!time){showMessage("Zgjidh orën e vizitës.","error");return;}
+    if(!isTimeAllowed(time)){showMessage("Ky orar nuk është i lejuar për këtë përdorues.","error");return;}
+    if(type === "Rikontroll" && !selected){showMessage("Zgjidh Me pagesë ose Pa pagesë.","error");return;}
+    const payment=type === "Rikontroll" ? selected.value : null;
+
+    /* KONTROLLI I ORARIT GJATË NDRYSHIMIT */
+    const editDate = formatDateISO(selectedDate);
+    const conflictCheck = await db
+        .from("appointments")
+        .select("id")
+        .eq("appointment_date", editDate)
+        .eq("appointment_time", time)
+        .neq("id", editingVisitId)
+        .limit(1);
+
+    if(conflictCheck.error){
+        showMessage("Nuk mund të kontrollohet orari: " + conflictCheck.error.message,"error");
+        return;
+    }
+
+    if(conflictCheck.data && conflictCheck.data.length > 0){
+        showMessage("Ky orar është tashmë i zënë. Zgjidh një orar tjetër.","error");
+        return;
+    }
+
+    const result=await db.from("appointments").update({patient_name:name,card_number:card||null,visit_type:type,appointment_time:time,payment_status:payment}).eq("id",editingVisitId);
+    if(result.error){showMessage("Gabim gjatë ndryshimit: "+result.error.message,"error");return;}
+    closeEditVisit();
+    playGvmSound("edit");
+    showMessage("Vizita u ndryshua me sukses.","success");
+    await loadVisits();
+}
+
+document.getElementById("editVisitType").addEventListener("change",toggleEditPayment);
+document.getElementById("editClose").addEventListener("click",closeEditVisit);
+document.getElementById("editCancel").addEventListener("click",closeEditVisit);
+document.getElementById("editSave").addEventListener("click",saveEditedVisit);
+document.getElementById("editModal").addEventListener("click",function(e){if(e.target===this)closeEditVisit();});
+
+
+/* =========================================================
+   STATUSI DHE FSHIRJA
+========================================================= */
+
+let gvmAudioContext = null;
+
+function getGvmAudioContext(){
+    if(!gvmAudioContext){
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if(!AudioCtx) return null;
+        gvmAudioContext = new AudioCtx();
+    }
+    if(gvmAudioContext.state === "suspended"){
+        gvmAudioContext.resume().catch(function(){});
+    }
+    return gvmAudioContext;
+}
+
+function playGvmSound(type){
+    const ctx = getGvmAudioContext();
+    if(!ctx) return;
+
+    const presets = {
+        arrived:{freqs:[660,880],duration:.12,gap:.08},
+        finished:{freqs:[880,660],duration:.12,gap:.08},
+        cancelled:{freqs:[420,300],duration:.14,gap:.08},
+        save:{freqs:[740,980],duration:.09,gap:.07},
+        edit:{freqs:[620,780],duration:.08,gap:.06},
+        delete:{freqs:[360,260],duration:.10,gap:.07}
+    };
+
+    const preset = presets[type];
+    if(!preset) return;
+
+    preset.freqs.forEach(function(freq,index){
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const start = ctx.currentTime + index * (preset.duration + preset.gap);
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001,start);
+        gain.gain.exponentialRampToValueAtTime(0.08,start+0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001,start+preset.duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start+preset.duration+0.02);
+    });
+}
+
+async function updateVisitStatus(id, status, currentButton){
+    const currentItem = currentButton ? currentButton.closest(".visit-item") : null;
+    const currentStatus = currentItem ? (currentItem.dataset.status || "scheduled") : "scheduled";
+    const nextStatus = currentStatus === status ? "scheduled" : status;
+
+    const result =
+        await db
+            .from("appointments")
+            .update({status: nextStatus})
+            .eq("id", id);
+
+    if(result.error){
+        showMessage(
+            "Gabim gjatë ndryshimit të statusit: " + result.error.message,
+            "error"
+        );
+        return;
+    }
+
+    if(nextStatus !== "scheduled") playGvmSound(nextStatus);
+    await loadVisits();
+}
+
+
+let pendingDeleteId = null;
+
+function openDeleteConfirm(id) {
+  pendingDeleteId = id;
+  const modal = document.getElementById("deleteConfirmModal");
+  if (modal) modal.classList.add("show");
+}
+
+function closeDeleteConfirm() {
+  pendingDeleteId = null;
+  const modal = document.getElementById("deleteConfirmModal");
+  if (modal) modal.classList.remove("show");
+}
+
+async function confirmDeleteVisit() {
+  if (!pendingDeleteId) return;
+
+  const id = pendingDeleteId;
+  closeDeleteConfirm();
+
+  const { error } = await db.from("appointments").delete().eq("id", id);
+  if (error) {
+    showMessage(error.message, "error");
+    return;
   }
+
+  playGvmSound("delete");
+  await loadVisits();
+}
+
+
+/* =========================================================
+   NAVIGIMI I DATËS
+========================================================= */
+
+function changeDate(days){
+    const next = new Date(selectedDate);
+    next.setDate(next.getDate() + days);
+    selectedDate = next;
+
+    if(datePicker){
+        datePicker.value = formatDateISO(selectedDate);
+    }
+
+    showSelectedDate();
+    loadVisits();
+}
+
+document.getElementById("prevDate").addEventListener(
+    "click",
+    function(){
+        changeDate(-1);
+    }
+);
+
+document.getElementById("nextDate").addEventListener(
+    "click",
+    function(){
+        changeDate(1);
+    }
+);
+
+document.getElementById("todayButton").addEventListener(
+    "click",
+    function(){
+        selectedDate = new Date();
+        if(datePicker){
+            datePicker.value = formatDateISO(selectedDate);
+        }
+        showSelectedDate();
+        loadVisits();
+    }
+);
+
+const datePicker = document.getElementById("datePicker");
+
+if(datePicker){
+    datePicker.value = formatDateISO(selectedDate);
+
+    datePicker.addEventListener("change", function(){
+        if(!datePicker.value) return;
+
+        const parts = datePicker.value.split("-").map(Number);
+        selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
+        showSelectedDate();
+        loadVisits();
+    });
+}
+
+
+/* =========================================================
+   KERKIMI I SHPEJTE
+========================================================= */
+
+const agendaSearch = document.getElementById("agendaSearch");
+const clearAgendaSearch = document.getElementById("clearAgendaSearch");
+
+if(agendaSearch){
+    agendaSearch.addEventListener("input", function(){
+        agendaSearchText = agendaSearch.value;
+        applyAgendaSearch();
+    });
+}
+
+if(clearAgendaSearch){
+    clearAgendaSearch.addEventListener("click", function(){
+        if(agendaSearch) agendaSearch.value = "";
+        agendaSearchText = "";
+        applyAgendaSearch();
+        if(agendaSearch) agendaSearch.focus();
+    });
+}
+
+
+/* =========================================================
+   FILTRAT E STATUSIT
+========================================================= */
+
+const statusFilterButtons = document.querySelectorAll(".status-filter-btn");
+
+statusFilterButtons.forEach(function(button){
+    button.addEventListener("click", function(){
+        agendaStatusFilter = button.dataset.statusFilter || "all";
+
+        statusFilterButtons.forEach(function(btn){
+            btn.classList.toggle("active", btn === button);
+        });
+
+        applyAgendaSearch();
+    });
+});
+
+
+/* =========================================================
+   BUTONI RUAJ VIZITEN
+========================================================= */
+
+saveButton.addEventListener(
+    "click",
+    function(){
+        saveVisit();
+    }
 );
 
 
 /* =========================================================
-   DELETE APPOINTMENT
+   KONTROLLI I LOGIN-IT
 ========================================================= */
 
-async function deleteAppointment(id) {
+async function checkAuth(){
 
-  const confirmed =
-    window.confirm(
-      "Jeni të sigurt që dëshironi ta fshini këtë vizitë?"
+    const result =
+        await db.auth.getSession();
+
+    if(
+        !result.data ||
+        !result.data.session
+    ){
+        window.location.replace("index.html");
+        return;
+    }
+
+    currentUserEmail = (result.data.session.user.email || "").toLowerCase().trim();
+
+    console.log(
+        "AMBULATORI GVM: përdoruesi është i loguar",
+        currentUserEmail,
+        getUserTimeRange()
     );
 
-  if (!confirmed) {
-    return;
-  }
+    showSelectedDate();
+    createTimeOptions();
+    loadVisits();
+    loadPatientsList();
+}
 
 
-  try {
 
-    await supabaseRequest(
-      "appointments?id=eq." +
-      encodeURIComponent(id),
-      {
-        method: "DELETE"
-      }
-    );
+/* =========================================================
+   MODULI I LISTES SE PACIENTEVE
+========================================================= */
 
+const patientsSearch = document.getElementById("patientsSearch");
+const patientsTableBody = document.getElementById("patientsTableBody");
+const patientsCount = document.getElementById("patientsCount");
+const patientsPageInfo = document.getElementById("patientsPageInfo");
+const patientsPrev = document.getElementById("patientsPrev");
+const patientsNext = document.getElementById("patientsNext");
 
-    await loadAppointments();
+let patientsPage = 0;
+const patientsPageSize = 50;
+let patientsSearchTimer = null;
 
+function escapePatientHtml(value){
+    return String(value ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+}
 
-  } catch (error) {
+async function loadPatientsList(){
+    if(!patientsTableBody) return;
 
-    console.error(error);
+    patientsTableBody.innerHTML =
+      '<tr><td colspan="3" class="patient-empty">Po ngarkohen pacientët...</td></tr>';
 
-    alert(
-      "Vizita nuk u fshi: " +
-      error.message
-    );
+    const q = patientsSearch ? patientsSearch.value.trim() : "";
+    const from = patientsPage * patientsPageSize;
+    const to = from + patientsPageSize - 1;
 
-  }
+    try{
+        let query = db
+          .from("patients")
+          .select("id,full_name,card_number,card_number_2", {count:"exact"})
+          .order("full_name", {ascending:true})
+          .range(from,to);
 
+        if(q){
+            const safe = q.replace(/[(),]/g," ").trim();
+            query = query.or(
+              "full_name.ilike.*" + safe + "*," +
+              "card_number.ilike.*" + safe + "*," +
+              "card_number_2.ilike.*" + safe + "*"
+            );
+        }
+
+        const {data,error,count} = await query;
+
+        if(error){
+            console.error("PATIENT LIST ERROR:", error);
+            patientsTableBody.innerHTML =
+              '<tr><td colspan="3" class="patient-empty">Gabim gjatë ngarkimit: ' +
+              escapePatientHtml(error.message) + '</td></tr>';
+            if(patientsCount) patientsCount.textContent = "Gabim";
+            return;
+        }
+
+        const total = count || 0;
+        const totalPages = Math.max(1, Math.ceil(total / patientsPageSize));
+
+        if(patientsPage >= totalPages){
+            patientsPage = Math.max(0,totalPages - 1);
+            return loadPatientsList();
+        }
+
+        if(patientsCount){
+            patientsCount.textContent = total.toLocaleString("sq-AL") + " pacientë";
+        }
+
+        if(patientsPageInfo){
+            patientsPageInfo.textContent =
+              "Faqja " + (patientsPage + 1) + " / " + totalPages;
+        }
+
+        if(patientsPrev) patientsPrev.disabled = patientsPage === 0;
+        if(patientsNext) patientsNext.disabled = patientsPage >= totalPages - 1;
+
+        if(!data || !data.length){
+            patientsTableBody.innerHTML =
+              '<tr><td colspan="3" class="patient-empty">Nuk u gjet asnjë pacient.</td></tr>';
+            return;
+        }
+
+        patientsTableBody.innerHTML = data.map(function(patient){
+            const c1 = patient.card_number
+              ? escapePatientHtml(patient.card_number)
+              : '<span style="color:#637f8e">—</span>';
+            const c2 = patient.card_number_2
+              ? escapePatientHtml(patient.card_number_2)
+              : '<span style="color:#637f8e">—</span>';
+
+            return '<tr>' +
+              '<td><span class="patient-card-main">' +
+              escapePatientHtml(patient.full_name || "") +
+              '</span></td>' +
+              '<td>' + c1 + '</td>' +
+              '<td>' + c2 + '</td>' +
+              '</tr>';
+        }).join("");
+
+    }catch(error){
+        console.error("PATIENT LIST FETCH ERROR:", error);
+        patientsTableBody.innerHTML =
+          '<tr><td colspan="3" class="patient-empty">Gabim gjatë lidhjes me pacientët.</td></tr>';
+    }
+}
+
+if(patientsSearch){
+    patientsSearch.addEventListener("input",function(){
+        clearTimeout(patientsSearchTimer);
+        patientsSearchTimer = setTimeout(function(){
+            patientsPage = 0;
+            loadPatientsList();
+        },300);
+    });
+}
+
+if(patientsPrev){
+    patientsPrev.addEventListener("click",function(){
+        if(patientsPage > 0){
+            patientsPage--;
+            loadPatientsList();
+        }
+    });
+}
+
+if(patientsNext){
+    patientsNext.addEventListener("click",function(){
+        patientsPage++;
+        loadPatientsList();
+    });
 }
 
 
 /* =========================================================
-   INITIALIZE
+   START
 ========================================================= */
 
-function initialize() {
+checkAuth();
 
-  generateTimeOptions();
+// Përditëso agjendën periodikisht që oraret bosh të kaluara të zhduken vetë.
+setInterval(function(){
+    const currentDateISO = formatDateISO(selectedDate);
+    const now = new Date();
+    const todayISO = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2,"0") + "-" + String(now.getDate()).padStart(2,"0");
+    if(currentDateISO === todayISO){
+        loadVisits();
+    }
+}, 60000);
 
-  renderDateCards();
+/* =========================================================
+   LOGOUT
+========================================================= */
 
-  updateDateLabels();
+const logoutButton = document.getElementById("logoutButton");
 
-  updatePaymentVisibility();
+if(logoutButton){
+    logoutButton.addEventListener("click", async function(){
 
-  loadAppointments();
+        logoutButton.disabled = true;
+        logoutButton.querySelector("span:last-child").textContent = "Po del...";
 
+        const { error } = await db.auth.signOut();
+
+        if(error){
+            console.error("LOGOUT ERROR:", error);
+            logoutButton.disabled = false;
+            logoutButton.querySelector("span:last-child").textContent = "Dil";
+            showMessage("Gabim gjatë daljes: " + error.message, "error");
+            return;
+        }
+
+        window.location.replace("index.html");
+    });
 }
 
-
-initialize();
-
 </script>
+
+<div id="deleteConfirmModal" class="delete-confirm-overlay" onclick="if(event.target===this) closeDeleteConfirm()">
+  <div class="delete-confirm-card">
+    <div class="delete-confirm-icon">🗑</div>
+    <h3>Fshi vizitën?</h3>
+    <p>A jeni i sigurt që dëshironi ta fshini këtë vizitë nga agjenda?</p>
+    <div class="delete-confirm-actions">
+      <button type="button" class="delete-cancel-btn" onclick="closeDeleteConfirm()">Anulo</button>
+      <button type="button" class="delete-ok-btn" onclick="confirmDeleteVisit()">Po, fshije</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
