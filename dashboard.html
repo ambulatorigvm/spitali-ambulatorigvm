@@ -4426,3 +4426,83 @@ if(logoutButton){
  #visits .slot-time{font-size:11px!important}
 }
 </style>
+
+<style id="GVM-FINAL-HOVER-LOCK">
+/* FINAL: asnjë ndryshim vizual kur afrohet shigjeta te vizita */
+#visits .agenda-slot,
+#visits .agenda-slot:hover,
+#visits .slot-body,
+#visits .slot-body:hover,
+#visits .slot-body .visit-item,
+#visits .slot-body .visit-item:hover,
+#visits .slot-body .visit-status-controls,
+#visits .slot-body .visit-status-controls:hover{
+  transform:none!important;
+  scale:1!important;
+  zoom:1!important;
+  filter:none!important;
+  transition:none!important;
+  animation:none!important;
+}
+
+#visits .slot-body .visit-item:hover{
+  width:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:9px 11px!important;
+  border-radius:11px!important;
+  box-shadow:0 2px 8px rgba(9,73,119,.045)!important;
+}
+
+#visits .slot-body .visit-status-controls,
+#visits .slot-body .visit-status-controls:hover{
+  position:static!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:0!important;
+  margin-top:6px!important;
+  gap:6px!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+}
+
+#visits .slot-body .visit-status-controls > button,
+#visits .slot-body .visit-status-controls > button:hover,
+#visits .slot-body .visit-status-controls > button:focus,
+#visits .slot-body .visit-status-controls > button:active{
+  position:static!important;
+  display:inline-flex!important;
+  width:auto!important;
+  min-width:0!important;
+  height:28px!important;
+  padding:0 9px!important;
+  margin:0!important;
+  transform:none!important;
+  scale:1!important;
+  zoom:1!important;
+  filter:none!important;
+  transition:none!important;
+  animation:none!important;
+  box-shadow:none!important;
+}
+
+#visits .agenda-slot:hover .slot-time,
+#visits .agenda-slot:hover .slot-body,
+#visits .agenda-slot:hover .visit-item,
+#visits .agenda-slot:hover .visit-status-controls{
+  transform:none!important;
+  filter:none!important;
+}
+
+#visits .slot-body .visit-status-controls:before,
+#visits .slot-body .visit-status-controls:hover:before{
+  display:none!important;
+  content:none!important;
+}
+</style>
