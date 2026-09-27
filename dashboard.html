@@ -1305,9 +1305,20 @@ tr.status-cancelled .appointment-time {
 
         <section class="card report-card" id="visitReportCard" style="display:none;">
           <div class="card-title"><span class="title-icon">▥</span> Statistikat Ditore</div>
-          <div class="report-current-date" id="reportCurrentDate">—</div>
+          <div class="report-filters">
+            <div>
+              <label for="reportFrom">Nga</label>
+              <input type="date" id="reportFrom">
+            </div>
+            <div>
+              <label for="reportTo">Deri</label>
+              <input type="date" id="reportTo">
+            </div>
+            <button type="button" id="generateReportButton">Shiko</button>
+          </div>
+          <div class="report-summary" id="reportSummary">Zgjidh periudhën.</div>
           <div class="daily-report" id="dailyReport">
-            <div class="report-empty">Po përgatiten statistikat...</div>
+            <div class="report-empty">Nuk ka statistika të gjeneruara.</div>
           </div>
         </section>
 
@@ -2720,7 +2731,6 @@ document.getElementById("todayButton").addEventListener(
         }
         showSelectedDate();
         loadVisits();
-        loadVisitReport();
     }
 );
 
@@ -2736,7 +2746,6 @@ if(datePicker){
         selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
         showSelectedDate();
         loadVisits();
-        loadVisitReport();
     });
 }
 
@@ -2800,53 +2809,116 @@ saveButton.addEventListener(
    RAPORTI I VIZITAVE PËR PËRDORUESIT QË NUK SHTOJNË VIZITA
 ========================================================= */
 
-const reportCurrentDate = document.getElementById("reportCurrentDate");
+const reportFrom = document.getElementById("reportFrom");
+const reportTo = document.getElementById("reportTo");
+const generateReportButton = document.getElementById("generateReportButton");
+const reportSummary = document.getElementById("reportSummary");
 const dailyReport = document.getElementById("dailyReport");
 
-function formatReportDayLong(dateString){
+function setDefaultReportDates(){
+    if(!reportFrom || !reportTo) return;
+    const now = new Date();
+    const first = new Date(now.getFullYear(), now.getMonth(), 1);
+    reportFrom.value = formatDateISO(first);
+    reportTo.value = formatDateISO(now);
+}
+
+function formatReportDay(dateString){
     const parts = String(dateString || "").split("-");
     if(parts.length !== 3) return dateString || "—";
-    const months = ["Janar","Shkurt","Mars","Prill","Maj","Qershor","Korrik","Gusht","Shtator","Tetor","Nëntor","Dhjetor"];
-    const m = Number(parts[1]);
-    return Number(parts[2]) + " " + (months[m - 1] || parts[1]) + " " + parts[0];
+    return parts[2] + "/" + parts[1];
 }
 
 async function loadVisitReport(){
     if(canAddVisits()) return;
 
-    const day = formatDateISO(selectedDate);
-    if(reportCurrentDate) reportCurrentDate.textContent = formatReportDayLong(day);
+    const from = reportFrom && reportFrom.value;
+    const to = reportTo && reportTo.value;
+
+    if(!from || !to){
+        reportSummary.innerHTML = '<div class="report-stat"><div class="label">Info</div><div class="value" style="font-size:13px">Zgjidh periudhën</div></div>';
+        if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Zgjidh datat dhe kliko “Shiko”.</div>';
+        return;
+    }
+
+    if(from > to){
+        reportSummary.innerHTML = '<div class="report-stat"><div class="label">Gabim</div><div class="value" style="font-size:13px">Data e fillimit është më e madhe.</div></div>';
+        if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Kontrollo datat e raportit.</div>';
+        return;
+    }
+
+    generateReportButton.disabled = true;
+    generateReportButton.textContent = "...";
+    reportSummary.innerHTML = '<div class="report-stat"><div class="label">Raporti</div><div class="value" style="font-size:13px">Po ngarkohet...</div></div>';
     if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Po përgatiten statistikat...</div>';
 
     const result = await db
         .from("appointments")
         .select("appointment_date, visit_type, status")
-        .eq("appointment_date", day);
+        .gte("appointment_date", from)
+        .lte("appointment_date", to)
+        .order("appointment_date", {ascending:true});
 
     if(result.error){
         console.error("REPORT SELECT ERROR:", result.error);
-        if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Nuk u ngarkuan statistikat.</div>';
+        reportSummary.innerHTML = '<div class="report-stat"><div class="label">Gabim</div><div class="value" style="font-size:13px">Nuk u ngarkua raporti.</div></div>';
+        if(dailyReport) dailyReport.innerHTML = '<div class="daily-empty">Kontrollo lidhjen ose lejet e Supabase.</div>';
+        generateReportButton.disabled = false;
+        generateReportButton.textContent = "Shiko";
         return;
     }
 
     const rows = result.data || [];
-    let total = 0, visits = 0, rechecks = 0, cancelled = 0;
+    const counts = {total:rows.length, visits:0, rechecks:0, cancelled:0};
+    const byDay = {};
 
     rows.forEach(function(row){
-        total++;
-        if(String(row.visit_type || "Vizitë").toLowerCase() === "rikontroll") rechecks++;
-        else visits++;
-        if((row.status || "scheduled") === "cancelled") cancelled++;
+        const day = row.appointment_date || "—";
+        if(!byDay[day]) byDay[day] = {total:0, visits:0, rechecks:0, cancelled:0};
+        byDay[day].total++;
+
+        const type = String(row.visit_type || "Vizitë").toLowerCase();
+        if(type === "rikontroll"){
+            counts.rechecks++;
+            byDay[day].rechecks++;
+        }else{
+            counts.visits++;
+            byDay[day].visits++;
+        }
+
+        if((row.status || "scheduled") === "cancelled"){
+            counts.cancelled++;
+            byDay[day].cancelled++;
+        }
     });
 
-    if(!dailyReport) return;
-    dailyReport.innerHTML =
-        '<div class="daily-counts daily-counts-four">' +
-            '<div class="daily-pill"><strong>'+total+'</strong><span>Gjithsej</span></div>' +
-            '<div class="daily-pill"><strong>'+visits+'</strong><span>Vizita</span></div>' +
-            '<div class="daily-pill"><strong>'+rechecks+'</strong><span>Rikontrolle</span></div>' +
-            '<div class="daily-pill"><strong>'+cancelled+'</strong><span>Anulluara</span></div>' +
-        '</div>';
+    /* Vetëm statistika ditore — pa total për gjithë periudhën. */
+    reportSummary.innerHTML = '<div class="report-stat report-stat-daily"><div class="label">Statistika ditore</div><div class="value" style="font-size:15px">Vizita për çdo ditë</div></div>';
+
+    const days = Object.keys(byDay).sort().reverse();
+    if(!days.length){
+        dailyReport.innerHTML = '<div class="daily-empty">Nuk ka vizita në periudhën e zgjedhur.</div>';
+    }else{
+        dailyReport.innerHTML = days.map(function(day){
+            const d = byDay[day];
+            return '<div class="daily-row">' +
+                '<div class="daily-date">'+formatReportDay(day)+'</div>' +
+                '<div class="daily-counts">' +
+                    '<div class="daily-pill"><strong>'+d.total+'</strong><span>Gjithsej</span></div>' +
+                    '<div class="daily-pill"><strong>'+d.visits+'</strong><span>Vizita</span></div>' +
+                    '<div class="daily-pill"><strong>'+d.rechecks+'</strong><span>Rikontrolle</span></div>' +
+                    '<div class="daily-pill"><strong>'+d.cancelled+'</strong><span>Anulluara</span></div>' +
+                '</div>' +
+            '</div>';
+        }).join("");
+    }
+
+    generateReportButton.disabled = false;
+    generateReportButton.textContent = "Shiko";
+}
+
+if(generateReportButton){
+    generateReportButton.addEventListener("click", loadVisitReport);
 }
 
 /* =========================================================
@@ -3213,14 +3285,5 @@ if(logoutButton){
 .visit-item .visit-status-controls .visit-delete-button{color:#a02f2f !important;background:#ffffff !important;}
 </style>
 
-
-<style id="daily-stats-date-only">
-.report-card{min-width:0!important;}
-.report-current-date{margin:2px 0 12px;padding:10px 12px;border-radius:9px;background:#eef7fb;border:1px solid #d5e7ef;color:#0b4c6b;font-size:17px;font-weight:900;text-align:center;}
-.daily-counts-four{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;}
-.daily-counts-four .daily-pill{min-height:58px;display:flex;flex-direction:column;justify-content:center;}
-.daily-counts-four .daily-pill strong{font-size:20px!important;}
-@media(max-width:700px){.daily-counts-four{grid-template-columns:repeat(2,minmax(0,1fr))!important;}}
-</style>
 </body>
 </html>
