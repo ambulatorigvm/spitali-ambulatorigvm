@@ -4096,5 +4096,106 @@ if(logoutButton){
 #visits .slot-body .visit-status-controls button + button{display:none!important;}
 #visits .slot-body .visit-status-controls:hover button + button{display:none!important;}
 </style>
+
+<style id="gvm-status-layout-final-v3">
+/* V3 — statuset poshte emrit, te ndara qarte, pa mbivendosje dhe pa hover-expand */
+#visits .slot-body .visit-item{
+  display:grid!important;
+  grid-template-columns:minmax(260px,1fr) auto auto!important;
+  grid-template-rows:34px 30px 32px!important;
+  column-gap:12px!important;
+  row-gap:4px!important;
+  align-items:center!important;
+  min-height:106px!important;
+  height:106px!important;
+  padding:8px 10px!important;
+  box-sizing:border-box!important;
+  transform:none!important;
+}
+#visits .slot-body .visit-item:hover{
+  transform:none!important;
+  box-shadow:none!important;
+  background:#fff!important;
+}
+#visits .slot-body .visit-item > .visit-name{
+  grid-column:1!important; grid-row:1!important;
+  align-self:center!important;
+  min-width:0!important;
+}
+#visits .slot-body .visit-item > .visit-line{
+  grid-column:1!important; grid-row:2!important;
+  position:static!important;
+  align-self:center!important;
+  margin:0 0 0 52px!important;
+  white-space:nowrap!important;
+}
+#visits .slot-body .visit-item > .statusLine{
+  grid-column:2!important; grid-row:1 / span 2!important;
+  align-self:center!important;
+  justify-content:flex-start!important;
+  flex-wrap:nowrap!important;
+  white-space:nowrap!important;
+}
+#visits .slot-body .visit-status-controls,
+#visits .slot-body .visit-status-controls:hover,
+#visits .slot-body .visit-status-controls:focus-within{
+  grid-column:1 / -1!important; grid-row:3!important;
+  position:static!important;
+  width:100%!important; min-width:0!important; max-width:none!important;
+  height:32px!important; min-height:32px!important; max-height:32px!important;
+  display:flex!important; flex-direction:row!important; flex-wrap:nowrap!important;
+  align-items:center!important; justify-content:flex-start!important;
+  gap:6px!important; margin:0!important; padding:0!important;
+  overflow:visible!important;
+  background:transparent!important; border:0!important; border-radius:0!important;
+  box-shadow:none!important; transform:none!important; scale:1!important; zoom:1!important;
+}
+#visits .slot-body .visit-status-controls:before,
+#visits .slot-body .visit-status-controls:hover:before{
+  display:none!important; content:none!important;
+}
+#visits .slot-body .visit-status-controls button,
+#visits .slot-body .visit-status-controls:hover button,
+#visits .slot-body .visit-status-controls button:hover,
+#visits .slot-body .visit-status-controls button:focus,
+#visits .slot-body .visit-status-controls button:active{
+  display:inline-flex!important; opacity:1!important; visibility:visible!important;
+  position:static!important; flex:0 0 auto!important;
+  width:auto!important; min-width:0!important; max-width:none!important;
+  height:28px!important; min-height:28px!important; max-height:28px!important;
+  padding:0 10px!important; margin:0!important;
+  box-sizing:border-box!important;
+  align-items:center!important; justify-content:center!important;
+  white-space:nowrap!important;
+  font-size:10px!important; line-height:1!important;
+  border:1px solid #d7e5ed!important; border-radius:7px!important;
+  background:#f8fbfd!important; color:#31566f!important;
+  box-shadow:none!important;
+  transform:none!important; scale:1!important; zoom:1!important;
+  transition:none!important; animation:none!important;
+}
+#visits .slot-body .visit-status-controls .scheduled.active{background:#eaf5ff!important;color:#0877d1!important;border-color:#9dcef0!important;}
+#visits .slot-body .visit-status-controls .arrived.active{background:#e4f7ed!important;color:#087b4b!important;border-color:#9dd8ba!important;}
+#visits .slot-body .visit-status-controls .finished.active{background:#fff3d6!important;color:#9b6a00!important;border-color:#e8cf88!important;}
+#visits .slot-body .visit-status-controls .cancelled.active{background:#ffecec!important;color:#c53c47!important;border-color:#efb9be!important;}
+#visits .slot-body .visit-status-controls .visit-delete-button{color:#c54b55!important;border-color:#e7c4c7!important;background:#fff7f7!important;}
+#visits .slot-body .visit-status-controls button:hover{
+  transform:none!important; background:#f8fbfd!important; color:#31566f!important; border-color:#d7e5ed!important;
+}
+#visits .slot-body .visit-status-controls .scheduled.active:hover{background:#eaf5ff!important;color:#0877d1!important;border-color:#9dcef0!important;}
+#visits .slot-body .visit-status-controls .arrived.active:hover{background:#e4f7ed!important;color:#087b4b!important;border-color:#9dd8ba!important;}
+#visits .slot-body .visit-status-controls .finished.active:hover{background:#fff3d6!important;color:#9b6a00!important;border-color:#e8cf88!important;}
+#visits .slot-body .visit-status-controls .cancelled.active:hover{background:#ffecec!important;color:#c53c47!important;border-color:#efb9be!important;}
+#visits .slot-body .visit-status-controls .visit-delete-button:hover{background:#fff7f7!important;color:#c54b55!important;border-color:#e7c4c7!important;}
+@media(max-width:900px){
+  #visits .slot-body .visit-item{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:32px 24px auto!important;height:106px!important;}
+  #visits .slot-body .visit-item > .statusLine{grid-column:1!important;grid-row:2!important;justify-content:flex-start!important;}
+  #visits .slot-body .visit-status-controls{grid-column:1!important;grid-row:3!important;}
+}
+@media(max-width:600px){
+  #visits .slot-body .visit-item{height:auto!important;min-height:126px!important;grid-template-rows:32px 24px auto!important;}
+  #visits .slot-body .visit-status-controls{flex-wrap:wrap!important;height:auto!important;min-height:32px!important;row-gap:5px!important;}
+}
+</style>
 </body>
 </html>
