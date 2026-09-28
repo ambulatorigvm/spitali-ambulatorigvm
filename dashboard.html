@@ -1428,6 +1428,74 @@ console.log("AMBULATORI GVM: Supabase client u inicializua");
 
 
 /* =========================================================
+   SUPABASE REALTIME — STATUSI I VIZITAVE
+   Çdo ndryshim në appointments u shfaqet menjëherë
+   të gjithë userëve pa bërë refresh të faqes.
+========================================================= */
+let appointmentsRealtimeChannel = null;
+
+function startAppointmentsRealtime(){
+    if(appointmentsRealtimeChannel){
+        try{
+            db.removeChannel(appointmentsRealtimeChannel);
+        }catch(e){
+            console.warn("REALTIME CHANNEL REMOVE:", e);
+        }
+    }
+
+    appointmentsRealtimeChannel = db
+        .channel("appointments-live-status")
+        .on(
+            "postgres_changes",
+            {
+                event: "UPDATE",
+                schema: "public",
+                table: "appointments"
+            },
+            function(payload){
+                console.log("REALTIME APPOINTMENT UPDATE:", payload);
+
+                const newRow = payload.new || {};
+                const oldRow = payload.old || {};
+
+                /* Nëse ndryshimi është statusi, përditëso agjendën
+                   menjëherë. Nuk bëhet refresh i faqes. */
+                if(newRow.status !== oldRow.status){
+                    const selectedISO = formatDateISO(selectedDate);
+                    const changedDate = String(newRow.appointment_date || "").slice(0,10);
+
+                    if(changedDate === selectedISO){
+                        loadVisits();
+                    }
+                }
+            }
+        )
+        .subscribe(function(status, err){
+            if(status === "SUBSCRIBED"){
+                console.log("APPOINTMENTS REALTIME: CONNECTED");
+            }
+            else if(status === "CHANNEL_ERROR"){
+                console.error("APPOINTMENTS REALTIME CHANNEL ERROR:", err);
+            }
+            else if(status === "TIMED_OUT"){
+                console.warn("APPOINTMENTS REALTIME: TIMEOUT");
+            }
+            else if(status === "CLOSED"){
+                console.warn("APPOINTMENTS REALTIME: CLOSED");
+            }
+        });
+}
+
+window.addEventListener("beforeunload", function(){
+    if(appointmentsRealtimeChannel){
+        try{
+            db.removeChannel(appointmentsRealtimeChannel);
+        }catch(e){}
+    }
+});
+
+
+/* =========================================================
    ELEMENTET
 ========================================================= */
 
@@ -3103,6 +3171,7 @@ if(patientsNext){
 
 setDefaultReportDates();
 checkAuth();
+startAppointmentsRealtime();
 
 // Përditëso agjendën periodikisht që oraret bosh të kaluara të zhduken vetë.
 setInterval(function(){
