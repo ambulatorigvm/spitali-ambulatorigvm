@@ -674,6 +674,33 @@ input:focus,select:focus{
 @media(max-width:620px){.status-filters{gap:6px}.status-filter-btn{flex:1 1 calc(50% - 6px)!important}}
 </style>
 
+
+<style id="mobile-add-visit-style">
+.mobile-add-visit-button{display:none;}
+@media(max-width:760px){
+  .mobile-add-visit-button{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:100%!important;
+    height:48px!important;
+    margin:0 0 10px!important;
+    border-radius:12px!important;
+    background:linear-gradient(135deg,#1599cf,#0b6faf)!important;
+    color:#fff!important;
+    border:1px solid rgba(120,220,240,.22)!important;
+    box-shadow:0 8px 20px rgba(7,111,175,.22)!important;
+    font-size:14px!important;
+    font-weight:850!important;
+    cursor:pointer!important;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .mobile-add-visit-button:active{transform:none!important;filter:brightness(.96);}
+  /* Formulari hapet nga butoni në krye ose nga një orar bosh. */
+  #addVisitCard{scroll-margin-top:12px;}
+}
+</style>
+
 <style id="mobile-friendly-gvm">
 /* =========================================================
    MOBILE FRIENDLY – AMBULATORI GVM
@@ -898,6 +925,11 @@ html, body{
 }
 
 @media(max-width:760px){
+    .slot-empty:hover{
+        background:transparent!important;
+        color:#587787!important;
+        transform:none!important;
+    }
     .slot-empty{
         min-height:48px!important;
         display:flex!important;
@@ -1310,6 +1342,8 @@ tr.status-cancelled .appointment-time {
 
     <div id="todayDate" class="date-title"></div>
       </div>
+
+      <button type="button" id="mobileAddVisitButton" class="mobile-add-visit-button">＋ &nbsp; Shto Vizitë të Re</button>
 
       <div id="message"></div>
 
@@ -2279,6 +2313,55 @@ function openAddVisitAtSlot(slotTime){
 
 
 /* =========================================================
+   BUTONI "SHTO VIZITË TË RE" NË KRYE – TELEFON
+========================================================= */
+
+function openAddVisitForm(){
+    const addVisitCard = document.getElementById("addVisitCard");
+
+    if(!canAddVisits()){
+        showMessage("Nuk keni akses për të shtuar vizita.", "error");
+        return;
+    }
+
+    if(!addVisitCard) return;
+
+    /* Nëse po hapet nga butoni i kryeut, mos ndrysho orën e zgjedhur. */
+    if(visitType){
+        visitType.value = "Vizitë";
+    }
+    if(paymentBox){
+        paymentBox.style.display = "none";
+    }
+    document.querySelectorAll('input[name="payment"]').forEach(function(radio){
+        radio.checked = false;
+    });
+
+    addVisitCard.style.display = "";
+    addVisitCard.scrollIntoView({behavior:"smooth", block:"start"});
+
+    addVisitCard.classList.remove("add-visit-focus");
+    void addVisitCard.offsetWidth;
+    addVisitCard.classList.add("add-visit-focus");
+
+    setTimeout(function(){
+        if(patientName) patientName.focus();
+    }, 350);
+
+    setTimeout(function(){
+        addVisitCard.classList.remove("add-visit-focus");
+    }, 1800);
+}
+
+(function(){
+    const mobileAddVisitButton = document.getElementById("mobileAddVisitButton");
+    if(mobileAddVisitButton){
+        mobileAddVisitButton.addEventListener("click", openAddVisitForm);
+    }
+})();
+
+
+/* =========================================================
    NGARKO VIZITAT E DATËS SË ZGJEDHUR
 ========================================================= */
 
@@ -2380,6 +2463,13 @@ async function loadVisits(){
             /* Klikimi mbi orarin bosh hap automatikisht formularin e vizitës */
             empty.addEventListener("click", function(){
                 openAddVisitAtSlot(slotTime);
+            });
+
+            /* Në telefon mund të preket e gjithë hapësira bosh. */
+            body.addEventListener("click", function(event){
+                if(event.target === body){
+                    openAddVisitAtSlot(slotTime);
+                }
             });
 
             body.appendChild(empty);
