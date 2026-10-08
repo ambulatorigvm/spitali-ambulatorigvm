@@ -3567,3 +3567,25 @@ if(logoutButton){
 
 </body>
 </html>
+<style id="mobile-add-visit-first-fix">
+@media(max-width:760px){
+  /* Në telefon formulari i plotë i shtimit qëndron në fillim, para agjendës. */
+  .workspace{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:10px!important;
+  }
+  .workspace>#addVisitCard{
+    order:1!important;
+    width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .workspace>.agenda-card{
+    order:2!important;
+    width:100%!important;
+  }
+  #addVisitCard{
+    scroll-margin-top:8px!important;
+  }
+}
+</style>
