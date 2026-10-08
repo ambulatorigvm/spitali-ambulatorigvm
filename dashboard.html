@@ -555,33 +555,12 @@ input:focus,select:focus{
 }
 #saveButton:hover{filter:brightness(1.08)}
 
-@media (max-width: 1050px) {
-
-  /* Vetëm në ekran të vogël */
-  .workspace {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Shto vizitë sipër */
-  .workspace > .card:not(.agenda-card) {
-    order: 1;
-  }
-
-  /* Agjenda poshtë */
-  .workspace .agenda-card {
-    order: 2;
-  }
-
-  /* Organizimi i vizitës në telefon */
-  .visit-item {
-    grid-template-columns: 60px 1fr 1fr !important;
-  }
-
-  /* Butonat e statusit në rresht më vete */
-  .visit-status-controls {
-    grid-column: 1 / -1;
-    justify-content: flex-start !important;
-  }
+@media(max-width:1050px){
+  .workspace{grid-template-columns:1fr!important}
+  .workspace .agenda-card{order:1}
+  .workspace>.card:not(.agenda-card){order:2}
+  .visit-item{grid-template-columns:60px 1fr 1fr!important}
+  .visit-status-controls{grid-column:1/-1;justify-content:flex-start!important}
 }
 @media(max-width:760px){
   .sidebar{background:rgba(4,20,34,.98)!important}
@@ -892,6 +871,44 @@ html, body{
   .date-navigation button{font-size:11px!important;padding:9px 7px!important;}
   .visit-item{grid-template-columns:54px minmax(0,1fr)!important;}
 }
+/* Orari bosh është i klikueshëm */
+.slot-empty{
+    cursor:pointer!important;
+    transition:background .18s ease,color .18s ease,transform .18s ease,border-color .18s ease;
+    border-radius:8px;
+}
+.slot-empty:hover{
+    background:rgba(24,185,210,.10)!important;
+    color:#8ee9f4!important;
+    transform:translateX(2px);
+}
+.slot-empty:active{
+    transform:scale(.99);
+}
+
+.add-visit-focus{
+    animation:addVisitFocusPulse .9s ease 2;
+    border-color:#20bfd8!important;
+    box-shadow:0 0 0 3px rgba(32,191,216,.18),0 16px 42px rgba(0,0,0,.28)!important;
+}
+
+@keyframes addVisitFocusPulse{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-3px)}
+}
+
+@media(max-width:760px){
+    .slot-empty{
+        min-height:48px!important;
+        display:flex!important;
+        align-items:center!important;
+        padding:0 12px!important;
+        -webkit-tap-highlight-color:rgba(24,185,210,.12);
+    }
+}
+
+
+/* Existing patient search styles */
 </style>
 
 
@@ -2201,6 +2218,67 @@ function updateStats(data){
 
 
 /* =========================================================
+   HAP AUTOMATIKISHT FORMULAREN NGA NJE ORAR I LIRE
+========================================================= */
+
+function openAddVisitAtSlot(slotTime){
+
+    const addVisitCard = document.getElementById("addVisitCard");
+
+    /* Nëse përdoruesi nuk ka të drejtë të shtojë vizita,
+       mos hapim formularin. */
+    if(!canAddVisits()){
+        showMessage("Nuk keni akses për të shtuar vizita.", "error");
+        return;
+    }
+
+    if(!addVisitCard || !appointmentTime){
+        return;
+    }
+
+    /* Vendos automatikisht orën e slotit të klikuar */
+    appointmentTime.value = String(slotTime).slice(0,5);
+
+    /* Sigurohemi që formulari të jetë në gjendje fillestare */
+    if(visitType){
+        visitType.value = "Vizitë";
+    }
+
+    if(paymentBox){
+        paymentBox.style.display = "none";
+    }
+
+    document.querySelectorAll('input[name="payment"]').forEach(function(radio){
+        radio.checked = false;
+    });
+
+    /* Hap/afishon qartë kartën e shtimit */
+    addVisitCard.style.display = "";
+
+    /* Në PC dhe në telefon, shko direkt te formulari */
+    addVisitCard.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+    /* Theksoje për pak sekonda që përdoruesi ta kuptojë */
+    addVisitCard.classList.remove("add-visit-focus");
+    void addVisitCard.offsetWidth;
+    addVisitCard.classList.add("add-visit-focus");
+
+    setTimeout(function(){
+        if(patientName){
+            patientName.focus();
+        }
+    }, 450);
+
+    setTimeout(function(){
+        addVisitCard.classList.remove("add-visit-focus");
+    }, 1800);
+}
+
+
+/* =========================================================
    NGARKO VIZITAT E DATËS SË ZGJEDHUR
 ========================================================= */
 
@@ -2298,6 +2376,12 @@ async function loadVisits(){
             const empty = document.createElement("div");
             empty.className = "slot-empty";
             empty.textContent = "Orar i lirë";
+
+            /* Klikimi mbi orarin bosh hap automatikisht formularin e vizitës */
+            empty.addEventListener("click", function(){
+                openAddVisitAtSlot(slotTime);
+            });
+
             body.appendChild(empty);
 
             slot.appendChild(timeCell);
