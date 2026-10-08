@@ -2465,9 +2465,12 @@ async function loadVisits(){
                 openAddVisitAtSlot(slotTime);
             });
 
-            /* Në telefon mund të preket e gjithë hapësira bosh. */
-            body.addEventListener("click", function(event){
-                if(event.target === body){
+            /* Në telefon dhe në PC mund të klikohet e gjithë hapësira bosh. */
+            slot.addEventListener("click", function(event){
+                if(event.target.closest(".slot-empty") || event.target.closest(".slot-time")){
+                    return;
+                }
+                if(!slot.querySelector(".visit-item")){
                     openAddVisitAtSlot(slotTime);
                 }
             });
