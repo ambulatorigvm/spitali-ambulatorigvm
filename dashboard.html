@@ -555,12 +555,33 @@ input:focus,select:focus{
 }
 #saveButton:hover{filter:brightness(1.08)}
 
-@media(max-width:1050px){
-  .workspace{grid-template-columns:1fr!important}
-  .workspace .agenda-card{order:1}
-  .workspace>.card:not(.agenda-card){order:2}
-  .visit-item{grid-template-columns:60px 1fr 1fr!important}
-  .visit-status-controls{grid-column:1/-1;justify-content:flex-start!important}
+@media (max-width: 1050px) {
+
+  /* Vetëm në ekran të vogël */
+  .workspace {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Shto vizitë sipër */
+  .workspace > .card:not(.agenda-card) {
+    order: 1;
+  }
+
+  /* Agjenda poshtë */
+  .workspace .agenda-card {
+    order: 2;
+  }
+
+  /* Organizimi i vizitës në telefon */
+  .visit-item {
+    grid-template-columns: 60px 1fr 1fr !important;
+  }
+
+  /* Butonat e statusit në rresht më vete */
+  .visit-status-controls {
+    grid-column: 1 / -1;
+    justify-content: flex-start !important;
+  }
 }
 @media(max-width:760px){
   .sidebar{background:rgba(4,20,34,.98)!important}
