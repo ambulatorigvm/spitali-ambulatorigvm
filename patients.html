@@ -3,10 +3,9 @@
 <html lang="sq">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lista e Kartelave | AMBULATORI GVM</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 :root {
   --bg:#071522;
@@ -26,11 +25,7 @@ body {
   font-family:Inter,"Segoe UI",Arial,sans-serif;
   min-height:100vh;
 }
-.layout {
-  display:grid;
-  grid-template-columns:240px minmax(0,1fr);
-  min-height:100vh;
-}
+.layout { display:grid; grid-template-columns:240px minmax(0,1fr); min-height:100vh; }
 .sidebar {
   background:rgba(5,17,28,.94);
   border-right:1px solid var(--line);
@@ -39,255 +34,97 @@ body {
   flex-direction:column;
   gap:8px;
 }
-.brand {
-  padding:8px 12px 20px;
-  border-bottom:1px solid var(--line);
-  margin-bottom:8px;
-}
-.brand strong {
-  display:block;
-  font-size:17px;
-  letter-spacing:.08em;
-}
-.brand span {
-  display:block;
-  color:var(--cyan);
-  font-size:12px;
-  margin-top:5px;
-  font-weight:700;
-  letter-spacing:.08em;
-}
+.brand { padding:8px 12px 20px; border-bottom:1px solid var(--line); margin-bottom:8px; }
+.brand strong { display:block; font-size:17px; letter-spacing:.08em; }
+.brand span { display:block; color:var(--cyan); font-size:12px; margin-top:5px; font-weight:700; letter-spacing:.08em; }
 .nav {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px 14px;
-  border:0;
-  border-radius:12px;
-  background:transparent;
-  color:#b8cbd6;
-  text-decoration:none;
-  font-size:15px;
-  cursor:pointer;
-  text-align:left;
+  display:flex; align-items:center; gap:12px; padding:13px 14px;
+  border:0; border-radius:12px; background:transparent; color:#b8cbd6;
+  text-decoration:none; font-size:15px; cursor:pointer; text-align:left;
 }
-.nav:hover,.nav.active {
-  background:linear-gradient(90deg,rgba(24,139,209,.22),rgba(24,185,210,.08));
-  color:#fff;
-}
-.nav-icon {
-  width:22px;
-  text-align:center;
-  font-size:18px;
-}
-.side-foot {
-  margin-top:auto;
-  color:#607b8b;
-  font-size:11px;
-  line-height:1.7;
-  padding:12px;
-}
+.nav:hover,.nav.active { background:linear-gradient(90deg,rgba(24,139,209,.22),rgba(24,185,210,.08)); color:#fff; }
+.nav-icon { width:22px; text-align:center; font-size:18px; }
+.side-foot { margin-top:auto; color:#607b8b; font-size:11px; line-height:1.7; padding:12px; }
 .main { min-width:0; }
 .topbar {
-  min-height:78px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:14px 28px;
-  background:rgba(7,21,34,.72);
+  min-height:78px; border-bottom:1px solid var(--line); display:flex;
+  align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 28px; background:rgba(7,21,34,.72);
 }
-.logo {
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
+.logo { display:flex; align-items:center; gap:12px; }
 .logo-mark {
-  width:38px;
-  height:38px;
-  border-radius:11px;
+  width:38px; height:38px; border-radius:11px;
   background:linear-gradient(135deg,var(--blue),var(--cyan));
-  display:grid;
-  place-items:center;
-  font-weight:900;
+  display:grid; place-items:center; font-weight:900;
 }
-.hospital {
-  font-weight:800;
-  letter-spacing:.08em;
-}
-.ambulatory {
-  font-size:12px;
-  color:var(--cyan);
-  letter-spacing:.1em;
-  margin-top:3px;
-}
-#today {
-  color:var(--muted);
-  font-size:13px;
-  text-align:right;
-}
-.content {
-  padding:28px;
-  max-width:1400px;
-  margin:auto;
-}
+.hospital { font-weight:800; letter-spacing:.08em; }
+.ambulatory { font-size:12px; color:var(--cyan); letter-spacing:.1em; margin-top:3px; }
+#today { color:var(--muted); font-size:13px; text-align:right; }
+.content { padding:28px; max-width:1400px; margin:auto; }
 .heading {
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:20px;
-  margin-bottom:20px;
+  display:flex; align-items:end; justify-content:space-between;
+  gap:20px; margin-bottom:20px;
 }
-.heading h1 {
-  margin:0;
-  font-size:30px;
-}
-.heading p {
-  margin:7px 0 0;
-  color:var(--muted);
-}
+.heading h1 { margin:0; font-size:30px; }
+.heading p { margin:7px 0 0; color:var(--muted); }
 .back {
-  color:#fff;
-  text-decoration:none;
-  border:1px solid var(--line);
-  background:var(--panel);
-  padding:11px 15px;
-  border-radius:11px;
+  color:#fff; text-decoration:none; border:1px solid var(--line);
+  background:var(--panel); padding:11px 15px; border-radius:11px;
 }
 .card {
   background:linear-gradient(180deg,rgba(13,33,49,.96),rgba(9,27,41,.96));
-  border:1px solid var(--line);
-  border-radius:18px;
-  box-shadow:0 18px 45px rgba(0,0,0,.22);
-  overflow:hidden;
+  border:1px solid var(--line); border-radius:18px;
+  box-shadow:0 18px 45px rgba(0,0,0,.22); overflow:hidden;
 }
 .toolbar {
-  padding:18px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  gap:12px;
-  align-items:center;
-  flex-wrap:wrap;
+  padding:18px; border-bottom:1px solid var(--line);
+  display:flex; gap:12px; align-items:center; flex-wrap:wrap;
 }
 .search {
-  flex:1;
-  min-width:260px;
-  background:#081a29;
-  border:1px solid var(--line);
-  color:#fff;
-  border-radius:12px;
-  padding:13px 15px;
-  font-size:15px;
-  outline:none;
+  flex:1; min-width:260px; background:#081a29; border:1px solid var(--line);
+  color:#fff; border-radius:12px; padding:13px 15px; font-size:15px; outline:none;
 }
-.search:focus {
-  border-color:rgba(24,185,210,.65);
-  box-shadow:0 0 0 3px rgba(24,185,210,.08);
-}
-.count {
-  color:var(--muted);
-  font-size:14px;
-}
+.search:focus { border-color:rgba(24,185,210,.65); }
+.count { color:var(--muted); font-size:14px; }
 .table-wrap { overflow:auto; }
-table {
-  width:100%;
-  border-collapse:collapse;
-  min-width:600px;
-}
-th,td {
-  padding:15px 18px;
-  border-bottom:1px solid rgba(132,190,218,.10);
-  text-align:left;
-}
-th {
-  color:#8fb1c2;
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  background:rgba(0,0,0,.12);
-}
+table { width:100%; border-collapse:collapse; min-width:600px; }
+th,td { padding:15px 18px; border-bottom:1px solid rgba(132,190,218,.10); text-align:left; }
+th { color:#8fb1c2; font-size:12px; text-transform:uppercase; letter-spacing:.08em; background:rgba(0,0,0,.12); }
 td { font-size:15px; }
 tbody tr:hover { background:rgba(24,185,210,.045); }
-.number {
-  color:var(--cyan);
-  font-weight:800;
-}
-.empty,.loading {
-  padding:45px;
-  text-align:center;
-  color:var(--muted);
-  overflow-wrap:anywhere;
-}
-.pager {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  padding:17px;
-}
+.number { color:var(--cyan); font-weight:800; }
+.empty,.loading { padding:35px; text-align:center; color:var(--muted); overflow-wrap:anywhere; }
+.pager { display:flex; align-items:center; justify-content:center; gap:12px; padding:17px; }
 .pager button {
-  border:1px solid var(--line);
-  background:var(--panel2);
-  color:#fff;
-  border-radius:10px;
-  padding:10px 15px;
-  cursor:pointer;
+  border:1px solid var(--line); background:var(--panel2); color:#fff;
+  border-radius:10px; padding:10px 15px; cursor:pointer;
 }
-.pager button:disabled {
-  opacity:.35;
-  cursor:not-allowed;
-}
-.page-info {
-  color:var(--muted);
-  min-width:130px;
-  text-align:center;
-}
-.page-error {
-  margin:16px;
-  padding:14px 18px;
-  border:1px solid #e05252;
-  border-radius:12px;
-  background:#351b22;
-  color:#fff;
-  font:14px/1.5 Arial,sans-serif;
-  overflow-wrap:anywhere;
+.pager button:disabled { opacity:.35; cursor:not-allowed; }
+.page-info { color:var(--muted); min-width:130px; text-align:center; }
+.error-box {
+  display:none; margin:0 0 18px; padding:14px;
+  border:1px solid #e05252; border-radius:12px;
+  background:#351b22; color:#fff; overflow-wrap:anywhere; line-height:1.5;
 }
 @media(max-width:800px) {
   .layout { grid-template-columns:1fr; }
   .sidebar {
-    position:static;
-    border-right:0;
-    border-bottom:1px solid var(--line);
-    padding:12px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
+    border-right:0; border-bottom:1px solid var(--line); padding:12px;
+    display:grid; grid-template-columns:repeat(3,1fr);
   }
   .brand,.side-foot { display:none; }
-  .nav {
-    justify-content:center;
-    padding:11px 6px;
-    font-size:12px;
-    gap:5px;
-  }
+  .nav { justify-content:center; padding:11px 6px; font-size:12px; gap:5px; }
   .nav-icon { font-size:15px; }
   .topbar { padding:14px 15px; }
   .content { padding:18px 12px; }
-  .heading {
-    align-items:flex-start;
-    flex-direction:column;
-  }
+  .heading { align-items:flex-start; flex-direction:column; }
   .heading h1 { font-size:25px; }
-  .back {
-    width:100%;
-    text-align:center;
-  }
+  .back { width:100%; text-align:center; }
   .toolbar { padding:13px; }
   .search { min-width:100%; }
 }
 </style>
 </head>
-
 <body>
 <div class="layout">
   <aside class="sidebar">
@@ -295,32 +132,13 @@ tbody tr:hover { background:rgba(24,185,210,.045); }
       <strong>SPITALI GVM</strong>
       <span>AMBULATORI GVM</span>
     </div>
-
-    <a class="nav" href="dashboard.html">
-      <span class="nav-icon">⌂</span>Dashboard
-    </a>
-    <a class="nav" href="dashboard.html">
-      <span class="nav-icon">▣</span>Agjenda
-    </a>
-    <a class="nav" href="dashboard.html">
-      <span class="nav-icon">♙</span>Vizitat
-    </a>
-    <a class="nav active" href="patients.html">
-      <span class="nav-icon">♙</span>Pacientët
-    </a>
-    <a class="nav" href="reports.html">
-      <span class="nav-icon">▥</span>Raporte
-    </a>
-
-    <button class="nav" id="logoutButton" type="button">
-      <span class="nav-icon">↪</span>Dil
-    </button>
-
-    <div class="side-foot">
-      SPITALI GVM<br>
-      AMBULATORI GVM<br>
-      Sistemi i Menaxhimit të Vizitave
-    </div>
+    <a class="nav" href="dashboard.html"><span class="nav-icon">⌂</span>Dashboard</a>
+    <a class="nav" href="dashboard.html"><span class="nav-icon">▣</span>Agjenda</a>
+    <a class="nav" href="dashboard.html"><span class="nav-icon">♙</span>Vizitat</a>
+    <a class="nav active" href="patients.html"><span class="nav-icon">♙</span>Pacientët</a>
+    <a class="nav" href="reports.html"><span class="nav-icon">▥</span>Raporte</a>
+    <button class="nav" id="logoutButton" type="button"><span class="nav-icon">↪</span>Dil</button>
+    <div class="side-foot">SPITALI GVM<br>AMBULATORI GVM<br>Sistemi i Menaxhimit të Vizitave</div>
   </aside>
 
   <main class="main">
@@ -339,36 +157,28 @@ tbody tr:hover { background:rgba(24,185,210,.045); }
       <div class="heading">
         <div>
           <h1>Lista e Kartelave</h1>
-          <p>Lista e emrave dhe numrave të kartelave të importuara në Supabase</p>
+          <p>Lista e emrave dhe numrave të kartelave të ruajtura në Supabase</p>
         </div>
         <a class="back" href="dashboard.html">← Kthehu te Dashboard</a>
       </div>
 
+      <div id="errorBox" class="error-box"></div>
+
       <section class="card">
         <div class="toolbar">
-          <input
-            id="search"
-            class="search"
-            type="search"
+          <input id="search" class="search" type="search"
             placeholder="Kërko sipas emrit ose nr. të kartelës..."
-            autocomplete="off"
-          >
+            autocomplete="off">
           <div id="count" class="count">Po ngarkohen kartelat...</div>
         </div>
 
         <div class="table-wrap">
           <table>
             <thead>
-              <tr>
-                <th>#</th>
-                <th>Emër + Mbiemër</th>
-                <th>Nr. i kartelës</th>
-              </tr>
+              <tr><th>#</th><th>Emër + Mbiemër</th><th>Nr. i kartelës</th></tr>
             </thead>
             <tbody id="patientsBody">
-              <tr>
-                <td colspan="3" class="loading">Po ngarkohen kartelat...</td>
-              </tr>
+              <tr><td colspan="3" class="loading">Po ngarkohen kartelat...</td></tr>
             </tbody>
           </table>
         </div>
@@ -390,13 +200,7 @@ const SUPABASE_URL = "https://ubpteaqdkxcriqyaxrux.supabase.co";
 const SUPABASE_KEY = "sb_publishable_dirq3uo9Qy1ez37JkEnciA_sSmYleDZ";
 
 const PAGE_SIZE = 50;
-const BATCH_SIZE = 1000;
-
-let page = 0;
-let query = "";
-let allPatients = [];
-let filteredPatients = [];
-let searchTimer = null;
+const BATCH_SIZE = 500;
 
 const body = document.getElementById("patientsBody");
 const search = document.getElementById("search");
@@ -404,67 +208,51 @@ const count = document.getElementById("count");
 const pageInfo = document.getElementById("pageInfo");
 const prev = document.getElementById("prev");
 const next = document.getElementById("next");
+const errorBox = document.getElementById("errorBox");
 
-function showPageError(message) {
-  let panel = document.getElementById("pageError");
-
-  if (!panel) {
-    panel = document.createElement("div");
-    panel.id = "pageError";
-    panel.className = "page-error";
-    document.querySelector(".content").prepend(panel);
-  }
-
-  panel.textContent = message;
-}
+let db = null;
+let allPatients = [];
+let filteredPatients = [];
+let page = 0;
+let searchTimer = null;
 
 function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  }[char]));
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[ch]));
 }
 
 function normalizeSearch(value) {
   return String(value ?? "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("sq-AL")
+    .toLowerCase()
     .replace(/\s+/g, " ")
     .trim();
 }
 
-function setLoading(message) {
-  body.innerHTML =
-    '<tr><td colspan="3" class="loading">' +
-    escapeHtml(message) +
-    '</td></tr>';
+function showError(message) {
+  errorBox.style.display = "block";
+  errorBox.textContent = "Problemi me kartelat: " + message;
+  console.error("Gabim në patients.html:", message);
+}
 
+function hideError() {
+  errorBox.style.display = "none";
+  errorBox.textContent = "";
+}
+
+function setLoading(message) {
+  body.innerHTML = '<tr><td colspan="3" class="loading">' +
+    escapeHtml(message) + '</td></tr>';
   count.textContent = message;
   pageInfo.textContent = "";
   prev.disabled = true;
   next.disabled = true;
 }
 
-async function checkAuth(db) {
-  const result = await db.auth.getSession();
-
-  if (result.error) {
-    throw new Error("Nuk u kontrollua hyrja: " + result.error.message);
-  }
-
-  if (!result.data || !result.data.session) {
-    location.replace("index.html");
-    return false;
-  }
-
-  return true;
-}
-
-async function loadPatients(db) {
+async function loadPatients() {
+  hideError();
   setLoading("Po ngarkohen kartelat...");
   allPatients = [];
 
@@ -474,81 +262,77 @@ async function loadPatients(db) {
     const result = await db
       .from("patient_cards")
       .select("id,full_name,card_number")
-      .order("full_name", { ascending: true })
       .order("id", { ascending: true })
       .range(start, start + BATCH_SIZE - 1);
 
     if (result.error) {
-      throw new Error("Nuk u ngarkuan kartelat nga Supabase: " + result.error.message);
+      throw new Error(result.error.message);
     }
 
     const batch = result.data || [];
     allPatients.push(...batch);
 
-    if (batch.length < BATCH_SIZE) {
-      break;
-    }
-
+    if (batch.length < BATCH_SIZE) break;
     start += BATCH_SIZE;
   }
 
-  query = search.value;
+  // Renditja bëhet në faqe, pasi të jenë marrë të gjitha kartelat.
+  allPatients.sort((a, b) =>
+    String(a.full_name || "").localeCompare(
+      String(b.full_name || ""), "sq"
+    ) || Number(a.id) - Number(b.id)
+  );
+
   page = 0;
   renderPatients();
 }
 
 function renderPatients() {
-  const term = normalizeSearch(query);
+  const term = normalizeSearch(search.value);
 
   filteredPatients = term
-    ? allPatients.filter(patient =>
-        normalizeSearch(patient.full_name).includes(term) ||
-        normalizeSearch(patient.card_number).includes(term)
+    ? allPatients.filter(p =>
+        normalizeSearch(p.full_name).includes(term) ||
+        normalizeSearch(p.card_number).includes(term)
       )
     : allPatients.slice();
 
   const total = filteredPatients.length;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
-  if (page >= pages) {
-    page = pages - 1;
-  }
+  if (page >= pages) page = pages - 1;
 
   const from = page * PAGE_SIZE;
   const rows = filteredPatients.slice(from, from + PAGE_SIZE);
 
   if (!rows.length) {
-    body.innerHTML =
-      '<tr><td colspan="3" class="empty">' +
+    body.innerHTML = '<tr><td colspan="3" class="empty">' +
       (term
-        ? "Nuk u gjet asnjë kartelë. Kontrolloni emrin ose numrin e kartelës."
-        : "Nuk ka kartela për t'u shfaqur.")
-      + '</td></tr>';
+        ? "Nuk u gjet asnjë kartelë për këtë kërkim."
+        : "Tabela u lexua, por nuk u kthye asnjë kartelë.") +
+      '</td></tr>';
   } else {
-    body.innerHTML = rows.map((patient, index) => `
+    body.innerHTML = rows.map((p, i) => `
       <tr>
-        <td>${from + index + 1}</td>
-        <td><strong>${escapeHtml(patient.full_name)}</strong></td>
-        <td class="number">${escapeHtml(patient.card_number || "—")}</td>
+        <td>${from + i + 1}</td>
+        <td><strong>${escapeHtml(p.full_name)}</strong></td>
+        <td class="number">${escapeHtml(p.card_number || "—")}</td>
       </tr>
     `).join("");
   }
-
-  pageInfo.textContent = `Faqja ${Math.min(page + 1, pages)} / ${pages}`;
 
   count.textContent =
     `${total.toLocaleString("sq-AL")} kartela` +
     (term ? " të gjetura" : " gjithsej");
 
-  prev.disabled = page === 0;
+  pageInfo.textContent = `Faqja ${Math.min(page + 1, pages)} / ${pages}`;
+  prev.disabled = page <= 0;
   next.disabled = page >= pages - 1;
 }
 
 search.addEventListener("input", () => {
   clearTimeout(searchTimer);
-
   searchTimer = setTimeout(() => {
-    query = search.value;
     page = 0;
     renderPatients();
   }, 150);
@@ -570,68 +354,58 @@ next.addEventListener("click", () => {
 
 document.getElementById("logoutButton").addEventListener("click", async () => {
   try {
-    if (!window.supabase || typeof window.supabase.createClient !== "function") {
-      throw new Error("Biblioteka Supabase nuk u ngarkua.");
-    }
-
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    if (!db) throw new Error("Lidhja me Supabase nuk është gati.");
     const result = await db.auth.signOut();
-
-    if (result.error) {
-      alert("Nuk u krye dalja: " + result.error.message);
-      return;
-    }
-
-    location.replace("index.html");
+    if (result.error) throw result.error;
+    location.href = "index.html";
   } catch (error) {
-    alert(error.message || "Ndodhi një gabim gjatë daljes.");
+    alert("Nuk u krye dalja: " + (error.message || String(error)));
   }
 });
 
 document.getElementById("today").textContent =
   new Intl.DateTimeFormat("sq-AL", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric"
+    weekday:"long", day:"numeric", month:"long", year:"numeric"
   }).format(new Date());
 
-(async function init() {
-  setLoading("Po ngarkohen kartelat...");
+async function init() {
+  setLoading("Po lidhemi me Supabase...");
 
   try {
     if (!window.supabase ||
         typeof window.supabase.createClient !== "function") {
-      throw new Error(
-        "Biblioteka Supabase nuk u ngarkua. Kontrollo lidhjen e internetit dhe rifresko faqen."
-      );
+      throw new Error("Nuk u ngarkua biblioteka Supabase. Rifresko faqen.");
     }
 
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    const authenticated = await checkAuth(db);
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    if (authenticated) {
-      await loadPatients(db);
+    const sessionResult = await db.auth.getSession();
+
+    if (sessionResult.error) {
+      throw new Error("Kontrolli i hyrjes dështoi: " +
+        sessionResult.error.message);
     }
+
+    if (!sessionResult.data?.session) {
+      location.href = "index.html";
+      return;
+    }
+
+    await loadPatients();
+
   } catch (error) {
-    console.error("Gabim gjatë hapjes së listës së kartelave:", error);
-
-    body.innerHTML =
-      '<tr><td colspan="3" class="empty">' +
-      escapeHtml(error && error.message ? error.message : "Gabim i panjohur") +
-      '</td></tr>';
-
+    const message = error?.message || String(error);
+    showError(message);
+    body.innerHTML = '<tr><td colspan="3" class="empty">' +
+      escapeHtml(message) + '</td></tr>';
     count.textContent = "Ngarkimi dështoi";
     pageInfo.textContent = "";
     prev.disabled = true;
     next.disabled = true;
-
-    showPageError(
-      "Problemi gjatë hapjes së kartelave: " +
-      (error && error.message ? error.message : "Gabim i panjohur")
-    );
   }
-})();
+}
+
+init();
 </script>
 </body>
 </html>
