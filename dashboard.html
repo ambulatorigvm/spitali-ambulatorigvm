@@ -1362,29 +1362,15 @@ tr.status-cancelled .appointment-time {
       <div class="page-heading">
         <h1>Paneli i Ambulatorit</h1>
         
-<div class="date-navigation">
-    <button type="button" id="prevDate">← Dita e mëparshme</button>
-    <button type="button" class="today-button" id="todayButton">Sot</button>
-    <div class="date-picker-wrap">
-        <label for="datePicker">Zgjidh datën</label>
-        <input type="date" id="datePicker">
-    </div>
-    <div class="selected-date">
-        <span class="date-main" id="selectedDateLabel"></span>
-        <span class="date-iso" id="selectedDateIso"></span>
-    </div>
-    <button type="button" id="nextDate">Dita tjetër →</button>
-</div>
 
-    <div id="todayDate" class="date-title"></div>
       </div>
 
-      <button type="button" id="mobileAddVisitButton" class="mobile-add-visit-button">＋ &nbsp; Shto Vizitë të Re</button>
 
       <div id="message"></div>
 
       <div class="workspace">
-        <section class="card" id="addVisitCard">
+        <div class="entry-panels">
+<section class="card" id="addVisitCard">
           <div class="card-title"><span class="title-icon">＋</span> Shto Vizitë të Re</div>
 
           <label for="patientName">Emër + Mbiemër *</label>
@@ -1411,55 +1397,7 @@ tr.status-cancelled .appointment-time {
           <button id="saveButton" type="button">＋ &nbsp; Ruaj Vizitën</button>
         </section>
 
-        <section class="card report-card" id="visitReportCard" style="display:none;">
-          <div class="card-title"><span class="title-icon">▥</span> Statistikat Ditore</div>
-          <div class="report-filters">
-            <div>
-              <label for="reportFrom">Nga</label>
-              <input type="date" id="reportFrom">
-            </div>
-            <div>
-              <label for="reportTo">Deri</label>
-              <input type="date" id="reportTo">
-            </div>
-            <button type="button" id="generateReportButton">Shiko</button>
-          </div>
-          <div class="report-summary" id="reportSummary">Zgjidh periudhën.</div>
-          <div class="daily-report" id="dailyReport">
-            <div class="report-empty">Nuk ka statistika të gjeneruara.</div>
-          </div>
-        </section>
-
-        <section class="card agenda-card">
-          <div class="agenda-head">
-            <h2>▣ &nbsp; Agjenda e Ditës</h2>
-            <div class="agenda-date">08:00 — 17:00</div>
-          </div>
-          <div class="agenda-search">
-            <span class="agenda-search-icon">⌕</span>
-            <input id="agendaSearch" type="search" placeholder="Kërko pacientin ose nr. e kartelës..." autocomplete="off">
-            <button id="clearAgendaSearch" type="button" title="Pastro kërkimin">×</button>
-          </div>
-          <div id="agendaSearchInfo" class="agenda-search-info"></div>
-          <div class="status-filters" id="statusFilters">
-            <button type="button" class="status-filter-btn active" data-status-filter="all">Të gjitha</button>
-            <button type="button" class="status-filter-btn" data-status-filter="scheduled">Në pritje</button>
-            <button type="button" class="status-filter-btn" data-status-filter="arrived">Ka ardhur</button>
-            <button type="button" class="status-filter-btn" data-status-filter="finished">Ka mbaruar</button>
-            <button type="button" class="status-filter-btn" data-status-filter="cancelled">Anulluar</button>
-          </div>
-          <div id="visits">
-            <div class="loading">Po ngarkohen vizitat...</div>
-          </div>
-        </section>
-      </div>
-    </div>
-  
-
-
-
-
-<section class="card surgery-card" id="surgeryCard">
+        <section class="card surgery-card" id="surgeryCard">
   <div class="card-title"><span class="title-icon">✚</span> Organizimi i Ndërhyrjeve Kirurgjikale</div>
   <div class="surgery-grid">
     <div class="full">
@@ -1525,6 +1463,73 @@ tr.status-cancelled .appointment-time {
   </div>
   <div id="surgeryMessage" style="display:none;margin-top:12px;padding:10px;border-radius:8px;font-size:13px;font-weight:750"></div>
 </section>
+</div>
+
+<div class="date-navigation">
+    <button type="button" id="prevDate">← Dita e mëparshme</button>
+    <button type="button" class="today-button" id="todayButton">Sot</button>
+    <div class="date-picker-wrap">
+        <label for="datePicker">Zgjidh datën</label>
+        <input type="date" id="datePicker">
+    </div>
+    <div class="selected-date">
+        <span class="date-main" id="selectedDateLabel"></span>
+        <span class="date-iso" id="selectedDateIso"></span>
+    </div>
+    <button type="button" id="nextDate">Dita tjetër →</button>
+</div>
+
+    <div id="todayDate" class="date-title"></div>
+
+<section class="card report-card" id="visitReportCard" style="display:none;">
+          <div class="card-title"><span class="title-icon">▥</span> Statistikat Ditore</div>
+          <div class="report-filters">
+            <div>
+              <label for="reportFrom">Nga</label>
+              <input type="date" id="reportFrom">
+            </div>
+            <div>
+              <label for="reportTo">Deri</label>
+              <input type="date" id="reportTo">
+            </div>
+            <button type="button" id="generateReportButton">Shiko</button>
+          </div>
+          <div class="report-summary" id="reportSummary">Zgjidh periudhën.</div>
+          <div class="daily-report" id="dailyReport">
+            <div class="report-empty">Nuk ka statistika të gjeneruara.</div>
+          </div>
+        </section>
+
+        <section class="card agenda-card">
+          <div class="agenda-head">
+            <h2>▣ &nbsp; Agjenda e Ditës</h2>
+            <div class="agenda-date">08:00 — 17:00</div>
+          </div>
+          <div class="agenda-search">
+            <span class="agenda-search-icon">⌕</span>
+            <input id="agendaSearch" type="search" placeholder="Kërko pacientin ose nr. e kartelës..." autocomplete="off">
+            <button id="clearAgendaSearch" type="button" title="Pastro kërkimin">×</button>
+          </div>
+          <div id="agendaSearchInfo" class="agenda-search-info"></div>
+          <div class="status-filters" id="statusFilters">
+            <button type="button" class="status-filter-btn active" data-status-filter="all">Të gjitha</button>
+            <button type="button" class="status-filter-btn" data-status-filter="scheduled">Në pritje</button>
+            <button type="button" class="status-filter-btn" data-status-filter="arrived">Ka ardhur</button>
+            <button type="button" class="status-filter-btn" data-status-filter="finished">Ka mbaruar</button>
+            <button type="button" class="status-filter-btn" data-status-filter="cancelled">Anulluar</button>
+          </div>
+          <div id="visits">
+            <div class="loading">Po ngarkohen vizitat...</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  
+
+
+
+
+
 
 
 <div class="edit-modal" id="editModal">
@@ -4031,6 +4036,21 @@ if(logoutButton){
 .visit-item .visit-status-controls .finished.active{color:#765c00 !important;background:#fff7d6 !important;}
 .visit-item .visit-status-controls .cancelled.active{color:#4d5960 !important;background:#edf0f2 !important;}
 .visit-item .visit-status-controls .visit-delete-button{color:#a02f2f !important;background:#ffffff !important;}
+</style>
+
+
+<style id="entry-panels-calendar-layout">
+/* Dy formularët e regjistrimit qëndrojnë krah për krah në krye. */
+.workspace{display:block!important;grid-template-columns:1fr!important}
+.entry-panels{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px!important;align-items:start!important;margin:0 0 18px!important}
+.entry-panels>#addVisitCard,.entry-panels>#surgeryCard{width:100%!important;max-width:none!important;margin:0!important;box-sizing:border-box!important;align-self:stretch!important}
+.workspace>.agenda-card{width:100%!important;max-width:none!important;margin:0!important;order:initial!important}
+.date-navigation{margin-top:8px!important;margin-bottom:16px!important}
+.date-picker-wrap{display:flex!important;align-items:center!important;gap:9px!important}
+.date-picker-wrap label{display:inline!important;color:#b8d4df!important;font-size:12px!important;font-weight:750!important}
+.date-picker-wrap input{width:175px!important;height:42px!important;padding:0 10px!important;font-size:14px!important;cursor:pointer!important}
+@media(max-width:850px){.entry-panels{grid-template-columns:1fr!important;gap:12px!important}}
+@media(max-width:620px){.entry-panels{display:flex!important;flex-direction:column!important}.entry-panels>#addVisitCard,.entry-panels>#surgeryCard{width:100%!important}.date-navigation{gap:8px!important}.date-picker-wrap{width:100%!important;justify-content:center!important;order:5!important}.date-picker-wrap label{display:inline!important}.date-picker-wrap input{width:170px!important;font-size:14px!important}}
 </style>
 
 </body>
