@@ -192,6 +192,18 @@ button:hover{filter:brightness(.96)}
 @media(max-width:900px){.visit-status-controls{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;}.visit-status-controls button{width:100% !important;min-width:0 !important;}}
 @media(max-width:600px){.visit-status-controls{grid-template-columns:1fr !important;}}
 
+
+/* Statusi i zgjedhur i ndërhyrjes duhet të dallohet qartë */
+.surgery-item .surgery-status-label{display:block!important;width:max-content;max-width:100%;padding:8px 12px!important;border:2px solid #6b4a8d!important;background:#fff!important;color:#302044!important;font-size:13px!important;font-weight:1000!important;letter-spacing:.5px}
+.surgery-item.surgery-status-started .surgery-status-label{background:#176b3a!important;border-color:#176b3a!important;color:#fff!important}
+.surgery-item.surgery-status-finished .surgery-status-label{background:#8a6900!important;border-color:#8a6900!important;color:#fff!important}
+.surgery-item.surgery-status-cancelled .surgery-status-label{background:#56616a!important;border-color:#56616a!important;color:#fff!important}
+.surgery-item .surgery-controls button.selected{font-weight:1000!important;border:2px solid currentColor!important;box-shadow:0 0 0 2px rgba(0,0,0,.10)!important;transform:scale(1.03)}
+.surgery-item .surgery-controls .surgery-start.selected{background:#176b3a!important;color:#fff!important;border-color:#176b3a!important}
+.surgery-item .surgery-controls .surgery-finish.selected{background:#8a6900!important;color:#fff!important;border-color:#8a6900!important}
+.surgery-item .surgery-controls .surgery-cancel.selected{background:#8c3030!important;color:#fff!important;border-color:#8c3030!important}
+.surgery-item .surgery-controls .surgery-reset-status.selected{background:#603b8b!important;color:#fff!important;border-color:#603b8b!important}
+
 </style>
 
 <style id="step5-date-nav">
@@ -2948,16 +2960,16 @@ async function loadVisits(){
         const surgeryStatusLabel={scheduled:"E PLANIFIKUAR",started:"NË ZHVILLIM",finished:"E PËRFUNDUAR",cancelled:"E ANULLUAR"}[surgeryStatus]||"E PLANIFIKUAR";
         card.innerHTML=
           '<div class="surgery-title">✚ NDËRHYRJE KIRURGJIKALE — '+escapeSurgeryHtml(surgery.patient_name).toLocaleUpperCase("sq-AL")+'</div>'+
-          '<div class="surgery-status-label">'+surgeryStatusLabel+'</div>'+
+          '<div class="surgery-status-label">STATUSI AKTUAL: '+surgeryStatusLabel+'</div>'+
           '<div class="surgery-meta"><strong>NDËRHYRJA:</strong> '+escapeSurgeryHtml(surgery.intervention_type).toLocaleUpperCase("sq-AL")+'</div>'+
           '<div class="surgery-meta"><strong>ORARI:</strong> '+start+' – '+end+'</div>'+
           '<div class="surgery-meta"><strong>KOHËZGJATJA:</strong> '+formatSurgeryDuration(start,end)+'</div>'+
           '<div class="surgery-price">ÇMIMI: '+Number(surgery.price_all||0).toLocaleString("sq-AL")+' ALL</div>'+
           '<div class="surgery-controls">'+
-          '<button type="button" class="surgery-start">Nis ndërhyrjen</button>'+
-          '<button type="button" class="surgery-finish">Mbaroi</button>'+
-          '<button type="button" class="surgery-cancel">Anullo</button>'+
-          '<button type="button" class="surgery-reset-status">Kthe në të planifikuar</button>'+
+          '<button type="button" class="surgery-start'+(surgeryStatus==="started"?' selected':'')+'" aria-pressed="'+(surgeryStatus==="started"?'true':'false')+'">'+(surgeryStatus==="started"?'✓ NË ZHVILLIM':'Nis ndërhyrjen')+'</button>'+
+          '<button type="button" class="surgery-finish'+(surgeryStatus==="finished"?' selected':'')+'" aria-pressed="'+(surgeryStatus==="finished"?'true':'false')+'">'+(surgeryStatus==="finished"?'✓ E PËRFUNDUAR':'Mbaroi')+'</button>'+
+          '<button type="button" class="surgery-cancel'+(surgeryStatus==="cancelled"?' selected':'')+'" aria-pressed="'+(surgeryStatus==="cancelled"?'true':'false')+'">'+(surgeryStatus==="cancelled"?'✓ E ANULLUAR':'Anullo')+'</button>'+
+          '<button type="button" class="surgery-reset-status'+(surgeryStatus==="scheduled"?' selected':'')+'" aria-pressed="'+(surgeryStatus==="scheduled"?'true':'false')+'">'+(surgeryStatus==="scheduled"?'✓ E PLANIFIKUAR':'Kthe në të planifikuar')+'</button>'+
           '<button type="button" class="surgery-edit">Ndrysho ndërhyrjen</button><button type="button" class="surgery-delete">Fshi ndërhyrjen</button></div>';
         card.querySelector(".surgery-start").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"started");});
         card.querySelector(".surgery-finish").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"finished");});
