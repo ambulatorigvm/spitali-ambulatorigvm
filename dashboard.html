@@ -2954,13 +2954,15 @@ async function loadVisits(){
           '<div class="surgery-meta"><strong>KOHËZGJATJA:</strong> '+formatSurgeryDuration(start,end)+'</div>'+
           '<div class="surgery-price">ÇMIMI: '+Number(surgery.price_all||0).toLocaleString("sq-AL")+' ALL</div>'+
           '<div class="surgery-controls">'+
-          '<button type="button" class="surgery-start" '+(surgeryStatus==="started"||surgeryStatus==="finished"||surgeryStatus==="cancelled"?'disabled':'')+'>Nis ndërhyrjen</button>'+
-          '<button type="button" class="surgery-finish" '+(surgeryStatus==="finished"||surgeryStatus==="cancelled"?'disabled':'')+'>Mbaroi</button>'+
-          '<button type="button" class="surgery-cancel" '+(surgeryStatus==="cancelled"||surgeryStatus==="finished"?'disabled':'')+'>Anullo</button>'+
+          '<button type="button" class="surgery-start">Nis ndërhyrjen</button>'+
+          '<button type="button" class="surgery-finish">Mbaroi</button>'+
+          '<button type="button" class="surgery-cancel">Anullo</button>'+
+          '<button type="button" class="surgery-reset-status">Kthe në të planifikuar</button>'+
           '<button type="button" class="surgery-edit">Ndrysho ndërhyrjen</button><button type="button" class="surgery-delete">Fshi ndërhyrjen</button></div>';
         card.querySelector(".surgery-start").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"started");});
         card.querySelector(".surgery-finish").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"finished");});
         card.querySelector(".surgery-cancel").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"cancelled");});
+        card.querySelector(".surgery-reset-status").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"scheduled");});
         card.querySelector(".surgery-edit").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();editSurgery(surgery);});
         card.querySelector(".surgery-delete").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();deleteSurgery(surgery.id);});
         card.addEventListener("click",function(e){e.stopPropagation();});
@@ -3680,11 +3682,12 @@ function editSurgery(row){
     document.getElementById("surgeryCard").scrollIntoView({behavior:"smooth",block:"start"});
 }
 async function updateSurgeryStatus(id,status){
-    const labels={started:"Nisja e ndërhyrjes",finished:"Përfundimi i ndërhyrjes",cancelled:"Anullimi i ndërhyrjes"};
+    const labels={scheduled:"Rikthimi në planifikim",started:"Nisja e ndërhyrjes",finished:"Përfundimi i ndërhyrjes",cancelled:"Anullimi i ndërhyrjes"};
     if(status==="cancelled" && !window.confirm("A jeni i sigurt që dëshironi të anulloni këtë ndërhyrje?")) return;
     if(status==="finished" && !window.confirm("Konfirmoni që ndërhyrja ka përfunduar?")) return;
-    const {error}=await db.from("surgical_interventions").update({status:status}).eq("id",id);
+    const {data,error}=await db.from("surgical_interventions").update({status:status}).eq("id",id).select("id,status");
     if(error){showSurgeryMessage("Gabim gjatë ndryshimit të statusit: "+error.message,false);return;}
+    if(!data || data.length===0){showSurgeryMessage("Statusi nuk u ndryshua. Kontrolloni lejet UPDATE (RLS) në Supabase.",false);return;}
     showSurgeryMessage((labels[status]||"Statusi")+" u regjistrua.",true);
     await loadVisits();
 }
