@@ -1288,6 +1288,28 @@ tr.status-cancelled .appointment-time {
 }
 </style>
 
+
+<style id="surgical-interventions-style">
+.surgery-card{max-width:1220px;margin:16px auto 18px;border:1px solid rgba(48,174,202,.28);background:linear-gradient(145deg,rgba(13,34,50,.98),rgba(8,26,40,.98));}
+.surgery-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.surgery-grid .full{grid-column:1/-1}
+.surgery-card input,.surgery-card select{width:100%;box-sizing:border-box}
+.surgery-help{font-size:11px;color:#8fb4c5;margin:-7px 0 12px}
+.surgery-duration{padding:10px 12px;border:1px solid rgba(24,185,210,.2);border-radius:8px;background:rgba(24,185,210,.07);color:#aeeaf4;font-weight:800;font-size:13px;margin:0 0 14px}
+.surgery-actions{display:flex;gap:9px}
+.surgery-actions button{flex:1}
+.surgery-secondary{background:#243d4d!important;color:#d8edf5!important}
+.surgery-item{display:block!important;width:100%;min-height:100%!important;padding:14px!important;background:#f2eaff!important;border:2px solid #9b72cf!important;border-left:6px solid #8050b5!important;border-radius:10px!important;color:#302044!important;box-shadow:0 4px 14px rgba(0,0,0,.10)!important}
+.surgery-item *{color:#302044!important}
+.surgery-item .surgery-title{font-size:15px;font-weight:900;margin-bottom:6px}
+.surgery-item .surgery-meta{font-size:12px;line-height:1.5}
+.surgery-item .surgery-price{font-weight:900;color:#603b8b!important;margin-top:6px}
+.surgery-item .surgery-controls{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.surgery-item .surgery-controls button{width:auto;height:32px;padding:0 11px;background:#fff!important;color:#49315f!important;border:1px solid #c8b4dc;box-shadow:none;font-size:11px}
+.surgery-item .surgery-controls .surgery-delete{color:#a22b35!important;border-color:#e2b5b9}
+@media(max-width:650px){.surgery-grid{grid-template-columns:1fr}.surgery-grid .full{grid-column:auto}.surgery-actions{flex-direction:column}}
+</style>
+
 </head>
 <body>
 
@@ -1300,6 +1322,7 @@ tr.status-cancelled .appointment-time {
     <button class="nav-item active" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('.agenda-card').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">▣</span><span>Agjenda</span></button>
     <button class="nav-item" type="button" onclick="document.querySelector('#visits').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">♙</span><span>Vizitat</span></button>
+    <button class="nav-item" type="button" onclick="document.getElementById('surgeryCard').scrollIntoView({behavior:'smooth',block:'start'})"><span class="nav-icon">✚</span><span>Ndërhyrjet</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⌕</span><span>Kërko</span></button>
     <button class="nav-item" type="button" onclick="window.location.href='reports.html'"><span class="nav-icon">▥</span><span>Raporte</span></button>
     <button class="nav-item disabled" type="button" title="Modul që do të shtohet më vonë"><span class="nav-icon">⚙</span><span>Cilësimet</span></button>
@@ -1420,6 +1443,61 @@ tr.status-cancelled .appointment-time {
     </div>
   
 
+
+
+
+<section class="card surgery-card" id="surgeryCard">
+  <div class="card-title"><span class="title-icon">✚</span> Organizimi i Ndërhyrjeve Kirurgjikale</div>
+  <div class="surgery-grid">
+    <div class="full">
+      <label for="surgeryDate">Data e ndërhyrjes *</label>
+      <input id="surgeryDate" type="date">
+    </div>
+    <div class="full">
+      <label for="surgeryPatientName">Emër + Mbiemër i pacientit *</label>
+      <input id="surgeryPatientName" type="text" placeholder="Shkruani emrin dhe mbiemrin" autocomplete="off">
+    </div>
+    <div class="full">
+      <label for="surgeryType">Lloji i ndërhyrjes ortopedike *</label>
+      <select id="surgeryType">
+        <option value="">Zgjidh ndërhyrjen</option>
+        <option>Protezë gjuri</option>
+        <option>Protezë koksofemorale</option>
+        <option>Artroskopi gjuri</option>
+        <option>Osteosintezë</option>
+        <option>Heqje materiali osteosinteze</option>
+        <option>Ndërhyrje në dorë</option>
+        <option>Ndërhyrje në këmbë</option>
+        <option value="Tjetër">Tjetër</option>
+      </select>
+    </div>
+    <div class="full" id="surgeryOtherWrap" style="display:none">
+      <label for="surgeryOtherType">Përshkruani ndërhyrjen *</label>
+      <input id="surgeryOtherType" type="text" placeholder="Shkruani emrin e ndërhyrjes">
+    </div>
+    <div>
+      <label for="surgeryStart">Ora e fillimit *</label>
+      <select id="surgeryStart"><option value="">Zgjidh orën</option></select>
+    </div>
+    <div>
+      <label for="surgeryEnd">Ora e përfundimit *</label>
+      <select id="surgeryEnd"><option value="">Zgjidh orën</option></select>
+    </div>
+    <div class="full">
+      <div id="surgeryDuration" class="surgery-duration">Kohëzgjatja: —</div>
+    </div>
+    <div class="full">
+      <label for="surgeryPrice">Çmimi (ALL) *</label>
+      <input id="surgeryPrice" type="number" min="0" step="1" placeholder="Vendosni çmimin në lekë">
+      <div class="surgery-help">Çmimi vendoset manualisht dhe ruhet në lekë (ALL).</div>
+    </div>
+  </div>
+  <div class="surgery-actions">
+    <button id="saveSurgeryButton" type="button">＋ Ruaj Ndërhyrjen</button>
+    <button id="cancelSurgeryEdit" class="surgery-secondary" type="button" style="display:none">Anulo ndryshimin</button>
+  </div>
+  <div id="surgeryMessage" style="display:none;margin-top:12px;padding:10px;border-radius:8px;font-size:13px;font-weight:750"></div>
+</section>
 
 
 <div class="edit-modal" id="editModal">
@@ -1554,6 +1632,20 @@ async function startAppointmentsRealtime(){
                 }
             }
         )
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "surgical_interventions"
+            },
+            function(payload){
+                const changed = payload.new || payload.old || {};
+                if(String(changed.surgery_date || "").slice(0,10) === formatDateISO(selectedDate)){
+                    loadVisits();
+                }
+            }
+        )
         .subscribe(function(status, err){
             if(status === "SUBSCRIBED"){
                 console.log("APPOINTMENTS REALTIME: CONNECTED");
@@ -1609,12 +1701,16 @@ function canAddVisits(){
 
 function applyAddVisitAccess(){
     const addVisitCard = document.getElementById("addVisitCard");
+    const surgeryCard = document.getElementById("surgeryCard");
     const reportCard = document.getElementById("visitReportCard");
 
     const allowed = canAddVisits();
 
     if(addVisitCard){
         addVisitCard.style.display = allowed ? "" : "none";
+    }
+    if(surgeryCard){
+        surgeryCard.style.display = allowed ? "" : "none";
     }
 
     /* Përdoruesi që shton vizita nuk ka panelin e raportit.
@@ -1820,6 +1916,9 @@ function showSelectedDate(){
     );
 
     todayDate.textContent = formatted;
+    if(typeof surgeryDate !== "undefined" && surgeryDate && !editingSurgeryId){
+        surgeryDate.value = formatDateISO(selectedDate);
+    }
 
     const label = document.getElementById("selectedDateLabel");
     const iso = document.getElementById("selectedDateIso");
@@ -2058,6 +2157,24 @@ async function saveVisit(){
         return;
     }
 
+    const surgeryConflict = await db
+        .from("surgical_interventions")
+        .select("id,start_time,end_time")
+        .eq("surgery_date", date);
+    if(surgeryConflict.error){
+        showMessage("Nuk mund të kontrollohet kalendari i ndërhyrjeve: "+surgeryConflict.error.message,"error");
+        return;
+    }
+    const blockedBySurgery=(surgeryConflict.data||[]).some(function(s){
+        const start=String(s.start_time||"").slice(0,5);
+        const end=String(s.end_time||"").slice(0,5);
+        return minutesOf(time)>=minutesOf(start) && minutesOf(time)<minutesOf(end);
+    });
+    if(blockedBySurgery){
+        showMessage("Ky orar është i zënë nga një ndërhyrje kirurgjikale.","error");
+        appointmentTime.focus();
+        return;
+    }
 
     /* DISABLE BUTTON */
 
@@ -2412,6 +2529,19 @@ async function loadVisits(){
         return isTimeAllowed(visit.appointment_time);
     });
 
+    const surgeryResult = await db
+        .from("surgical_interventions")
+        .select("id,surgery_date,patient_name,intervention_type,start_time,end_time,price_all")
+        .eq("surgery_date", date)
+        .order("start_time", {ascending:true});
+
+    let surgeryData = [];
+    if(surgeryResult.error){
+        console.error("SURGICAL INTERVENTIONS SELECT ERROR:", surgeryResult.error);
+    }else{
+        surgeryData = surgeryResult.data || [];
+    }
+
     updateStats(data);
 
     visits.innerHTML = "";
@@ -2431,10 +2561,19 @@ async function loadVisits(){
     const occupiedTimes = new Set(
         data.map(function(visit){
             return String(visit.appointment_time || "").slice(0,5);
-        })
+        }).concat(surgeryData.map(function(surgery){
+            return String(surgery.start_time || "").slice(0,5);
+        }))
     );
 
     getAllowedTimes().forEach(function(slotTime){
+
+            const coveringSurgery = surgeryData.find(function(s){
+                const start=String(s.start_time||"").slice(0,5);
+                const end=String(s.end_time||"").slice(0,5);
+                return slotTime!==start && minutesOf(slotTime)>=minutesOf(start) && minutesOf(slotTime)<minutesOf(end);
+            });
+            if(coveringSurgery) return;
 
             const timeParts = slotTime.split(":");
             const slotMinutes = Number(timeParts[0]) * 60 + Number(timeParts[1]);
@@ -2737,19 +2876,55 @@ async function loadVisits(){
         }
     });
 
+    surgeryData.forEach(function(surgery){
+        const start=String(surgery.start_time||"").slice(0,5);
+        const end=String(surgery.end_time||"").slice(0,5);
+        const target=slots[start];
+        if(!target) return;
+        if(target.empty && target.empty.parentNode) target.empty.remove();
+
+        const span=Math.max(1,Math.ceil((minutesOf(end)-minutesOf(start))/15));
+        target.slot.style.minHeight=(span*71)+"px";
+        target.body.style.minHeight=(span*71-12)+"px";
+
+        const card=document.createElement("div");
+        card.className="surgery-item";
+        card.dataset.searchText=((surgery.patient_name||"")+" "+(surgery.intervention_type||"")+" "+(surgery.price_all||"")).toLowerCase();
+        card.innerHTML=
+          '<div class="surgery-title">✚ Ndërhyrje kirurgjikale — '+escapeSurgeryHtml(surgery.patient_name)+'</div>'+
+          '<div class="surgery-meta"><strong>Ndërhyrja:</strong> '+escapeSurgeryHtml(surgery.intervention_type)+'</div>'+
+          '<div class="surgery-meta"><strong>Orari:</strong> '+start+' – '+end+'</div>'+
+          '<div class="surgery-meta"><strong>Kohëzgjatja:</strong> '+formatSurgeryDuration(start,end)+'</div>'+
+          '<div class="surgery-price">Çmimi: '+Number(surgery.price_all||0).toLocaleString("sq-AL")+' ALL</div>'+
+          '<div class="surgery-controls"><button type="button" class="surgery-edit">Ndrysho</button><button type="button" class="surgery-delete">Fshi ndërhyrjen</button></div>';
+        card.querySelector(".surgery-edit").addEventListener("click",function(){editSurgery(surgery);});
+        card.querySelector(".surgery-delete").addEventListener("click",function(){deleteSurgery(surgery.id);});
+        target.body.appendChild(card);
+    });
+
     applyAgendaSearch();
+}
+
+function escapeSurgeryHtml(value){
+    return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+function formatSurgeryDuration(start,end){
+    const mins=minutesOf(end)-minutesOf(start);
+    const h=Math.floor(mins/60),m=mins%60;
+    return (h?h+" orë ":"")+(m?m+" minuta":(h?"":"0 minuta"));
 }
 
 function applyAgendaSearch(){
     const query = agendaSearchText.trim().toLowerCase();
-    const items = Array.from(document.querySelectorAll("#visits .visit-item"));
+    const items = Array.from(document.querySelectorAll("#visits .visit-item, #visits .surgery-item"));
     let visible = 0;
 
     items.forEach(function(item){
         const textMatch = !query || (item.dataset.searchText || "").includes(query);
-        const statusMatch = agendaStatusFilter === "all" || item.dataset.status === agendaStatusFilter;
+        const isSurgery = item.classList.contains("surgery-item");
+        const statusMatch = isSurgery || agendaStatusFilter === "all" || item.dataset.status === agendaStatusFilter;
         const match = textMatch && statusMatch;
-        item.style.display = match ? "grid" : "none";
+        item.style.display = match ? (isSurgery ? "block" : "grid") : "none";
         if(match) visible++;
     });
 
@@ -3198,6 +3373,182 @@ async function loadVisitReport(){
 if(generateReportButton){
     generateReportButton.addEventListener("click", loadVisitReport);
 }
+
+
+/* =========================================================
+   MODULI I NDERHYRJEVE KIRURGJIKALE ORTOPEDIKE
+   Tabela e veçuar: public.surgical_interventions
+========================================================= */
+const surgeryDate = document.getElementById("surgeryDate");
+const surgeryPatientName = document.getElementById("surgeryPatientName");
+const surgeryType = document.getElementById("surgeryType");
+const surgeryOtherWrap = document.getElementById("surgeryOtherWrap");
+const surgeryOtherType = document.getElementById("surgeryOtherType");
+const surgeryStart = document.getElementById("surgeryStart");
+const surgeryEnd = document.getElementById("surgeryEnd");
+const surgeryPrice = document.getElementById("surgeryPrice");
+const surgeryDuration = document.getElementById("surgeryDuration");
+const saveSurgeryButton = document.getElementById("saveSurgeryButton");
+const cancelSurgeryEdit = document.getElementById("cancelSurgeryEdit");
+const surgeryMessage = document.getElementById("surgeryMessage");
+let editingSurgeryId = null;
+
+function showSurgeryMessage(text, ok){
+    if(!surgeryMessage) return;
+    surgeryMessage.textContent = text;
+    surgeryMessage.style.display = "block";
+    surgeryMessage.style.background = ok ? "#e7f7ed" : "#fff0f0";
+    surgeryMessage.style.color = ok ? "#17663e" : "#9e3030";
+    surgeryMessage.style.border = "1px solid " + (ok ? "#b9dfc7" : "#e6bcbc");
+}
+function surgeryTimes(){
+    const arr=[];
+    for(let m=8*60;m<=17*60;m+=15){
+        arr.push(String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"));
+    }
+    return arr;
+}
+function fillSurgeryTimeOptions(){
+    [surgeryStart,surgeryEnd].forEach(function(sel){
+        if(!sel) return;
+        sel.innerHTML='<option value="">Zgjidh orën</option>';
+        surgeryTimes().forEach(function(t){
+            const o=document.createElement("option");
+            o.value=t;o.textContent=t;sel.appendChild(o);
+        });
+    });
+}
+function updateSurgeryDuration(){
+    if(!surgeryDuration) return;
+    const a=surgeryStart.value,b=surgeryEnd.value;
+    if(!a||!b){surgeryDuration.textContent="Kohëzgjatja: —";return;}
+    const toMin=t=>Number(t.slice(0,2))*60+Number(t.slice(3,5));
+    const mins=toMin(b)-toMin(a);
+    if(mins<=0){surgeryDuration.textContent="Ora e përfundimit duhet të jetë pas fillimit.";return;}
+    const h=Math.floor(mins/60),m=mins%60;
+    surgeryDuration.textContent="Kohëzgjatja: "+(h?h+" orë ":"")+(m?m+" minuta":(h?"":"0 minuta"));
+}
+function resetSurgeryForm(){
+    editingSurgeryId=null;
+    surgeryPatientName.value="";
+    surgeryType.value="";
+    surgeryOtherType.value="";
+    surgeryOtherWrap.style.display="none";
+    surgeryStart.value="";
+    surgeryEnd.value="";
+    surgeryPrice.value="";
+    updateSurgeryDuration();
+    saveSurgeryButton.textContent="＋ Ruaj Ndërhyrjen";
+    cancelSurgeryEdit.style.display="none";
+}
+surgeryType.addEventListener("change",function(){
+    surgeryOtherWrap.style.display=this.value==="Tjetër"?"block":"none";
+    if(this.value!=="Tjetër") surgeryOtherType.value="";
+});
+[surgeryStart,surgeryEnd].forEach(el=>el.addEventListener("change",updateSurgeryDuration));
+fillSurgeryTimeOptions();
+
+function minutesOf(t){return Number(String(t).slice(0,2))*60+Number(String(t).slice(3,5));}
+function rangesOverlap(aStart,aEnd,bStart,bEnd){
+    return minutesOf(aStart)<minutesOf(bEnd) && minutesOf(aEnd)>minutesOf(bStart);
+}
+async function checkSurgeryConflicts(date,start,end,excludeId){
+    const [appointmentsResult,surgeryResult]=await Promise.all([
+        db.from("appointments").select("id,appointment_time").eq("appointment_date",date),
+        db.from("surgical_interventions").select("id,start_time,end_time").eq("surgery_date",date)
+    ]);
+    if(appointmentsResult.error) return {error:appointmentsResult.error};
+    if(surgeryResult.error) return {error:surgeryResult.error};
+    const appointmentConflict=(appointmentsResult.data||[]).some(row=>{
+        const t=String(row.appointment_time||"").slice(0,5);
+        return t && minutesOf(t)>=minutesOf(start) && minutesOf(t)<minutesOf(end);
+    });
+    if(appointmentConflict) return {conflict:"Në këtë interval ekziston një vizitë e regjistruar."};
+    const surgeryConflict=(surgeryResult.data||[]).some(row=>{
+        if(excludeId && String(row.id)===String(excludeId)) return false;
+        return rangesOverlap(start,end,String(row.start_time).slice(0,5),String(row.end_time).slice(0,5));
+    });
+    if(surgeryConflict) return {conflict:"Ky interval përplaset me një ndërhyrje tjetër kirurgjikale."};
+    return {conflict:null};
+}
+async function saveSurgery(){
+    if(!canAddVisits()){showSurgeryMessage("Nuk keni akses për të regjistruar ndërhyrje.",false);return;}
+    const name=surgeryPatientName.value.trim();
+    const selectedType=surgeryType.value;
+    const type=selectedType==="Tjetër"?surgeryOtherType.value.trim():selectedType;
+    const start=surgeryStart.value,end=surgeryEnd.value;
+    const price=Number(surgeryPrice.value);
+    if(!name){showSurgeryMessage("Vendosni emrin dhe mbiemrin e pacientit.",false);surgeryPatientName.focus();return;}
+    if(!selectedType){showSurgeryMessage("Zgjidhni llojin e ndërhyrjes.",false);return;}
+    if(selectedType==="Tjetër"&&!type){showSurgeryMessage("Përshkruani ndërhyrjen tjetër.",false);surgeryOtherType.focus();return;}
+    if(!start||!end||minutesOf(end)<=minutesOf(start)){showSurgeryMessage("Ora e përfundimit duhet të jetë pas orës së fillimit.",false);return;}
+    if(!surgeryPrice.value.trim()||!Number.isFinite(price)||price<0){showSurgeryMessage("Vendosni çmimin në ALL.",false);surgeryPrice.focus();return;}
+    const date=surgeryDate.value;
+    if(!date){showSurgeryMessage("Zgjidhni datën e ndërhyrjes.",false);surgeryDate.focus();return;}
+    saveSurgeryButton.disabled=true;saveSurgeryButton.textContent="Po ruhet...";
+    try{
+        const check=await checkSurgeryConflicts(date,start,end,editingSurgeryId);
+        if(check.error) throw check.error;
+        if(check.conflict){showSurgeryMessage(check.conflict,false);return;}
+        const payload={surgery_date:date,patient_name:name,intervention_type:type,start_time:start,end_time:end,price_all:price};
+        let result;
+        if(editingSurgeryId){
+            result=await db.from("surgical_interventions").update(payload).eq("id",editingSurgeryId);
+        }else{
+            result=await db.from("surgical_interventions").insert(payload);
+        }
+        if(result.error) throw result.error;
+        showSurgeryMessage(editingSurgeryId?"Ndërhyrja u përditësua me sukses.":"Ndërhyrja u ruajt me sukses.",true);
+        const savedDateParts=date.split("-").map(Number);
+        selectedDate=new Date(savedDateParts[0],savedDateParts[1]-1,savedDateParts[2]);
+        if(datePicker) datePicker.value=date;
+        showSelectedDate();
+        resetSurgeryForm();
+        await loadVisits();
+    }catch(error){
+        console.error("SURGERY SAVE ERROR:",error);
+        showSurgeryMessage("Gabim gjatë ruajtjes: "+(error.message||error),false);
+    }finally{
+        saveSurgeryButton.disabled=false;
+        if(!editingSurgeryId) saveSurgeryButton.textContent="＋ Ruaj Ndërhyrjen";
+        else saveSurgeryButton.textContent="Ruaj Ndryshimet";
+    }
+}
+saveSurgeryButton.addEventListener("click",saveSurgery);
+cancelSurgeryEdit.addEventListener("click",function(){resetSurgeryForm();surgeryMessage.style.display="none";});
+function editSurgery(row){
+    editingSurgeryId=row.id;
+    const known=["Protezë gjuri","Protezë koksofemorale","Artroskopi gjuri","Osteosintezë","Heqje materiali osteosinteze","Ndërhyrje në dorë","Ndërhyrje në këmbë"];
+    surgeryPatientName.value=row.patient_name||"";
+    surgeryDate.value=String(row.surgery_date||"").slice(0,10);
+    if(row.surgery_date){
+        const dateParts=String(row.surgery_date).slice(0,10).split("-").map(Number);
+        selectedDate=new Date(dateParts[0],dateParts[1]-1,dateParts[2]);
+        if(datePicker) datePicker.value=String(row.surgery_date).slice(0,10);
+        showSelectedDate();
+        loadVisits();
+    }
+    if(known.includes(row.intervention_type)){
+        surgeryType.value=row.intervention_type;surgeryOtherWrap.style.display="none";surgeryOtherType.value="";
+    }else{
+        surgeryType.value="Tjetër";surgeryOtherWrap.style.display="block";surgeryOtherType.value=row.intervention_type||"";
+    }
+    surgeryStart.value=String(row.start_time||"").slice(0,5);
+    surgeryEnd.value=String(row.end_time||"").slice(0,5);
+    surgeryPrice.value=row.price_all??"";
+    updateSurgeryDuration();
+    saveSurgeryButton.textContent="Ruaj Ndryshimet";
+    cancelSurgeryEdit.style.display="block";
+    document.getElementById("surgeryCard").scrollIntoView({behavior:"smooth",block:"start"});
+}
+async function deleteSurgery(id){
+    if(!window.confirm("A jeni i sigurt që dëshironi të fshini këtë ndërhyrje kirurgjikale?")) return;
+    const {error}=await db.from("surgical_interventions").delete().eq("id",id);
+    if(error){showSurgeryMessage("Gabim gjatë fshirjes: "+error.message,false);return;}
+    showSurgeryMessage("Ndërhyrja u fshi.",true);
+    await loadVisits();
+}
+
 
 /* =========================================================
    KONTROLLI I LOGIN-IT
