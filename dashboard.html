@@ -1307,6 +1307,19 @@ tr.status-cancelled .appointment-time {
 .surgery-item .surgery-controls{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
 .surgery-item .surgery-controls button{width:auto;height:32px;padding:0 11px;background:#fff!important;color:#49315f!important;border:1px solid #c8b4dc;box-shadow:none;font-size:11px}
 .surgery-item .surgery-controls .surgery-delete{color:#a22b35!important;border-color:#e2b5b9}
+
+.surgery-item .surgery-title{font-size:19px!important;font-weight:1000!important;letter-spacing:.45px!important;line-height:1.35!important;text-transform:uppercase!important}
+.surgery-item .surgery-meta{font-size:13px!important;font-weight:750!important;text-transform:uppercase!important}
+.surgery-item .surgery-status-label{display:inline-block;margin:5px 0 9px;padding:5px 10px;border-radius:6px;background:#fff;font-size:12px;font-weight:1000;letter-spacing:.5px}
+.surgery-item.surgery-status-scheduled{border-left-color:#8050b5!important}
+.surgery-item.surgery-status-started{background:#e5f5eb!important;border-color:#5eaa79!important;border-left-color:#23834a!important}
+.surgery-item.surgery-status-finished{background:#fff5d6!important;border-color:#d4ad43!important;border-left-color:#b88908!important}
+.surgery-item.surgery-status-cancelled{background:#edf0f2!important;border-color:#aab2b8!important;border-left-color:#68747c!important;opacity:.88}
+.surgery-item .surgery-controls .surgery-start{color:#176b3a!important;border-color:#8bc5a0!important}
+.surgery-item .surgery-controls .surgery-finish{color:#765c00!important;border-color:#dfc66e!important}
+.surgery-item .surgery-controls .surgery-cancel{color:#8c3030!important;border-color:#d9a4a4!important}
+.surgery-item .surgery-controls button:disabled{opacity:.42;cursor:not-allowed}
+
 @media(max-width:650px){.surgery-grid{grid-template-columns:1fr}.surgery-grid .full{grid-column:auto}.surgery-actions{flex-direction:column}}
 </style>
 
@@ -2558,7 +2571,7 @@ async function loadVisits(){
 
     const surgeryResult = await db
         .from("surgical_interventions")
-        .select("id,surgery_date,patient_name,intervention_type,start_time,end_time,price_all")
+        .select("id,surgery_date,patient_name,intervention_type,start_time,end_time,price_all,status")
         .eq("surgery_date", date)
         .order("start_time", {ascending:true});
 
@@ -2915,17 +2928,29 @@ async function loadVisits(){
         target.body.style.minHeight=(span*71-12)+"px";
 
         const card=document.createElement("div");
-        card.className="surgery-item";
+        card.className="surgery-item surgery-status-"+(surgery.status||"scheduled");
+        card.dataset.status=surgery.status||"scheduled";
         card.dataset.searchText=((surgery.patient_name||"")+" "+(surgery.intervention_type||"")+" "+(surgery.price_all||"")).toLowerCase();
+        const surgeryStatus=surgery.status||"scheduled";
+        const surgeryStatusLabel={scheduled:"E PLANIFIKUAR",started:"NË ZHVILLIM",finished:"E PËRFUNDUAR",cancelled:"E ANULLUAR"}[surgeryStatus]||"E PLANIFIKUAR";
         card.innerHTML=
-          '<div class="surgery-title">✚ Ndërhyrje kirurgjikale — '+escapeSurgeryHtml(surgery.patient_name)+'</div>'+
-          '<div class="surgery-meta"><strong>Ndërhyrja:</strong> '+escapeSurgeryHtml(surgery.intervention_type)+'</div>'+
-          '<div class="surgery-meta"><strong>Orari:</strong> '+start+' – '+end+'</div>'+
-          '<div class="surgery-meta"><strong>Kohëzgjatja:</strong> '+formatSurgeryDuration(start,end)+'</div>'+
-          '<div class="surgery-price">Çmimi: '+Number(surgery.price_all||0).toLocaleString("sq-AL")+' ALL</div>'+
-          '<div class="surgery-controls"><button type="button" class="surgery-edit">Ndrysho</button><button type="button" class="surgery-delete">Fshi ndërhyrjen</button></div>';
-        card.querySelector(".surgery-edit").addEventListener("click",function(){editSurgery(surgery);});
-        card.querySelector(".surgery-delete").addEventListener("click",function(){deleteSurgery(surgery.id);});
+          '<div class="surgery-title">✚ NDËRHYRJE KIRURGJIKALE — '+escapeSurgeryHtml(surgery.patient_name).toLocaleUpperCase("sq-AL")+'</div>'+
+          '<div class="surgery-status-label">'+surgeryStatusLabel+'</div>'+
+          '<div class="surgery-meta"><strong>NDËRHYRJA:</strong> '+escapeSurgeryHtml(surgery.intervention_type).toLocaleUpperCase("sq-AL")+'</div>'+
+          '<div class="surgery-meta"><strong>ORARI:</strong> '+start+' – '+end+'</div>'+
+          '<div class="surgery-meta"><strong>KOHËZGJATJA:</strong> '+formatSurgeryDuration(start,end)+'</div>'+
+          '<div class="surgery-price">ÇMIMI: '+Number(surgery.price_all||0).toLocaleString("sq-AL")+' ALL</div>'+
+          '<div class="surgery-controls">'+
+          '<button type="button" class="surgery-start" '+(surgeryStatus==="started"||surgeryStatus==="finished"||surgeryStatus==="cancelled"?'disabled':'')+'>Nis ndërhyrjen</button>'+
+          '<button type="button" class="surgery-finish" '+(surgeryStatus==="finished"||surgeryStatus==="cancelled"?'disabled':'')+'>Mbaroi</button>'+
+          '<button type="button" class="surgery-cancel" '+(surgeryStatus==="cancelled"||surgeryStatus==="finished"?'disabled':'')+'>Anullo</button>'+
+          '<button type="button" class="surgery-edit">Ndrysho ndërhyrjen</button><button type="button" class="surgery-delete">Fshi ndërhyrjen</button></div>';
+        card.querySelector(".surgery-start").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"started");});
+        card.querySelector(".surgery-finish").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"finished");});
+        card.querySelector(".surgery-cancel").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();updateSurgeryStatus(surgery.id,"cancelled");});
+        card.querySelector(".surgery-edit").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();editSurgery(surgery);});
+        card.querySelector(".surgery-delete").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();deleteSurgery(surgery.id);});
+        card.addEventListener("click",function(e){e.stopPropagation();});
         target.body.appendChild(card);
     });
 
@@ -3420,6 +3445,8 @@ const surgeryEnd = document.getElementById("surgeryEnd");
 const surgeryPrice = document.getElementById("surgeryPrice");
 const surgeryDuration = document.getElementById("surgeryDuration");
 const saveSurgeryButton = document.getElementById("saveSurgeryButton");
+const surgeryCardTitle = document.querySelector("#surgeryCard .card-title");
+const defaultSurgeryCardTitle = surgeryCardTitle ? surgeryCardTitle.innerHTML : "✚ Organizimi i Ndërhyrjeve Kirurgjikale";
 const cancelSurgeryEdit = document.getElementById("cancelSurgeryEdit");
 const surgeryMessage = document.getElementById("surgeryMessage");
 let editingSurgeryId = null;
@@ -3502,6 +3529,7 @@ function resetSurgeryForm(){
     surgeryPrice.value="";
     updateSurgeryDuration();
     saveSurgeryButton.textContent="＋ Ruaj Ndërhyrjen";
+    if(surgeryCardTitle) surgeryCardTitle.innerHTML=defaultSurgeryCardTitle;
     cancelSurgeryEdit.style.display="none";
 }
 [surgeryStart,surgeryEnd].forEach(el=>el.addEventListener("change",updateSurgeryDuration));
@@ -3615,10 +3643,21 @@ function editSurgery(row){
     surgeryEnd.value=String(row.end_time||"").slice(0,5);
     surgeryPrice.value=row.price_all??"";
     updateSurgeryDuration();
-    saveSurgeryButton.textContent="Ruaj Ndryshimet";
+    saveSurgeryButton.textContent="Ruaj Ndryshimet e Ndërhyrjes";
+    if(surgeryCardTitle) surgeryCardTitle.textContent="✎ NDRYSHO NDËRHYRJEN KIRURGJIKALE";
     cancelSurgeryEdit.style.display="block";
     document.getElementById("surgeryCard").scrollIntoView({behavior:"smooth",block:"start"});
 }
+async function updateSurgeryStatus(id,status){
+    const labels={started:"Nisja e ndërhyrjes",finished:"Përfundimi i ndërhyrjes",cancelled:"Anullimi i ndërhyrjes"};
+    if(status==="cancelled" && !window.confirm("A jeni i sigurt që dëshironi të anulloni këtë ndërhyrje?")) return;
+    if(status==="finished" && !window.confirm("Konfirmoni që ndërhyrja ka përfunduar?")) return;
+    const {error}=await db.from("surgical_interventions").update({status:status}).eq("id",id);
+    if(error){showSurgeryMessage("Gabim gjatë ndryshimit të statusit: "+error.message,false);return;}
+    showSurgeryMessage((labels[status]||"Statusi")+" u regjistrua.",true);
+    await loadVisits();
+}
+
 async function deleteSurgery(id){
     if(!window.confirm("A jeni i sigurt që dëshironi të fshini këtë ndërhyrje kirurgjikale?")) return;
     const {error}=await db.from("surgical_interventions").delete().eq("id",id);
