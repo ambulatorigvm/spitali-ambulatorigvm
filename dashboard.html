@@ -1426,6 +1426,14 @@ tr.status-cancelled .appointment-time {
       <label for="surgeryDetail">Procedura specifike *</label>
       <select id="surgeryDetail"><option value="">Zgjidhni procedurën</option></select>
     </div>
+    <div class="full" id="surgeryMeniscusWrap" style="display:none">
+      <label for="surgeryMeniscus">Trajtimi i meniskut *</label>
+      <select id="surgeryMeniscus">
+        <option value="">Zgjidhni trajtimin e meniskut</option>
+        <option value="Me suturim menisku">Me suturim menisku</option>
+        <option value="Pa suturim menisku">Pa suturim menisku</option>
+      </select>
+    </div>
     <div class="full" id="surgeryOtherWrap" style="display:none">
       <label for="surgeryOtherType">Përshkruani ndërhyrjen / procedurën tjetër *</label>
       <input id="surgeryOtherType" type="text" placeholder="Shkruani emrin e ndërhyrjes ose procedurës">
@@ -3443,6 +3451,8 @@ const surgeryOtherWrap = document.getElementById("surgeryOtherWrap");
 const surgeryOtherType = document.getElementById("surgeryOtherType");
 const surgeryDetailWrap = document.getElementById("surgeryDetailWrap");
 const surgeryDetail = document.getElementById("surgeryDetail");
+const surgeryMeniscusWrap = document.getElementById("surgeryMeniscusWrap");
+const surgeryMeniscus = document.getElementById("surgeryMeniscus");
 const surgerySideWrap = document.getElementById("surgerySideWrap");
 const surgerySide = document.getElementById("surgerySide");
 const surgeryStart = document.getElementById("surgeryStart");
@@ -3510,6 +3520,13 @@ function updateSurgerySpecificFields(detailValue){
     surgeryOtherWrap.style.display=(type==='Tjetër'||detailValue==='Tjetër – specifiko')?'block':'none';
     if(detailValue && opts.includes(detailValue)) surgeryDetail.value=detailValue;
     else if(detailValue && !opts.includes(detailValue) && type==='Tjetër') surgeryOtherType.value=detailValue;
+    updateMeniscusField();
+}
+function updateMeniscusField(){
+    const detail=surgeryDetail.value||"";
+    const isLigament=detail.includes("Rekonstruksion i ligamentit") || detail.includes("Rekonstruksion i ligamenteve");
+    surgeryMeniscusWrap.style.display=isLigament?"block":"none";
+    if(!isLigament) surgeryMeniscus.value="";
 }
 surgeryType.addEventListener('change',function(){
     surgeryOtherType.value='';
@@ -3519,6 +3536,7 @@ surgeryType.addEventListener('change',function(){
 surgeryDetail.addEventListener('change',function(){
     surgeryOtherWrap.style.display=this.value==='Tjetër – specifiko'?'block':'none';
     if(this.value!=='Tjetër – specifiko') surgeryOtherType.value='';
+    updateMeniscusField();
 });
 function resetSurgeryForm(){
     editingSurgeryId=null;
@@ -3527,6 +3545,8 @@ function resetSurgeryForm(){
     surgeryType.value="";
     surgeryOtherType.value="";
     surgeryDetail.value="";
+    surgeryMeniscus.value="";
+    surgeryMeniscusWrap.style.display="none";
     surgerySide.value="";
     updateSurgerySpecificFields();
     surgeryStart.value="";
@@ -3570,8 +3590,10 @@ async function saveSurgery(){
     const selectedDetail=surgeryDetail.value;
     const customDetail=surgeryOtherType.value.trim();
     const side=surgerySide.value;
+    const meniscus=surgeryMeniscus.value;
     const detail=(selectedType==='Tjetër'||selectedDetail==='Tjetër – specifiko')?customDetail:selectedDetail;
-    const type=[selectedType,detail,side].filter(Boolean).join(' | ');
+    const needsMeniscus=detail.includes("Rekonstruksion i ligamentit") || detail.includes("Rekonstruksion i ligamenteve");
+    const type=[selectedType,detail,side,needsMeniscus?meniscus:""].filter(Boolean).join(' | ');
     const start=surgeryStart.value,end=surgeryEnd.value;
     const price=Number(surgeryPrice.value);
     if(!name){showSurgeryMessage("Vendosni emrin dhe mbiemrin e pacientit.",false);surgeryPatientName.focus();return;}
@@ -3579,6 +3601,7 @@ async function saveSurgery(){
     if(selectedType!=='Tjetër' && !selectedDetail){showSurgeryMessage("Zgjidhni procedurën specifike.",false);surgeryDetail.focus();return;}
     if((selectedType==="Tjetër"||selectedDetail==='Tjetër – specifiko')&&!customDetail){showSurgeryMessage("Përshkruani ndërhyrjen / procedurën tjetër.",false);surgeryOtherType.focus();return;}
     if(!side){showSurgeryMessage("Zgjidhni anën e ndërhyrjes.",false);surgerySide.focus();return;}
+    if(needsMeniscus && !meniscus){showSurgeryMessage("Zgjidhni nëse ndërhyrja kryhet me suturim apo pa suturim menisku.",false);surgeryMeniscus.focus();return;}
     if(!start||!end||minutesOf(end)<=minutesOf(start)){showSurgeryMessage("Ora e përfundimit duhet të jetë pas orës së fillimit.",false);return;}
     if(!surgeryPrice.value.trim()||!Number.isFinite(price)||price<0){showSurgeryMessage("Vendosni çmimin në ALL.",false);surgeryPrice.focus();return;}
     const date=parseDisplayDate(surgeryDate.value);
@@ -3630,6 +3653,7 @@ function editSurgery(row){
     const base=parts[0]||"";
     const detail=parts.length>=3?parts[1]:"";
     const side=parts.length>=3?parts[2]:"";
+    const meniscus=parts.length>=4?parts[3]:"";
     if(known.includes(base)){
         surgeryType.value=base;
         surgeryOtherType.value="";
@@ -3644,6 +3668,8 @@ function editSurgery(row){
         surgeryOtherWrap.style.display="block";
     }
     surgerySide.value=side || "";
+    surgeryMeniscus.value=meniscus || "";
+    updateMeniscusField();
     surgeryStart.value=String(row.start_time||"").slice(0,5);
     surgeryEnd.value=String(row.end_time||"").slice(0,5);
     surgeryPrice.value=row.price_all??"";
