@@ -1471,9 +1471,23 @@ tr.status-cancelled .appointment-time {
         <option value="Tjetër">Tjetër</option>
       </select>
     </div>
+    <div class="full" id="surgeryDetailWrap" style="display:none">
+      <label for="surgeryDetail">Procedura specifike *</label>
+      <select id="surgeryDetail"><option value="">Zgjidhni procedurën</option></select>
+    </div>
     <div class="full" id="surgeryOtherWrap" style="display:none">
-      <label for="surgeryOtherType">Përshkruani ndërhyrjen *</label>
-      <input id="surgeryOtherType" type="text" placeholder="Shkruani emrin e ndërhyrjes">
+      <label for="surgeryOtherType">Përshkruani ndërhyrjen / procedurën tjetër *</label>
+      <input id="surgeryOtherType" type="text" placeholder="Shkruani emrin e ndërhyrjes ose procedurës">
+    </div>
+    <div class="full" id="surgerySideWrap" style="display:none">
+      <label for="surgerySide">Ana e ndërhyrjes *</label>
+      <select id="surgerySide">
+        <option value="">Zgjidhni anën</option>
+        <option value="Majtas">Majtas</option>
+        <option value="Djathtas">Djathtas</option>
+        <option value="Të dyja">Të dyja</option>
+        <option value="Nuk aplikohet">Nuk aplikohet</option>
+      </select>
     </div>
     <div>
       <label for="surgeryStart">Ora e fillimit *</label>
@@ -3397,6 +3411,10 @@ const surgeryPatientName = document.getElementById("surgeryPatientName");
 const surgeryType = document.getElementById("surgeryType");
 const surgeryOtherWrap = document.getElementById("surgeryOtherWrap");
 const surgeryOtherType = document.getElementById("surgeryOtherType");
+const surgeryDetailWrap = document.getElementById("surgeryDetailWrap");
+const surgeryDetail = document.getElementById("surgeryDetail");
+const surgerySideWrap = document.getElementById("surgerySideWrap");
+const surgerySide = document.getElementById("surgerySide");
 const surgeryStart = document.getElementById("surgeryStart");
 const surgeryEnd = document.getElementById("surgeryEnd");
 const surgeryPrice = document.getElementById("surgeryPrice");
@@ -3441,13 +3459,44 @@ function updateSurgeryDuration(){
     const h=Math.floor(mins/60),m=mins%60;
     surgeryDuration.textContent="Kohëzgjatja: "+(h?h+" orë ":"")+(m?m+" minuta":(h?"":"0 minuta"));
 }
+const surgeryProcedureOptions={
+ "Protezë gjuri":["Protezë totale primare","Protezë totale – revizion","Protezë unikondilare (e pjesshme)","Protezë patelofemorale","Zëvendësim i komponentit patelar","Tjetër – specifiko"],
+ "Protezë koksofemorale":["Protezë totale primare","Protezë totale – revizion","Protezë parciale (hemiartroplastikë)","Zëvendësim i kokës femorale","Zëvendësim i komponentit acetabular","Tjetër – specifiko"],
+ "Artroskopi gjuri":["Menisektomi e pjesshme","Suturë / riparim menisku","Rekonstruksion i ligamentit të kryqëzuar anterior (LCA)","Rekonstruksion i ligamentit të kryqëzuar posterior (LCP)","Rekonstruksion i ligamenteve kolaterale","Trajtim i dëmtimit të kërcit","Mikrofrakturim","Sinovektomi","Heqje e trupave të lirë","Lirim i artrofibrozës","Tjetër – specifiko"],
+ "Osteosintezë":["Osteosintezë me pllakë dhe vida","Osteosintezë me vida","Gozhdë intramedulare","Osteosintezë me tela Kirschner (K-wire)","Osteosintezë me cerklazh","Fiksator i jashtëm","Osteosintezë e frakturës së qafës së femurit","Osteosintezë e frakturës së kyçit të këmbës","Osteosintezë e frakturës së radiusit / ulna","Tjetër – specifiko"],
+ "Heqje materiali osteosinteze":["Heqje pllake dhe vidash","Heqje vidash","Heqje gozhde intramedulare","Heqje telash Kirschner","Heqje cerklazhi","Heqje fiksatori të jashtëm","Heqje e pjesshme e materialit","Tjetër – specifiko"],
+ "Ndërhyrje në dorë":["Sindroma e tunelit karpal","Sindroma e kanalit Guyon","Gishti në këmbëz (trigger finger)","Sëmundja Dupuytren","Ganglion / kist sinovial","Riparim tendini fleksor","Riparim tendini ekstensor","Riparim nervi periferik","Frakturë e gishtave – osteosintezë","Frakturë metakarpale – osteosintezë","Artroplastikë e gishtit","Tjetër – specifiko"],
+ "Ndërhyrje në këmbë":["Hallux valgus (korrigjim bunioni)","Hallux rigidus","Gisht çekan / gisht kthetra","Neuroma Morton","Fashit plantar","Riparim tendini i Akilit","Riparim tendinash të tjera","Frakturë e metatarsaleve – osteosintezë","Frakturë e kyçit të këmbës – osteosintezë","Artrodezë e këmbës / kyçit","Heqje ganglioni / kisti","Tjetër – specifiko"]
+};
+function updateSurgerySpecificFields(detailValue){
+    const type=surgeryType.value;
+    const opts=surgeryProcedureOptions[type]||[];
+    surgeryDetail.innerHTML='<option value="">Zgjidhni procedurën</option>';
+    opts.forEach(function(label){const o=document.createElement('option');o.value=label;o.textContent=label;surgeryDetail.appendChild(o);});
+    surgeryDetailWrap.style.display=opts.length?'block':'none';
+    surgerySideWrap.style.display=type?'block':'none';
+    surgeryOtherWrap.style.display=(type==='Tjetër'||detailValue==='Tjetër – specifiko')?'block':'none';
+    if(detailValue && opts.includes(detailValue)) surgeryDetail.value=detailValue;
+    else if(detailValue && !opts.includes(detailValue) && type==='Tjetër') surgeryOtherType.value=detailValue;
+}
+surgeryType.addEventListener('change',function(){
+    surgeryOtherType.value='';
+    surgeryDetail.value='';
+    updateSurgerySpecificFields();
+});
+surgeryDetail.addEventListener('change',function(){
+    surgeryOtherWrap.style.display=this.value==='Tjetër – specifiko'?'block':'none';
+    if(this.value!=='Tjetër – specifiko') surgeryOtherType.value='';
+});
 function resetSurgeryForm(){
     editingSurgeryId=null;
     surgeryDate.value=formatDateDisplay(selectedDate);
     surgeryPatientName.value="";
     surgeryType.value="";
     surgeryOtherType.value="";
-    surgeryOtherWrap.style.display="none";
+    surgeryDetail.value="";
+    surgerySide.value="";
+    updateSurgerySpecificFields();
     surgeryStart.value="";
     surgeryEnd.value="";
     surgeryPrice.value="";
@@ -3455,10 +3504,6 @@ function resetSurgeryForm(){
     saveSurgeryButton.textContent="＋ Ruaj Ndërhyrjen";
     cancelSurgeryEdit.style.display="none";
 }
-surgeryType.addEventListener("change",function(){
-    surgeryOtherWrap.style.display=this.value==="Tjetër"?"block":"none";
-    if(this.value!=="Tjetër") surgeryOtherType.value="";
-});
 [surgeryStart,surgeryEnd].forEach(el=>el.addEventListener("change",updateSurgeryDuration));
 fillSurgeryTimeOptions();
 
@@ -3489,12 +3534,18 @@ async function saveSurgery(){
     if(!canAddVisits()){showSurgeryMessage("Nuk keni akses për të regjistruar ndërhyrje.",false);return;}
     const name=surgeryPatientName.value.trim();
     const selectedType=surgeryType.value;
-    const type=selectedType==="Tjetër"?surgeryOtherType.value.trim():selectedType;
+    const selectedDetail=surgeryDetail.value;
+    const customDetail=surgeryOtherType.value.trim();
+    const side=surgerySide.value;
+    const detail=(selectedType==='Tjetër'||selectedDetail==='Tjetër – specifiko')?customDetail:selectedDetail;
+    const type=[selectedType,detail,side].filter(Boolean).join(' | ');
     const start=surgeryStart.value,end=surgeryEnd.value;
     const price=Number(surgeryPrice.value);
     if(!name){showSurgeryMessage("Vendosni emrin dhe mbiemrin e pacientit.",false);surgeryPatientName.focus();return;}
     if(!selectedType){showSurgeryMessage("Zgjidhni llojin e ndërhyrjes.",false);return;}
-    if(selectedType==="Tjetër"&&!type){showSurgeryMessage("Përshkruani ndërhyrjen tjetër.",false);surgeryOtherType.focus();return;}
+    if(selectedType!=='Tjetër' && !selectedDetail){showSurgeryMessage("Zgjidhni procedurën specifike.",false);surgeryDetail.focus();return;}
+    if((selectedType==="Tjetër"||selectedDetail==='Tjetër – specifiko')&&!customDetail){showSurgeryMessage("Përshkruani ndërhyrjen / procedurën tjetër.",false);surgeryOtherType.focus();return;}
+    if(!side){showSurgeryMessage("Zgjidhni anën e ndërhyrjes.",false);surgerySide.focus();return;}
     if(!start||!end||minutesOf(end)<=minutesOf(start)){showSurgeryMessage("Ora e përfundimit duhet të jetë pas orës së fillimit.",false);return;}
     if(!surgeryPrice.value.trim()||!Number.isFinite(price)||price<0){showSurgeryMessage("Vendosni çmimin në ALL.",false);surgeryPrice.focus();return;}
     const date=parseDisplayDate(surgeryDate.value);
@@ -3532,24 +3583,34 @@ saveSurgeryButton.addEventListener("click",saveSurgery);
 cancelSurgeryEdit.addEventListener("click",function(){resetSurgeryForm();surgeryMessage.style.display="none";});
 function editSurgery(row){
     editingSurgeryId=row.id;
-    const known=["Protezë gjuri","Protezë koksofemorale","Artroskopi gjuri","Osteosintezë","Heqje materiali osteosinteze","Ndërhyrje në dorë","Ndërhyrje në këmbë"];
+    const known=Object.keys(surgeryProcedureOptions);
     surgeryPatientName.value=row.patient_name||"";
     if(row.surgery_date){
         const dateParts=String(row.surgery_date).slice(0,10).split("-").map(Number);
         surgeryDate.value=String(dateParts[2]).padStart(2,"0")+"/"+String(dateParts[1]).padStart(2,"0")+"/"+dateParts[0];
-    }else surgeryDate.value="";
-    if(row.surgery_date){
-        const dateParts=String(row.surgery_date).slice(0,10).split("-").map(Number);
         selectedDate=new Date(dateParts[0],dateParts[1]-1,dateParts[2]);
         if(datePicker) datePicker.value=String(row.surgery_date).slice(0,10);
         showSelectedDate();
         loadVisits();
-    }
-    if(known.includes(row.intervention_type)){
-        surgeryType.value=row.intervention_type;surgeryOtherWrap.style.display="none";surgeryOtherType.value="";
+    }else surgeryDate.value="";
+    const parts=String(row.intervention_type||"").split(" | ");
+    const base=parts[0]||"";
+    const detail=parts.length>=3?parts[1]:"";
+    const side=parts.length>=3?parts[2]:"";
+    if(known.includes(base)){
+        surgeryType.value=base;
+        surgeryOtherType.value="";
+        updateSurgerySpecificFields(detail);
+        if(detail && !surgeryProcedureOptions[base].includes(detail)){
+            surgeryDetail.value='Tjetër – specifiko';surgeryOtherWrap.style.display='block';surgeryOtherType.value=detail;
+        }
     }else{
-        surgeryType.value="Tjetër";surgeryOtherWrap.style.display="block";surgeryOtherType.value=row.intervention_type||"";
+        surgeryType.value="Tjetër";
+        updateSurgerySpecificFields();
+        surgeryOtherType.value=parts.length>=3?detail:(row.intervention_type||"");
+        surgeryOtherWrap.style.display="block";
     }
+    surgerySide.value=side || "";
     surgeryStart.value=String(row.start_time||"").slice(0,5);
     surgeryEnd.value=String(row.end_time||"").slice(0,5);
     surgeryPrice.value=row.price_all??"";
