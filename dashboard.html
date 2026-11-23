@@ -1,3 +1,8 @@
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="sq">
 <head>
@@ -1809,11 +1814,8 @@ function showPatientSuggestions(items){
         row.className = "patient-suggestion";
         row.innerHTML = '<span class="patient-suggestion-name"></span><span class="patient-suggestion-card"></span>';
         row.querySelector(".patient-suggestion-name").textContent = patient.full_name || "";
-        const cards = [];
-        if(patient.card_number) cards.push(patient.card_number);
-        if(patient.card_number_2) cards.push(patient.card_number_2);
         row.querySelector(".patient-suggestion-card").textContent =
-            cards.length ? "Kartela: " + cards.join(" / ") : "";
+            patient.card_number ? "Kartela: " + patient.card_number : "";
         row.addEventListener("mousedown", function(event){
             event.preventDefault();
             patientName.value = patient.full_name || "";
@@ -1837,7 +1839,7 @@ async function searchRegisteredPatients(){
     try{
         const encoded = encodeURIComponent(query);
         const url = SUPABASE_URL +
-            "/rest/v1/patients?select=id,full_name,card_number,card_number_2" +
+            "/rest/v1/patient_cards?select=id,full_name,card_number" +
             "&or=(full_name.ilike.*" + encoded + "*,card_number.ilike.*" + encoded + "*)" +
             "&order=full_name.asc&limit=10";
 
@@ -3772,8 +3774,8 @@ async function loadPatientsList(){
 
     try{
         let query = db
-          .from("patients")
-          .select("id,full_name,card_number,card_number_2", {count:"exact"})
+          .from("patient_cards")
+          .select("id,full_name,card_number", {count:"exact"})
           .order("full_name", {ascending:true})
           .range(from,to);
 
@@ -3781,8 +3783,7 @@ async function loadPatientsList(){
             const safe = q.replace(/[(),]/g," ").trim();
             query = query.or(
               "full_name.ilike.*" + safe + "*," +
-              "card_number.ilike.*" + safe + "*," +
-              "card_number_2.ilike.*" + safe + "*"
+              "card_number.ilike.*" + safe + "*"
             );
         }
 
@@ -3827,16 +3828,12 @@ async function loadPatientsList(){
             const c1 = patient.card_number
               ? escapePatientHtml(patient.card_number)
               : '<span style="color:#637f8e">—</span>';
-            const c2 = patient.card_number_2
-              ? escapePatientHtml(patient.card_number_2)
-              : '<span style="color:#637f8e">—</span>';
-
             return '<tr>' +
               '<td><span class="patient-card-main">' +
               escapePatientHtml(patient.full_name || "") +
               '</span></td>' +
               '<td>' + c1 + '</td>' +
-              '<td>' + c2 + '</td>' +
+              '<td><span style="color:#637f8e">—</span></td>' +
               '</tr>';
         }).join("");
 
